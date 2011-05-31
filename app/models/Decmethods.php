@@ -29,9 +29,9 @@ class Decmethods extends Zend_Db_Table {
 	public function getDecmethods() {
  		if (!$options = $this->_cache->load('decmethoddd')) {
          $select = $this->select()
-                       ->from($this->_name, array('id', 'term'))
-                       ->order('id')
-					   ->where('valid = ?',(int)1);
+						->from($this->_name, array('id', 'term'))
+						->order('id')
+						->where('valid = ?',(int)1);
         $options = $this->getAdapter()->fetchPairs($select);
 		$this->_cache->save($options, 'decmethoddd');
 		}
@@ -44,9 +44,9 @@ class Decmethods extends Zend_Db_Table {
 	public function getDecorationDetailsList(){
 		$methods = $this->getAdapter();
 		$select = $methods->select()
-        	               ->from($this->_name)
-            	           ->where('valid = ?',(int)1)
-						   ->order('id');
+							->from($this->_name)
+							->where('valid = ?',(int)1)
+							->order('id');
 	    return $methods->fetchAll($select);
     }
 
@@ -57,10 +57,10 @@ class Decmethods extends Zend_Db_Table {
 	public function getDecorationDetailsListAdmin() {
 		$methods = $this->getAdapter();
 		$select = $methods->select()
-		                  ->from($this->_name)
-			              ->joinLeft('users','users.id = '.$this->_name.'.createdBy',array('fullname'))
-						  ->joinLeft('users','users_2.id = '.$this->_name.'.updatedBy',array('fn' => 'fullname'))
-						  ->order('id');
+						->from($this->_name)
+						->joinLeft('users','users.id = '.$this->_name.'.createdBy',array('fullname'))
+						->joinLeft('users','users_2.id = '.$this->_name.'.updatedBy',array('fn' => 'fullname'))
+						->order('id');
 		return $methods->fetchAll($select);
     }
     
@@ -87,10 +87,10 @@ class Decmethods extends Zend_Db_Table {
 		$methods = $this->getAdapter();
 		$select = $methods->select()
 							->from($this->_name)
-					   		->joinLeft('finds','finds.decmethod = '.$this->_name.'.id',array('c' => 'count(finds.id)'))
-                      		->where('valid = ?',(int)1)
-					   		->where($this->_name.'.id = ?',(int)$id)
-					   		->group($this->_name.'.id');
+							->joinLeft('finds','finds.decmethod = '.$this->_name.'.id',array('c' => 'count(finds.id)'))
+							->where('valid = ?',(int)1)
+							->where($this->_name.'.id = ?',(int)$id)
+							->group($this->_name.'.id');
        return $methods->fetchAll($select);
     }
 
