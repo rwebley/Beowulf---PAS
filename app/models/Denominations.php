@@ -31,13 +31,13 @@ class Denominations extends Zend_Db_Table_Abstract {
 	*/
 	
 	public function getDenByPeriod($period) {
-		$denoms = $this->getAdapter();
-		$select = $denoms->select()
+	$denoms = $this->getAdapter();
+	$select = $denoms->select()
 		->from($this->_name)
 		->where($this->_name.'.valid = ?',(int)1)
 		->where($this->_name.'.period = ?',(int)$period)
 		->order('denomination');
-		 return $denoms->fetchAll($select);
+	return $denoms->fetchAll($select);
 	}
 
 	public function getOptionsRoman() {
