@@ -20,9 +20,9 @@ class Workflows extends Zend_Db_Table_Abstract {
 	*/
 	public function getUses() {
         $select = $this->select()
-				->from($this->_name, array('id', 'workflowstage'))
-				->where($this->_name.'.valid = ?', (int)1)
-				->order('workflowstage ASC');
+		->from($this->_name, array('id', 'workflowstage'))
+		->where($this->_name.'.valid = ?', (int)1)
+		->order('workflowstage ASC');
         $options = $this->getAdapter()->fetchPairs($select);
         return $options;
     }
@@ -33,11 +33,11 @@ class Workflows extends Zend_Db_Table_Abstract {
 	*/
 	public function getStageName($stage) {
         $select = $this->select()
-				->from($this->_name)
+		->from($this->_name)
                       // ->order('workflowstage ASC') why is this here?
-				->where('id = ?',(int)$stage)
-				->where($this->_name.'.valid = ?',(int)1)
-				->limit(1);
+		->where('id = ?',(int)$stage)
+		->where($this->_name.'.valid = ?',(int)1)
+		->limit(1);
         $options = $this->getAdapter()->fetchAll($select);
         return $options;
     }
@@ -47,9 +47,9 @@ class Workflows extends Zend_Db_Table_Abstract {
 	*/
 	public function getStageNames()  {
         $select = $this->select()
-				->from($this->_name)
-				->order('workflowstage ASC')
-				->where($this->_name . '.valid = ?', (int)1);
+		->from($this->_name)
+		->order('workflowstage ASC')
+		->where($this->_name . '.valid = ?', (int)1);
         $options = $this->getAdapter()->fetchAll($select);
         return $options;
     }
@@ -58,15 +58,15 @@ class Workflows extends Zend_Db_Table_Abstract {
 	* @return array 
 	*/
     public function getStageNamesAdmin() {
-			$stages = $this->getAdapter();
-	        $select = $stages ->select()
-				->from($this->_name)
-				->order('workflowstage ASC')
-				->joinLeft('users','users.id = ' . $this->_name . '.createdBy', 
+		$stages = $this->getAdapter();
+	    $select = $stages ->select()
+		->from($this->_name)
+		->order('workflowstage ASC')
+		->joinLeft('users','users.id = ' . $this->_name . '.createdBy', 
                        array('fullname'))
-				->joinLeft('users','users_2.id = ' . $this->_name . '.updatedBy', 
+		->joinLeft('users','users_2.id = ' . $this->_name . '.updatedBy', 
    					   array('fn' => 'fullname'));
-        	return $stages->fetchAll($select);
+        return $stages->fetchAll($select);
     }
 
     /** Retrieve stage counts for telling people to work harder!
@@ -76,12 +76,12 @@ class Workflows extends Zend_Db_Table_Abstract {
 	public function getStageCounts($stage) {
        	$stages = $this->getAdapter();
 		$select = $stages->select()
-				->from($this->_name, array('id', 'workflowstage'))
-				->joinLeft('finds',$this->_name . '.id = finds.secwfstage',array('c' => 'count(*)'))
-				->order('workflowstage ASC')
-				->where($this->_name . '.id = ?',(int)$stage)
-				->where($this->_name . '.valid = ?',(int)1)
-				->group($this->_name . '.id');
+		->from($this->_name, array('id', 'workflowstage'))
+		->joinLeft('finds',$this->_name . '.id = finds.secwfstage',array('c' => 'count(*)'))
+		->order('workflowstage ASC')
+		->where($this->_name . '.id = ?',(int)$stage)
+		->where($this->_name . '.valid = ?',(int)1)
+		->group($this->_name . '.id');
         return $stages->fetchAll($select);
     }
 
