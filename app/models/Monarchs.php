@@ -22,7 +22,7 @@ class Monarchs extends Zend_Db_Table_Abstract {
 	public function getProfileMedieval($id) {
  		$monarchs = $this->getAdapter();
 		$select = $monarchs->select()
-        ->from($this->_name, array('name', 'biography', 'styled',
+		->from($this->_name, array('name', 'biography', 'styled',
         						   'alias', 'date1' => 'date_from', 'date2' => 'date_to',
         						   'born', 'died', 'created', 
         						   'createdBy', 'updated', 'updatedBy'))
