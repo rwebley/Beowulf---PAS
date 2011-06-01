@@ -23,11 +23,11 @@ class Geography extends Zend_Db_Table_Abstract {
 	public function getIronAgeGeography($term){
 		$regions = $this->getAdapter();
 		$select = $regions->select()
-					->from($this->_name, array('id', 'term' =>'CONCAT(region," - ",area," - ",tribe)'))
-					->joinLeft('ironagedenomxregion','ironagedenomxregion.regionID = geographyironage.id',array())
-					->joinLeft('denominations','ironagedenomxregion.denomID = denominations.id',array())  
-					->where('denominations.id = ?',$term)
-					->order('region');
+			->from($this->_name, array('id', 'term' =>'CONCAT(region," - ",area," - ",tribe)'))
+			->joinLeft('ironagedenomxregion','ironagedenomxregion.regionID = geographyironage.id',array())
+			->joinLeft('denominations','ironagedenomxregion.denomID = denominations.id',array())  
+			->where('denominations.id = ?',$term)
+			->order('region');
 		$options = $this->getAdapter()->fetchAll($select);
 		return $options;
     }
@@ -39,9 +39,9 @@ class Geography extends Zend_Db_Table_Abstract {
 	public function getIronAgeGeographyDD() {
 		$regions = $this->getAdapter();
 		$select = $regions->select()
-					->from($this->_name, array('id', 'term' =>'CONCAT(region," - ",area," - ",tribe)'))
-					->where('valid = ?', (int)1)
-					->order('region');
+			->from($this->_name, array('id', 'term' =>'CONCAT(region," - ",area," - ",tribe)'))
+			->where('valid = ?', (int)1)
+			->order('region');
 		$options = $this->getAdapter()->fetchPairs($select);
 		return $options;
     }
@@ -54,10 +54,10 @@ class Geography extends Zend_Db_Table_Abstract {
     public function getIronAgeDenomGeog($region) {
 		$regions = $this->getAdapter();
 		$select = $regions->select()
-					->from($this->_name, array('id', 'area', 'region', 'tribe'))
-					->joinLeft('ironagedenomxregion','ironagedenomxregion.regionID = geographyironage.id', array())  
-					->joinLeft('denominations','denominations.id = ironagedenomxregion.denomID', array())
-					->where('denominations.id = ?', (int)$region);
+			->from($this->_name, array('id', 'area', 'region', 'tribe'))
+			->joinLeft('ironagedenomxregion','ironagedenomxregion.regionID = geographyironage.id', array())  
+			->joinLeft('denominations','denominations.id = ironagedenomxregion.denomID', array())
+			->where('denominations.id = ?', (int)$region);
 		$options = $this->getAdapter()->fetchAll($select);
 		return $options;
 	}
@@ -86,8 +86,8 @@ class Geography extends Zend_Db_Table_Abstract {
 	public function getIronAgeRegions() {
 		$regions = $this->getAdapter();
 		$select = $regions->select()
-						  ->from($this->_name, array('id', 'region', 'area', 'tribe'))
-						  ->order('area');
+			->from($this->_name, array('id', 'region', 'area', 'tribe'))
+			->order('area');
         return $regions->fetchAll($select);
     }
     
