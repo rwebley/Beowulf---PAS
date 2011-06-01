@@ -21,7 +21,7 @@ class OauthTokens extends Zend_Db_Table_Abstract {
 	* @return object
 	*/
 	public function init(){
-		$this->_cache = Zend_Registry::get('rulercache');
+	$this->_cache = Zend_Registry::get('rulercache');
 	}
 
 	/** get the cached token for accessing twitter's oauth'd endpoint
@@ -34,7 +34,7 @@ class OauthTokens extends Zend_Db_Table_Abstract {
 		$select = $tokens->select()
 		->from($this->_name)
 		->where('service = ?', 'twitterAccess');
-     	$data =  $tokens->fetchAll($select);
+		$data =  $tokens->fetchAll($select);
 		$this->_cache->save($data, 'oauthtwitter');
 	}
     return $data;
