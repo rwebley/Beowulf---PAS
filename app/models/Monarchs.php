@@ -39,7 +39,7 @@ class Monarchs extends Zend_Db_Table_Abstract {
 	public function getBiography($id) {
 	$monarchs = $this->getAdapter();
 	$select = $monarchs->select()
-    	->from($this->_name, array('id', 'biography', 'dbaseID'))
+		->from($this->_name, array('id', 'biography', 'dbaseID'))
 		->where('monarchs.dbaseID = ?',(int)$id);
     return $monarchs->fetchAll($select);
 	}
