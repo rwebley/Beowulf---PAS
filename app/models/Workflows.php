@@ -9,6 +9,7 @@
 * @license GNU General Public License
 * @todo add edit and delete functions, caching
 */
+
 class Workflows extends Zend_Db_Table_Abstract {
 	
 	protected $_name = 'workflowstages';
