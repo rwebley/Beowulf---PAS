@@ -22,7 +22,7 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return object
 	*/
 	public function init()	{
-		$this->_cache = Zend_Registry::get('rulercache');
+	$this->_cache = Zend_Registry::get('rulercache');
 	}
 
 	/** Work out who created a user account
@@ -30,13 +30,13 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	*/
 	public function getCreatedBy($createdby) {
-		$users = $this->getAdapter();
-		$select = $users->select()
-		    ->from($this->_name, array('fullname'))
-			->joinLeft('staff','staff.dbaseID = users.id', array('i' => 'id'))
-			->where('users.id = ?' , (int)$createdby)
-			-limit(1);
-    	return $users->fetchAll($select);
+	$users = $this->getAdapter();
+	$select = $users->select()
+	->from($this->_name, array('fullname'))
+	->joinLeft('staff','staff.dbaseID = users.id', array('i' => 'id'))
+	->where('users.id = ?' , (int)$createdby)
+	->limit(1);
+	return $users->fetchAll($select);
 	}
 
 	/** Get a key value list of userid and fullname for a dropdown population 
@@ -45,12 +45,12 @@ class Users extends Zend_Db_Table_Abstract {
 	* @todo is this sustainable as the system grows? 
 	*/
 	public function getOptions() {
-		$select = $this->select()
-		    ->from($this->_name, array('ID', 'CONCAT(username," - ",fullname)'))
-			->where('institution IS NOT NULL')
-			->order('username ASC');
-		    $options = $this->getAdapter()->fetchPairs($select);
-	    return $options;
+	$select = $this->select()
+	->from($this->_name, array('ID', 'CONCAT(username," - ",fullname)'))
+	->where('institution IS NOT NULL')
+	->order('username ASC');
+	$options = $this->getAdapter()->fetchPairs($select);
+	return $options;
     }
 
 	/** Get a key value list of userid and fullname for a dropdown population for members higher than basic level 
@@ -59,12 +59,12 @@ class Users extends Zend_Db_Table_Abstract {
 	* @todo is this sustainable as the system grows? 
 	*/
 	public function getUserNamesSearch() {
-		$select = $this->select()
-			->from($this->_name, array('ID', 'username'))
-			->where('institution IS NOT NULL')
-			->where('role != ?','member')
-			->order('fullname ASC');
-		$options = $this->getAdapter()->fetchPairs($select);
+	$select = $this->select()
+	->from($this->_name, array('ID', 'username'))
+	->where('institution IS NOT NULL')
+	->where('role != ?','member')
+	->order('fullname ASC');
+	$options = $this->getAdapter()->fetchPairs($select);
 	return $options;
     }
 
@@ -77,13 +77,13 @@ class Users extends Zend_Db_Table_Abstract {
 	* @todo is this sustainable as the system grows? 
 	*/
 	public function activation($key = NULL , $username = NULL, $valid = '0') {
-		$select = $this->select()
-			->from($this->_name, array('activationKey', 'username', 'valid'))
-			->where('users.activationKey = ?', (string)$key)
-			->where('users.username = ?', (string)$username)
-			->where('users.valid = ?', (int)$valid);
-	    $options = $this->getAdapter()->fetchAll($select);
-	    return $options;
+	$select = $this->select()
+	->from($this->_name, array('activationKey', 'username', 'valid'))
+	->where('users.activationKey = ?', (string)$key)
+	->where('users.username = ?', (string)$username)
+	->where('users.valid = ?', (int)$valid);
+	$options = $this->getAdapter()->fetchAll($select);
+	return $options;
 	}
 
 	/** Retrieve a user based around their email and their username
@@ -92,13 +92,13 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo add caching? used infrequently, so probably not?
 	*/
-	public function findUser($email,$username){		
-		$users = $this->getAdapter();
-		$select = $this->select()
-			->from($this->_name, array('username'))
-			->where('users.email = ?', (string) $email)
-			->where('users.username = ?', (string)$username);
-		return $users->fetchAll($select);
+	public function findUser($email,$username){	
+	$users = $this->getAdapter();
+	$select = $this->select()
+	->from($this->_name, array('username'))
+	->where('users.email = ?', (string) $email)
+	->where('users.username = ?', (string)$username);
+	return $users->fetchAll($select);
 	}
 
 	/** Retrieve a user based around their email 
@@ -106,12 +106,12 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo add caching?
 	*/
-	public function getUserByUsername($email) {		
-		$users = $this->getAdapter();
-		$select = $this->select()
-			->from($this->_name, array('username', 'fullname'))
-			->where('users.email = ?', (string)$email);
-		return $users->fetchAll($select);
+	public function getUserByUsername($email) {	
+	$users = $this->getAdapter();
+	$select = $this->select()
+	->from($this->_name, array('username', 'fullname'))
+	->where('users.email = ?', (string)$email);
+	return $users->fetchAll($select);
 	}
 
 	/** Retrieve a user's profile with additional info, such as creator 
@@ -119,15 +119,15 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo add caching?
 	*/
-	public function getUserProfile($id) {		
-		$users = $this->getAdapter();
-		$select = $this->select()
-		    ->from($this->_name)
-			->joinLeft($this->_name,$this->_name . '.createdBy = ' . $this->_name . '_2.id', 
-			array('creator' => 'fullname'))
-			->joinLeft($this->_name,$this->_name . '.updatedBy = ' . $this->_name . '_3.id', 
-			array('updater' => 'fullname'))
-			->where('users.id = ?', (int)$id);
+	public function getUserProfile($id) {	
+	$users = $this->getAdapter();
+	$select = $this->select()
+	->from($this->_name)
+	->joinLeft($this->_name,$this->_name . '.createdBy = ' . $this->_name . '_2.id', 
+	array('creator' => 'fullname'))
+	->joinLeft($this->_name,$this->_name . '.updatedBy = ' . $this->_name . '_3.id', 
+	array('updater' => 'fullname'))
+	->where('users.id = ?', (int)$id);
 	    return $users->fetchAll($select);
 	}
 	
@@ -135,17 +135,17 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo add caching?
 	*/
-	public function getAuthors() {		
-		if (!$accounts = $this->_cache->load('authorlist')) {		
-		$users = $this->getAdapter();
-		$select = $this->select()
-			->from($this->_name, array('id', 'fullname'))
-			->where('role IN ("admin", "flos", "fa", "treasure")')
-			->order('fullname');
-		$accounts =  $users->fetchPairs($select);
-		$this->_cache->save($accounts, 'authorlist');
-		}
-		return $accounts; 
+	public function getAuthors() {	
+	if (!$accounts = $this->_cache->load('authorlist')) {	
+	$users = $this->getAdapter();
+	$select = $this->select()
+	->from($this->_name, array('id', 'fullname'))
+	->where('role IN ("admin", "flos", "fa", "treasure")')
+	->order('fullname');
+	$accounts =  $users->fetchPairs($select);
+	$this->_cache->save($accounts, 'authorlist');
+	}
+	return $accounts; 
 	}
 
 	/** Retrieve a list of users and paginate 
@@ -156,38 +156,38 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo rewrite this rubbish function
 	*/
-	public function getUsersAdmin($params) {		
-		$users = $this->getAdapter();
-		$select = $this->select()
-			->from($this->_name)
-			->order('lastlogin DESC');
-		if(isset($params['username']) && ($params['username'] != "")) {
-		$un = strip_tags($params['username']);
-		$select->where('username LIKE ?', (string)'%'.$un.'%');
-		}
-		if(isset($params['role']) && ($params['role'] != "")) {
-		$r = strip_tags($params['role']);
-		$select->where('role = ?', (string)$r);
-		}
-		if(isset($params['fullname']) && ($params['fullname'] != "")) {
-		$fn = strip_tags($params['fullname']);
-		$select->where('fullname = ?', (string)$fn);
-		}
-		if(isset($params['visits']) && ($params['visits'] != ""))  {
-		$v = strip_tags($params['visits']);
-		$select->where('visits >= ?', (string)$v);
-		}
-		if(isset($params['lastlogin']) && ($params['lastlogin'] != "")) {
-		$ll = strip_tags($params['lastlogin']);
-		$select->where('lastLogin >= ?', $ll.' 00:00:00');
-		}
-		$paginator = Zend_Paginator::factory($select);
-		$paginator->setItemCountPerPage(20) 
-			->setPageRange(10) ;
-		if(isset($params['page']) && ($params['page'] != ""))  {
-		$paginator->setCurrentPageNumber($params['page']); 
-		}
-		return $paginator;
+	public function getUsersAdmin($params) {	
+	$users = $this->getAdapter();
+	$select = $this->select()
+		->from($this->_name)
+		->order('lastlogin DESC');
+	if(isset($params['username']) && ($params['username'] != "")) {
+	$un = strip_tags($params['username']);
+	$select->where('username LIKE ?', (string)'%'.$un.'%');
+	}
+	if(isset($params['role']) && ($params['role'] != "")) {
+	$r = strip_tags($params['role']);
+	$select->where('role = ?', (string)$r);
+	}
+	if(isset($params['fullname']) && ($params['fullname'] != "")) {
+	$fn = strip_tags($params['fullname']);
+	$select->where('fullname = ?', (string)$fn);
+	}
+	if(isset($params['visits']) && ($params['visits'] != ""))  {
+	$v = strip_tags($params['visits']);
+	$select->where('visits >= ?', (string)$v);
+	}
+	if(isset($params['lastlogin']) && ($params['lastlogin'] != "")) {
+	$ll = strip_tags($params['lastlogin']);
+	$select->where('lastLogin >= ?', $ll.' 00:00:00');
+	}
+	$paginator = Zend_Paginator::factory($select);
+	$paginator->setItemCountPerPage(20) 
+	->setPageRange(10) ;
+	if(isset($params['page']) && ($params['page'] != ""))  {
+	$paginator->setCurrentPageNumber($params['page']); 
+	}
+	return $paginator;
 	}
 	
 	/** Retrieve a list of authors for ajax list
@@ -195,12 +195,12 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo rewrite for jquery autocomplete zend method
 	*/
-	public function findUserAccountAjax($username) {		
-		$users = $this->getAdapter();
-		$select = $this->select()
-			->from($this->_name,array('id' => 'username','term' => 'username'))
-			->where('users.username LIKE ?', (string)'%'.$username.'%');
-		return $users->fetchAll($select);
+	public function findUserAccountAjax($username) {	
+	$users = $this->getAdapter();
+	$select = $this->select()
+	->from($this->_name,array('id' => 'username','term' => 'username'))
+	->where('users.username LIKE ?', (string)'%'.$username.'%');
+	return $users->fetchAll($select);
 	}
 
 	/** Retrieve a user with additional info using their username as the lookup
@@ -208,15 +208,15 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo rewrite for jquery autocomplete zend method
 	*/
-	public function findUserAccount($username) {		
+	public function findUserAccount($username) {	
 	$users = $this->getAdapter();
 	$select = $this->select()
-		->from($this->_name)
-		->joinLeft($this->_name,$this->_name . '.createdBy = ' . $this->_name . '_2.id', 
-		array('creator' => 'fullname'))
-		->joinLeft($this->_name,$this->_name . '.updatedBy = ' . $this->_name . '_3.id',
-		array('updater' => 'fullname'))
-		->where('users.username = ?', (string)$username);
+	->from($this->_name)
+	->joinLeft($this->_name,$this->_name . '.createdBy = ' . $this->_name . '_2.id', 
+	array('creator' => 'fullname'))
+	->joinLeft($this->_name,$this->_name . '.updatedBy = ' . $this->_name . '_3.id',
+	array('updater' => 'fullname'))
+	->where('users.username = ?', (string)$username);
     $data =  $users->fetchAll($select);
 	return $data;
 	}
@@ -228,9 +228,9 @@ class Users extends Zend_Db_Table_Abstract {
 	public function getMembersInstitution($instID) {
 	$roles = $this->getAdapter();
     $select = $roles->select()
-		->from($this->_name)
-		->joinLeft('institutions',$this->_name.'.institution = institutions.institution', array())
-		->where('institutions.id = ?',(int)$instID);
+	->from($this->_name)
+	->joinLeft('institutions',$this->_name.'.institution = institutions.institution', array())
+	->where('institutions.id = ?',(int)$instID);
 	return $roles->fetchAll($select);
 	}
 	
@@ -241,7 +241,7 @@ class Users extends Zend_Db_Table_Abstract {
 	public function getCounter() {
 	$users = $this->getAdapter();
 	$select = $users->select()
-		->from($this->_name, array('count' => 'COUNT(id)'));
+	->from($this->_name, array('count' => 'COUNT(id)'));
 	return $users->fetchAll($select);
 	}
 
@@ -252,8 +252,8 @@ class Users extends Zend_Db_Table_Abstract {
 	public function getMoreTotals($visits) {
 	$roles = $this->getAdapter();
 	$select = $roles->select()
-		->from($this->_name ,array('morethan' => 'COUNT(*)'))
-		->where($this->_name.'.visits > ?',(int)$visits);
+	->from($this->_name ,array('morethan' => 'COUNT(*)'))
+	->where($this->_name.'.visits > ?',(int)$visits);
 	return $roles->fetchAll($select);
 	}
 
@@ -264,15 +264,15 @@ class Users extends Zend_Db_Table_Abstract {
 	public function getRolesMembers($role,$page) {
 	$roles = $this->getAdapter();
 	$select = $roles->select()
-		->from($this->_name, array('username', 'createdBy', 'updatedBy', 'id', 'fullname'))
-		->joinLeft('roles',$this->_name.'.role = roles.role', array())
-		->where('roles.id = ?',(int)$role);
+	->from($this->_name, array('username', 'createdBy', 'updatedBy', 'id', 'fullname'))
+	->joinLeft('roles',$this->_name.'.role = roles.role', array())
+	->where('roles.id = ?',(int)$role);
 	$paginator = Zend_Paginator::factory($select);
 	if(isset($page) && ($page != "")) {
 	$paginator->setCurrentPageNumber((int)$page); 
 	}
 	$paginator->setItemCountPerPage(50) 
-		->setPageRange(10); 
+	->setPageRange(10); 
 	return $paginator;
 	}
 	
@@ -281,11 +281,11 @@ class Users extends Zend_Db_Table_Abstract {
 	* @return array
 	* @todo change to fetchrow? Delete?
 	*/
-	public function getUserAccountData($username) {		
+	public function getUserAccountData($username) {	
 	$users = $this->getAdapter();
 	$select = $this->select()
-		->from($this->_name)
-		->where('users.username = ?', (string)$username);
+	->from($this->_name)
+	->where('users.username = ?', (string)$username);
 	return $users->fetchAll($select);
 	}
 
@@ -293,11 +293,11 @@ class Users extends Zend_Db_Table_Abstract {
 	* @param integer $id
 	* @return array
 	*/
-	public function getCountFinds($id) {			
+	public function getCountFinds($id) {		
 	$users = $this->getAdapter();
 	$select = $users->select()
-		->from('finds', array('records' => 'COUNT(finds.id)', 'finds' => 'SUM(finds.quantity)'))
-		->where('finds.createdBy = ?', (int)$id);
+	->from('finds', array('records' => 'COUNT(finds.id)', 'finds' => 'SUM(finds.quantity)'))
+	->where('finds.createdBy = ?', (int)$id);
 	return $users->fetchAll($select);
 	}
 	
@@ -309,8 +309,8 @@ class Users extends Zend_Db_Table_Abstract {
 	public function getUserID($username){
 	$users = $this->getAdapter();
 	$select = $users->select()
-		->from($this->_name,array('id'))
-		->where($this->_name . '.username = ?', (string)$username);
+	->from($this->_name,array('id'))
+	->where($this->_name . '.username = ?', (string)$username);
 	return $users->fetchAll($select);
 	}
 
@@ -320,9 +320,9 @@ class Users extends Zend_Db_Table_Abstract {
 	public function getNewHigherLevelRequests()	{
 	$users = $this->getAdapter();
 	$select = $users->select()
-		->from($this->_name,array('applicants' => 'COUNT(id)'))
-		->where($this->_name.'.higherLevel = ?', (int)1)
-		->where('role IN ( "public" ,"member" )');
+	->from($this->_name,array('applicants' => 'COUNT(id)'))
+	->where($this->_name.'.higherLevel = ?', (int)1)
+	->where('role IN ( "public" ,"member" )');
 	return $users->fetchAll($select);
 	}
 	
@@ -333,12 +333,12 @@ class Users extends Zend_Db_Table_Abstract {
 	public function getUpgrades($params) {
 	$users = $this->getAdapter();
 	$select = $users->select()
-		->from($this->_name)
-		->where($this->_name.'.higherLevel = ?', (int)1)
-		->where('role IN ( "public" ,"member" )');
+	->from($this->_name)
+	->where($this->_name.'.higherLevel = ?', (int)1)
+	->where('role IN ( "public" ,"member" )');
 	$paginator = Zend_Paginator::factory($select);
 	$paginator->setItemCountPerPage(20) 
-			  ->setPageRange(10) ;
+	->setPageRange(10) ;
 	if(isset($params['page']) && ($params['page'] != "")) {
 	$paginator->setCurrentPageNumber($params['page']); 
 	}
@@ -352,8 +352,8 @@ class Users extends Zend_Db_Table_Abstract {
 	if (!$accounts = $this->_cache->load('newusers')) {
 	$users = $this->getAdapter();
 	$select = $users->select()
-	    ->from($this->_name,array('username'))
-		->where('created >= CURDATE()');
+	->from($this->_name,array('username'))
+	->where('created >= CURDATE()');
     $accounts = $users->fetchAll($select);
 	$this->_cache->save($accounts, 'newusers');
 	}
@@ -368,9 +368,9 @@ class Users extends Zend_Db_Table_Abstract {
 	if (!$accounts = $this->_cache->load('owneroffind'.$findID)) {
 	$users = $this->getAdapter();
 	$select = $users->select()
-		->from($this->_name,array('fullname','email'))
-		->joinLeft('finds','finds.createdBy = users.id')
-		->where('finds.id = ?',(int)$findID);
+	->from($this->_name,array('fullname','email'))
+	->joinLeft('finds','finds.createdBy = users.id')
+	->where('finds.id = ?',(int)$findID);
 	$accounts = $users->fetchAll($select);
 	$this->_cache->save($accounts, 'owneroffind'.$findID);
 	}
