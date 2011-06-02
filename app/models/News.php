@@ -25,8 +25,8 @@ class News extends Zend_Db_Table_Abstract {
 	* @return object
 	*/
 	public function init() {
-		$this->_cache = Zend_Registry::get('rulercache');
-		$this->_auth = Zend_Registry::get('auth');
+	$this->_cache = Zend_Registry::get('rulercache');
+	$this->_auth = Zend_Registry::get('auth');
 	}
 	
 	/** get the user's id from their identity object
@@ -99,9 +99,9 @@ class News extends Zend_Db_Table_Abstract {
 	$news = $this->getAdapter();
 	$select = $news->select()
 		->from($this->_name, array( 'datePublished', 'title', 'id', 
-									'summary', 'contents', 'created',
-									'd' =>'updated', 'latitude', 'longitude',
-									'updated', 'golive'))
+		'summary', 'contents', 'created',
+		'd' =>'updated', 'latitude', 'longitude',
+		'updated', 'golive'))
 		->joinLeft('users','users.id = ' . $this->_name . '.createdBy', array('fullname', 'username'))
 		->joinLeft('users','users_2.id = ' . $this->_name . '.updatedBy', array('fn' => 'fullname', 'un' => 'username'))
 		->where('golive <= NOW()')
@@ -149,10 +149,10 @@ class News extends Zend_Db_Table_Abstract {
 	$news = $this->getAdapter();
 	$select = $news->select()
 		->from($this->_name, array('created', 'd' => 'DATE_FORMAT(datePublished,"%D %M %Y")', 'title',
-									'id', 'contents', 'link', 
-									'author', 'contactName', 'contactEmail', 
-									'contactTel', 'editorNotes', 'keywords',
-									'golive'))
+		'id', 'contents', 'link', 
+		'author', 'contactName', 'contactEmail', 
+		'contactTel', 'editorNotes', 'keywords',
+		'golive'))
 		->where('news.id = ?',(int)$id)
 		->order('datePublished DESC');
 	return $news->fetchAll($select);
