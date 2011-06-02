@@ -66,7 +66,7 @@ class Moneyers extends Zend_Db_Table_Abstract {
 	$moneyers = $this->getAdapter();
 	$select = $moneyers->select()
 		->from($this->_name)
-		->where($this->_primary.' = ?',(int)$id);
+		->where($this->_primary . ' = ?',(int)$id);
 	return $moneyers->fetchAll($select);
     }			
 }
