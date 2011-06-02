@@ -13,6 +13,6 @@ class SubPeriods extends Zend_Db_Table_Abstract {
 
 	protected $_name = 'subperiods';
 
-	protected $_primaryKey = 'id';
+	protected $_primary = 'id';
 
 }
