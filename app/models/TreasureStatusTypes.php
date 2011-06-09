@@ -1,6 +1,6 @@
 <?php
 /**
-* Data model for accessing treasure action types in the database
+* Data model for treasure statuses
 * @category Zend
 * @package Db_Table
 * @subpackage Abstract
@@ -10,23 +10,24 @@
 * @license GNU General Public License
 * @version 1
 * @since 22 October 2010, 17:12:34
+* @todo implement add, edit and delete function methods
 */
-class TreasureActionTypes extends Zend_Db_Table_Abstract {
+class TreasureStatusTypes extends Zend_Db_Table_Abstract {
 
 	protected $_cache;
 	
 	protected $_primary = 'id';
+
+	protected $_name = 'treasureStatusTypes';
 	
-	protected $_name = 'treasureActionTypes';
-	
-	/** Construct the auth and config objects
+	/** Construct the cache objects
 	* @return object
 	*/
 	public function init() {
 		$this->_cache = Zend_Registry::get('rulercache');
 	}
 	
-	/** Get list of all treasure actions
+	/** get a cached list of actions
 	* @return array
 	*/
 	public function getActions(){
@@ -36,12 +37,13 @@ class TreasureActionTypes extends Zend_Db_Table_Abstract {
 				->from($this->_name)
 				->where('valid = ?',(int)1)
 				->order('action');
-        $data =  $actions->fetchAll($select);
+        $data =  $persons->fetchAll($select);
 		$this->_cache->save($data, 'tactions');
 		}
         return $data;
 	}
-	/** Get key value pair list of actions for treasure
+	
+	/** get a key value pair array of actions
 	* @return array
 	*/
 	public function getList(){
@@ -49,9 +51,9 @@ class TreasureActionTypes extends Zend_Db_Table_Abstract {
     	$actions = $this->getAdapter();
 		$select = $actions->select()
 				->from($this->_name,array('id','action'))
-				->where('valid = ?',(int)1)
+				->where('valid = ?',(int)'1')
 				->order('action');
-        $data =  $actions->fetchPairs($select);
+        $data =  $persons->fetchPairs($select);
 		$this->_cache->save($data, 'tactionslist');
 		}
         return $data;
