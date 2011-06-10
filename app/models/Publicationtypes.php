@@ -19,10 +19,10 @@ class Publicationtypes extends Zend_Db_Table_Abstract {
 	* @return array
 	*/
 	public function getTypes() {
-        $select = $this->select()
-                       ->from($this->_name, array('id', 'term'))
-                       ->order('term ASC');
-        $options = $this->getAdapter()->fetchPairs($select);
-        return $options;
+	$select = $this->select()
+		->from($this->_name, array('id', 'term'))
+		->order('term ASC');
+	$options = $this->getAdapter()->fetchPairs($select);
+	return $options;
     }
 }
