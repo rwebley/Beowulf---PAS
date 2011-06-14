@@ -1,0 +1,6 @@
+<?php echo $this->cal;?>
+
+<?php echo $this->partialLoop('partials/content/article.phtml',$this->contents);?>
+<div id="infoboard">
+<p><?php echo $this->year;?> Scheme events attended by: <?php echo $this->partial('partials/events/adults.phtml',$this->adults['0']);?></p></div>
+

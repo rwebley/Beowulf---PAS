@@ -1,0 +1,11 @@
+<?php 
+header('Content-Type: text/xml');
+header('Content-Disposition: attachment; filename=iCalendar_dates_' . date('Y-m-d_H-m-s') . '.rdf');
+echo (string) '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+echo (string) '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/10/swap/pim/ical#" xmlns:i="http://www.w3.org/2000/10/swap/pim/ical#">';
+echo (string) '<Vcalendar rdf:about="">';
+echo (string) '<version>2.0</version>';
+echo (string) '<prodid>PRODID:-//finds.org.uk//iCal Class MIMEDIR//EN</prodid>';
+echo (string) '</Vcalendar>';
+echo $this->partialLoop('partials/events/rdfDataEvent.phtml',$this->events);
+echo (string) '</rdf:RDF>';

@@ -1,0 +1,44 @@
+<?php header('Content-Type: text+xml');?>
+<response>
+<upcomingEvents>
+<?php foreach($this->events as $e):?>
+<event>
+<id><?php echo $e['id'];?></id>
+<eventTitle><?php echo $this->escape($e['eventTitle']);?></eventTitle>
+<eventLocation><?php echo $this->escape($e['eventLocation']);?></eventLocation>
+<eventDescription><?php echo strip_tags($e['eventDescription']);?></eventDescription>
+<eventRegion><?php echo $this->escape($e['location']);?></eventRegion>
+<eventType><?php echo $this->escape($e['type']);?></eventType>
+<contactEmail><?php echo $this->escape($e['email']);?></contactEmail>
+<temporal>
+<eventStartDate><?php echo $this->escape($e['eventStartDate']);?></eventStartDate>
+<eventEndDate><?php echo $this->escape($e['eventEndDate']);?></eventEndDate>
+<eventStartTime><?php echo $this->escape($e['eventStartTime']);?></eventStartTime>
+<eventEndTime><?php echo $this->escape($e['eventEndTime']);?></eventEndTime>
+</temporal>
+<geometry>
+<spatialappellation>
+<quickpoint>
+<x><?php echo $this->escape($e['latitude']);?></x>
+<y><?php echo $this->escape($e['longitude']);?></y>
+</quickpoint>
+<entity spatialtype="Point" uri="123" namespace="PAS Database">
+<wkt srs="EPSG:27700">
+POINT(<?php echo $this->escape($e['latitude']);?> <?php echo $this->escape($e['longitude']);?>)
+</wkt>
+</entity>
+<capturemethod>Geocoded address</capturemethod>
+</spatialappellation>
+</geometry>
+<attendance>
+<adults><?php echo $this->escape($e['adultsAttend']);?></adults>
+<children><?php echo $this->escape($e['childrenAttend']);?></children>
+</attendance>
+<organisedBy><?php echo $this->escape($e['organisation']);?></organisedBy>
+<createdBy><?php echo $this->escape($e['fullname']);?></createdBy>
+<created><?php echo $this->escape($e['created']);?></created>
+<updated><?php echo $this->escape($e['updated']);?></updated>
+</event>
+<?php endforeach;?>
+</upcomingEvents>
+</response>

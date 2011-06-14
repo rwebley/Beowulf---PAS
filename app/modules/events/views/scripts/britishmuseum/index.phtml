@@ -1,0 +1,32 @@
+<h2>Events at the British Museum</h2>
+<p>This data is screen scaped directly off the BM events pages. It is cached for 2 days so may not be totally accurate.</p>
+<?php 
+$cache = Zend_Registry::get('formcache');
+if(!$cache->start('bmeventsdata')) {
+?>
+
+<table class="stripeMe">
+<tr>
+<th>Date</th>
+<th>Time</th>
+<th>Title</th>
+<th>Audience</th>
+<th>Costs</th>
+</tr>
+
+<?php 
+
+foreach($this->data as $dat):?><tr>
+<td><?php echo $dat['col1'];?></td>
+<td><?php echo $dat['col2'];?> </td>
+<td><a href="http://www.britishmuseum.org<?php echo $dat['href']->href;?>" title="<?php echo $dat['col3'];?>"><?php echo $dat['col3'];?></a></td>
+<td><?php echo $dat['col4'];?></td>
+<td><?php echo $dat['col5'];?></td>
+</tr>
+<?php endforeach;?>
+
+</table>
+<?php
+$cache->end();
+}
+?>

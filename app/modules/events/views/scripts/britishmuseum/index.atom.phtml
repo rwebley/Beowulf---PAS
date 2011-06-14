@@ -1,0 +1,32 @@
+<?php
+$feedArray = array(
+
+			'title' => 'Feed of British Museum events',
+			'link' => $this->CurUrl(),
+			'charset' => 'utf-8',
+			'description' => 'British Museum events data',
+			'author' => 'The Portable Antiquities Scheme',
+			'image' => Zend_Registry::get('siteurl').'/images/logos/pas.gif',
+			'email' => 'info@finds.org.uk',
+			'copyright' => 'Creative Commons Licenced',
+			'generator' => 'The Scheme database powered by Zend Framework and Dan\'s magic',
+			'language' => 'en',
+			'entries' => array()
+		);
+
+
+		foreach ($this->data as $dat) {
+			$feedArray['entries'][] = array(
+				'title' => $dat['col3'],
+				'link' => 'http://www.britishmuseum.org'.$dat['href']->href,
+				'guid' => 'http://www.britishmuseum.org'.$dat['href']->href,
+				'description' => 'test',
+				'lastUpdate' => strtotime( $dat['col1']),
+				'content' => 'test',
+				);
+		}
+		
+  		 $feed = Zend_Feed::importArray($feedArray,'atom');
+		 $feed->send();
+		
+				?>

@@ -1,0 +1,10 @@
+<?php 
+header('Content-Type: text/Calendar');
+header('Content-Disposition: attachment; filename=iCalendar_dates_' . date('Y-m-d_H-m-s') . '.xcs');
+echo (string) '<?xml version="1.0" encoding="UTF-8"?>';
+//$this->output  = (string) '<!DOCTYPE iCalendar PUBLIC "-//IETF//DTD iCalendar//EN" "http://www.ietf.org/internet-drafts/draft-dawson-ical-xml-dtd-02.txt">';
+echo (string) '<iCalendar>';
+//echo (string) '<vCalendar version="2.0" prodid="' . $this->prodid . '" method="' . $this->getMethod() . '">';
+echo $this->partialLoop('partials/events/xcsDataEvent.phtml',$this->events);
+echo (string) '</vCalendar>';
+echo (string) '</iCalendar>';
