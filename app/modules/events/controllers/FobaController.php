@@ -12,10 +12,16 @@
 */
 class Events_FobaController extends Pas_Controller_ActionAdmin {
 
+	/**
+	* Initialise the ACL for access levels
+	*/
 	public function init() {
 		$this->_helper->_acl->allow(NULL);
     }
 
+    /**
+	* Render data for view on index action
+	*/
 	public function indexAction()	{
 	$events = new Events();
 	$this->view->events = $events->getEventByType(12,2011);
