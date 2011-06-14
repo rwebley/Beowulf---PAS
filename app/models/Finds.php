@@ -3169,6 +3169,4 @@ class Finds extends Zend_Db_Table_Abstract {
 	return NULL;
 	}
 	}	
-
-
 }
