@@ -1,0 +1,34 @@
+<?php 
+$this->headTitle('Current vacancies at the Portable Antiquities Scheme');
+$this->metaBase('The Scheme regularly announces vacancies when they arise via this page and other job sites.','Vacancies',
+'vacancies,jobs,archaeology,portable antiquities','keywords');
+?>
+<?php if (count($this->vacs) > 0) : ?>
+<h2>Current vacancies</h2>
+
+<ul id="related">
+<?php echo $this->partialLoop('partials/getinvolved/vacancyList.phtml',$this->vacs); 
+?>
+</ul>
+<?= $this->paginationControl($this->vacs, 'Sliding', 'structure/pagination.phtml'); ?>
+
+<?php else:?>
+<h2>Current vacancies</h2>
+<p>There are currently no vacancies at the Scheme. However, you can try the following sites for vacancies in the Museum and Heritage/ Archaeology sector:</p>
+<?php 
+$cache = Zend_Registry::get('formcache');
+if(!$cache->start('jobs')) {
+
+$delicious = new Zend_Service_Delicious('portableantiquities', 'gr8tcour1');
+$posts = $delicious->getAllPosts();
+
+echo '<ul id="related">';
+foreach ($posts->withTags(array('jobs')) as $post){
+echo '<li><a href="'.$post->getUrl().'" title="'.$post->getTitle().'">'.$post->getNotes().'</a>';
+}
+echo '</ul>';
+$cache->end(); 
+}
+
+?>
+<?php endif;?>

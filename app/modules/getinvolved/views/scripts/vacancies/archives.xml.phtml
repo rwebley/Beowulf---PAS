@@ -1,0 +1,9 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<vacancies>
+<meta>
+<?php echo $this->paginationControl($this->archives,NULL,'structure/xmlqueryCounts.phtml');?>
+<status>Expired</status>
+<generator>Portable Antiquities Scheme website</generator>
+</meta>
+<?php echo $this->partialLoop('partials/xml/vacancy.phtml',$this->archives);?>
+</vacancies>
