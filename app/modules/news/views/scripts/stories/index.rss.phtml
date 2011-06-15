@@ -1,0 +1,20 @@
+<?php header('Content-Type: application/rss+xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<rss version="2.0"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+    <title>Latest news from the Portable Antiquities Scheme</title>
+    <link><?php echo $this->CurUrl();?></link>
+    <description>The Portable Antiquities Scheme news feed contains news from around the regions of England and Wales. It is updated frequently.</description>
+    <dc:language>en-en</dc:language>
+    <dc:creator>info@finds.org.uk</dc:creator>
+    <dc:rights>Copyright <?php echo gmdate("Y", time()); ?></dc:rights>
+    <dc:date><?php echo date(DATE_W3C);?></dc:date>
+    <admin:generatorAgent rdf:resource="http://www.finds.org.uk/" />
+	<?php echo $this->partialLoop('partials/rss/news.phtml',$this->news);?>
+    </channel>
+</rss>

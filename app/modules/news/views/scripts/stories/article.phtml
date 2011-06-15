@@ -1,0 +1,25 @@
+<?php
+$this->jQuery()->addJavascriptFile('/js/JQuery/jquery.lightbox.js',$type='text/javascript');
+$this->jQuery()->javascriptCaptureStart();
+?>
+jQuery(document).ready(function($) {
+ $('a[rel*=lightbox]').lightBox() 
+    }
+);
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>
+
+<?php echo $this->partial('partials/news/story.phtml',$this->news['0']);?>
+<h3>Comments</h3>
+
+<?php if(count($this->comments)) :?>
+<p>There are <?php echo count($this->comments);?> comments on this story.</p>
+<div id="comm">
+
+<ul>
+<?php echo $this->partialLoop('partials/database/comments.phtml', $this->comments) ;?>
+</ul>
+</div>
+<?php else:?>
+<p>Be the first to comment on this news story.</p>
+<?php endif;?>
+<?php echo $this->form;?>

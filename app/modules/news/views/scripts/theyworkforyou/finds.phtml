@@ -1,0 +1,34 @@
+<?php 
+$this->headTitle('All finds recorded in the Parliamentary constituency of '.$this->constituency);
+$this->MetaBase('This page lists all objects recorded by the Scheme in the Parliamentary constituency of '.$this->constituency,'archaeology','finds,found in,constituency,archaeology,portable antiquities,' . $this->constituency);
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+$this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<h2>Finds within constituency of <?php echo $this->escape($this->constituency);?></h2>
+<?php if(count($this->finds) > 0):?>
+
+<table class="stripeMe" summary="A complete list of finds and coins recorded">
+<caption>A complete list of all finds recorded</caption>
+<thead>
+<tr> 
+<th>Image</th>
+<th>Object Type</th>
+<th>Find number</th>
+<th>Broadperiod</th>
+<th>County</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/database/findsTable.phtml',$this->finds);?>
+</tbody>
+</table>
+
+<?php echo $this->paginationControl($this->finds, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php else:?>
+<p>No objects have been recorded in this bounding box area yet.</p>
+<?php endif;?>

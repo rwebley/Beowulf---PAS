@@ -1,0 +1,297 @@
+<?php $this->headMeta('Details and finds for ' . $this->data[0]->full_name . '\'s constituency','dc.description');
+ini_set('display_errors', '0');
+$this->headTitle('Details for ' . $this->data[0]->full_name);
+?>
+<h2>Details for objects found in <?php echo $this->data[0]->full_name;?>'s constituency</h2>
+<div class="forRDFOnly">
+<p>The Portable Antiquities Scheme has recently released a new website (www.finds.org.uk), cataloguing public discovery of archaeological objects in England and Wales. This now allows 
+for rapid and easy mapping of objects found by your constituents.</p>
+<h3>How to use this</h3>
+<img src="http://www.finds.org.uk/images/logos/pasrgbsize4.jpg" style="float:right;"/>
+<p>If you have a website, it is very simple to get this map and a feed of data to embed on your site.</p>
+<p>If you would like to do this, contact the Scheme's ICT Adviser via the details below:</p>
+<p>Daniel Pett, The British Museum, Great Russell Street, London, WC1B 3DG
+
+<br />
+Telephone: 0207 323 8618 or Email: dpett@britishmuseum.org</p></div>
+<?php echo $this->politicalparty($this->data[0]->party);?>
+
+<?php if(array_key_exists('image',$this->data[0])):?>
+<img src="http://www.theyworkforyou.com<?php echo $this->data[0]->image;?>" height="<?php echo $this->data[0]->image_height;?>" 
+width="<?php echo $this->data[0]->image_width;?>" alt="The latest portrait image of <?php echo $this->data[0]->full_name;?>" class="flow"/>
+<?php endif;?>
+<? $geo = $this->TwfyGeo($this->data[0]->constituency);
+
+if($geo == true && array_key_exists('centre_lat',$geo)):
+?>
+<?php 
+$config = Zend_Registry::get('config');
+$apikey = $config->googlemaps->apikey;
+$this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$apikey,$type='text/javascript')
+->appendFile($this->baseUrl().'/js/maps/clusterer.js',$type='text/javascript');?>
+
+<?php $this->inlineScript()->captureStart();?>
+
+$(document).ready(function() {
+
+if (GBrowserIsCompatible()) {
+
+ var gmarkers = [];
+      var htmls = [];
+      var i = 0;
+	  
+	  
+	  var Icon = new GIcon();
+      Icon.image = 'http://labs.google.com/ridefinder/images/mm_20_red.png';
+      Icon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Icon.iconSize = new GSize( 12, 20 );
+      Icon.shadowSize = new GSize( 22, 20 );
+      Icon.iconAnchor = new GPoint( 6, 20 );
+      Icon.infoWindowAnchor = new GPoint( 5, 1 );
+      Icon.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+	   var Yellow = new GIcon();
+      Yellow.image = 'http://labs.google.com/ridefinder/images/mm_20_yellow.png';
+      Yellow.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Yellow.iconSize = new GSize( 12, 20 );
+      Yellow.shadowSize = new GSize( 22, 20 );
+      Yellow.iconAnchor = new GPoint( 6, 20 );
+      Yellow.infoWindowAnchor = new GPoint( 5, 1 );
+      Yellow.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+	  
+	  var Black = new GIcon();
+      Black.image = 'http://labs.google.com/ridefinder/images/mm_20_black.png';
+      Black.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Black.iconSize = new GSize( 12, 20 );
+      Black.shadowSize = new GSize( 22, 20 );
+      Black.iconAnchor = new GPoint( 6, 20 );
+      Black.infoWindowAnchor = new GPoint( 5, 1 );
+      Black.infoShadowAnchor = new GPoint( 5, 1 );
+	    
+	  var Green = new GIcon();
+      Green.image = 'http://labs.google.com/ridefinder/images/mm_20_green.png';
+      Green.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Green.iconSize = new GSize( 12, 20 );
+      Green.shadowSize = new GSize( 22, 20 );
+      Green.iconAnchor = new GPoint( 6, 20 );
+      Green.infoWindowAnchor = new GPoint( 5, 1 );
+      Green.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+      var clusterIcon = new GIcon();
+      clusterIcon.image = 'http://labs.google.com/ridefinder/images/mm_20_blue.png';
+      clusterIcon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      clusterIcon.iconSize = new GSize( 12, 20 );
+      clusterIcon.shadowSize = new GSize( 22, 20 );
+      clusterIcon.iconAnchor = new GPoint( 6, 20 );
+      clusterIcon.infoWindowAnchor = new GPoint( 5, 1 );
+      clusterIcon.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+
+ var copyOSM = new GCopyrightCollection('<a href="http://www.openstreetmap.org/">OpenStreetMap</a>');
+  copyOSM.addCopyright(new GCopyright(1, 
+    new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)),
+    0, // minimum zoom level
+    ' ' // no additional copyright message, but empty string hides entire copyright
+  ));
+	
+	var osmLayer = new GTileLayer(copyOSM, 0, 18, {
+		tileUrlTemplate: 'http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/998/256/{Z}/{X}/{Y}.png',
+		isPng: true,
+		opacity: 1.0
+		});
+	  
+	var osmMap = new GMapType(
+		[osmLayer], // list of layers
+		G_NORMAL_MAP.getProjection(), // borrow the Mercator projection from the standard map
+		'OSM' // name should be short enough to fit in button
+	  );
+	 var map = new GMap2(document.getElementById("map"));
+	 geoXml = new GGeoXml("http://www.theyworkforyou.com/api/getBoundary?key=CzhqDaDMAgkMEcjdvuGZeRtR&name=<?php echo urlencode($this->data[0]->constituency);?>");
+	 
+		map.setUIToDefault();
+		//map.addControl(new GLargeMapControl());
+      	map.addControl(new GMapTypeControl());
+        map.setCenter(new GLatLng(<?php echo $geo['centre_lat'].',',$geo['centre_lon'];?>),11);
+		map.addMapType(osmMap);
+		map.addMapType(G_SATELLITE_3D_MAP);
+		map.addOverlay(geoXml);
+		
+	    map.addMapType(G_PHYSICAL_MAP);
+		map.setMapType(G_PHYSICAL_MAP);
+		map.disableScrollWheelZoom(); 
+		map.enableRotation();
+		
+var tinyIcon = new GIcon();
+		tinyIcon.image = "http://google-maps-icons.googlecode.com/files/cityhall-admin.png";
+		tinyIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+		tinyIcon.iconSize = new GSize(32, 37);
+		tinyIcon.shadowSize = new GSize(22, 20);
+		tinyIcon.iconAnchor = new GPoint(6, 20);
+		tinyIcon.infoWindowAnchor = new GPoint(5, 1);
+	markerOptions = { icon:tinyIcon };
+
+	var findIcon = new GIcon();
+		findIcon.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";
+		findIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+		findIcon.iconSize = new GSize(12, 20);
+		findIcon.shadowSize = new GSize(22, 20);
+		findIcon.iconAnchor = new GPoint(6, 20);
+		findIcon.infoWindowAnchor = new GPoint(5, 1);
+		
+		findOptions = { icon:findIcon };
+
+	var point = new GLatLng(<?php echo $geo['centre_lat'].',',$geo['centre_lon'];?>);
+	 	
+	var marker = new GMarker(point, markerOptions);
+        GEvent.addListener(marker, "click", function () {
+	      marker.openInfoWindowHtml("<p><?php echo $this->data[0]->constituency;?> constituency centred here</p>");
+        });
+        map.addOverlay(marker);
+        
+        var customIcons = [];
+	  customIcons["review"] = Icon;
+	  customIcons["quarantine"] = Black;
+	  customIcons["published"] = Green;
+	  customIcons["validation"] = Yellow;
+<?php
+		
+		
+$auth = Zend_Registry::get('auth');
+$allowed = array('flos','research','hero','fa','admin','treasure');
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+{
+ if(!in_array($user->role,$allowed)) 
+ {
+  echo map.addMapType(G_SATELLITE_3D_MAP);
+		
+	    
+   echo "var mt = map.getMapTypes();for (var i=0; i<mt.length; i++) {
+        mt[i].getMinimumResolution = function() {return 2;}
+        mt[i].getMaximumResolution = function() {return 11;}
+      }"; 
+	  }
+	  } 
+	  
+	  } else {
+	   echo "var mt = map.getMapTypes();for (var i=0; i<mt.length; i++) {
+        mt[i].getMinimumResolution = function() {return 2;}
+        mt[i].getMaximumResolution = function() {return 11;}
+      }"; 
+	  }
+	  ?>
+      var clusterer = new Clusterer(map);
+      clusterer.icon = clusterIcon;      
+      clusterer.maxVisibleMarkers = 150;
+      clusterer.gridSize = 18;
+      clusterer.minMarkersPerClusterer = 2;
+      clusterer.maxLinesPerInfoBox = 4;
+      var request = GXmlHttp.create();
+      request.open("GET", "<?php echo $this->baseUrl().'/news/ajax/map/constituency/'.$this->data[0]->constituency;?>", true);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          var xmlDoc = request.responseXML;
+          var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+          for (var i = 0; i < markers.length; i++) {
+          var lat = parseFloat(markers[i].getAttribute("lat"));
+          var lng = parseFloat(markers[i].getAttribute("lng"));
+          var point = new GLatLng(lat,lng);
+          var html = markers[i].getAttribute("name");
+          var label = markers[i].getAttribute("name");
+		  var workflow = markers[i].getAttribute("workflow");
+		 
+
+          var marker = createMarker(point,label,html,Icon);
+          clusterer.AddMarker(marker, label);
+          }
+         }
+		 
+		function createMarker(point,name,html,icon) {
+        var marker = new GMarker(point, customIcons[workflow]);
+		
+		 GEvent.addListener(marker, "click", function(){ 
+          marker.openInfoWindowHtml(html,{maxWidth:360,maxHeight:350});
+  	  });
+		
+        
+        gmarkers[i] = marker;
+        htmls[i] = html;
+        return marker;
+      }
+      }
+      request.send(null);
+  }
+  
+  
+  
+});
+<?php $this->inlineScript()->captureEnd();?>
+<div id="map" style="width:700px;height:400px; margin:auto;"></div>
+<p class="removePrint">The constituency of <?php echo $this->data[0]->constituency;?> is centred on <?php echo $geo['centre_lat'];?>,<?php echo $geo['centre_lon'];?> which is located in <?php echo $geo['name'];?> (WOEID: <?php echo $geo['woeid'];?>).</p>
+
+<?php 
+if(array_key_exists('min_lat',$geo)) {
+$finds = new Finds();
+$data = $finds->getFindsConstituency($this->data[0]->constituency);
+$url = $this->url(array('module' => 'news','controller' => 'theyworkforyou','action' => 'finds',
+'constituency' => $this->data[0]->constituency),NULL,true);
+echo '<p>There are <a href="' . $url . '" title="View all finds from this constituency">' . count($data). ' finds recorded</a> by the Portable Antiquities Scheme within the constituency of '. $this->data[0]->constituency. '.</p>';
+}
+echo $this->OsDataToConst($this->data[0]->constituency);
+echo $this->SmrDataToConst($this->data[0]->constituency);
+echo $this->findsOfNoteConst($this->data[0]->constituency);
+?>
+<?php endif;?>
+<div class="removePrint">
+<?php  echo $this->mpbio($this->data[0]->full_name); ?>
+
+<h3>Parliamentary career history</h3>
+<p><?php echo $this->data[0]->full_name;?> has served in the Houses <strong><?php echo count($this->data)?></strong> times.</p>
+<?php  if(array_key_exists('url',$this->data[0])):?>
+<p>Theyworkforyou URL: <a href="http://www.theyworkforyou.com<?php echo $this->data[0]->url;?>" title="View all the information on <?php echo $this->data[0]->full_name;?>">http://www.theyworkforyou.com<?php echo $this->data[0]->url;?></a></p>
+<?php endif;?>
+<?php echo $this->politicalhouse($this->data[0]->house);?>
+<div id="career">
+<?php foreach($this->data as $d):?>
+
+<h4>Term of office:  <?php echo $this->timeagoinwords($d->entered_house);?> <?php if($d->left_house != '9999-12-31'):?>
+-  <?php echo $this->timeagoinwords($d->left_house);?>
+<?php endif;?></h4>
+<p>
+
+Current house: <?php if($d->house == 1){ echo 'House of Commons';} else { echo 'House of Lords';}?> <br/>
+Entered house: <?php echo $this->timeagoinwords($d->entered_house);?><br /> 
+<?php if($d->left_house != '9999-12-31'):?>
+Left House: <?php echo $this->timeagoinwords($d->left_house);?><br />
+<?php endif;?>
+<?php if($d->entered_reason != ''):?>
+Reason for entering: <?php echo ucfirst(str_replace('_',' ',$d->entered_reason));?><br />
+<?php endif;?>
+<?php if($d->left_reason != ''):?>
+Reason for leaving: <?php echo ucfirst(str_replace('_',' ',$d->left_reason));?><br />
+<?php endif;?>
+<?php if($d->party != ''):?>
+Party at election: <?php echo $d->party;?><br />
+<?php endif;?> 
+<?php if($d->constituency != ''):?>
+Constituency: <?php echo $d->constituency;?> <br />
+<?php endif;?>
+<?php if(array_key_exists('office',$d)):?>
+<?php if($d->left_reason != 'general_election_standing'):?>
+<?php foreach($d->office as $o):?>
+Held postion of: <?php echo $o->position;?> <?php if($o->dept != ''):?>Department: <?php echo $o->dept;?><?php endif;?><br />
+<?php endforeach;?>
+<?php endif;?>
+<?php endif;?>
+</p>
+
+<?php endforeach;?>
+
+</div>
+
+</div>
+
+
+

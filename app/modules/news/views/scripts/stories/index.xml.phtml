@@ -1,0 +1,8 @@
+<?php header('Content-Type: text+xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<newsStories>
+<meta>
+<?php echo $this->paginationControl($this->news,NULL,'structure/xmlqueryCounts.phtml');?>
+</meta>
+<?php echo $this->partialLoop('partials/xml/news.phtml',$this->news);?>
+</newsStories>

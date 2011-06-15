@@ -1,0 +1,8 @@
+<?php header('Content-Type: application/text+xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<objects>
+<meta>
+<url><?php echo $this->CurUrl();?></url>
+</meta>
+<?php echo $this->partialLoop('partials/xml/objects.phtml',$this->finds);?>
+</objects>
