@@ -1,0 +1,133 @@
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl() . '/js/JQuery/jquery.lightbox.js',
+$type='text/javascript');
+?>
+<?php $this->jQuery()->javascriptCaptureStart(); ?>
+jQuery(document).ready(function($) {
+$('a[rel*=lightbox]').lightBox() 
+});
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>
+
+
+<?php echo $this->partialLoop('partials/content/article.phtml',$this->content);?>
+
+<?php if($this->menu == 'gold'):?>
+<h3>Object types</h3>
+<ul>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'dress-fasteners'),'bronzeage',true);?>">Dress fasteners</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'gold-bracelets'),'bronzeage',true);?>">Gold bracelets</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'penannular-rings'),'bronzeage',true);?>">Penannular rings</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'lock-rings'),'bronzeage',true);?>">Lock-Rings</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'sleeve-fasteners'),'bronzeage',true);?>">Sleeve-fasteners</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'bullae'),'bronzeage',true);?>">Bullae</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'gorgets'),'bronzeage',true);?>">Gorgets</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'collars'),'bronzeage',true);?>">Collars</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'torcs'),'bronzeage',true);?>">Torcs</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'stud-caps-on-stone-wristguards'),'bronzeage',true);?>">Stud caps on stone wristguards</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'basket-shaped-ornaments'),'bronzeage',true);?>">Basket-Shaped Ornaments</li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'discs'),'bronzeage',true);?>">Discs</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'lunulae'),'bronzeage',true);?>">Lunulae</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'cylindrical-armlets'),'bronzeage',true);?>">Cylindrical armlets</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'cups'),'bronzeage',true);?>">Cups</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'capes'),'bronzeage',true);?>">Capes</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'ribbon-torcs'),'bronzeage',true);?>">Ribbon torcs</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'bar-torcs'),'bronzeage',true);?>">Bar torcs</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'bar-bracelets'),'bronzeage',true);?>">Bar bracelets</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'sheet-bracelets'),'bronzeage',true);?>">Sheet bracelets</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'composite-rings'),'bronzeage',true);?>">Composite rings</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'bar-twisted-rings'),'bronzeage',true);?>">Bar Twisted Rings</a></li>
+</ul>
+<?php endif;?>
+<?php if($this->menu == 'other'):?>
+<h3>Object types</h3>
+<ul>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'bracelets'),'bronzeage',true);?>">Bracelets</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'knife'),'bronzeage',true);?>">Knives</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'beads'),'bronzeage',true);?>">Beads</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'awl'),'bronzeage',true);?>">Awls</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'shield'),'bronzeage',true);?>">Shields</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'ingots'),'bronzeage',true);?>">Ingots</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'metal-working-debris'),'bronzeage',true);?>">Metal working debris</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'arrowheads'),'bronzeage',true);?>">Arrowheads</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'wheeled-vehicle-equipment'),'bronzeage',true);?>">Wheeled vehicle equipment</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'horse-fittings'),'bronzeage',true);?>">Horse fittings</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'punches'),'bronzeage',true);?>">Punches</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'rings'),'bronzeage',true);?>">Rings</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'crotals'),'bronzeage',true);?>">Crotals</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'chapes'),'bronzeage',true);?>">Chapes</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'pins'),'bronzeage',true);?>">Pins</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'flesh-hooks'),'bronzeage',true);?>">Flesh-hooks</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'fish-hooks'),'bronzeage',true);?>">Fish-hooks</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'saw-blades'),'bronzeage',true);?>">Saw blades</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'anvils'),'bronzeage',true);?>">Anvils</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'hammers'),'bronzeage',true);?>">Hammers</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'gouges'),'bronzeage',true);?>">Gouges</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'sickles'),'bronzeage',true);?>">Sickles</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'razors'),'bronzeage',true);?>">Razors</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'torcs'),'bronzeage',true);?>">Torcs</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'buttons-and-studs'),'bronzeage',true);?>">Buttons and studs</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'vessels'),'bronzeage',true);?>">Vessels</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'spearheads'),'bronzeage',true);?>">Spearheads</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'axes'),'bronzeage',true);?>">Axes</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'swords'),'bronzeage',true);?>">Swords</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'halberd'),'bronzeage',true);?>">Halberd</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'daggers'),'bronzeage',true);?>">Daggers</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'rapiers-and-dirks'),'bronzeage',true);?>">Rapiers and dirks</a></li>
+</ul>
+
+<?php endif;?>
+
