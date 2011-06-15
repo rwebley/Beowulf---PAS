@@ -224,6 +224,13 @@ class ContactForm extends Pas_Form
 	$profile, $website, $alumni,
 	$submit));
 
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($_formsalt)
+	->removeDecorator('DtDdWrapper')
+	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->setTimeout(60);
+	$this->addElement($hash);
+	
 	$this->addDisplayGroup(array('firstname', 'lastname', 'role',
 	'dbaseID', 'identifier', 'region',
 	'profile', 'email_one', 'email_two',

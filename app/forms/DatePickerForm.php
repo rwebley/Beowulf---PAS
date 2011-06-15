@@ -11,26 +11,22 @@ class My_Decorator_SimpleInput extends Zend_Form_Decorator_Abstract
         $label   = htmlentities($element->getLabel());
         $id      = htmlentities($element->getId());
         $value   = htmlentities($element->getValue());
-
         $markup  = sprintf($this->_format, $id, $label, $id, $name, $value);
         return $markup;
     }
 }
 class DatePickerForm extends Pas_Form
 {
-public function __construct($options = null)
-{
-$decorator = new My_Decorator_SimpleInput();
-parent::__construct($options);
-       
-$this->setDecorators(array(
-            'FormElements',
-            'Fieldset',
-            'Form'
-			
-			
-        ));
-$this->setName('datepicker');
+public function __construct($options = null) {
+	$decorator = new My_Decorator_SimpleInput();
+	parent::__construct($options);
+	       
+	$this->setDecorators(array(
+	            'FormElements',
+	            'Fieldset',
+	            'Form'
+	        ));
+	$this->setName('datepicker');
 
 
 $datefrom = new Zend_Form_Element_Text('datefrom');
