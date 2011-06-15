@@ -1,13 +1,19 @@
 <?php
 
-include_once 'Zend/Form.php';
+/**
+* Form for activating an account
+*
+* @category   Zend
+* @package    Zend_Form
+* @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
+* @license    GNU General Public License
+* @todo 	  Check still active
 
-class ActivateForm extends Zend_Form
-{
+*/
+class ActivateForm extends Zend_Form {
 
 
-    public function init()
-    {
+    public function init() {
        
 
         $this->clearDecorators();
@@ -23,11 +29,11 @@ class ActivateForm extends Zend_Form
         $username = $this->addElement('text', 'username', 
             array('label' => 'Username'));
         $username = $this->getElement('username')
-                  ->addValidator('alnum')
+                  ->addValidator('Alnum')
                   ->setRequired(true)
                   ->addFilter('StringTrim')
                   ->addValidator('Authorise');
-        $username->getValidator('alnum')
+        $username->getValidator('Alnum')
                  ->setMessage('Your username should include letters and numbers only');
         $username->setDecorators($decorators);
 
