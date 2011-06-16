@@ -22,6 +22,6 @@ class Conservation_AdviceController extends Pas_Controller_ActionAdmin {
 		} else {
 			throw new Pas_ParamException('That page is not found.')
 		}
-    }
+	}
 
 }
