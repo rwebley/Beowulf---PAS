@@ -24,7 +24,6 @@ public function __construct($options = null) {
             array('Label'),
             array('HtmlTag', array('tag' => 'li')),
 		    );
-			
 		
 	$image = new Zend_Form_Element_File('image');
 	$image->setLabel('Upload an image: ')

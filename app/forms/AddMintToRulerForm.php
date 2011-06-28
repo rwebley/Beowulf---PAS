@@ -32,29 +32,25 @@ public function __construct($options = null) {
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
-	//->addErrorMessage('Possible CSRF attack, your form tokens do not match.')
 	->setTimeout(60);
 	$this->addElement($hash);
 
+	$submit = new Zend_Form_Element_Submit('submit');
+	$submit->setLabel('Add mint')
+	->setAttribs(array('class'=> 'large'));
+	
+	$this->addElements(array($mint,$ruler_id,$submit));
+	
+	$this->addDisplayGroup(array('mint_id'), 'details')
+	->removeDecorator('HtmlTag');
+	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
+	$this->details->removeDecorator('DtDdWrapper');
+	$this->details->removeDecorator('HtmlTag');
+	$this->details->setLegend('Add an active Mint');
+	
+	$this->addDisplayGroup(array('submit'), 'submit');
+	$this->submit->removeDecorator('DtDdWrapper');
+	$this->submit->removeDecorator('HtmlTag');
 
-//Submit button 
-$submit = new Zend_Form_Element_Submit('submit');
-$submit->setLabel('Add mint')
-->setAttribs(array('class'=> 'large'));
-
-$this->addElements(array($mint,$ruler_id,$submit));
-
-$this->addDisplayGroup(array('mint_id'), 'details')
-->removeDecorator('HtmlTag');
-$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
-$this->details->removeDecorator('DtDdWrapper');
-$this->details->removeDecorator('HtmlTag');
-$this->details->setLegend('Add an active Mint');
-
-$this->addDisplayGroup(array('submit'), 'submit');
-$this->submit->removeDecorator('DtDdWrapper');
-$this->submit->removeDecorator('HtmlTag');
-
-
-}
+	}
 }

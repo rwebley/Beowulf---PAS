@@ -71,7 +71,6 @@ parent::__construct($options);
 	$comment_author->setLabel('Enter your name: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid name!')
 	->setDecorators($decorators);
 
@@ -96,6 +95,9 @@ parent::__construct($options);
 	'Incorrect parish' => 'Incorrect parish',
 	'Grid reference issues' => 'Grid reference wrong',
 	'Date found wrong' => 'Date of discovery wrong',
+	'Spelling errors' => 'Spelling errors',
+	'Duplicated record' => 'Duplicated record',
+	'Data problems apparent' => 'Data problems',
 	'Other' => 'Other reason')))
 	->addErrorMessage('You must enter an error report type');
 
@@ -104,7 +106,6 @@ parent::__construct($options);
 	->setDecorators($decorators)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim','StringToLower'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid address!')
 	->setDescription('* Not compulsory');
 

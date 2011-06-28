@@ -54,9 +54,7 @@ public function __construct($options = null)
 	->setAttrib('cols',40)
 	->setAttrib('Height',400)
 	->setAttrib('ToolbarSet','Finds')
-	->addFilter('BasicHtml')
-	->addFilter('EmptyParagraph')
-	->addFilter('WordChars')
+	->addFilters(array('BasicHtml', 'EmptyParagraph', 'WordChars'))
 	->addErrorMessage('You must enter a description')
 	->addDecorator('Errors',array('placement' => 'append','class'=>'error','tag' => 'li'));
 
@@ -75,7 +73,8 @@ public function __construct($options = null)
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')
-	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('label')
 	->setTimeout(60);
 	$this->addElement($hash);
 	
@@ -88,7 +87,6 @@ public function __construct($options = null)
 	    'FormElements',
 	    array('HtmlTag', array('tag' => 'ul'))
 	));
-	
 	
 	$this->details->removeDecorator('DtDdWrapper');
 	$this->details->removeDecorator('HtmlTag');

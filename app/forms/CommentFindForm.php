@@ -31,6 +31,7 @@ parent::__construct($options);
      */
 	$comment_author_IP = new Zend_Form_Element_Hidden('comment_author_IP');
 	$comment_author_IP->removeDecorator('HtmlTag')
+	->setRequired(true)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('Label')
 	->addValidator('Ip')
@@ -56,7 +57,6 @@ parent::__construct($options);
 	->setTimeout(60);
 	$this->addElement($hash);
 
-
 	/**
 	 * The name of the author 
      */
@@ -64,7 +64,6 @@ parent::__construct($options);
 	$comment_author->setLabel('Enter your name: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid name!')
 	->setDecorators($decorators);
 
@@ -124,7 +123,6 @@ parent::__construct($options);
               ->removeDecorator('HtmlTag')
 			  ->removeDecorator('DtDdWrapper')
 			  ->setAttrib('class', 'large');
-			  
 			  
 	$auth = Zend_Auth::getInstance();
 	if(!$auth->hasIdentity()) {

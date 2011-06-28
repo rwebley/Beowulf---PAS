@@ -28,7 +28,6 @@ public function __construct($options = null)
 	$term->setLabel('Ascribed Culture name: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->setAttrib('size',60)
 	->addErrorMessage('Please enter a valid title for this culture!')
 	->setDecorators($decorators);
@@ -56,7 +55,8 @@ public function __construct($options = null)
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')
-	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('label')
 	->setTimeout(60);
 	$this->addElement($hash);
 	

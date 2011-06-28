@@ -1,6 +1,6 @@
 <?php
 /**
-* Form for changing a user's password
+* Form for creating and editing coin classification data
 *
 * @category   Pas
 * @package    Pas_Form
@@ -28,7 +28,6 @@ public function __construct($options = null)
        
 	$this->setName('coinsclass');
 
-
 	$referenceName = new Zend_Form_Element_Text('referenceName');
 	$referenceName->setLabel('Reference volume title: ')
 	->setRequired(true)
@@ -41,9 +40,7 @@ public function __construct($options = null)
 	$valid->SetLabel('Is this volume currently valid: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->setDecorators($decorators);
-
 
 	$period = new Zend_Form_Element_Select('period');
 	$period->setLabel('Period: ')
@@ -54,8 +51,7 @@ public function __construct($options = null)
 	->addErrorMessage('You must enter a period for this mint')
 	->setDecorators($decorators);
 
-
-//Submit button 
+	//Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
 	$submit->setAttrib('id', 'submit')
 	->setAttrib('class', 'large')

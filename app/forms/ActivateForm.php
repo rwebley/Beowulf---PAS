@@ -55,9 +55,9 @@ class ActivateForm extends Zend_Form {
         ));
 		
 		$this->addDecorator('FormElements')
-	 ->addDecorator('Form')
-     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'ul'))
-	 ->addDecorator('FieldSet');
+			->addDecorator('Form')
+			->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'ul'))
+			->addDecorator('FieldSet');
 		$this->setLegend('Activate your account on Beowulf: ');
 
     }

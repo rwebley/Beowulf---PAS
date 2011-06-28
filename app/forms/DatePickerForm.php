@@ -32,20 +32,16 @@ public function __construct($options = null) {
 $datefrom = new Zend_Form_Element_Text('datefrom');
 $datefrom->setLabel('Date from: ')
 ->setRequired(true)
-->addFilter('StripTags')
-->addFilter('StringTrim')
-->addValidator('NotEmpty')
-->addValidator('date')
-->addErrorMessage('Boo!');
+->addFilters(array('StripTags', 'StringTrim'))
+->addValidator('Date');
 $datefrom->addDecorators(
 array($decorator));
 
 $dateto = new Zend_Form_Element_Text('dateto');
 $dateto->setLabel('Date to: ')
 ->setRequired(true)
-->addFilter('StripTags')
-->addFilter('StringTrim')
-->addValidator('NotEmpty');
+->addFilters(array('StripTags', 'StringTrim'))
+->addValidator('Date');
 $dateto->addDecorators(array($decorator));
 
 //Submit button 

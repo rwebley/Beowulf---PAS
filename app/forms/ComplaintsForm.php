@@ -27,12 +27,15 @@ class ComplaintsForm extends Pas_Form {
 	$comment_author_IP->removeDecorator('HtmlTag')
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('Label')
+	->addFilters(array('StripTags','StringTrim','StringToLower'))
 	->setValue($_SERVER['REMOTE_ADDR'])
-	->addValidator('Ip');
+	->addValidator('Ip')
+	->setRequired(true);
 
 	$comment_agent = new Zend_Form_Element_Hidden('comment_agent');
 	$comment_agent->removeDecorator('HtmlTag')
 	->removeDecorator('DtDdWrapper')
+	->addFilters(array('StripTags','StringTrim'))
 	->removeDecorator('Label')
 	->setValue($_SERVER['HTTP_USER_AGENT'])
 	->setRequired(false);
@@ -41,7 +44,6 @@ class ComplaintsForm extends Pas_Form {
 	$comment_author->setLabel('Enter your name: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid name!')
 	->setDecorators($decorators);
 

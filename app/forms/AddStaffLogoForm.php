@@ -56,6 +56,5 @@ parent::__construct($options);
 	$this->submit->removeDecorator('DtDdWrapper');
 	$this->submit->removeDecorator('HtmlTag');
 	
-	
 	}
 }

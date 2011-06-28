@@ -76,7 +76,6 @@ class AddMedievalTypeForm extends Pas_Form {
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
-	//->addErrorMessage('Possible CSRF attack, your form tokens do not match.')
 	->setTimeout(60);
 	$this->addElement($hash);
 

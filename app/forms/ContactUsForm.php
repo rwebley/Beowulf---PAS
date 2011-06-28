@@ -122,8 +122,7 @@ parent::__construct($options);
 	$this->details->removeDecorator('HtmlTag');
 	$this->details->setLegend('Enter your comments: ');
 	
-	}
-	else {
+	} else {
 	$user = $auth->getIdentity();
 	$comment_author->setValue($user->fullname);
 	$comment_author_email->setValue($user->email);

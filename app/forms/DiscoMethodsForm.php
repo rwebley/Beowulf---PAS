@@ -40,9 +40,7 @@ parent::__construct($options);
 	->setAttrib('cols',40)
 	->setAttrib('Height',400)
 	->setAttrib('ToolbarSet','Finds')
-	->addFilter('BasicHtml')
-	->addFilter('EmptyParagraph')
-	->addFilter('WordChars')
+	->addFilters(array('BasicHtml', 'EmptyParagraph', 'WordChars'))
 	->addErrorMessage('You must enter a description for this term');
 
 	$valid = new Zend_Form_Element_Checkbox('valid');
@@ -55,7 +53,8 @@ parent::__construct($options);
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')
-	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('label')
 	->setTimeout(60);
 	$this->addElement($hash);
 	

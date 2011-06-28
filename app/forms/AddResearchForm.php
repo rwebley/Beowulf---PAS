@@ -18,8 +18,6 @@ class AddResearchForm extends Zend_Form
 	$research_topics = $research->getMyProjects($user->id);
 	}
 
-
-
 	parent::__construct($options);
 	
 	$this->setAttrib('accept-charset', 'UTF-8');
@@ -62,21 +60,16 @@ class AddResearchForm extends Zend_Form
 	        ));
 	$this->addElements(array($title,$findID,$submit));
 	
-		$hash = new Zend_Form_Element_Hash('csrf');
-		$hash->setValue($_formsalt)
-		->removeDecorator('DtDdWrapper')
-		->removeDecorator('HtmlTag')->removeDecorator('label')
-		->setTimeout(60);
-		$this->addElement($hash);
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($_formsalt)
+	->removeDecorator('DtDdWrapper')
+	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->setTimeout(60);
+	$this->addElement($hash);
 	
 	$this->setLegend('Add to research');
 	$this->addDecorator('FormElements')
 		 ->addDecorator('Form')
 		 ->addDecorator('Fieldset');
-
-  
-
-       
-
-}
+	}
 }

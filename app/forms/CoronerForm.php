@@ -35,7 +35,6 @@ public function __construct($options = null)
 	$firstname->setLabel('First name: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Come on it\'s not that hard, enter a firstname!')
 	->setDecorators($decorators);
 
@@ -43,7 +42,6 @@ public function __construct($options = null)
 	$lastname->setLabel('Last name: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addValidator('StringLength', false, array(1,200))
 	->setDecorators($decorators);
 
@@ -60,7 +58,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('NotEmpty')
 	->setDecorators($decorators);
 
 	$address_2 = new Zend_Form_Element_Text('address_2');
@@ -68,7 +65,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('NotEmpty')
 	->setDecorators($decorators);
 
 	$town = new Zend_Form_Element_Text('town');
@@ -76,7 +72,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('NotEmpty')
 	->setDecorators($decorators);
 
 	$county = new Zend_Form_Element_Select('county');
@@ -91,7 +86,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('NotEmpty')
 	->setDecorators($decorators);
 
 	$postcode = new Zend_Form_Element_Text('postcode');
@@ -99,7 +93,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('NotEmpty')
 	->addValidator('PostCode')
 	->setDecorators($decorators);
 
@@ -108,7 +101,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,4))
-	->addValidator('NotEmpty')
 	->addValidator('InArray', false, array(array_keys($countries_options)))
 	->addMultiOptions($countries_options)
 	->setValue('GB')
@@ -119,7 +111,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('NotEmpty')
 	->setDecorators($decorators);
 
 	$fax = new Zend_Form_Element_Text('fax');
@@ -127,7 +118,6 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('NotEmpty')
 	->setDecorators($decorators);
 
 	//Submit button 

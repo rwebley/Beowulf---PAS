@@ -1,5 +1,11 @@
 <?php
-
+/** Form for editing a user's account details
+* 
+* @category   Pas
+* @package    Pas_Form
+* @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
+* @license    GNU General Public License
+*/
 
 class EditAccountForm extends Pas_Form
 {
@@ -47,41 +53,49 @@ class EditAccountForm extends Pas_Form
         );
 		$username = $this->addElement('text','username',array('label' => 'Username: '))->username;
 		$username->setDecorators($decorators)
+		 ->addFilters(array('StripTags', 'StringTrim'))
 				->setRequired(true);
 				
 
         $firstName = $this->addElement('text', 'first_name', 
             array('label' => 'First Name', 'size' => '30'))->first_name;
         $firstName->setRequired(true)
-                  ->addFilter('stripTags')
-				  ->addErrorMessage('You must enter a firstname');
-				  $firstName->setDecorators($decorators);
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('Alnum', false, array('allowWhiteSpace' => true))
+		->addErrorMessage('You must enter a firstname');
+		$firstName->setDecorators($decorators);
 
         $lastName = $this->addElement('text', 'last_name', 
-            array('label' => 'Last Name', 'size' => '30'))->last_name;
+            array('label' => 'Last Name', 'size' => '30'))
+		->last_name;
         $lastName->setRequired(true)
-                 ->addFilter('stripTags')
-				 ->addErrorMessage('You must enter a surname');
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('Alnum', false, array('allowWhiteSpace' => true))
+		->addErrorMessage('You must enter a surname');
         $lastName->setDecorators($decorators);
 
         $fullname = $this->addElement('text', 'fullname', 
-            array('label' => 'Preferred Name: ', 'size' => '30'))->fullname;
+		array('label' => 'Preferred Name: ', 'size' => '30'))
+		->fullname;
         $fullname->setRequired(true)
-                      ->addFilter('stripTags')
-					  ->addErrorMessage('You must enter your preferred name');
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('Alnum', false, array('allowWhiteSpace' => true))
+		->addErrorMessage('You must enter your preferred name');
         $fullname->setDecorators($decorators);
 
-        $email = $this->addElement('text', 'email',array('label' => 'Email Address', 'size' => '30'))->email;
-        $email->addValidator('emailAddress')
-			  ->setRequired(true)
-			  ->addErrorMessage('Please enter a valid address!');
+        $email = $this->addElement('text', 'email',array('label' => 'Email Address', 'size' => '30'))
+        ->email;
+        $email->addValidator('EmailAddress')
+		->addFilters(array('StripTags','StringTrim','StringToLower'))
+		->setRequired(true)
+		->addErrorMessage('Please enter a valid address!');
         $email->setDecorators($decorators);
 		
-		
-		$password = $this->addElement('password', 'password',array('label' => 'Change password: ', 'size' => '30'))->password;
+		$password = $this->addElement('password', 'password',array('label' => 'Change password: ', 
+		'size' => '30'))
+		->password;
         $password->setRequired(false);
         $password->setDecorators($decorators);
-		
 		
 		$institution = $this->addElement('select', 'institution',array('label' => 'Recording institution: '))->institution;
         $institution->setDecorators($decorators);
@@ -106,18 +120,25 @@ class EditAccountForm extends Pas_Form
 		$submit->setAttrib('class','large');
         $this->addElement($submit);
 
-
-$this->addDisplayGroup(array('username','first_name','last_name','fullname','email','institution','role','password','person','peopleID'), 'userdetails');
-$this->addDecorator('FormElements')
-     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'div'))
-	 ->addDecorator('FieldSet') ->addDecorator('Form');
-$this->userdetails->removeDecorator('DtDdWrapper');
-$this->userdetails->removeDecorator('FieldSet');
-
-$this->userdetails->addDecorator(array('DtDdWrapper' => 'HtmlTag'),array('tag' => 'ul'));
-$this->addDisplayGroup(array('submit'),'submit');
-			 
-$this->setLegend('Edit account details: ');
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($_formsalt)
+	->removeDecorator('DtDdWrapper')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('label')
+	->setTimeout(60);
+	$this->addElement($hash);
+	
+	$this->addDisplayGroup(array('username','first_name','last_name','fullname','email','institution','role','password','person','peopleID'), 'userdetails');
+	$this->addDecorator('FormElements')
+	     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'div'))
+		 ->addDecorator('FieldSet') ->addDecorator('Form');
+	$this->userdetails->removeDecorator('DtDdWrapper');
+	$this->userdetails->removeDecorator('FieldSet');
+	
+	$this->userdetails->addDecorator(array('DtDdWrapper' => 'HtmlTag'),array('tag' => 'ul'));
+	$this->addDisplayGroup(array('submit'),'submit');
+				 
+	$this->setLegend('Edit account details: ');
 
     }
 }

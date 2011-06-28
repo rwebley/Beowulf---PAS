@@ -56,11 +56,11 @@ parent::__construct($options);
 
 	$this->setName('earlymedsearch');
 
-
 	$old_findID = new Zend_Form_Element_Text('old_findID');
 	$old_findID->setLabel('Find number: ')
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
+	->addValidator('Int')
 	->addErrorMessage('Please enter a valid number!')
 	->setDecorators($decorators);
 
@@ -68,7 +68,6 @@ parent::__construct($options);
 	$description->setLabel('Object description contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid term')
 	->setDecorators($decorators);
 
@@ -111,7 +110,6 @@ parent::__construct($options);
 
 	$county = new Zend_Form_Element_Select('county');
 	$county->setLabel('County: ')
-	->addValidators(array('NotEmpty'))
 	->addMultiOptions(array(NULL => NULL,'Choose county' => $county_options))
 	->setDecorators($decorators);
 
@@ -137,12 +135,14 @@ parent::__construct($options);
 
 	$gridref = new Zend_Form_Element_Text('gridref');
 	$gridref->setLabel('Grid reference: ')
-	->addValidators(array('NotEmpty'))
+	->addFilters(array('StripTags','StringTrim'))
+		->addValidator('ValidGridRef')
 	->setDecorators($decorators);
 
 	$fourFigure = new Zend_Form_Element_Text('fourfigure');
 	$fourFigure->setLabel('Four figure grid reference: ')
-	->addValidators(array('NotEmpty'))
+	->addFilters(array('StripTags','StringTrim'))
+	->addValidator('ValidGridRef')
 	->setDecorators($decorators);
 
 	$denomination = new Zend_Form_Element_Select('denomination');
@@ -192,7 +192,6 @@ parent::__construct($options);
 	$obverseinsc->setLabel('Obverse inscription contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid term')
 	->setDecorators($decorators);
 
@@ -201,7 +200,6 @@ parent::__construct($options);
 	$obversedesc->setLabel('Obverse description contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid term')
 	->setDecorators($decorators);
 
@@ -210,7 +208,6 @@ parent::__construct($options);
 	$reverseinsc->setLabel('Reverse inscription contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid term')
 	->setDecorators($decorators);
 
@@ -219,7 +216,6 @@ parent::__construct($options);
 	$reversedesc->setLabel('Reverse description contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid term')
 	->setDecorators($decorators);
 
@@ -244,7 +240,6 @@ parent::__construct($options);
 	->setAttrib('class', 'none')->removeDecorator('label')
 	              ->removeDecorator('HtmlTag')
 				  ->removeDecorator('DtDdWrapper');
-	//Submit button 
 	//Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
 	$submit->setAttrib('id', 'submitbutton')

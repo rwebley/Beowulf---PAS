@@ -27,7 +27,6 @@ parent::__construct($options);
 	$term->setLabel('Decoration style term: ')
 	->setRequired(true)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid title for this decorative method!')
 	->setDecorators($decorators);
 
@@ -38,8 +37,7 @@ parent::__construct($options);
 	->setAttrib('cols',40)
 	->setAttrib('Height',400)
 	->setAttrib('ToolbarSet','Finds')
-	->addFilter('BasicHtml')
-	->addFilter('EmptyParagraph')
+	->addFilters(array('BasicHtml','EmptyParagraph'))
 	->addFilter('WordChars');
 
 	$valid = new Zend_Form_Element_Checkbox('valid');

@@ -33,7 +33,6 @@ public function __construct($options = null) {
 	->setTimeout(60);
 	$this->addElement($hash);
 
-
 	//Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
 	$submit->setLabel('Add a reverse type for this ruler')
@@ -50,7 +49,6 @@ public function __construct($options = null) {
 	$this->addDisplayGroup(array('submit'), 'submit');
 	$this->submit->removeDecorator('DtDdWrapper');
 	$this->submit->removeDecorator('HtmlTag');
-	
 	
 	$this->details->setLegend('Add an active reverse type');
 	

@@ -50,6 +50,7 @@ class ActivityForm extends Pas_Form {
 	$valid = new Zend_Form_Element_Checkbox('valid');
 	$valid->setLabel('Is this term valid?: ')
 		->setRequired(false)
+		->addValidator('NotEmpty','boolean')
 		->setDecorators($decorators);
 	
 		//Submit button 

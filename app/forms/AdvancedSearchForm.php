@@ -21,9 +21,9 @@ class AdvancedSearchForm extends Pas_Form {
 	}
 	}
 	
-	protected $higherlevel = array('admin','flos','fa','heros'); 
+	protected $higherlevel = array('admin', 'flos', 'fa', 'heros', 'treasure'); 
 	
-	protected $restricted = array('public','member','research');
+	protected $restricted = array('public', 'member', 'research');
 
 
 	public function __construct($options = null) {
@@ -31,51 +31,68 @@ class AdvancedSearchForm extends Pas_Form {
 	//Get data to form select menu for discovery methods
 	$discs = new DiscoMethods();
 	$disc_options = $discs->getOptions();
+	
 	//Get data to form select menu for manufacture methods
 	$mans = new Manufactures();
 	$man_options = $mans->getOptions();
+	
 	//Get data to form select menu for primary and secondary material
 	$primaries = new Materials();
 	$primary_options = $primaries->getPrimaries();
+	
 	//Get data to form select menu for periods
 	$periods = new Periods();
 	$period_options = $periods->getPeriodFrom();
+	
+	//Get primary material list
 	$primaries = new Materials();
 	$primary_options = $primaries->getPrimaries();
 	
+	//Get period list
 	$periods = new Periods();
 	$periodword_options = $periods->getPeriodFromWords();
+	
 	//Get data to form select menu for cultures
 	$cultures = new Cultures();
 	$culture_options = $cultures->getCultures();
+	
 	//Get data to form Surface treatments menu
 	$surfaces = new Surftreatments();
 	$surface_options = $surfaces->getSurfaces();
+	
 	//Get data to form Decoration styles menu
 	$decorations = new Decstyles();
 	$decoration_options = $decorations->getStyles();
+	
 	//Get data to form Decoration methods menu
 	$decmeths = new Decmethods();
 	$decmeth_options = $decmeths->getDecmethods();
+	
 	//Get Find of note reason data
 	$reasons = new Findofnotereasons();
 	$reason_options = $reasons->getReasons();
+	
 	//Get Preservation data
 	$preserves = new Preservations();
 	$preserve_options = $preserves->getPreserves();
+	
 	//Get Rally data
 	$rallies = new Rallies();
 	$rally_options = $rallies->getRallies();
+	
 	//Get Hoard data
 	$hoards = new Hoards();
 	$hoard_options = $hoards->getHoards();
+	
 	//Get county dropdown
 	$counties = new Counties();
 	$county_options = $counties->getCountyName2();
 	
+	//Get regions list
 	$regions = new Regions();
 	$region_options = $regions->getRegionName();
 	
+	//Set up year of discovery dropdown
 	$current_year = date('Y');
 	$years = range(1950, $current_year);
 	$years_list = array_combine($years,$years);

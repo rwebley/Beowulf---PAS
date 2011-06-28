@@ -72,14 +72,14 @@ parent::__construct($options);
 	$ruler_qualifier->setLabel('Issuer qualifier: ')
 	->addMultiOptions(array('1' => 'Certain','2' => 'Probably','3' => 'Possibly'))
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidators(array('NotEmpty','Int'))
+	->addValidators(array('NotEmpty','Integer'))
 	->setOptions(array('separator' => ''))
 	->addDecorator('HtmlTag', array('placement' => 'prepend','tag'=>'div','id'=>'radios'))
 	->setDecorators($decorators);
 	
 	$mint_ID= new Zend_Form_Element_Select('mint_id');
 	$mint_ID->setLabel('Issuing mint: ')
-	->addValidators(array('NotEmpty','Int'))
+	->addValidators(array('NotEmpty','Integer'))
 	->addMultiOptions(array(NULL => NULL,'Choose denomination' => $mint_options))
 	->setRegisterInArrayValidator(false)
 	->setDecorators($decorators);
@@ -88,7 +88,7 @@ parent::__construct($options);
 	$mint_qualifier->setLabel('Mint qualifier: ')
 	->addMultiOptions(array('1' => 'Certain','2' => 'Probably','3' => 'Possibly'))
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidators(array('NotEmpty','Int'))
+	->addValidators(array('NotEmpty','Integer'))
 	->setOptions(array('separator' => ''))
 	->addDecorator('HtmlTag', array('placement' => 'prepend','tag'=>'div','id'=>'radios'))
 	->setDecorators($decorators);
@@ -98,7 +98,7 @@ parent::__construct($options);
 	$status->setLabel('Status: ')
 	->setRegisterInArrayValidator(false)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidators(array('NotEmpty','Int'))
+	->addValidators(array('NotEmpty','Integer'))
 	->setValue(1)
 	->addMultiOptions(array(NULL => NULL,'Choose coin status' => $status_options))
 	->setDecorators($decorators);
@@ -108,7 +108,7 @@ parent::__construct($options);
 	->addMultiOptions(array('1' => 'Certain','2' => 'Probably','3' => 'Possibly'))
 	->setValue(1)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidators(array('NotEmpty','Int'))
+	->addValidators(array('NotEmpty','Integer'))
 	->setOptions(array('separator' => ''))
 	->addDecorator('HtmlTag', array('placement' => 'prepend','tag'=>'div','id'=>'radios'))
 	->setDecorators($decorators);
@@ -118,7 +118,7 @@ parent::__construct($options);
 	$degree_of_wear->setLabel('Degree of wear: ')
 	->setRegisterInArrayValidator(false)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidators(array('NotEmpty','Int'))
+	->addValidators(array('NotEmpty','Integer'))
 	->addMultiOptions(array(NULL => NULL,'Choose coin status' => $wear_options))
 	->setDecorators($decorators);
 	

@@ -8,8 +8,7 @@
 */
 class DecStylesForm extends Pas_Form
 {
-public function __construct($options = null)
-{
+public function __construct($options = null) {
 
 parent::__construct($options);
 
@@ -49,7 +48,8 @@ parent::__construct($options);
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')
-	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('label')
 	->setTimeout(60);
 	$this->addElement($hash);
 	

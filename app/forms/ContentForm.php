@@ -128,7 +128,8 @@ public function __construct($options = null)
 	$publishState = new Zend_Form_Element_Select('publishState');
 	$publishState->setLabel('Publishing status: ')
 	->addMultiOptions(array('Please choose publish state' => array('1' => 'Draft',
-	'2' => 'Admin to review', '3' => 'Published')))->setValue(1)
+	'2' => 'Admin to review', '3' => 'Published')))
+	->setValue(1)
 	->setDecorators($decorators)
 	->setRequired(true);
 	
@@ -144,6 +145,7 @@ public function __construct($options = null)
 	$frontPage = new Zend_Form_Element_Checkbox('frontPage');
 	$frontPage->setLabel('Appear on section\'s front page?: ')
 	->setDecorators($decorators)
+	->addValidator('NotEmpty','Integer')
 	->setRequired(true);
 	
 	

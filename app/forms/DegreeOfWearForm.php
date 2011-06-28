@@ -28,7 +28,6 @@ public function __construct($options = null)
 	->setRequired(true)
 	->setAttrib('size',70)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('NotEmpty')
 	->addErrorMessage('Please enter a valid title for this surface treatment')
 	->setDecorators($decorators);
 
@@ -39,9 +38,7 @@ public function __construct($options = null)
 	->setAttrib('cols',40)
 	->setAttrib('Height',400)
 	->setAttrib('ToolbarSet','Finds')
-	->addFilter('BasicHtml')
-	->addFilter('EmptyParagraph')
-	->addFilter('WordChars')
+	->addFilters(array('BasicHtml', 'EmptyParagraph', 'WordChars'))
 	->addErrorMessage('You must enter a description for this surface treatment');
 
 	$valid = new Zend_Form_Element_Checkbox('valid');
@@ -60,14 +57,13 @@ public function __construct($options = null)
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')
-	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('label')
 	->setTimeout(60);
 	$this->addElement($hash);
 
 	$this->addElements(array(
-	$term,
-	$termdesc,
-	$valid,
+	$term, $termdesc, $valid,
 	$submit));
 
 	$this->addDisplayGroup(array('term','termdesc','valid'), 'details');

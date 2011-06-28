@@ -41,7 +41,7 @@ public function __construct($options = null)
 	$period = new Zend_Form_Element_Select('period');
 	$period->setLabel('Period assigned to: ')
 	->setRequired(true)
-	->addFilter(array('StripTags','StringTrim'))
+	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('InArray', false, array(array_keys($period_options)))
 	->addMultiOptions(array(NULL => NULL, 'Choose period from' => $period_options))
 	->setDecorators($decorators)
@@ -51,7 +51,7 @@ public function __construct($options = null)
 	$material = new Zend_Form_Element_Select('material');
 	$material->setLabel('Material: ')
 	->setRequired(false)
-	->addFilter(array('StripTags','StringTrim'))
+	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('InArray', false, array(array_keys($material_options)))
 	->addMultiOptions(array(NULL => NULL,'Choose material' => $material_options))
 	->addErrorMessage('You must enter a material for this denomination.')
@@ -64,9 +64,7 @@ public function __construct($options = null)
 	->setAttrib('cols',40)
 	->setAttrib('Height',400)
 	->setAttrib('ToolbarSet','Finds')
-	->addFilter('BasicHtml')
-	->addFilter('EmptyParagraph')
-	->addFilter('WordChars')
+	->addFilters(array('BasicHtml', 'EmptyParagraph', 'WordChars'))
 	->addErrorMessage('You must enter a description for this denomination.');
 	
 	$rarity = new Zend_Form_Element_Textarea('rarity');
@@ -74,14 +72,12 @@ public function __construct($options = null)
 	->setRequired(false)
 	->setAttrib('rows',10)
 	->setAttrib('cols',70)
-	->addFilter('BasicHtml')
-	->addFilter('EmptyParagraph')
-	->addFilter('WordChars');
+	->addFilters(array('BasicHtml', 'EmptyParagraph', 'WordChars'));
 	
 	$weight = new Zend_Form_Element_Text('weight');
 	$weight->setLabel('Weight: ')
 	->setRequired(false)
-	->addFilter(array('StripTags','StringTrim'))
+	->addFilters(array('StripTags','StringTrim'))
 	->setAttrib('size',5)
 	->setDecorators($decorators);
 	
@@ -89,20 +85,20 @@ public function __construct($options = null)
 	$diameter->setLabel('Diameter: ')
 	->setRequired(false)
 	->setAttrib('size',5)
-	->addFilter(array('StripTags','StringTrim'))
+	->addFilters(array('StripTags','StringTrim'))
 	->setDecorators($decorators);
 	
 	$thickness = new Zend_Form_Element_Text('thickness');
 	$thickness->setLabel('Thickness: ')
 	->setRequired(false)
 	->setAttrib('size',5)
-	->addFilter(array('StripTags','StringTrim'))
+	->addFilters(array('StripTags','StringTrim'))
 	->setDecorators($decorators);
 	
 	$valid = new Zend_Form_Element_Checkbox('valid');
 	$valid->setLabel('Denomination in use: ')
 	->setRequired(true)
-	->addFilter(array('StripTags','StringTrim'))
+	->addFilters(array('StripTags','StringTrim'))
 	->addErrorMessage('You must set a status')
 	->setDecorators($decorators);
 	
