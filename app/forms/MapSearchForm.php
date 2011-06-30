@@ -1,26 +1,26 @@
 <?php
-class MapSearchForm extends Zend_Form
-{
-public function __construct($options = null)
-{
-$counties = new Counties();
-$county_options = $counties->getCountyName2();
+class MapSearchForm extends Pas_Form {
+	
+public function __construct($options = null) {
+	
+	$counties = new Counties();
+	$county_options = $counties->getCountyName2();
 
 parent::__construct($options);
-$this->setAttrib('accept-charset', 'UTF-8');
-$decorators = array(
-            array('ViewHelper'), 
-            array('Description', array('placement' => 'append','class' => 'info')),
-            array('Errors',array('placement' => 'append','class'=>'error','tag' => 'li')),
-            array('Label'),
-            array('HtmlTag', array('tag' => 'li')),
-		    );
-
-$this->setName('mapsearch');
-
-$latitude = new Zend_Form_Element_Text('declat');
-$latitude->setLabel('Latitude: ')
-->setDecorators($decorators);
+	$this->setAttrib('accept-charset', 'UTF-8');
+	$decorators = array(
+	            array('ViewHelper'), 
+	            array('Description', array('placement' => 'append','class' => 'info')),
+	            array('Errors',array('placement' => 'append','class'=>'error','tag' => 'li')),
+	            array('Label'),
+	            array('HtmlTag', array('tag' => 'li')),
+			    );
+	
+	$this->setName('mapsearch');
+	
+	$latitude = new Zend_Form_Element_Text('declat');
+	$latitude->setLabel('Latitude: ')
+	->setDecorators($decorators);
 
 $longitude = new Zend_Form_Element_Text('declong');
 $longitude->setLabel('Longitude: ')
