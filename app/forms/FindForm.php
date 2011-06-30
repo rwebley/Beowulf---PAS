@@ -162,7 +162,6 @@ public function __construct($options = null) {
 	->setRequired(false)
 	->setAttrib('rows',5)
 	->setAttrib('cols',60)
-	->addFilter('StringTrim')
 	->setAttrib('ToolbarSet','Finds')
 	->setAttrib('Height',250)
 	->addFilters(array('StringTrim', 'BasicHtml', 'EmptyParagraph', 'WordChars'));

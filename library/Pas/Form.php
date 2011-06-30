@@ -43,12 +43,14 @@ class Pas_Form extends Zend_Form {
     public function __construct($options = null) {
 	$this->addElementPrefixPath('Pas_Filter', 'Pas/Filter/', 'filter');
 	$this->addPrefixPath('Pas_Form_Element', 'Pas/Form/Element', 'element')
-		->addPrefixPath('Pas_Form_Decorator', 'Pas/Form/Decorator', 'decorator');
+	->addPrefixPath('Pas_Form_Decorator', 'Pas/Form/Decorator', 'decorator');
 	$this->addElementPrefixPath('Pas_Validate', 'Pas/Validate/', 'validate');
+	
 	parent::__construct($options);
 
 	$this->setAttrib('accept-charset', 'UTF-8');
 	$this->clearDecorators();
+	
 	$this->setDecorators(array(
 		'FormElements',
 		'Form'
