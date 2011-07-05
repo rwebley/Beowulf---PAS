@@ -378,7 +378,6 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	
  	$config = Zend_Registry::get('config');
 	$_formsalt = $config->form->salt;
- 
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($_formsalt)
 	->removeDecorator('DtDdWrapper')

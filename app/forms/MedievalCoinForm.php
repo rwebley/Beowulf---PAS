@@ -1,5 +1,10 @@
 <?php
-
+/** Form for setting up and editing medieval coin data
+* @category   Pas
+* @package    Pas_Form
+* @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
+* @license    GNU General Public License
+*/
 class MedievalCoinForm extends Pas_Form {
 
 public function __construct($options = null) {

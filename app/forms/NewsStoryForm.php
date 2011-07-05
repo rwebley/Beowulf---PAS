@@ -1,5 +1,10 @@
 <?php
-
+/** Form for creating and editing news stories for the Scheme website
+* @category   Pas
+* @package    Pas_Form
+* @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
+* @license    GNU General Public License
+*/
 class NewsStoryForm extends Pas_Form {
 
 	public function __construct($options = null) {
@@ -30,92 +35,94 @@ class NewsStoryForm extends Pas_Form {
 
 	$summary = new Zend_Form_Element_Textarea('summary');
 	$summary->setLabel('Short summary: ')
-			->setRequired(true)
-			->setAttrib('rows',5)
-			->setAttrib('cols',70)
-			->addFilter('StripTags')
-			->addFilter('BasicHtml')
-			->addFilter('EmptyParagraph')
-			->addFilter('StringTrim');
+		->setRequired(true)
+		->setAttrib('rows',5)
+		->setAttrib('cols',70)
+		->addFilters(array('StripTags','StringTrim'))
+		->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 	
 	$contents = new Pas_Form_Element_RTE('contents');
 	$contents->setLabel('News story content: ')
-			->setRequired(true)
-			->setAttrib('rows',10)
-			->setAttrib('cols',70)
-			->setAttrib('Height',400)
-			->addFilter('WordChars')
-			->addFilter('HtmlBody')
-			->addFilter('EmptyParagraph')
-			->addFilter('StringTrim');
+		->setRequired(true)
+		->setAttrib('rows',10)
+		->setAttrib('cols',40)
+		->setAttrib('Height',400)
+		->setAttrib('ToolbarSet','Finds')
+		->addFilters(array('StringTrim', 'BasicHtml', 'EmptyParagraph', 'WordChars'));
 	
 	$address = new Zend_Form_Element_Text('primaryNewsLocation');
 	$address->setLabel('News address (puts it on map): ')
-			->setRequired(true)
-			->setAttrib('size',50)
-			->addFilter('StripTags')
-			->setDecorators($decorators);
+		->setRequired(true)
+		->setAttrib('size',50)
+		->addFilters(array('StripTags','StringTrim'))
+		->setDecorators($decorators)
+		->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 	
 	$author = new Zend_Form_Element_Text('author');
 	$author->setLabel('Principal author: ')
-			->setRequired(true)
-			->setAttrib('size',60)
-			->addErrorMessage('Please enter a title for this story.')
-			->setDecorators($decorators);
-	
-	
+		->setRequired(true)
+		->setAttrib('size',60)
+		->addErrorMessage('Please enter a title for this story.')
+		->setDecorators($decorators)
+		->addFilters(array('StripTags','StringTrim'))
+		->addValidator('Alnum',false, array('allowWhiteSpace' => true));
+
 	$contactEmail = new Zend_Form_Element_Text('contactEmail');
 	$contactEmail->setLabel('Contact email address: ')
-			->setRequired(false)
-			->setAttrib('size',50)
-			->addErrorMessage('Please enter a title for this story.')
-			->setDecorators($decorators);
+		->setRequired(false)
+		->setAttrib('size',50)
+		->addErrorMessage('Please enter a valid email.')
+		->addFilters(array('StripTags','StringTrim', 'StringToLower'))
+		->addValidator('EmailAddress')
+		->setDecorators($decorators);
 	
 	$contactName = new Zend_Form_Element_Text('contactName');
 	$contactName->setLabel('Contact name: ')
-			->setRequired(false)->setAttrib('size',50)
-			->addErrorMessage('Please enter a title for this story.')
-			->setDecorators($decorators);
+		->setRequired(false)
+		->setAttrib('size',50)
+		->addErrorMessage('Please enter a title for this story.')
+		->setDecorators($decorators)
+		->addFilters(array('StripTags','StringTrim'))
+		->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 	
 	$contactTel = new Zend_Form_Element_Text('contactTel');
 	$contactTel->setLabel('Contact telephone number: ')
-			->setRequired(false)
-			->addErrorMessage('Please enter a valid telephone number.')
-			->setDecorators($decorators);
+		->addFilters(array('StripTags','StringTrim'))
+		->setRequired(false)
+		->addErrorMessage('Please enter a valid telephone number.')
+		->setDecorators($decorators)
+		->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 	
 	$keywords = new Zend_Form_Element_Text('keywords');
 	$keywords->setLabel('Keywords for the story: ')
-			->setRequired(false)
-			->setAttrib('size',50)
-			->addErrorMessage('Please enter a valid tags.')
-			->setDecorators($decorators);
+		->setRequired(false)
+		->addFilters(array('StripTags','StringTrim'))
+		->setAttrib('size',50)
+		->addErrorMessage('Please enter a valid tags.')
+		->setDecorators($decorators);
 	
 	$golive = new ZendX_JQuery_Form_Element_DatePicker('golive');
 	$golive->setLabel('News story to go live: ')
-			->setRequired(true)
-			->setJQueryParam('dateFormat', 'yy-mm-dd')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->addValidator('NotEmpty')
-			->setAttrib('size', 20)
-			->removeDecorator('DtDdWrapper')
-			->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'li'));
-	
+		->setRequired(true)
+		->setJQueryParam('dateFormat', 'yy-mm-dd')
+		->addFilters(array('StripTags','StringTrim'))
+		->setAttrib('size', 20)
+		->removeDecorator('DtDdWrapper')
+		->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'li'));
 	
 	$publishstate = new Zend_Form_Element_Radio('publish_state');
 	$publishstate->setLabel('Publication state: ')
-			->addMultiOptions(array('0' => 'Draft','1' => 'Publish',))
-			->setValue(1)
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->setOptions(array('separator' => ''))
-			->setDecorators($decorators);
+		->addMultiOptions(array('0' => 'Draft','1' => 'Publish',))
+		->setValue(1)
+		->addFilters(array('StripTags','StringTrim'))
+		->setOptions(array('separator' => ''))
+		->setDecorators($decorators);
 	
 	$submit = new Zend_Form_Element_Submit('submit');
 	$submit->setAttrib('id', 'submit')
-			->setAttrib('class', 'large')
-			->removeDecorator('DtDdWrapper')
-			->removeDecorator('HtmlTag');
+		->setAttrib('class', 'large')
+		->removeDecorator('DtDdWrapper')
+		->removeDecorator('HtmlTag');
 
 	$this->addElements(array( 
 	$title, $summary, $contents,
@@ -123,11 +130,21 @@ class NewsStoryForm extends Pas_Form {
 	$contactName, $keywords, $address,
 	$golive, $publishstate, $submit));
 
-	$this->addDisplayGroup(array('title', 'summary', 'contents', 
-								'author', 'contactName', 'contactTel', 
-								'contactEmail', 'primaryNewsLocation', 'keywords',
-								'golive', 'publish_state'), 
-								'details')->removeDecorator('HtmlTag');
+	$config = Zend_Registry::get('config');
+	$_formsalt = $config->form->salt;
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($_formsalt)
+		->removeDecorator('DtDdWrapper')
+		->removeDecorator('HtmlTag')->removeDecorator('label')
+		->setTimeout(4800);
+	$this->addElement($hash);
+	
+	$this->addDisplayGroup(array(
+	'title', 'summary', 'contents', 
+	'author', 'contactName', 'contactTel', 
+	'contactEmail', 'primaryNewsLocation', 'keywords',
+	'golive', 'publish_state'), 
+	'details')->removeDecorator('HtmlTag');
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	$this->details->removeDecorator('HtmlTag');
@@ -136,7 +153,5 @@ class NewsStoryForm extends Pas_Form {
 	$this->addDisplayGroup(array('submit'), 'submit');
 	$this->submit->removeDecorator('DtDdWrapper');
 	$this->submit->removeDecorator('HtmlTag');
-	      
-
-}
+	}
 }
