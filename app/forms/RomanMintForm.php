@@ -1,96 +1,88 @@
 <?php
+/** Form for adding and editing Roman mints
+* This is one of the most important forms of the entire site. 
+* 
+* @category   Pas
+* @package    Pas_Form
+* @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
+* @license    GNU General Public License
+*/
+class RomanMintForm extends Pas_Form {
 
-require_once 'Mints.php';
+public function __construct($options = null) {
 
-class RomanMintForm extends Zend_Form
-{
-public function __construct($options = null)
-{
+	parent::__construct($options);
 
+	$mints = new Mints();
+	$mints_options = $mints->getRomanMints();
 
-parent::__construct($options);
+	$this->setDecorators(array('FormElements', 'Fieldset', 'Form'));
+	
+	$this->setName('romanmints');
 
-$mints = new Mints();
-$mints_options = $mints->getRomanMints();
+	$id = new Zend_Form_Element_Hidden('ID');
+	$id->removeDecorator('label')
+		->removeDecorator('HtmlTag');
 
+	$name = new Zend_Form_Element_Text('name');
+	$name->setLabel('Issuing mint known as: ')
+		->setRequired(true)
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('Alnum', false, array('allowWhiteSpace' => true));
 
-$this->setAttrib('accept-charset', 'UTF-8');
-       
-	   $this->setDecorators(array(
-            'FormElements',
-            'Fieldset',
-            'Form',
-			
-        ));
-$this->setName('romanmints');
+	$description = new Zend_Form_Element_TextArea('description');
+	$description->setLabel('Description of mint: ')
+		->addFilters(array('BasicHtml', 'StringTrim', 'EmptyParagraph'))
+		->setAttribs(array('cols' => 50, 'rows' => 10))
+		->setAttrib('class','expanding');
 
-$id = new Zend_Form_Element_Hidden('ID');
-$id->removeDecorator('label')
-   ->removeDecorator('HtmlTag');
+	$abbrev = new Zend_Form_Element_Text('abbrev');
+	$abbrev->setLabel('Abbreviation appearing on coins: ')
+		->setRequired(true)
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('NotEmpty')
+		->addValidator('Alnum', false, array('allowWhiteSpace' => true));
 
-$name = new Zend_Form_Element_Text('name');
-$name->setLabel('Issuing mint known as: ')
-->setRequired(true)
-->addFilter('StripTags')
-->addFilter('StringTrim')
-->addValidator('NotEmpty')
-->addErrorMessage('Come on it\'s not that hard, enter a firstname!');
+	$latitude = new Zend_Form_Element_Text('latitude');
+	$latitude->setLabel('Latitude: ')
+		->setRequired(true)
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('Float');
 
-$description = new Zend_Form_Element_TextArea('description');
-$description->setLabel('Description of mint: ')
-->setRequired(false)
-->addFilter('StringTrim')
-->addFilter('StripTags')
-->setAttribs(array('cols' => 50, 'rows' => 10))
-->setAttrib('class','expanding');
+	$longitude = new Zend_Form_Element_Text('longitude');
+	$longitude->setLabel('Longitude: ')
+		->setRequired(true)
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('Float');
 
-$abbrev = new Zend_Form_Element_Text('abbrev');
-$abbrev->setLabel('Abbreviation appearing on coins: ')
-->setRequired(true)
-->addFilter('StripTags')
-->addFilter('StringTrim')
-->addValidator('NotEmpty');
+	$pasID = new Zend_Form_Element_Select('pasID');
+	$pasID->setLabel('Corresponding database entry: ')
+		->addFilters(array('StripTags', 'StringTrim'))
+		->addValidator('InArray', false, array(array_keys($mints_options)))
+		->addMultiOptions($mints_options);
 
+	$config = Zend_Registry::get('config');
+	$_formsalt = $config->form->salt;
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($_formsalt)
+		->removeDecorator('DtDdWrapper')
+		->removeDecorator('HtmlTag')
+		->removeDecorator('label')
+		->setTimeout(4800);
+	//Submit button 
+	$submit = new Zend_Form_Element_Submit('submit');
+	$submit->setAttrib('id', 'submitbutton');
 
-$latitude = new Zend_Form_Element_Text('latitude');
-$latitude->setLabel('Latitude: ')
-->setRequired(true)
-->addFilter('StripTags')
-->addFilter('StringTrim')
-->addValidator('NotEmpty');
+	$this->addElements(array(
+	$id, $name, $description,
+	$latitude, $longitude, $pasID,
+	$abbrev, $submit, $hash));
 
-$longitude = new Zend_Form_Element_Text('longitude');
-$longitude->setLabel('Longitude: ')
-->setRequired(true)
-->addFilter('StripTags')
-->addFilter('StringTrim')
-->addValidator('NotEmpty');
-
-$pasID = new Zend_Form_Element_Select('pasID');
-$pasID->setLabel('Corresponding database entry: ')
-->setRequired(false)
-->addFilter('StripTags')
-->addFilter('StringTrim')
-->addValidator('inArray', false, array(array_keys($mints_options)))
-->addMultiOptions($mints_options)
-;
-
-//Submit button 
-$submit = new Zend_Form_Element_Submit('submit');
-$submit->setAttrib('id', 'submitbutton');
-
-$this->addElements(array(
-$id, 
-$name, 
-$description,
-$latitude,
-$longitude,
-$pasID,
-$abbrev,
-$submit));
-
-$this->addDisplayGroup(array('name','description','abbrev','pasID','latitude','longitude'), 'details');
-$this->setLegend('Active Roman Mints');
-$this->addDisplayGroup(array('submit'), 'submit');
-}
+	$this->addDisplayGroup(array(
+	'name', 'description', 'abbrev',
+	'pasID', 'latitude', 'longitude'),
+	'details');
+	$this->setLegend('Active Roman Mints');
+	$this->addDisplayGroup(array('submit'), 'submit');
+	}
 }

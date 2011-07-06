@@ -239,6 +239,15 @@ public function __construct($options = null) {
 	$reversedesc, $objecttype, $broadperiod,
 	$cat, $submit));
 	
+	$config = Zend_Registry::get('config');
+	$_formsalt = $config->form->salt;
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($_formsalt)
+		->removeDecorator('DtDdWrapper')
+		->removeDecorator('HtmlTag')->removeDecorator('label')
+		->setTimeout(4800);
+	$this->addElement($hash);
+	
 	$this->addDisplayGroup(array(
 	'category', 'ruler', 'typeID',
 	'denomination', 'mint','moneyer',

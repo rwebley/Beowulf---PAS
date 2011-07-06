@@ -97,7 +97,6 @@ public function __construct($options = null) {
 	$eventEndDate = new ZendX_JQuery_Form_Element_DatePicker('eventEndDate');
 	$eventEndDate->setLabel('Event end date: ')
 	->setRequired(false)
-	->addFilters(array('StripTags','StringTrim'))
 	->setJQueryParam('dateFormat', 'yy-mm-dd')
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('Date')
