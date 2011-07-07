@@ -1,0 +1,21 @@
+<?php     
+$this->headTitle('Allen types listed');
+?>
+<h2>Allen types</h2>
+<?php if($this->allens):?> 
+<table summary="A list of all Allen types in use" class="stripeMe">
+<caption>All Allen types</caption>
+<thead>
+<tr>
+<th>Type name</th>
+<th>Totals recorded</th>
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/numismatics/allen.phtml',$this->allens);?>
+</tbody>
+</table>
+<?php  $this->paginationControl($this->allens, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php else:?>
+<p>No Allen types available</p>
+<?php endif;?>

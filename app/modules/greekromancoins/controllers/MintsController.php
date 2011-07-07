@@ -32,11 +32,13 @@ class GreekRomanCoins_MintsController extends Pas_Controller_ActionAdmin {
 	/** Set up the mint action
 	*/     
     public function mintAction() {
-    
+	if($this->_getParam('id',false)){    
     $byzantium = new Mints();
     $this->view->byzantium = $byzantium->getMintDetails($this->_getParam('id'));
-	
     $images = new Slides();
 	$this->view->images = $images->getExamplesCoinsMints($this->_getParam('id'),4);
+	} else {
+	throw new Pas_ParamException($this->_missingParameter);		
+	}
     }
 }

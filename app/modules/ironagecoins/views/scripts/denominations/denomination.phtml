@@ -1,0 +1,11 @@
+<?php echo $this->partialLoop('partials/numismatics/romanDenom.phtml', $this->denoms) ;?>
+<h3>Geographic regions producing this coinage</h3>
+<ul id="related">
+<?php echo $this->partialLoop('partials/numismatics/ironageregions.phtml',$this->regions);?>
+</ul>
+<?php if($this->images):?>
+<h3>Latest examples recorded</h3>
+<div id="latest">
+<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
+</div>
+<?php endif;?>
