@@ -1,0 +1,359 @@
+<?php 
+	
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript');
+$config = Zend_Registry::get('config');
+$apikey = $config->googlemaps->apikey;
+$this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$apikey,$type='text/javascript');
+$this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+ $(document).ready(function(){
+ 
+if (GBrowserIsCompatible()) {
+ 	  var gmarkers = [];
+      var htmls = [];
+      var i = 0;
+   	  var Icon = new GIcon();
+      
+      Icon.image = 'http://labs.google.com/ridefinder/images/mm_20_red.png';
+      Icon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Icon.iconSize = new GSize( 12, 20 );
+      Icon.shadowSize = new GSize( 22, 20 );
+      Icon.iconAnchor = new GPoint( 6, 20 );
+      Icon.infoWindowAnchor = new GPoint( 5, 1 );
+      Icon.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+	  var Yellow = new GIcon();
+      Yellow.image = 'http://labs.google.com/ridefinder/images/mm_20_yellow.png';
+      Yellow.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Yellow.iconSize = new GSize( 12, 20 );
+      Yellow.shadowSize = new GSize( 22, 20 );
+      Yellow.iconAnchor = new GPoint( 6, 20 );
+      Yellow.infoWindowAnchor = new GPoint( 5, 1 );
+      Yellow.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+	  
+	  var Black = new GIcon();
+      Black.image = 'http://labs.google.com/ridefinder/images/mm_20_black.png';
+      Black.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Black.iconSize = new GSize( 12, 20 );
+      Black.shadowSize = new GSize( 22, 20 );
+      Black.iconAnchor = new GPoint( 6, 20 );
+      Black.infoWindowAnchor = new GPoint( 5, 1 );
+      Black.infoShadowAnchor = new GPoint( 5, 1 );
+	    
+	  var Green = new GIcon();
+      Green.image = 'http://labs.google.com/ridefinder/images/mm_20_green.png';
+      Green.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Green.iconSize = new GSize( 12, 20 );
+      Green.shadowSize = new GSize( 22, 20 );
+      Green.iconAnchor = new GPoint( 6, 20 );
+      Green.infoWindowAnchor = new GPoint( 5, 1 );
+      Green.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+      var clusterIcon = new GIcon();
+      clusterIcon.image = 'http://labs.google.com/ridefinder/images/mm_20_blue.png';
+      clusterIcon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      clusterIcon.iconSize = new GSize( 12, 20 );
+      clusterIcon.shadowSize = new GSize( 22, 20 );
+      clusterIcon.iconAnchor = new GPoint( 6, 20 );
+      clusterIcon.infoWindowAnchor = new GPoint( 5, 1 );
+      clusterIcon.infoShadowAnchor = new GPoint( 5, 1 );
+   	
+   	  var copyOSM = new GCopyrightCollection('<a href="http://www.openstreetmap.org/">OpenStreetMap</a>');
+  	  copyOSM.addCopyright(new GCopyright(1,new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)),
+    	0, ' '));
+	
+	  var osmLayer = new GTileLayer(copyOSM, 0, 18, {
+    tileUrlTemplate: 'http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/998/256/{Z}/{X}/{Y}.png',
+    isPng: true,
+    opacity: 1.0
+  });
+
+	  
+ 	var osmMap = new GMapType(
+    [osmLayer], // list of layers
+    G_NORMAL_MAP.getProjection(), // borrow the Mercator projection from the standard map
+    'OSM' // name should be short enough to fit in button
+  );
+   	  
+   	  var map = new GMap2(document.getElementById("mapobjects"));
+		
+        map.addControl(new GSmallMapControl());
+		map.addControl(new GMenuMapTypeControl());
+		//map.addControl (new GHierarchicalMapTypeControl());
+		map.addMapType(G_PHYSICAL_MAP);
+		map.addMapType(osmMap);
+		map.addMapType(G_SATELLITE_3D_MAP);
+        map.setCenter(new GLatLng(52.6164, -1.0547), 6 , G_PHYSICAL_MAP);
+		map.enableContinuousZoom();
+		map.addControl(new GScaleControl());
+    	map.disableScrollWheelZoom(); 
+		map.enableRotation();	  
+	  
+	  <?php
+		
+		
+$auth = Zend_Registry::get('auth');
+$allowed = array('flos','research','hero','fa','admin','treasure');
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+{
+ if(!in_array($user->role,$allowed)) 
+ {
+
+		
+	    
+   echo "var mt = map.getMapTypes();for (var i=0; i<mt.length; i++) {
+        mt[i].getMinimumResolution = function() {return 2;}
+        mt[i].getMaximumResolution = function() {return 11;}
+      }"; 
+	  }
+	  } 
+	  
+	  } else {
+	   echo "var mt = map.getMapTypes();for (var i=0; i<mt.length; i++) {
+        mt[i].getMinimumResolution = function() {return 2;}
+        mt[i].getMaximumResolution = function() {return 11;}
+      }"; 
+	  }
+	  ?>
+	  var customIcons = [];
+	  customIcons["review"] = Icon;
+	  customIcons["quarantine"] = Black;
+	  customIcons["published"] = Green;
+	  customIcons["validation"] = Yellow;
+
+      var clusterer = new Clusterer(map);
+      clusterer.icon = clusterIcon;      
+      clusterer.maxVisibleMarkers = 150;
+      clusterer.gridSize = 18;
+      clusterer.minMarkersPerClusterer = 2;
+      clusterer.maxLinesPerInfoBox = 4;
+	                  
+      var request = GXmlHttp.create();
+      request.open("GET", "<?php echo $this->baseUrl();?>/ajax/mapdata/ruler/<?php echo $this->monarchs['0']['id'];?>", true);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          var xmlDoc = request.responseXML;
+          var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+          for (var i = 0; i < markers.length; i++) {
+          var lat = parseFloat(markers[i].getAttribute("lat"));
+          var lng = parseFloat(markers[i].getAttribute("lng"));
+          var point = new GLatLng(lat,lng);
+          var html = markers[i].getAttribute("name");
+          var label = markers[i].getAttribute("name");
+		  var workflow = markers[i].getAttribute("workflow");
+		 
+
+          var marker = createMarker(point,label,html,Icon);
+          clusterer.AddMarker(marker, label);
+          }
+         }
+		 
+		function createMarker(point,name,html,icon) {
+        var marker = new GMarker(point, customIcons[workflow]);
+		
+		 GEvent.addListener(marker, "click", function(){ 
+          marker.openInfoWindowHtml(html,{maxWidth:360,maxHeight:350});
+  	  });
+		
+        
+        gmarkers[i] = marker;
+        htmls[i] = html;
+        return marker;
+      }
+      }
+      request.send(null);
+ }
+ 
+ 
+$('#tabs').tabs({ fx: { opacity: 'toggle' } }); 
+$('#tabs').bind('tabsshow', function(event, ui) {
+    if (ui.panel.id == "mapobjects") {
+        map.checkResize();
+    }	 
+
+jQuery('a[href=#mapobjects]').bind('click',fixMap);
+
+function fixMap(event) {
+	  
+	  
+	  }
+	
+		
+});
+
+ });
+<?php 
+$this->jQuery()->javascriptCaptureEnd(); 
+?>
+<?php
+$this->inlineScript()->appendFile($this->baseUrl().'/js/maps/clusterer.js',$type='text/javascript');
+?>
+<?php echo $this->partialLoop('partials/numismatics/rulerProfile.phtml', $this->monarchs) ?>
+
+<?php 
+ini_set('display_errors', '0');     # don't show any errors...
+error_reporting(E_ALL | E_STRICT);  # ...but do log them		
+$config = array('remote_store_endpoint' => 'http://dbpedia.org/sparql');
+$store = ARC2::getRemoteStore($config);
+//build the SPARQL query
+$q = '
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX : <http://dbpedia.org/resource/>
+PREFIX dbpedia2: <http://dbpedia.org/property/>
+PREFIX dbpedia: <http://dbpedia.org/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+
+SELECT *
+
+WHERE {
+?king foaf:page <http://en.wikipedia.org/wiki/'.urlencode(str_replace(array(' (first reign)',' (second reign)',' '),array('','','_'),ucfirst($this->monarchs['0']['issuer']))).'> .
+OPTIONAL {?king dbpedia-owl:abstract ?abstract} .
+OPTIONAL {?king foaf:depiction ?depiction}.
+OPTIONAL {?king dbpedia-owl:thumbnail ?thumb} .
+OPTIONAL {?king dbpedia2:imgw ?imgw} .
+
+
+?king foaf:page ?page.
+FILTER langMatches( lang(?abstract), "en") 
+
+}
+LIMIT 1
+';
+//process the results
+
+//Zend_Debug::dump($q);
+$results = array();
+if ($rows = $store->query($q, 'rows')) {
+foreach ($rows as $row) {
+//Zend_Debug::dump($row);
+$chunks = split('\. ',str_replace('c.','circa',$row['abstract']));
+  foreach($chunks as $key=>$c){
+    $chunks[$key] = ($key%3==0) ? ($c . '.</p><p>') : ($c.'. ');
+  }
+
+ $abs = '<p>' . join($chunks). '</p>';
+ $trimmed = $this->ellipsisstring($abs,200);
+
+ $this->headMeta($trimmed,'dc.description');
+echo '<h4>Wikipedia derived information</h4>';
+if(isset($row['thumb'])) {
+echo '<a href="'.$row['depiction'].'" rel="lightbox" title="' .str_replace('"','',$row['caption']) .'"><img src="'.$row['thumb'].'" class="flow" alt="' .str_replace('"','',$row['caption']) .'" width="'.$row['imgw'].'"/></a>';
+}
+echo '<p>'.$abs.'</p>';
+echo '<p>';
+if(isset($row['title'])) {
+echo 'Title: '. $row['title'] . '<br />';
+}
+//echo 'Patronage: '.$row['patronage'].'<br />';
+if(isset($row['reign'])) {
+echo 'Exact reign: '.strip_tags(rawurldecode(str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),$row['reign']))).'<br />';
+}
+if(isset($row['years'])){
+echo 'Years ruled: '.rawurldecode($row['years']).'<br />';
+}
+if(isset($row['spouse'])){
+echo 'Spouse: '.rawurldecode(str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),strip_tags($row['spouse']))).'<br />';
+}
+if(isset($row['bp'])) {
+echo 'Birth place: '.str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),rawurldecode($row['bp'])).'<br />';
+}
+if(isset($row['mother'])){
+echo 'Mother: '.str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),rawurldecode($row['mother'])).'<br />';
+}
+if(isset($row['father'])){
+echo 'Father: '.rawurldecode(str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),$row['father'])).'<br />';
+}
+if(isset($row['successor'])) {
+echo 'Succeeded by: ' .str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),$row['successor']).'<br />';
+}
+if(isset($row['burial'])){
+echo 'Burial place: '.rawurldecode(str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),$row['burial'])).'<br />';
+}
+if(isset($row['dob'])) {
+echo 'Date of birth: '.$row['dob'].'<br />';
+}
+if(isset($row['dod'])) {
+echo 'Date of death: '.$row['dod'].'<br />';
+}
+if(isset($row['dp'])) {
+echo 'Died at: '.rawurldecode(str_replace(array('http://dbpedia.org/resource/','_'),array('',' '),$row['dp'])).'<br />';
+}
+
+if(isset($row['alt'])) {
+echo 'Alternative names: '.$row['alt'].'<br />';
+}
+echo 'Wikipedia page: <a href="'.$row['page'].'" title="Go to the Wikipedia entry for '.$row['name'].'">' . urldecode($row['page']) . '</a><br />';
+
+echo 'This data is sourced from dbpedia, and as such should be treated with caution';
+echo '</p>';
+}
+}
+?> 
+<?php if($this->images):?>
+<h3>Latest examples recorded</h3>
+<div id="latest">
+<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
+</div>
+<?php endif;?>
+
+ <div id="tabs"  >
+
+  <ul>
+       
+        <li><a href="#denominations"><span>Denominations issued</span></a></li>
+		 <li><a href="#mints"><span>Issuing mints</span></a></li>
+        <li><a href="#types"><span>Types issued</span></a></li>
+        <li><a href="#mapobjects"><span>Findspots</span></a></li>
+    </ul>
+
+<div id="denominations">
+<?php 
+if (count($this->denominations > 0)) {
+echo '<h3>Denominations issued</h3><ul id="related">';
+echo $this->partialLoop('partials/numismatics/denomination.phtml', $this->denominations);
+echo '</ul>';
+}
+?>
+</div>
+<div id="mints">
+<?php 
+if(count($this->mints > 0)) {
+echo '<h3>Active Mints</h3>';
+echo '<ul id="related">';
+echo $this->partialLoop('partials/numismatics/medmintsList.phtml', $this->mints);
+echo '</ul>';
+}
+?>
+</div>
+
+<div id="types">
+<?php if(count($this->types > 0 )) {
+echo '<h3>';
+echo count($this->types);
+echo ' coin types issued</h3>';
+echo '<ul id="related">';
+echo $this->partialLoop('partials/numismatics/types.phtml', $this->types);
+echo '</ul>';
+}
+?>
+</div>
+
+
+
+
+<div id="mapobjects"></div>
+</div>

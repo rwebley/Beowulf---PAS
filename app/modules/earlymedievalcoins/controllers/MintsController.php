@@ -15,23 +15,21 @@ class EarlyMedievalCoins_MintsController extends Pas_Controller_ActionAdmin
  	$this->_helper->_acl->allow(null);
     $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
-			 ->setAutoDisableLayout(true)
-			 ->addActionContext('index', array('xml','json'))
-			 ->addActionContext('mint', array('xml','json'))
-             ->initContext();
+		->setAutoDisableLayout(true)
+		->addActionContext('index', array('xml','json'))
+		->addActionContext('mint', array('xml','json'))
+		->initContext();
     }
-    
 	/** Internal period number for querying the database
 	*/
 	protected $_period = '47';
   
 	/** Set up index page for mints
 	*/    
-    public function indexAction() {
+	public function indexAction() {
 	$mints = new Mints();
 	$this->view->mints = $mints->getListMints($this->_period);
 	}
-	
 	/** Get details of each individual mint
 	* @param int $id mint number
 	*/

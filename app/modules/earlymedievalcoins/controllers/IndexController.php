@@ -24,10 +24,9 @@ class EarlyMedievalCoins_IndexController extends Pas_Controller_ActionAdmin {
 		->addActionContext('tribe', array('xml','json','rss','atom'))
 		->initContext();
     }
-
 	/** Set up index page
 	*/ 
-    public  function indexAction() {
+	public  function indexAction() {
 		$content = new Content();
 		$this->view->content =  $content->getFrontContent('earlymedievalcoins');
 		$images = new Slides();

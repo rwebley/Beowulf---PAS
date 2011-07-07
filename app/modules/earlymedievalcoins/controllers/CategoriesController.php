@@ -12,13 +12,13 @@ class EarlyMedievalCoins_CategoriesController extends Pas_Controller_ActionAdmin
 	/** Initialise the ACL and contexts
 	*/
 	public function init()  {
-	 	$this->_helper->_acl->allow(null);
-	    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$this->_helper->contextSwitch()
-			->setAutoDisableLayout(true)
-			->addActionContext('index', array('xml','json'))
-			->addActionContext('category', array('xml','json'))
-			->initContext();
+	$this->_helper->_acl->allow(null);
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$this->_helper->contextSwitch()
+		->setAutoDisableLayout(true)
+		->addActionContext('index', array('xml','json'))
+		->addActionContext('category', array('xml','json'))
+		->initContext();
     }
 
 	/** Internal period number for querying the database
@@ -27,7 +27,7 @@ class EarlyMedievalCoins_CategoriesController extends Pas_Controller_ActionAdmin
    
 	/** Set up index page for categories
 	*/
-    public function indexAction() {
+	public function indexAction() {
 		$categories = new CategoriesCoins();
 		$this->view->categories = $categories->getCategoriesPeriod($this->_period);
 	}

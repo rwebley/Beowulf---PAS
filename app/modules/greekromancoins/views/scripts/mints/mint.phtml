@@ -1,0 +1,7 @@
+<?php echo $this->partialLoop('partials/numismatics/medMintDetail.phtml',$this->byzantium);?>
+<?php if($this->images):?>
+<h3>Latest examples recorded</h3>
+<div id="latest">
+<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
+</div>
+<?php endif;?>

@@ -15,17 +15,16 @@ class EarlyMedievalCoins_RulersController extends Pas_Controller_ActionAdmin {
  	$this->_helper->_acl->allow(null);
     $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
-			 ->setAutoDisableLayout(true)
-			 ->addActionContext('index', array('xml','json'))
-			 ->addActionContext('ruler', array('xml','json'))
-			 ->addActionContext('foreign', array('xml','json'))
-             ->initContext();
+		->setAutoDisableLayout(true)
+		->addActionContext('index', array('xml','json'))
+		->addActionContext('ruler', array('xml','json'))
+		->addActionContext('foreign', array('xml','json'))
+		->initContext();
     }
 
 	/** Internal period number for querying the database
 	*/
 	protected $_period = '47';
-	
    	/** Set up the index page for rulers of each period or dynastic group.
 	*/
 	public function indexAction() {

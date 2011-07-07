@@ -12,13 +12,13 @@ class EarlyMedievalCoins_DenominationsController extends Pas_Controller_ActionAd
 	/** Initialise the ACL and contexts
 	*/
 	public function init() {
- 	$this->_helper->_acl->allow(null);
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$this->_helper->_acl->allow(null);
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
-			 ->setAutoDisableLayout(true)
-			 ->addActionContext('index', array('xml','json'))
-			 ->addActionContext('denomination', array('xml','json'))
-             ->initContext();
+		->setAutoDisableLayout(true)
+		->addActionContext('index', array('xml','json'))
+		->addActionContext('denomination', array('xml','json'))
+		->initContext();
     }
 
 	/** Internal period number for querying the database
@@ -27,7 +27,7 @@ class EarlyMedievalCoins_DenominationsController extends Pas_Controller_ActionAd
 	
 	/** Set up index page for denominations
 	*/    
-    public function indexAction() {
+	public function indexAction() {
 	$denominations = new Denominations();
 	$denominations = $denominations->getDenominations($this->_period,null);
 	if(in_array($this->_helper->contextSwitch()->getCurrentContext(), array('json'))) {
