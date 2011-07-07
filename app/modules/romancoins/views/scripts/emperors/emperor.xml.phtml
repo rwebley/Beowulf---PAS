@@ -1,0 +1,58 @@
+<?php header('Content-Type: application/rss+xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';
+$siteurl = Zend_Registry::get('siteurl');
+?>
+<response>
+<meta>
+	<html><?php echo $siteurl;?>/romancoins/emperors/emperor/id/<?php echo $this->emps['0']['id'];?></html>
+	<xml><?php echo $siteurl;?>/romancoins/emperors/emperor/id/<?php echo $this->emps['0']['id'];?>/format/xml/</xml>
+	<json><?php echo $siteurl;?>/romancoins/emperors/emperor/id/<?php echo $this->emps['0']['id'];?>/format/json</json>
+</meta>
+<emperor>
+<?php echo $this->partial('partials/xml/emperor.phtml',$this->emps['0']);?>
+<dbpedia>
+</dbpedia>
+<denominations>
+<?php foreach($this->denoms as $d):
+$d = (object)$d;?>
+<denomination>
+	<name><?php echo $d->denomination;?></name>
+	<id><?php echo $d->id;?></id>
+	</denomination>
+<?php endforeach;?>
+</denominations>
+<mints>
+<?php foreach ($this->mints as $m):
+$m = (object)$m;
+?>
+	<mint>
+	<name><?php echo $m->mint_name?></name>
+	<id><?php echo $m->id;?></id>
+	</mint>
+<?php endforeach;?>
+</mints>
+<reverseTypes>
+</reverseTypes>
+<reeceperiod><?php echo $this->emps['0']['p'];?>
+</reeceperiod>
+<moneyers>
+	<moneyer>
+	<name></name>
+	<id></id>
+	</moneyer> 
+</moneyers>
+</emperor>
+<recentRecords>
+	<?php foreach ($this->images as $s): 
+	$s = (object)$s;?>
+	<record>
+		<findID><?php echo $s->old_findID?></findID>
+		<objectType><?php echo $s->objecttype;?></objectType>
+		<broadperiod><?php echo $s->broadperiod;?></broadperiod>
+		<id><?php echo $s->id;?></id>
+		<uri><?php echo $siteurl;?>/database/artefacts/record/id/<?php echo $s->id;?></uri>
+		<thumbnail><?php echo $siteurl;?>/images/thumbnails/<?php echo $s->thumbnail;?>.jpg</thumbnail>
+	</record>
+	<?php endforeach;?>
+</recentRecords>
+</response>

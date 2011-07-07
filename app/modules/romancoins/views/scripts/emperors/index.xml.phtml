@@ -1,0 +1,208 @@
+<?php header('Content-Type: application/rss+xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';
+$siteurl = Zend_Registry::get('siteurl');
+?>
+<response>
+<meta>
+	<html><?php echo $siteurl;?>/romancoins/emperors/</html>
+	<xml><?php echo $siteurl;?>/romancoins/emperors/format/xml/</xml>
+	<json><?php echo $siteurl;?>/romancoins/emperors/format/json</json>
+</meta>
+<emperors>
+	<julioClaudians>
+	<?php foreach($this->julioclaudian as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</julioClaudians>
+	<civilWarEmperors>
+	<?php foreach($this->civilwar as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</civilWarEmperors>
+	<flavianEmperors>
+	<?php foreach($this->flavian as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</flavianEmperors>
+	<adoptiveEmperors>
+	<?php foreach($this->adoptive as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</adoptiveEmperors>
+	<antonineEmperors>
+	<?php foreach($this->antonine as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</antonineEmperors>
+	<warEmperors>
+	<?php foreach($this->waremperors as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</warEmperors>
+	<severanEmperors>
+	<?php foreach($this->severan as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</severanEmperors>
+	<thirdcenturyEmperors>
+	<?php foreach($this->thirdcentury as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</thirdcenturyEmperors>
+	<britishEmperors>
+	<?php foreach($this->british as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</britishEmperors>
+	<gallicEmperors>
+	<?php foreach($this->gallic as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</gallicEmperors>
+	<thetetrarchy>
+	<?php foreach($this->tetrarchy as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</thetetrarchy>
+	<houseOfConstantine>
+	<?php foreach($this->constantine as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</houseOfConstantine>
+	<houseOfValentinian>
+	<?php foreach($this->valentinian as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</houseOfValentinian>
+	<houseOfTheodosius>
+	<?php foreach($this->theodosius as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</houseOfTheodosius>
+	<fourthCenturyEmperors>
+	<?php foreach($this->fourthcentury as $j):
+	$j = (object)$j;?>
+		<emperor>
+			<name><?php echo $j->issuer;?></name>
+			<id><?php echo $j->id;?></id>
+			<dbaseID><?php echo $j->dbaseID;?></dbaseID>
+			<image>http://www.finds.org.uk/images/rulers/resized/<?php echo $j->image;?></image>
+			<dateFrom><?php echo $j->date_from;?></dateFrom>
+			<dateTo><?php echo $j->date_to;?></dateTo>
+		</emperor>
+	 <?php endforeach;?>
+	</fourthCenturyEmperors>
+</emperors>
+</response>

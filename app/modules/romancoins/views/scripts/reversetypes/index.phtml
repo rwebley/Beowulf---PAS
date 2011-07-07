@@ -1,0 +1,16 @@
+<?php 
+$this->headTitle("Reverse types of the Fourth Century AD");
+$this->headMeta('Daniel Pett','dc.creator')
+->headMeta('The Portable Antiquities Scheme','dc.publisher')
+->headMeta($this->curUrl(),'dc.identifier')
+->headMeta('A list of common and uncommon reverse types for fourth century Roman coins issued throughout the Empire','dc.description')
+->headMeta('roman,coins,numismatics,reverses,empire','dc.keywords');
+?>
+<h2>Most common reverse types</h2>
+<ul>
+<?php echo $this->partialLoop('partials/numismatics/revtypelist.phtml',$this->reverses);?>
+</ul>
+<h2>Less frequently found reverses</h2>
+<ul>
+<?php echo $this->partialLoop('partials/numismatics/revtypelist.phtml',$this->uncommonreverses);?>
+</ul>
