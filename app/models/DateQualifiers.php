@@ -33,7 +33,8 @@ class DateQualifiers extends Zend_Db_Table_Abstract {
         if (!$options = $this->_cache->load('circa')) {
 	    $select = $this->select()
                        ->from($this->_name, array('id', 'term'))
-                       ->order('id');
+                       ->order($this->_primaryKey)
+                       ->where('valid = ?',(int)1);
         $options = $this->getAdapter()->fetchPairs($select);
 		$this->_cache->save($options, 'circa');
 		}
