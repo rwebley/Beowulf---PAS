@@ -1,0 +1,13 @@
+<?php 
+$this->headTitle('Add a new reference for a find');
+$this->headMeta('Using this page, you can add reference data to a find');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinit.js',$type='text/javascript');  
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
+	->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+
+
+?>
+
+<h2>Add a new reference</h2>
+<?php echo $this->form;?>

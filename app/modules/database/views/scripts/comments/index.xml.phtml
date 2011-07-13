@@ -1,0 +1,28 @@
+<?php header('Content-Type: text/xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<comments>
+<meta>
+<url><?php echo $this->CurUrl();?></url>
+<?php echo $this->paginationControl($this->comments,NULL,'structure/xmlqueryCounts.phtml');?>
+</meta>
+<?php foreach($this->comments as $comm):?>
+<comment>
+<author><?php echo $comm['comment_author'];?></author>
+<content><?php echo strip_tags($comm['comment_content']);?></content>
+<find>
+<url>http://www.finds.org.uk/database/artefacts/record/id/<?php echo $comm['id'];?></url>
+<id><?php echo $comm['id'];?></id>
+<findID><?php echo $comm['old_findID'];?></findID>
+<objectType><?php echo $comm['objecttype'];?></objectType>
+<broadPeriod><?php echo $comm['broadperiod'];?></broadPeriod>
+<county><?php echo $comm['county'];?></county>
+</find>
+<date><?php echo date( DATE_W3C,strtotime($comm['comment_date']));?></date>
+<published><?php echo date( DATE_W3C,strtotime($comm['updated']));?></published>
+<?php $gravatar = new Gravatar($comm['comment_author_email']);
+$gravatar->rating = "G";
+?>
+<gravatar><?php echo urlencode($gravatar);?></gravatar>
+</comment>
+<?php endforeach;?>
+</comments>

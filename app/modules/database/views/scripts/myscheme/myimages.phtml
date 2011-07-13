@@ -1,0 +1,24 @@
+<?php
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript');  
+?>
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+
+<h2>All images added by me</h2>
+<?php if (count($this->paginator)): ?>
+<table><tr><?php echo $this->form;?></tr></table>
+<div id="gallery">
+<?php echo $this->partialLoop('partials/database/myimagesList.phtml',$this->paginator);?>
+</div>
+<div style="clear:both;">
+<?= $this->paginationControl($this->paginator, 'Elastic', 'structure/pagination.phtml'); ?>
+</div>
+<?php else:?>
+<p>You have added no images to our database.</p>
+<?php endif; ?>

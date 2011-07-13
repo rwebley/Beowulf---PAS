@@ -1,0 +1,61 @@
+<?php 
+$this->headMeta('All known metal detecting rallies that the Scheme has tried to attend. These present the Scheme
+with a resource management issue','dc.description')
+->headMeta('archaeology,rally,rallies,england,wales','dc.keywords')
+->headMeta('metal detecting rallies','dc.subject')
+->headMeta('The Portable Antiquities Scheme','dc.publisher')
+->headMeta('Daniel Pett','dc.creator')
+->headMeta('CC NC-SA-BY','dc.rights')
+->headMeta($this->curUrl(),'dc.identifier');
+?>
+
+<h2>Metal Detecting Rallies</h2>
+<?php 
+echo $this->Href(array('module' => 'database','controller'=>'rallies', 'action'=>'add', 'checkAcl'=>true,
+'acl'=>'Zend_Acl', 'wrapper' => array('tag' => 'div','class' => 'redadd','id' => 'action'), 'content'=>'Add a rally','attribs' => array('title' => 'Add an organisation')));
+?>
+
+
+<?php if (count($this->rallies)): ?>
+<ul id="yearrange">
+<?php echo $this->partialLoop('partials/database/archiveYearsRallies.phtml',$this->years);?>
+</ul>
+<p>View <a href="<?php echo $this->url(array('module' => 'database','controller' => 'rallies','action' => 'map'),NULL,true);?>" title="View rally locations">rally locations</a> on a map</p>
+<table class="stripeMe" summary="A list of all rallies we have attended">
+<caption>Rallies that the Scheme has attended</caption>
+<thead>
+<tr>
+<th>Rally Name</th>
+<th>Date from</th>
+<th>Date to</th>
+<?php
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity()){
+$user = $auth->getIdentity();
+{
+$allowedAccess = array('flos','fa','admin');
+if(in_array($user->role,$allowedAccess))
+{
+?>
+
+<th>Actions</th>
+<?php
+}
+}
+}
+?>
+
+
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/database/rallies.phtml', $this->rallies) ?>
+</tbody>
+</table>
+<?php else:?>
+<ul id="yearrange">
+<?php echo $this->partialLoop('partials/database/archiveYearsRallies.phtml',$this->years);?>
+</ul>
+<p>There are no rallies in that date range.</p>
+<?php endif; ?>
+<?php echo $this->paginationControl($this->rallies, 'Sliding', 'structure/pagination.phtml'); ?>

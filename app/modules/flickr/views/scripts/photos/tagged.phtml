@@ -1,0 +1,26 @@
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+
+?>
+
+<?php 
+$this->headTitle('All pictures tagged with '.$this->tagtitle);
+$this->MetaBase('A list of photos retrieved from the flickr api using creative commons searches on the tag ' . $this->tagtitle,
+'photos',
+'photos,flickr,api,tagged,' . $this->tagtitle);
+?>
+<h2>All photos tagged with <?php echo $this->tagtitle;?></h2>
+
+<?php if(count($this->pictures)):?>
+<?php echo $this->partialLoop('partials/flickr/imagelist.phtml',$this->pictures);?>
+<?php echo $this->paginationControl($this->pictures, 'Sliding', 'structure/pagination.phtml'); ?>
+
+<?php else:?>
+<p>There are no photos available with that tag.</p>
+<?php endif;?>

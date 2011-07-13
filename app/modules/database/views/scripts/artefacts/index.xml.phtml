@@ -1,0 +1,9 @@
+<?php header('Content-Type: application/rss+xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<objects>
+<meta>
+<url><?php echo $this->CurUrl();?></url>
+<?php echo $this->paginationControl($this->paginator,NULL,'structure/xmlqueryCounts.phtml');?>
+</meta>
+<?php echo $this->partialLoop('partials/xml/objects.phtml',$this->paginator);?>
+</objects>

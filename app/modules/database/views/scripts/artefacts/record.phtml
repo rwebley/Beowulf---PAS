@@ -1,0 +1,262 @@
+<?php
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/facebox/facebox.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/facebox.init.js',$type='text/javascript');
+$this->headLink()->appendStylesheet($this->baseUrl().'/js/JQuery/facebox/facebox.css')
+				 ->appendStylesheet($this->baseUrl().'/css/faceboxform.css');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript');
+?>
+<?php $this->jQuery()->javascriptCaptureStart(); ?>
+jQuery(document).ready(function($) {
+$('a[rel*=lightbox]').lightBox() 
+});
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>
+
+
+<div id="prior-next" >
+<?php if(count($this->recordsprior)) :?>
+<?php echo $this->partial('partials/database/previous.phtml', $this->recordsprior['0']) ;?>  
+<?php endif;?>
+<?php if(count($this->nexts)) :?>
+<?php echo $this->partial('partials/database/next.phtml', $this->nexts['0']) ;?>
+<?php endif;?>
+</div>
+
+<div typeof="pas:record" about="<?php echo $this->finds['0']['old_findID'];?>">
+<?php 
+echo $this->partialLoop('partials/database/recordheadtitle.phtml',$this->finds);
+$this->meta();
+echo $this->partialLoop('partials/database/zoterorecord.phtml',$this->finds);
+echo $this->partial('partials/database/recordh2section.phtml',$this->finds['0']);
+?>
+
+
+<div id="workflowstatus"></div>
+
+<div id="imagepane">
+<?php 
+if (count($this->thumbs) > 0){
+echo $this->partialLoop('partials/database/thumbs.phtml', $this->thumbs);
+} else {?>
+<p>There are currently no images available.</p>
+<?php 
+}
+?>
+<?php 
+echo $this->ImageLink($this->finds['0']['old_findID'],$this->finds['0']['id'],$this->finds['0']['secuid'],$this->finds['0']['createdBy']);
+?>
+</div>
+
+<?php 
+echo $this->partialLoop('partials/database/recorddescriptive.phtml',$this->finds);
+echo $this->partial('partials/database/treasurefinddetails.phtml', $this->finds['0']);
+echo $this->partial('partials/database/temporal.phtml', $this->temporals['0']); 
+?>
+
+<?php 
+if (count($this->findsdata) > 0) {
+echo $this->partialLoop('partials/database/dimensions.phtml', $this->findsdata);
+}
+?>
+<?php 
+
+$tokenArray = array('jetton','JETTON','Jetton','Token','TOKEN','token');
+if ((count($this->coins)) && in_array($this->finds['0']['objecttype'],$tokenArray)) { 
+echo $this->partial('partials/database/jettonData.phtml', $this->coins['0']);
+}?>
+<?php 
+if (count($this->findsmaterial)){
+echo $this->partialLoop('partials/database/materials.phtml', $this->findsmaterial);
+}
+?>
+
+<?php 
+$objectarray = array('coin','COIN','Coin');
+
+if ((count($this->coins)) && in_array($this->finds['0']['objecttype'],$objectarray)) { ?>
+
+<?php if (($this->finds['0']['broadperiod'] == 'Iron Age')  || ($this->finds['0']['broadperiod'] == 'IRON AGE') ) : ?>
+<?php echo $this->partial('partials/database/ironagedata.phtml', $this->coins['0']) ?>
+<?php endif; ?>
+
+<?php if (($this->finds['0']['broadperiod'] == 'Byzantine' ) || ($this->finds['0']['broadperiod'] == 'BYZANTINE') ) : ?>
+<?php echo $this->partial('partials/database/byzantinedata.phtml', $this->coins['0']) ?>
+<?php endif; ?>
+
+<?php if (($this->finds['0']['broadperiod'] == 'Roman') || ($this->finds['0']['broadperiod'] == 'ROMAN')  ) : ?>
+<?php echo $this->partial('partials/database/romandata.phtml', $this->coins['0']) ?>
+<?php endif; ?>
+
+<?php if (($this->finds['0']['broadperiod'] == 'Medieval')  || ($this->finds['0']['broadperiod'] == 'MEDIEVAL') ) : ?>
+<?php echo $this->partial('partials/database/meddata.phtml', $this->coins['0']) ?>
+<?php endif; ?>
+
+<?php if (($this->finds['0']['broadperiod'] == 'Early Medieval') || ($this->finds['0']['broadperiod'] == 'EARLY MEDIEVAL') ) : ?>
+<?php echo $this->partial('partials/database/earlymeddata.phtml', $this->coins['0']) ?>
+<?php endif; ?>
+
+<?php if (($this->finds['0']['broadperiod'] == 'Post Medieval') || ($this->finds['0']['broadperiod'] == 'POST MEDIEVAL')  ) : ?>
+<?php echo $this->partial('partials/database/postmeddata.phtml', $this->coins['0']) ?>
+<?php endif; ?>
+
+<?php if (($this->finds['0']['broadperiod'] == 'Greek and Roman Provincial') || ($this->finds['0']['broadperiod'] == 'GREEK AND ROMAN PROVINCIAL') ) : ?>
+<?php echo $this->partial('partials/database/greekdata.phtml', $this->coins['0']) ?>
+<?php endif; ?>
+
+
+
+
+<?php if(count($this->coinrefs)) :?>
+<div id="coinrefslinked">
+<h4>Coin references</h4>
+<ul>
+<?php echo $this->partialLoop('partials/numismatics/coinrefs.phtml',$this->coinrefs);?>
+</ul>
+<?php 
+echo $this->CoinRefAddLink($this->finds['0']['old_findID'], $this->finds['0']['id'],$this->finds['0']['broadperiod'],$this->finds['0']['secuid'],$this->finds['0']['id'],$this->finds['0']['createdBy']);
+?>
+</div>
+<?php else:?>
+<div id="coinrefs">
+<h4>Coin references</h4>
+<p>No coin references available.</p>
+<?php 
+echo $this->CoinRefAddLink($this->finds['0']['old_findID'], $this->finds['0']['id'],$this->finds['0']['broadperiod'],$this->finds['0']['secuid'],$this->finds['0']['id'],$this->finds['0']['createdBy']);
+?>
+</div>
+<?php endif;?>
+<?php }?>
+
+<?php 
+$objectarray = array('coin','COIN','Coin');
+$jettonArray = array('token','Token','Jetton','JETTON','TOKEN');
+if((!count($this->coins)) && in_Array($this->finds['0']['objecttype'],$objectarray)) { ?>
+<div id="numisdata">
+<h4>Numismatic data</h4>
+<p>No numismatic data has been recorded for this coin yet.</p>
+
+<div id="addcoindata" class="addpanel noprint"><?php echo $this->AddCoinLink($this->finds['0']['old_findID'],$this->finds['0']['id'],$this->finds['0']['secuid'],$this->finds['0']['createdBy'],$this->finds['0']['broadperiod']);?></div>
+</div>
+<?php } else {?>
+<?php
+if((!count($this->coins)) && in_Array($this->finds['0']['objecttype'],$jettonArray)) { ?>
+<div id="numisdata">
+<h4>Numismatic data</h4>
+<p>No numismatic data has been recorded for this coin yet.</p>
+
+<div id="addcoindata" class="addpanel noprint"><?php echo $this->AddJettonLink($this->finds['0']['old_findID'],$this->finds['0']['id'],$this->finds['0']['secuid'],$this->finds['0']['createdBy'],$this->finds['0']['broadperiod']);?></div>
+</div>
+<?php }}?>
+
+
+
+<?php if (count($this->findspots)) : ?>
+<?php echo $this->Findspot($this->findspots);?>
+<?php else: ?>
+<div id="findspotdata">
+<h4>Spatial data</h4>
+<p>No data recorded at present.</p>
+<?php echo $this->FindSpotLink($this->finds['0']['old_findID'],$this->finds['0']['id'],
+$this->finds['0']['secuid'],$this->finds['0']['createdBy']);?>
+</div>
+<?php endif; ?>
+
+<?php echo $this->partial('partials/database/datefound.phtml',$this->finds['0']);?>
+
+
+<?php if (count($this->rallyfind)) : ?>
+<?php echo $this->partialLoop('partials/database/rallyfind.phtml', $this->rallyfind) ?>
+<?php endif;?>
+
+<?php if (count($this->peoples) > 0) : ?>
+<h4>Personal details</h4>
+<?php echo $this->partialLoop('partials/database/personal.phtml', $this->peoples) ?>
+<?php endif;?>
+
+<?php if (count($this->findotherrefs) > 0) : ?>
+<?php echo $this->partialLoop('partials/database/otherrefs.phtml', $this->findotherrefs) ;?>
+<?php endif;?>
+
+<h4>References cited</h4>
+<div id="references">
+<?php
+if (count($this->refs) > 0) : ?>
+<p><?php echo $this->AddRefLink($this->finds['0']['old_findID'],$this->finds['0']['id'],
+$this->finds['0']['secuid'],$this->finds['0']['createdBy']);?></p>
+
+<ul id="related">
+<?php echo $this->partialLoop('partials/database/harvardbook.phtml', $this->refs);?>
+</ul>
+<?php else:?>
+<p class="norefs">No references cited so far.</p> 
+
+<?php echo $this->AddRefLink($this->finds['0']['old_findID'],$this->finds['0']['id'],
+$this->finds['0']['secuid'],$this->finds['0']['createdBy']);?>
+<?php endif;?>
+</div>
+
+<?php 
+//echo $this->RelatedFinds($this->finds['0']['old_findID'],$this->finds['0']['secuid'],$this->finds['0']['id'],$this->finds['0']['createdBy']);
+?>
+
+<div id="QRtag">
+<h4>QR barcode</h4>
+<img src="http://chart.apis.google.com/chart?chs=150x150&amp;cht=qr&amp;chl=<?php echo $this->CurUrl();?>" alt="QR code for this URL" width="50" height="50" style="float:right;"/>
+<p>If you have a mobile phone equipped with QR recognition software, you can go directly to the webpage that this record resides at. Every record has an individual one of these.</p>
+</div>
+
+</div>
+
+
+<p>
+<a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'errorreport'));?>" title="Send message to the allotted National Finds Adviser">Spotted a mistake? Tell us.</a> | <?php if(count($this->comments) <= 0) : ?> 
+
+<a href="#comment_content" id="addcomment" title="Comment on this artefact's record">Be the first to comment</a></p>
+<?php else: ?>
+<a href="#comment_content" id="addcomment" title="Comment on this find">Add a new comment</a> | Total Comments [<?php echo count($this->comments);?>]</p><h4>Approved comments on this record</h4>
+<?php endif;?>
+<div id="comm">
+<?php if($this->comments):?>
+<ul>
+<?php echo $this->partialLoop('partials/database/comments.phtml', $this->comments) ;?>
+</ul>
+<?php endif;?>
+</div>
+
+
+<div id="commentform">
+
+
+
+<div>
+<h2>Comment on this artefact's record</h2>
+<div id="data">
+<p>Data entered via this form is checked against the <a href="http://akismet.com/" title="The Aksimet anti-spam detection service">akismet</a> service to recognise spam.</p>
+
+<?php 
+$auth = Zend_Registry::get('auth');
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+$this->form->comment_author->setValue($user->fullname);
+$this->form->comment_author_email->setValue($user->email);
+
+}
+echo $this->form;
+?>
+
+</div>
+<?php echo $this->partial('partials/database/recordaudit.phtml',$this->finds['0']);?>
+
+<?php 
+$auth = Zend_Registry::get('auth');
+$allowed = array('admin','fa','flos');
+if($auth->hasIdentity()){
+$user = $auth->getIdentity();
+if(in_array($user->role,$allowed)){
+echo $this->ChangesFind($this->finds['0']['id']);
+echo $this->ChangesFindSpot($this->finds['0']['id']);
+echo $this->ChangesCoins($this->finds['0']['id']);
+}}
+?>
+</div>
+</div>

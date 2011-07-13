@@ -1,0 +1,7 @@
+<?php header('Content-Type: application/rss+xml');?>
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<objects xmlns="http://www.heritage-standards.org/midas/schema/1.0"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.heritage-standards.org/midas/schema/1.0 http://www.heritage-standards.org/midas/schema/1.0/midas_object.xsd">
+<?php echo $this->partialLoop('partials/xml/object.phtml',$this->record);?>
+</objects>

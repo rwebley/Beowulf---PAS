@@ -1,0 +1,43 @@
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jQueryLinkedSelect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/coinslinkedselect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/linkedinit.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',
+$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinit.js',
+$type='text/javascript'); 
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
+$this->headTitle('List of all antiquities in the OS 1:50k Gazetteer');
+$this->headMeta('These pages catalogue all sites in the Ordnance Survey 1:50K dataset that can be obtained from the opendata download.','dc.description')
+->headMeta('Daniel Pett','dc.creator')
+->headMeta('The Portable Antiquities Scheme','dc.publisher')
+->headMeta($this->curUrl(),'dc.identifier');
+?>
+
+<h2>Ordnance Survey 1:50 K records</h2>
+<p>These records are obtained from the 1:50K data download from the Ordnance Survey Opendata project.</p>
+
+<?php if($this->osdata):?>
+<div id="findsList">
+<table class="stripeMe" summary="A list of all ordnance survey listed monuments">
+<thead>
+<tr>
+<th>Monument name</th>
+<th>County</th>
+<th>Feature type</th>
+<th>Parish</th>
+<th>Grid reference</th>
+</tr>
+</thead>
+<tr><?php 
+//echo $this->form;
+?></tr>
+<tbody>
+<?php echo $this->partialLoop('partials/database/osdata.phtml',$this->osdata);?>
+</tbody>
+</table>
+<?php echo $this->paginationControl($this->osdata, 'Sliding', 'structure/pagination.phtml'); ?>
+</div>
+<?php else:?>
+<p>No OS records are available to you right now.</p>
+<?php endif;?>

@@ -1,0 +1,35 @@
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>
+<h2>All finds associated with this tag</h2>
+<p>Using an automatic text extraction service provided by Yahoo's Geo team, records have been analysed as people view them.</p>
+
+<?php if($this->tags) :?>
+<table class="stripeMe" summary="All records tagged with this term">
+<caption>All records tagged with this term</caption>
+<thead>
+<tr> 
+<th>Image</th>
+<th>Object Type</th>
+<th>Find number</th>
+<th>Broadperiod</th>
+<th>County</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/database/findsTable.phtml',$this->tags);?>
+
+</tbody>
+</table>
+<?= $this->paginationControl($this->tags, 'Sliding', 'structure/pagination.phtml'); ?>
+
+<?php else:?>
+<p>No finds have been tagged with this term.</p>
+<?php endif;?>

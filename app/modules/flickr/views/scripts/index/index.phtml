@@ -1,0 +1,100 @@
+<?php 
+$this->headTitle('An introduction to our photos');
+$this->MetaBase('The Scheme curates a large number of images on it\'s flickr profile feed. They are all produced under a Creative Commons licence, feel free to use them - except for commercial use',
+'Photos',
+'flickr,photos,archaeology,numismatics,coins,museums');?>
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+
+?>
+<h2>The Scheme on Flickr</h2>
+<h3>Our recent images</h3>
+<div id="flickrbox"><?php 
+foreach($this->photos as $p) {
+echo '<a href="';
+echo $p['medium'];
+echo '" rel="lightbox" ';
+echo 'title="';
+echo $p['title'];
+echo '"><img src="';
+echo $p['square'];
+echo '" alt="';
+echo $p['title'];
+echo '" width="75" height="75"/></a>';
+
+}
+?>
+</div>
+
+<?php
+$cachemain = Zend_Registry::get('formcache');
+echo '<h3>Most popular tags</h3>';
+
+if(!$cachemain->start('linkscloudflickrtags')) {
+
+
+$tag = array();
+foreach($this->tags as $tagged)
+{
+$tag[] = array('title' => strtolower($tagged['tag']), 'weight' => $tagged['count'], 'params' => array('url' => $this->url(array('module' => 'flickr','controller' => 'photos','action' => 'tagged','as' => strtolower($tagged['tag'])),'default',true)));
+}
+$tags = array('tags' => $tag,
+			'cloudDecorator' => array(
+			'decorator' => 'HtmlCloud',
+			'options' => array(
+			'htmlTags' => array(
+			'ul' => array(
+			'id' => 'period-object-cloud')
+			)
+			//,
+			//'separator' => ', '
+			)
+			),
+			'tagDecorator' => array(
+			'decorator' => 'HtmlTag',
+			'options' => array(
+	'htmlTags' => array( 'li'),
+	'minFontSize' => 100,
+	'maxFontSize' => 200,
+	'fontSizeUnit' => '%'
+				)
+			)
+			);
+$cloud = new Zend_Tag_Cloud($tags);
+echo $cloud;
+$cachemain->save($cloud); 
+}
+
+?>
+
+<h3>Our friends on flickr</h3>
+<?php 
+if(!$cachemain->start('flickrfriends')) {
+?>
+<?php foreach($this->contactslist as $c):?>
+<?php 
+$type = '.jpg';
+$url = 'http://farm'.$c['iconfarm'].'.static.flickr.com/'.$c['iconserver'].'/buddyicons/'.$c['id'].$type;
+$alturl = 'http://www.flickr.com/images/buddyicon.jpg';
+$link = 'http://www.flickr.com/photos/'.$c['id'];
+if($c['iconfarm'] != 0) {
+
+?>
+<a href="<?php echo $link;?>" title="Go to <?php echo $c['username'];?>'s profile on flickr" rel="friend nofollow"><img src="<?php echo $url;?>" height="48" width="48" alt="View <?php echo $c['username'];?>'s images" /></a>
+<?php } else {?>
+<a href="<?php echo $link;?>" title="Go to this <?php echo $c['username'];?>'s profile on flickr" rel="friend nofollow"><img src="<?php echo $alturl;?>" height="48" width="48" alt="View <?php echo $c['username'];?>'s images" /></a>
+
+<?php }?>
+<?php endforeach;?>
+
+<?php $cachemain->end(); 
+}
+
+?>

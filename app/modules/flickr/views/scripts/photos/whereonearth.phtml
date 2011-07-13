@@ -1,0 +1,25 @@
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>
+<?php 
+$this->headTitle('All pictures within 500 metres of '.$this->place);
+$this->MetaBase('A list of all our photos taken within a radius of 500 metres from ' . $this->place,
+'photos',
+'photos,archaeology,museum,british,flickr,portable antiquities');
+?>
+<h2>All photos within 500 metres of <?php echo $this->place;?></h2>
+<?php if(count($this->pictures)):?>
+
+
+<?php echo $this->partialLoop('partials/flickr/imagelist.phtml',$this->pictures);?>
+<?php echo $this->paginationControl($this->pictures, 'Sliding', 'structure/pagination.phtml'); ?>
+
+<?php else:?>
+<p>There are no photos available for that place.</p>
+<?php endif;?>

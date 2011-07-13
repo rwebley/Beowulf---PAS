@@ -1,0 +1,10 @@
+<h2>Saved searches</h2>
+<?php if(count($this->data)):?>
+<ol id="timeline" class="statuses">
+
+<?php echo $this->partialLoop('partials/users/searchDBList.phtml', $this->data) ?>
+</ol>
+<?echo $this->paginationControl($this->data, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php else:?>
+<p>No search history available to you at present.</p>
+<?php endif;?> 

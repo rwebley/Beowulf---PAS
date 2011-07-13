@@ -1,0 +1,13 @@
+<?php 
+$this->headTitle('All groups that the Scheme is a member of.');
+$this->MetaBase('A list of all groups that the Scheme is contributing data to within flickr. We try to help where we can',
+'photos',
+'photos,archaeology,romans,flickr,antiquities,creative commons,scheme,portable');
+?>
+<h2>Our group memberships</h2>
+<?php if($this->photos):?>
+<?php echo $this->partialLoop('partials/flickr/group.phtml',$this->photos);?>
+<?php echo $this->paginationControl($this->photos, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php else:?>
+<p>There are no groups available at the moment</p>
+<?php endif;?>

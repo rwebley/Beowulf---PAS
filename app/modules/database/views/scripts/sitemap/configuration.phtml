@@ -1,0 +1,22 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>'
+;?>
+<configdata>
+<nav>
+			<?php foreach($this->finds as $f):?>
+					<find<?php echo $f['id'];?>>
+						<label><?php echo $f['old_findID'];?></label>
+						<module>database</module>
+						<controller>artefacts</controller>
+						<action>record</action>
+						<params>
+						<id><?php echo $f['id'];?></id>
+						</params>
+						<route>default</route>
+						<changefreq>weekly</changefreq>
+						<lastmod><?php echo $f['updated'];?></lastmod>
+						<priority>0.2</priority>
+					</find<?php echo $f['id'];?>>
+				<?php endforeach;?>
+			
+</nav>
+</configdata>

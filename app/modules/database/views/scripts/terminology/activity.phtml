@@ -1,0 +1,8 @@
+<?php echo $this->partialLoop('partials/database/activityDetail.phtml',$this->activities);?>
+<p>This activity has <?php echo $this->partial('partials/countObjects.phtml',$this->counts['0']);?></p>
+<?php 
+$url = $this->url(array('module' => 'database','controller' => 'search', 'action' => 'results', 'discmethod' => $this->activities['0']['id']),null,true);
+$string = '<p>Search the database for <a href="'.$url.'" title="Search the database for examples">all examples</a> recorded.</p>'; 
+echo $string;
+
+?> 

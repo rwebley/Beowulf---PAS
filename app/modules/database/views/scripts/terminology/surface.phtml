@@ -1,0 +1,11 @@
+<?php 
+if($this->surfaces > 0)
+{
+echo $this->partial('partials/database/surfDetail.phtml',$this->surfaces['0']);
+echo '<p>There are '.$this->partial('partials/countObjects.phtml',$this->counts['0']).' on our database.';
+}
+else
+{
+echo 'There is no surface treatment available for this id number';
+}
+?>

@@ -1,0 +1,38 @@
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jQueryLinkedSelect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/coinslinkedselect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/linkedinit.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',
+$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinit.js',
+$type='text/javascript'); 
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
+$this->headTitle('List all Scheduled Monuments of the National Monument record');
+?>
+
+<h2>Scheduled monuments listed on the National Monuments Register</h2>
+<p>The Scheduled Monuments listed below were provided by Martin Newman from English Heritage. We accept no responsibility for E&amp;O.</p>
+
+<?php if(count($this->smrs) > 0):?>
+<div id="findsList">
+<table class="stripeMe" summary="A list of all scheduled monuments in England">
+<thead>
+<tr>
+<th>Monument name</th>
+<th>County</th>
+<th>District</th>
+<th>Parish</th>
+<th>Grid reference</th>
+</tr>
+</thead>
+<tr><?php echo $this->form;?></tr>
+<tbody>
+<?php echo $this->partialLoop('partials/database/smr.phtml',$this->smrs);?>
+</tbody>
+</table>
+<?= $this->paginationControl($this->smrs, 'Sliding', 'structure/pagination.phtml'); ?>
+</div>
+<?php else:?>
+<p>No Scheduled Monuments are available to you right now.</p>
+
+<?php endif;?>

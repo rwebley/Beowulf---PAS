@@ -1,0 +1,51 @@
+<?php
+	//ini_set("memory_limit","128M");
+	
+	
+	
+	$date = Zend_Date::now()->toString('yyyy-MM-ddHHmm');
+	$csv_terminated = "\n";
+    $csv_separator = ",";
+    $csv_enclosed = '"';
+    $csv_escaped = "\\";
+    $fields_cnt = count($this->record['0']);
+	$row_cnt = count($this->record);
+    $schema_insert = '';
+    for ($i = 0; $i < 1; $i++)
+    {
+	foreach($this->record['0'] as $key => $value)
+        {
+        $l = $csv_enclosed . str_replace($csv_enclosed, $csv_escaped . $csv_enclosed,
+            stripslashes($key)) . $csv_enclosed;
+        $schema_insert .= $l;
+        $schema_insert .= $csv_separator;
+		}
+    } // end for
+ 
+    $out = trim(substr($schema_insert, 0, -1));
+    $out .= $csv_terminated;
+	
+	foreach($this->record as $object) {
+	
+	foreach($object as $key => $value){
+	 
+	$schema_insert = '';
+$schema_insert .= $csv_enclosed . 
+					stripslashes(strip_tags(str_replace($csv_enclosed, $csv_escaped . $csv_enclosed, str_replace('"','',$value)))) . $csv_enclosed;	$schema_insert .= $csv_separator;
+	
+	$out .= $schema_insert;
+	
+	}
+	$out .= $csv_terminated;
+}
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Content-Length: " . strlen($out));
+	header("Content-type:application/vnd.ms-excel");
+    header("Content-type: text/x-csv");
+    //header("Content-type: application/csv");
+    header("Content-Disposition: attachment; filename=searchresultsCSVexport_".$this->record['0']['old_findID'].$date.".csv");
+
+    echo $out;
+    exit;
+	
+	?>

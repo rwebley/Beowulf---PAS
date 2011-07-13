@@ -1,0 +1,32 @@
+<?php
+$this->headTitle('All Heritage Crimes listed on our database');
+$this->headMeta('A list of all crimes that have been reported to the Scheme and recorded','dc.description');
+$this->headMeta('crime,heritage,archaeology,scheduled monuments','dc.keywords');
+
+?>
+<h2>Crimes against Heritage</h2>
+<?php 
+echo $this->Href(array('module' => 'database','controller'=>'heritage', 'action'=>'add', 'checkAcl'=>true,
+'acl'=>'Zend_Acl', 'wrapper' => array('tag' => 'div','class' => 'redadd','id' => 'action'), 'content'=>'Add a crime','attribs' => array('title' => 'Add a crime')));
+?>
+<?php if(count($this->crimes)):?>
+<table summary="A list of all crimes" class="stripeMe">
+<caption>Heritage crimes recorded</caption>
+<thead><tr>
+<th>Subject</th>
+<th>Crime type</th>
+<th>Incident date</th>
+<th>Reporter</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/heritage/crimesList.phtml',$this->crimes);?>
+</tbody>
+</table>
+<?php echo $this->paginationControl($this->crimes, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php else:?>
+<p>There are currently no crimes against Heritage. God Bless naughty Sir Morty!</p>
+<img src="http://farm5.static.flickr.com/4020/4534898955_cbfb210fa4.jpg" height="375" width="500" alt="Mortimer Wheeler blue plaque" />
+<p><a href="http://www.flickr.com/photos/harriyott/4534898955/" title="View original by Simon">Photo by Simon Harriyott under CC licence.</a></p>
+<?php endif;?>

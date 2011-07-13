@@ -1,0 +1,27 @@
+<?php echo $this->partial('partials/database/rally.phtml', $this->rallies['0']) ?>
+<h4>Attending Scheme staff</h4>
+<?php if(count($this->atts)):?>
+<ul>
+<?php echo $this->partialLoop('partials/database/attendingFlos.phtml',$this->atts);?>
+</ul>
+<?php else:?>
+<p>No FLOs have been listed as attending so far.</p>
+<?php endif;?>
+<?php 
+echo $this->Href(array('module' => 'database','controller'=>'rallies', 'action'=>'addflo', 'checkAcl'=>true,
+'acl'=>'Zend_Acl',  'params' =>array('id'=>$this->rallies['0']['id']), 'content'=>'Add an attending finds liaison officer','attribs' => array('title' => 'Add a new attending flo')));
+?>
+<?php if(count($this->slides)):?>
+<h3>Most recent images from this rally</h3>
+<div id="latest">
+<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->slides);?>
+</div>
+<?php endif;?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>

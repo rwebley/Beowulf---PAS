@@ -1,0 +1,90 @@
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jQueryLinkedSelect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/coinslinkedselect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/linkedinit.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/iacoinslinkedinit.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
+->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript'); 
+$this->headTitle('Advanced search the database');
+
+?>
+
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+$(document).ready(function() {
+$("#createdBefore").datepicker({ maxDate: '+1y'});
+$("#createdAfter").datepicker({ maxDate: '+1y' });
+$("#rallyID").css("display","none");
+$("#hID").css("display","none");
+$("#TID").css("display","none");
+$(".hideme").css("display","none");
+$(".hiderally").css("display","none");
+$(".hidehoard").css("display","none");
+$(".hidenote").css("display","none");
+$("#reason").css("display","none");
+$("#note").click(function(){
+if ($("#note").is(":checked"))
+        {
+       $("#reason").show("fast");
+       $(".hidenote").show("fast");
+        }
+        else
+        {     
+            $("#reason").hide("fast");
+          $(".hidenote").hide("fast");
+
+        }
+      });
+$("#rally").click(function(){
+if ($("#rally").is(":checked"))
+        {
+       $("#rallyID").show("fast").css("display","inline");
+	   $(".hiderally").show("fast");
+        }
+        else
+        {     
+        $("#rallyID").hide("fast");
+		$(".hiderally").hide("fast");
+        }
+      });
+$("#treasure").click(function(){
+if ($("#treasure").is(":checked"))
+        {
+       $("#TID").show("fast");
+       $(".hideme").show("fast");
+
+        }
+        else
+        {     
+            $("#TID").hide("fast");
+            $(".hideme").hide("fast");
+
+
+        }
+      });
+$("#hoard").click(function(){
+if ($("#hoard").is(":checked"))
+        {
+       $("#hID").show("fast");
+            $(".hidehoard").show("fast");
+        }
+        else
+        {     
+            $("#hID").hide("fast");
+            $(".hidehoard").hide("fast");
+
+        }
+      });
+
+	
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<h2>Advanced search</h2>
+<p>This form allows you to perform some more advanced database searches. More specific numismatic searching can be affected from period specific forms.</p>
+<?php
+ echo $this->form;
+?>

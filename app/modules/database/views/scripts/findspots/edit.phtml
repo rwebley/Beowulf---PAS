@@ -1,0 +1,17 @@
+<?php
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jQueryLinkedSelect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/coinslinkedselect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/linkedinit.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/iacoinslinkedinit.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
+		->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+?>
+<?php 
+$this->headTitle('Edit findspot\'s details for '.$this->finds['0']['old_findID']);
+$this->FindSpotEditCheck($this->findspot['old_findspotid'],$this->findspot['createdBy']);
+echo $this->partialLoop('partials/database/findfindspot.phtml',$this->finds);?>
+<?php 
+echo $this->form;
+?>

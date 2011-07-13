@@ -1,0 +1,70 @@
+<h2>Open Calais generated tags</h2>
+
+<?php
+$tag = array();
+foreach($this->tags as $o)
+
+{
+
+$tag[] = array('title' => strtolower($o['term']), 'weight' => $o['total'], 'params' => array('url' => $this->url(array('module' => 'database','controller' => 'tags','action' => 'opencalais','tag' => $o['term']),null,true)),);
+}
+$tags = array('tags' => $tag,
+			'cloudDecorator' => array(
+			'decorator' => 'HtmlCloud',
+			'options' => array(
+			'htmlTags' => array(
+			'ul' => array(
+			'id' => 'period-object-cloud')
+			)
+			//,
+			//'separator' => ', '
+			)
+			),
+			'tagDecorator' => array(
+			'decorator' => 'HtmlTag',
+			'options' => array(
+	'htmlTags' => array( 'li'),
+	'minFontSize' => 100,
+	'maxFontSize' => 200,
+	'fontSizeUnit' => '%'
+				)
+			)
+			);
+$cloud = new Zend_Tag_Cloud($tags);
+echo $cloud;
+?>
+
+<h2>Yahoo! Geo Placemaker generated tags</h2>
+<?php
+$tag = array();
+foreach($this->geotags as $o)
+
+{
+
+$tag[] = array('title' => strtolower($o['term']), 'weight' => $o['total'], 'params' => array('url' => $this->url(array('module' => 'database','controller' => 'tags','action' => 'geotag','tag' => $o['term']),null,true)),);
+}
+$tags = array('tags' => $tag,
+			'cloudDecorator' => array(
+			'decorator' => 'HtmlCloud',
+			'options' => array(
+			'htmlTags' => array(
+			'ul' => array(
+			'id' => 'period-object-cloud')
+			)
+			//,
+			//'separator' => ', '
+			)
+			),
+			'tagDecorator' => array(
+			'decorator' => 'HtmlTag',
+			'options' => array(
+	'htmlTags' => array( 'li'),
+	'minFontSize' => 100,
+	'maxFontSize' => 200,
+	'fontSizeUnit' => '%'
+				)
+			)
+			);
+$cloud = new Zend_Tag_Cloud($tags);
+echo $cloud;
+?>

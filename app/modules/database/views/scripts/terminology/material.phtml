@@ -1,0 +1,4 @@
+<?php if(count($this->materials)) :?>
+<?php echo $this->partial('partials/database/materialDetails.phtml',$this->materials['0']); ?>
+<p>We have recorded <?php echo $this->partial('partials/countObjects.phtml',$this->counts['0']);?> made from this material.</p>
+<?php endif;?>

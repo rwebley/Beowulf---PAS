@@ -1,0 +1,4 @@
+<?php
+$this->json( array('meta' => $this->params,'counts' => $this->json($this->data), 'objects' => 
+$this->json($this->partialLoop('partials/xml/objectsjson.phtml',$this->paginator))));
+?>

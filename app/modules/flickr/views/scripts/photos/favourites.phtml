@@ -1,0 +1,26 @@
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>
+<?php 
+$this->headTitle('The Scheme\'s favourite images');
+$this->MetaBase('A list of our favourite images that we have found on flickr from the creative commons community',
+'photos',
+'favourites,flickr,archaeology,creative commons,portable antiquities'
+);
+?>
+<h2>Our favourite images from other users.</h2>
+<?php if($this->photos):?>
+<?php 
+echo $this->partialLoop('partials/flickr/favourite.phtml',$this->photos);
+?> 
+<?php echo $this->paginationControl($this->photos, 'Sliding', 'structure/pagination.phtml'); ?>
+
+<?php else:?>
+<p>There are no favourites available at the moment</p>
+<?php endif;?>

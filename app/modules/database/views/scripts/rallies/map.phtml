@@ -1,0 +1,144 @@
+<?php 
+$this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$this->apikey,
+$type='text/javascript');
+$this->inlineScript()->appendFile($this->baseUrl().'/js/maps/clusterer.js',$type='text/javascript');
+
+$this->inlineScript()->appendFile('http://nls.tileserver.com/api.js',$type='text/javascript');
+$this->headTitle('Rallies known to the Scheme displayed on map');
+$this->headMeta('This map displays all locations for rallies that the Scheme attends. These present the 
+Scheme with a problem for managing the archaeological record','dc.description');
+$this->headMeta('archaeology,metal detecting,rally,maps,locations','dc.keywords')
+->headMeta('CC NC-SA-BY','dc.rights')
+->headMeta('metal detecting rallies','dc.subject')
+->headMeta('archaeology','dc.subject')
+->headMeta($this->curUrl(),'dc.identifier')
+->headMeta('The Portable Antiquities Scheme','dc.author');
+?>
+<h2>Rallies known to the Scheme</h2>
+<div id="rallymap">
+</div>
+
+<?php
+$this->inlineScript()->captureStart();
+?>
+ $(document).ready(function() {
+
+if (GBrowserIsCompatible()) {
+
+      var gmarkers = [];
+      var htmls = [];
+      var i = 0;
+	  var Icon = new GIcon();
+      Icon.image = 'http://labs.google.com/ridefinder/images/mm_20_red.png';
+      Icon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Icon.iconSize = new GSize( 12, 20 );
+      Icon.shadowSize = new GSize( 22, 20 );
+      Icon.iconAnchor = new GPoint( 6, 20 );
+      Icon.infoWindowAnchor = new GPoint( 5, 1 );
+      Icon.infoShadowAnchor = new GPoint( 5, 1 );
+      var clusterIcon = new GIcon();
+      clusterIcon.image = 'http://labs.google.com/ridefinder/images/mm_20_blue.png';
+      clusterIcon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      clusterIcon.iconSize = new GSize( 12, 20 );
+      clusterIcon.shadowSize = new GSize( 22, 20 );
+      clusterIcon.iconAnchor = new GPoint( 6, 20 );
+      clusterIcon.infoWindowAnchor = new GPoint( 5, 1 );
+      clusterIcon.infoShadowAnchor = new GPoint( 5, 1 );
+
+      	  
+      // -- copy&paste block start
+	  var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(-90, -180),new GLatLng(90, 180)), 1,
+			"Historical maps from <a href='http://geo.nls.uk/maps/api/'>NLS Maps API<\/a>");
+	  var copyrightCollection = new GCopyrightCollection();
+		  copyrightCollection.addCopyright(copyright);
+	  var tilelayer = new GTileLayer(copyrightCollection, 1, NLSTileUrlOS('MAXZOOM'));
+		  tilelayer.getTileUrl = NLSTileUrlOS;
+	  var nlsmap = new GMapType([tilelayer], G_NORMAL_MAP.getProjection(), "Historical");
+	  // -- copy&paste block end
+
+
+	 
+	 var copyOSM = new GCopyrightCollection('<a href="http://www.openstreetmap.org/">OpenStreetMap</a>');
+  		 copyOSM.addCopyright(new GCopyright(1, 
+    new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)),
+    	0, // minimum zoom level
+   		 ' ' // no additional copyright message, but empty string hides entire copyright
+  		));
+	
+	var osmLayer = new GTileLayer(copyOSM, 0, 18, {
+    tileUrlTemplate: 'http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/998/256/{Z}/{X}/{Y}.png',
+    isPng: true,
+    opacity: 1.0
+  });
+
+	  
+ var osmMap = new GMapType(
+    [osmLayer], // list of layers
+    G_NORMAL_MAP.getProjection(), // borrow the Mercator projection from the standard map
+    'OSM' // name should be short enough to fit in button
+  );
+
+      var map = new GMap2(document.getElementById("rallymap"));
+			
+	  map.setUIToDefault();
+      map.addControl(new GMapTypeControl());
+      map.setCenter(new GLatLng(54.70235509327093, -3.2080078125),6);
+	  map.addMapType(osmMap);
+	  map.addMapType(nlsmap);
+	  map.addMapType(G_SATELLITE_3D_MAP);
+	  map.setMapType(G_PHYSICAL_MAP); 
+	  map.addMapType(G_PHYSICAL_MAP);
+	  map.disableScrollWheelZoom(); 
+	  map.enableRotation();
+	
+
+	  var customIcons = [];
+	  customIcons["rally"] = Icon;
+	
+      var clusterer = new Clusterer(map);
+      clusterer.icon = clusterIcon;      
+      clusterer.maxVisibleMarkers = 150;
+      clusterer.gridSize = 6;
+      clusterer.minMarkersPerClusterer = 2;
+      clusterer.maxLinesPerInfoBox = 4;
+      var request = GXmlHttp.create();
+      request.open("GET", "/database/ajax/rallydata", true);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          var xmlDoc = request.responseXML;
+          var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+          for (var i = 0; i < markers.length; i++) {
+          var lat = parseFloat(markers[i].getAttribute("lat"));
+          var lng = parseFloat(markers[i].getAttribute("lng"));
+          var point = new GLatLng(lat,lng);
+          var datefrom = markers[i].getAttribute("datefrom");
+          var dateto = markers[i].getAttribute("dateto");
+          var rallyid = markers[i].getAttribute("id");
+          var name = markers[i].getAttribute("name");
+          var html = label + " " + "<br />Date(s): " + datefrom + "  " + dateto + "<br /><a href='/database/rallies/rally/id/" + rallyid + "'>Full details</a>";
+          var label = markers[i].getAttribute("name");
+
+          var marker = createMarker(point,label,html,Icon);
+          clusterer.AddMarker(marker, label);
+          }
+         }
+		 
+		function createMarker(point,name,html,icon) {
+        var marker = new GMarker(point, Icon);
+		
+		 GEvent.addListener(marker, "click", function(){ 
+          marker.openInfoWindowHtml(html,{maxWidth:360,maxHeight:350});
+  	  });
+		
+        
+        gmarkers[i] = marker;
+        htmls[i] = html;
+        return marker;
+      }
+      }
+      request.send(null);
+    }
+    
+    });
+
+<?php $this->inlineScript()->captureEnd() ?>

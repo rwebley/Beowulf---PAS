@@ -1,0 +1,96 @@
+<?php 
+$this->inlineScript()->appendFile('http://maps.google.com/maps/api/js?sensor=false',$type='text/javascript');
+$this->headTitle('Our photos from Flickr mapped');
+$this->MetaBase('A map showing our images from flickr that have geo information and can be plotted',
+'photos',
+'archaeology,woeid,map,flickr,photos,portable antiquities');
+?>
+<h2>Our georeferenced images from flickr</h2>
+<div id="map" style="width:740px; height:700px;">
+
+</div>
+
+<?php
+$this->inlineScript()->captureStart();
+?>
+ //<![CDATA[
+
+    var customIcons = {
+      
+      flickr: {
+        icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png',
+        shadow: 'http://labs.google.com/ridefinder/images/mm_20_shadow.png'
+      }
+    };
+    function load() {
+      var map = new google.maps.Map(document.getElementById("map"), {
+        center: new google.maps.LatLng(54.70235509327093, -3.2080078125),
+        zoom: 6,
+		scrollwheel:false,
+        mapTypeId: 'terrain'
+      });
+      var infoWindow = new google.maps.InfoWindow;
+
+      // Change this depending on the name of your PHP file
+      downloadUrl("<?php echo $this->url(array('module' => 'flickr','controller' => 'ajax','action' => 'index'),null,true);?>", function(data) {
+        var xml = parseXml(data);
+        var markers = xml.documentElement.getElementsByTagName("marker");
+        for (var i = 0; i < markers.length; i++) {
+          var title = markers[i].getAttribute("title");
+          var html = markers[i].getAttribute("html");
+          var point = new google.maps.LatLng(
+              parseFloat(markers[i].getAttribute("lat")),
+              parseFloat(markers[i].getAttribute("lng")));
+          var html = "" + title + "" + html;
+          var icon = customIcons['flickr'];
+          var marker = new google.maps.Marker({
+            map: map,
+            position: point,
+            icon: icon.icon,
+            shadow: icon.shadow
+          });
+          bindInfoWindow(marker, map, infoWindow, html);
+        }
+      });
+    }
+
+    function bindInfoWindow(marker, map, infoWindow, html) {
+      google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(html);
+        infoWindow.open(map, marker);
+      });
+    }
+
+    function downloadUrl(url, callback) {
+      var request = window.ActiveXObject ?
+          new ActiveXObject('Microsoft.XMLHTTP') :
+          new XMLHttpRequest;
+
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          request.onreadystatechange = doNothing;
+          callback(request.responseText, request.status);
+        }
+      };
+
+      request.open('GET', url, true);
+      request.send(null);
+    }
+
+    function parseXml(str) {
+      if (window.ActiveXObject) {
+        var doc = new ActiveXObject('Microsoft.XMLDOM');
+        doc.loadXML(str);
+        return doc;
+      } else if (window.DOMParser) {
+        return (new DOMParser).parseFromString(str, 'text/xml');
+      }
+    }
+
+    function doNothing() {}
+
+    //]]>
+	window.onload = load;
+
+<?php 
+$this->inlineScript()->captureEnd();?>

@@ -1,0 +1,16 @@
+<?php
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinitwww.js',$type='text/javascript'); 
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
+?>
+
+<h2>What/Where/When search</h2>
+<?php 
+$this->metaBasic();
+$cache = Zend_Registry::get('formcache');
+if(!$cache->start('basicform')) {
+echo $this->form;
+$cache->end();
+}
+
+?>

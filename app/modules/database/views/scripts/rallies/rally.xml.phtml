@@ -1,0 +1,44 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<response>
+	<?php
+	 $data = $this->rallies;
+	$object = (object)$data['0'];
+	?>
+	<rally>
+	<url>http://www.finds.org.uk/database/rallies/rally/id/<?php echo $object->id;?></url>
+	<name><?php echo $object->rally_name;?></name>
+	<geo>
+	<county><?php echo $object->county;?></county>
+	<district><?php echo $object->district;?></district> 
+	<parish><?php echo $object->parish;?></parish>
+	<ngr><?php echo $object->gridref;?></ngr>
+	<fourFigure><?php echo $object->fourFigure;?></fourFigure>
+	<easting><?php echo $object->easting;?></easting>
+	<northing><?php echo $object->northing;?></northing>
+	<one25k><?php echo $object->map25k;?></one25k>
+	<one10k><?php echo $object->map10k;?></one10k>
+	<lat><?php echo $object->latitude;?></lat>
+	<lon><?php echo $object->longitude;?></lon>
+	</geo>
+	<dates>
+	<datefrom><?php echo $object->df;?></datefrom> 
+	<dateto><?php echo $object->dt;?></dateto>
+	</dates>
+	<attending> 
+	<flos>
+	<?php foreach($this->atts as $a):?>
+	<flo>
+	<fullname><?php echo $a['fullname'];?></fullname>
+	<id><?php echo $a['id'];?></id>
+	</flo>
+	<?php endforeach;?>
+	</flos>
+	</attending>
+	<metadata>
+	<created><?php echo $object->created;?></created>
+	<createdby><?php echo $object->fullname;?></createdby>
+	<updated><?php echo $object->updated;?></updated>
+	<updatedby><?php echo $object->fn;?></updatedby>
+	</metadata>
+	</rally>
+</response>

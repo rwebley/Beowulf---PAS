@@ -1,0 +1,15 @@
+<?php 
+if (count($this->users) > 0)
+{?>
+<div class="flashmessenger"><p>Our site is currently blocked from using Yahoo! services; therefore we are missing a lot of functions at present. Hopefully fixed soon.</p></div>
+<?php
+
+echo $this->partialLoop('partials/users/profile.phtml',$this->users);
+echo $this->WhatYouWantToDo();
+echo $this->facebookPage();
+echo $this->newPeople();
+?>
+
+<?php
+}?>
+

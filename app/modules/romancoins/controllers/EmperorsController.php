@@ -18,7 +18,7 @@ class RomanCoins_EmperorsController extends Pas_Controller_ActionAdmin {
 	$this->_helper->_acl->allow(null);
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_config = Zend_Registry::get('config');
-	$this->_googleapikey = $this->_config->googlemaps->apikey; 
+	$this->_googleapikey = $this->_config->webservice->googlemaps->apikey; 
 	$contexts = array('xml','json');
 	$this->_helper->contextSwitch()->setAutoDisableLayout(true)
 		->addActionContext('index',$contexts)

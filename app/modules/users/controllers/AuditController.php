@@ -12,7 +12,7 @@ class Users_AuditController extends Pas_Controller_ActionAdmin {
 	*/	
 	public function init()  {	
 	$this->_helper->_acl->allow('member',NULL);
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     }
 	/** Display logins by username
 	*/	

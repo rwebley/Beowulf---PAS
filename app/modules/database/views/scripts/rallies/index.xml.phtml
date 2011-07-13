@@ -1,0 +1,10 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<response>
+	<meta>
+	<url><?php echo $this->CurUrl();?></url>
+	<?php echo $this->paginationControl($this->rallies,NULL,'structure/xmlqueryCounts.phtml');?>
+	</meta>
+	<rallies>
+	<?php echo $this->partialLoop('partials/xml/rallies.phtml',$this->rallies);?>
+	</rallies>
+</response>

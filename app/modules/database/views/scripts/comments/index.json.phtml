@@ -1,0 +1,4 @@
+<?php 
+$all = $this->comments;
+ unset($all['comment_author_email']);
+echo $this->json($all);?>

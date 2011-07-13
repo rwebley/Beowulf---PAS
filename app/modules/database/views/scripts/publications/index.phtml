@@ -1,0 +1,51 @@
+<?php
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/labelOver.js',$type='text/javascript');
+$this->headTitle('Reference works cited within database records');
+$this->headMeta($this->curUrl(),'dc.identifier')
+->headMeta('The Portable Antiquities Scheme','dc.publisher')
+->headMeta('Daniel Pett','dc.creator')
+->headMeta('CC NC-BY-SA','dc.rights')
+->headMeta('A list of all reference works cited by the Portable Antiquities Scheme within the database records.','dc.description')
+->headMeta('publications,references,archaeology,bibliography','dc.keywords');
+
+?>
+<?php $this->jQuery()->javascriptcaptureStart() ?>
+$(function() {
+ 
+$('label.overlay').labelOver();
+ 
+});
+<?php $this->jQuery()->javascriptcaptureEnd() ?>
+<h2>All publications</h2>
+<?php 
+echo $this->Href(array('module' => 'database','controller'=>'publications', 'action'=>'add', 'checkAcl'=>true,
+'acl'=>'Zend_Acl',  'params' =>array('id'=>$this->id), 'content'=>'Add publication','wrapper' => array('tag' => 'div','id' => 'action','class' => 'redadd'),'attribs' => array('title' => 'Add publication details')));
+?> 
+
+<?php if (count($this->paginator)): ?>
+<table class="stripeMe" id="publicationsList" summary="A list of all publications on the Scheme's database">
+<caption>All publications listed on the Scheme's database</caption>
+<thead>
+<tr>
+<th>Title</th>
+<th>Author/Editor</th>
+<th>Publication year</th>
+<th>Publication place</th>
+<th>Actions</th>
+</tr>
+<tr>
+<?php echo $this->form;?>
+</tr>
+
+</thead>
+<tbody>
+
+<?php echo $this->partialLoop('partials/database/pubListTable.phtml',$this->paginator);
+?>
+
+</tbody>
+</table>
+
+<?php echo $this->paginationControl($this->paginator, 'Elastic', 'structure/pagination.phtml'); ?>
+<?php endif; ?>
+

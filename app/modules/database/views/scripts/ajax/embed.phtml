@@ -1,0 +1,21 @@
+<div id="embeds">
+<p>Copy the text in the form fields below and you can reuse it where ever you want.</p>
+
+<form action="" method="get">
+<label>Url: <input type="text" size="60" value="http://<?php echo $_SERVER['SERVER_NAME'];?>
+<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record','id' => $this->finds[0]['id']),null,true);?>"/></label>
+</form>
+
+<form action="" method="get">
+<textarea name="" cols="100%" rows="6">
+<?php echo $this->partialLoop('partials/database/embedthumbs.phtml', $this->thumbs) ?>
+<?php echo $this->partialLoop('partials/database/embedDataFind.phtml', $this->finds) ?>
+</textarea>
+</form>
+
+<hr>
+<h2>[Preview]</h2>
+<?php echo $this->partialLoop('partials/database/embedthumbs.phtml', $this->thumbs) ?>
+<?php echo $this->partialLoop('partials/database/embedPreview.phtml', $this->finds) ?>
+
+</div>

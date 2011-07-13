@@ -1,0 +1,163 @@
+<?php 
+$this->headTitle('All finds recorded by me, mapped');
+$this->headMeta('A list of all finds recorded for me, by the Scheme on a google map!','dc.description');
+	$config = Zend_Registry::get('config');
+	$this->apikey = $config->webservice->googlemaps->apikey;
+$this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$this->apikey,$type='text/javascript')
+	->appendFile($this->baseUrl().'/js/maps/clusterer.js',$type='text/javascript');
+?>
+
+<?php $this->inlineScript()->captureStart() ?>
+$(document).ready(function() {
+
+if (GBrowserIsCompatible()) {
+
+      var gmarkers = [];
+      var htmls = [];
+      var i = 0;
+	  
+	  
+	  var Icon = new GIcon();
+      Icon.image = 'http://labs.google.com/ridefinder/images/mm_20_red.png';
+      Icon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Icon.iconSize = new GSize( 12, 20 );
+      Icon.shadowSize = new GSize( 22, 20 );
+      Icon.iconAnchor = new GPoint( 6, 20 );
+      Icon.infoWindowAnchor = new GPoint( 5, 1 );
+      Icon.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+	   var Yellow = new GIcon();
+      Yellow.image = 'http://labs.google.com/ridefinder/images/mm_20_yellow.png';
+      Yellow.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Yellow.iconSize = new GSize( 12, 20 );
+      Yellow.shadowSize = new GSize( 22, 20 );
+      Yellow.iconAnchor = new GPoint( 6, 20 );
+      Yellow.infoWindowAnchor = new GPoint( 5, 1 );
+      Yellow.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+	  
+	  var Black = new GIcon();
+      Black.image = 'http://labs.google.com/ridefinder/images/mm_20_black.png';
+      Black.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Black.iconSize = new GSize( 12, 20 );
+      Black.shadowSize = new GSize( 22, 20 );
+      Black.iconAnchor = new GPoint( 6, 20 );
+      Black.infoWindowAnchor = new GPoint( 5, 1 );
+      Black.infoShadowAnchor = new GPoint( 5, 1 );
+	    
+	  var Green = new GIcon();
+      Green.image = 'http://labs.google.com/ridefinder/images/mm_20_green.png';
+      Green.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      Green.iconSize = new GSize( 12, 20 );
+      Green.shadowSize = new GSize( 22, 20 );
+      Green.iconAnchor = new GPoint( 6, 20 );
+      Green.infoWindowAnchor = new GPoint( 5, 1 );
+      Green.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+      var clusterIcon = new GIcon();
+      clusterIcon.image = 'http://labs.google.com/ridefinder/images/mm_20_blue.png';
+      clusterIcon.shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+      clusterIcon.iconSize = new GSize( 12, 20 );
+      clusterIcon.shadowSize = new GSize( 22, 20 );
+      clusterIcon.iconAnchor = new GPoint( 6, 20 );
+      clusterIcon.infoWindowAnchor = new GPoint( 5, 1 );
+      clusterIcon.infoShadowAnchor = new GPoint( 5, 1 );
+	  
+      
+	 
+	 var copyOSM = new GCopyrightCollection('<a href="http://www.openstreetmap.org/">OpenStreetMap</a>');
+  copyOSM.addCopyright(new GCopyright(1, 
+    new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)),
+    0, // minimum zoom level
+    ' ' // no additional copyright message, but empty string hides entire copyright
+  ));
+	
+	var osmLayer = new GTileLayer(copyOSM, 0, 18, {
+    tileUrlTemplate: 'http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/998/256/{Z}/{X}/{Y}.png',
+    isPng: true,
+    opacity: 1.0
+  });
+
+	  
+ var osmMap = new GMapType(
+    [osmLayer], // list of layers
+    G_NORMAL_MAP.getProjection(), // borrow the Mercator projection from the standard map
+    'OSM' // name should be short enough to fit in button
+  );
+
+      var map = new GMap2(document.getElementById("mapofresults"));
+			
+	  map.setUIToDefault();
+      map.addControl(new GMapTypeControl());
+      map.setCenter(new GLatLng(54.70235509327093, -3.2080078125),6);
+	  map.addMapType(osmMap);
+	  map.addMapType(G_SATELLITE_3D_MAP);
+      map.setMapType(G_SATELLITE_MAP); 
+	  map.addMapType(G_PHYSICAL_MAP);
+	  map.disableScrollWheelZoom(); 
+      map.enableRotation();	  
+	  map.addMapType(G_SATELLITE_3D_MAP);
+	  var customIcons = [];
+	  customIcons["review"] = Icon;
+	  customIcons["quarantine"] = Black;
+	  customIcons["published"] = Green;
+	  customIcons["validation"] = Yellow;
+
+      var clusterer = new Clusterer(map);
+      clusterer.icon = clusterIcon;      
+      clusterer.maxVisibleMarkers = 150;
+      clusterer.gridSize = 18;
+      clusterer.minMarkersPerClusterer = 2;
+      clusterer.maxLinesPerInfoBox = 4;
+      var request = GXmlHttp.create();
+      request.open("GET", "<?php echo $this->baseUrl().'/ajax/usermap/';?>", true);
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          var xmlDoc = request.responseXML;
+          var markers = xmlDoc.documentElement.getElementsByTagName("marker");
+          for (var i = 0; i < markers.length; i++) {
+          var lat = parseFloat(markers[i].getAttribute("lat"));
+          var lng = parseFloat(markers[i].getAttribute("lng"));
+          var point = new GLatLng(lat,lng);
+          var html = markers[i].getAttribute("name");
+          var label = markers[i].getAttribute("name");
+		  var workflow = markers[i].getAttribute("workflow");
+		 
+
+          var marker = createMarker(point,label,html,Icon);
+          clusterer.AddMarker(marker, label);
+          }
+         }
+		 
+		function createMarker(point,name,html,icon) {
+        var marker = new GMarker(point, customIcons[workflow]);
+		
+		 GEvent.addListener(marker, "click", function(){ 
+          marker.openInfoWindowHtml(html,{maxWidth:360,maxHeight:350});
+  	  });
+		
+        
+        gmarkers[i] = marker;
+        htmls[i] = html;
+        return marker;
+      }
+      }
+      request.send(null);
+    }
+    });
+
+<?php $this->inlineScript()->captureEnd() ?>
+<h2>My finds mapped</h2>
+<?php echo $this->SearchParams($this->params);?>
+
+<div id="mapofresults" ></div>
+
+<p>These finds are mapped to the highest precision possible. The general public cannot see these findspots to this level.</p>
+<h4>Legend</h4>
+<ul>
+<li><img src="http://labs.google.com/ridefinder/images/mm_20_black.png" alt="Single find denoted by a black map marker" width="12" height="20" /> - A black marker signifies a single findspot in quarantine. Click on this dot and it brings up an info window. If an image is available you will also be served with this.</li>
+<li><img src="http://labs.google.com/ridefinder/images/mm_20_red.png" alt="Single find denoted by a red map marker" width="12" height="20" /> - A red marker signifies a single findspot on review. Click on this dot and it brings up an info window. If an image is available you will also be served with this.</li>
+<li><img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png" alt="Single find denoted by a yellow map marker" width="12" height="20" /> - A yellow marker signifies a single findspot awaiting validation. Click on this dot and it brings up an info window. If an image is available you will also be served with this.</li>
+<li><img src="http://labs.google.com/ridefinder/images/mm_20_green.png" alt="Single find denoted by a green map marker" width="12" height="20" /> - A green marker signifies a single findspot for a validated record. Click on this dot and it brings up an info window. If an image is available you will also be served with this.</li>
+<li><img src="http://labs.google.com/ridefinder/images/mm_20_blue.png" alt="Clustered finds denoted by blue map marker" width="12" height="20" /> - A blue marker signifies a cluster of findspots. If you click on this, a window pops up with a list of finds and how many more are in the vicinity. Zoom in to reveal more.</li>
+</ul>

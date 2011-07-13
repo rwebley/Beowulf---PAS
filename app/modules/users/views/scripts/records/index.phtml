@@ -1,0 +1,41 @@
+<?php 
+	$this->headTitle('Records of mine on the database');
+	$this->headMeta('A list of all finds recorded for me, by the Scheme','description');
+if(count($this->finds)) :?>
+
+<h2>My finds recorded by the Scheme</h2>
+
+<p><a href="<?php echo $this->url(array('module' => 'users','controller' => 'records','action' => 'mapped'),NULL,true);?>" title="Map these finds">View these finds on a googlemap</a></p>
+<table summary="A list of all finds recorded by this finder" class="stripeMe">
+<caption>A list of finds for this finder</caption>
+<thead>
+<tr>
+<th>Image</th>
+<th>Object type</th>
+<th>Find number</th>
+<th>Broadperiod</th>
+<th>County</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/database/findsTable.phtml',$this->finds);?>
+</tbody>
+</table>
+<?= $this->paginationControl($this->finds, 'Sliding', 'structure/pagination.phtml'); ?>
+
+<?php else:?>
+<h2>My finds recorded by the Scheme</h2>
+<p>Your account is either not linked to the personal details we have for you on record/ of you have nor reported any objects yet to our staff.</p>
+<p>If you think it is the former, speak to your FLO and ask them to link your personal details to your account username.</p>
+<?php endif;?>
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<?php 

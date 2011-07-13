@@ -1,0 +1,10 @@
+<?php if($this->dieaxes > 0)
+{
+echo $this->partial('partials/database/dieDetail.phtml',$this->dieaxes['0']);
+echo '<p>There are '. $this->partial('partials/countObjects.phtml',$this->counts['0']). ' example on our database.</p>';
+}
+else
+{
+echo 'There is no entry for this parameter, please retry';
+}
+?>

@@ -1,0 +1,23 @@
+<?php 
+
+
+$vc = new VCard();
+foreach($this->peoples as $person) {
+$vc->data['display_name'] = $person['forename'].' '.$person['surname'];
+$vc->data['first_name'] = $person['forename'];
+$vc->data['last_name'] = $person['surname'];
+$vc->data['name_prefix'] = $person['title'];
+$vc->data['company'] = $person['org'];
+$vc->data['work_address'] = $person['address'];
+$vc->data['work_city'] = $person['town_city'];
+$vc->data['work_state'] = $person['county'];
+$vc->data['work_postal_code'] = $person['postcode'];
+$vc->data['work_country'] = $person['abode'];
+$vc->data['home_tel'] = $person['hometel'];
+$vc->data['office_tel'] = $person['worktel'];
+$vc->data['email1'] = $person['email'];
+}
+
+$vc->download();
+
+?>

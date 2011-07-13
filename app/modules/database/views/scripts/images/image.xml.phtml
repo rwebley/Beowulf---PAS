@@ -1,0 +1,98 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<response>
+	<image>
+	<?php 
+	$data = $this->images;
+	$object = (object)$data['0'];
+	$route = $object->imagedir;
+	?>
+	<url>http://www.finds.org.uk/database/images/id/<?php echo $object->id;?></url>
+	<label><?php echo $this->Xmlclean($object->label);?></label>
+	<broadperiod><?php echo $object->broadperiod;?></broadperiod>
+	<county><?php echo $object->county;?></county>
+	<creator><?php echo $object->fullname;?></creator>
+	<created><?php echo date(DATE_W3C,strtotime($object->created));?></created>
+	<imagerights><?php echo $this->Xmlclean($object->imagerights);?></imagerights>
+	<formats>
+	<original>
+		<path><?php echo $route . $object->filename;?></path>
+		<?php if(file_exists($route . $object->filename)) {
+		$data = getimagesize($route . $object->filename);
+		$width = $data['0'];
+		$height = $data['1'];
+		$mime = $data['mime'];
+		$size = filesize($object->imagedir . $object->filename);
+		?>
+		<mimeType><?php echo $mime;?></mimeType>
+		<fileSize><?php echo $size;?></fileSize>
+		<height><?php echo $height;?></height>
+		<width><?php echo $width;?></width>
+		<?php }?>
+	</original>
+	<medium>
+		<?php 
+		if(file_exists($route . 'medium/' . $object->filename)) {
+		$data2 = getimagesize($route . 'medium/' . $object->filename);
+		$width2 = $data2['0'];
+		$height2 = $data2['1'];
+		$mime2 = $data2['mime'];
+		$size2 = filesize($object->imagedir . 'medium/' . $object->filename);
+			?>
+		<path><?php echo $route;?>medium/<?php echo strtolower($object->filename);?></path>
+		<mimeType></mimeType>
+		<mimeType><?php echo $mime2;?></mimeType>
+		<fileSize><?php echo $size2;?></fileSize>
+		<height><?php echo $height2;?></height>
+		<width><?php echo $width2;?></width>
+		<?php }?>
+	</medium>
+	<thumbnail>
+		<path>http://www.finds.org.uk/images/thumbnails/<?php echo $object->id?>.jpg</path>
+		<?php 
+		$data3 = getimagesize('http://www.finds.org.uk/images/thumbnails/' . $object->id . '.jpg');
+		$width3 = $data3['0'];
+		$height3 = $data3['1'];
+		$mime3 = $data3['mime'];
+		$size3 = filesize('images/thumbnails/' . $object->id . '.jpg');
+			?>
+		<mimeType><?php echo $mime3; ?></mimeType>
+		<fileSize><?php echo $size3;?></fileSize>
+		<height><?php echo $height3;?></height>
+		<width><?php echo $width3;?></width>
+	</thumbnail>
+	<display>
+		<?php if(file_exists($route . 'display/' . strtolower($object->filename))) {
+		$data4 = getimagesize($route . 'display/' . strtolower($object->filename));
+		$width4 = $data4['0'];
+		$height4 = $data4['1'];
+		$mime4 = $data4['mime'];
+		$size4 = filesize($object->imagedir  . 'display/' . strtolower($object->filename));
+			?>
+		<path><?php echo $route;?>display/<?php echo strtolower($object->filename);?></path>
+		<mimeType><?php  echo $mime4?></mimeType>
+		<fileSize><?php echo $size4;?></fileSize>
+		<height><?php echo $height4;?></height>
+		<width><?php echo $width4;?></width>
+		<?php }?>
+	</display>
+	<small>
+		<?php if(file_exists($route . 'small/' . $object->filename)) {
+		$data5 = getimagesize($route . 'small/' . $object->filename);
+		$width5 = $data5['0'];
+		$height5 = $data5['1'];
+		$mime5 = $data5['mime'];
+		$size5 = filesize($object->imagedir . 'small/' . $object->filename);
+		?>
+		<path><?php echo $route;?>small/<?php echo $object->filename;?></path>
+		<mimeType><?php echo $mime;?></mimeType>
+		<fileSize><?php echo $size5;?></fileSize>
+		<height><?php echo $height5;?></height>
+		<width><?php echo $width5;?></width>
+		<?php }?>
+	</small>
+	</formats>
+	<linkedFinds>
+	<?php echo $this->partialLoop('partials/xml/linkedfinds.phtml',$this->finds);?>
+	</linkedFinds>
+	</image> 
+</response>

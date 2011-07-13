@@ -1,0 +1,51 @@
+<?php
+foreach($this->gazetteer as $g){
+$this->headTitle('1:50K Gazetteer data for '.$g['name']);
+$this->headMeta('Details for the 1:50K gazetteer entry for ' . $g['name'],'dc.description')
+->headMeta('Daniel Pett','dc.creator')
+->headMeta('The Portable Antiquities Scheme','dc.publisher')
+->headMeta($this->curUrl(),'dc.identifier');
+if($g['f_code'] == 'R') {
+$code = 'Roman Antiquity';
+} else if($g['f_code'] == 'A'){
+$code = 'Antiquity';	
+
+}
+$config = Zend_Registry::get('config');
+$appid = $config->ydnkeys->placemakerkey;
+$place = new Pas_Service_Geoplanet2($appid);
+$placedata = $place->reverseGeoCode($g['latitude'],$g['longitude']);
+$point = $place->getPlace($placedata['woeid']);
+?>
+<h2>1:50K Gazetteer data for <?php echo $g['name'];?></h2>
+<img src="http://maps.google.com/maps/api/staticmap?center=<?php echo $placedata['centroid']['latitude'];?>,<?php echo $placedata['centroid']['longitude'];?>&zoom=14&size=300x300&maptype=terrain&markers=color:green|label:G|
+<?php echo $placedata['centroid']['latitude'];?>,<?php echo $placedata['centroid']['longitude'];?>&sensor=false" class="flow"/>
+<ul>
+<li>4 Figure grid reference: <?php echo $g['km_ref'];?></li>
+<li>Easting: <?php echo $g['easting'];?></li>
+<li>Northing: <?php echo $g['northing'];?></li>
+<li>Latitude: <?php echo $g['latitude'];?></li>
+<li>Longitude: <?php echo $g['longitude'];?></li>
+<li>Feature type: <?php echo $code;?></li>
+<li>Where on earth ID: <?php echo $placedata['woeid'];?></li>
+<li>Place type: <?php echo $point['placeTypeName'];?></li>
+<li>Place name: <?php echo $point['name'];?></li>
+<li>District: <?php echo $point['admin2'];?></li>
+<li>County: <?php echo $point['locality1'];?></li>
+<li>Country: <?php echo $point['admin1'];?></li>
+<li>Postcode: <?php echo $point['postal'];?></li>
+</ul>
+<p>You can find photos from this place on flickr by following this link: 
+<a href="http://www.flickr.com/places<?php echo $placedata['placeUrl'];?>" 
+title="Flickr photos for <?php echo $placedata['name'];?>"><?php echo $placedata['name'];?></a></p>
+<?php 
+}
+echo $this->BatlasDistance($g['longitude'],$g['latitude']);
+//
+//$bb = $point['boundingBox'];
+//$min_lon = $bb['southWest']['lng']; 
+//$min_lat = $bb['southWest']['lat'];
+//$max_lon = $bb['northEast']['lng'];
+//$max_lat = $bb['northEast']['lat'];
+//echo $this->batlas($min_lon,$min_lat,$max_lon,$max_lat);
+?>

@@ -1,0 +1,56 @@
+<?php
+$this->headTitle("Welcome to the Scheme's database");
+$this->headMeta('This database is maintained by the Scheme and contains records of archaeological objects found by the public in England and Wales. It is first and foremost a research resource, but it is also a record of our rural archaeological record','dc.description');
+$this->headMeta('archaeology,database,England,Wales,discovery,archaeological','dc.keywords');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.js',$type='text/javascript')
+ 			   ->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinitwww.js',$type='text/javascript');
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/tabs.css')
+				 ->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript');
+?>
+<?php $this->jQuery()->javascriptCaptureStart(); ?>
+jQuery(document).ready(function($) {
+ $('a[rel*=lightbox]').lightBox() 
+    }
+);
+
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>
+<?php
+$this->jQuery()->javascriptCaptureStart();?>
+ $(document).ready(function() { 
+    $("#prestige").corner(); 
+  });
+<?php
+$this->jQuery()->javascriptCaptureEnd();?>
+<h2>Welcome to the Scheme's database</h2>
+<div id="prestige">
+<a href="http://www.finds.org.uk/database/artefacts/record/id/49791" title="The full record for the 
+Staffordshire Moorlands Patera/trulla"><img src="/images/dpett/medium/114-1479_img.jpg" alt="The Staffordshire Moorlands Patera" height="212" width="366" /></a>
+</div>
+<?php 
+ echo $this->form;
+?>
+
+<div>
+<p><span  class="object"><?php echo number_format($this->counts['0']['c']);?> records of <?php echo number_format($this->counts['0']['q']);?> artefacts</span></p>
+<?php foreach($this->contents as $c) {
+echo $c['body'];
+}
+?></div>
+
+<div>
+<h3>Latest records available to you</h3>
+
+<?php echo $this->partialLoop('partials/database/imagesPaged.phtml', $this->thumbs) ;?>
+</div>
+<?php 
+$auth = Zend_Registry::get('auth');
+if($auth->hasIdentity()):?>
+<?php if($this->logins):?>
+<h3>We've had <?php echo count($this->logins);?> registered users today</h3>
+<p><?php foreach($this->logins as $l):?>
+<a href="<?php echo $this->url(array('module' => 'users', 'controller' => 'named','action' => 'person','as' => $l['username']),null,true);?>" title="View profile for <?php echo $l['username'];?>"><?php echo $l['username'];?></a>
+<?php endforeach;?>
+</p>
+<?php endif;?>
+<?php endif;?>

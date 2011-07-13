@@ -1,0 +1,52 @@
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+<?php 
+$this->jQuery()->javascriptCaptureEnd();
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>
+
+<?php echo $this->partial('partials/database/objectTermData.phtml',$this->objectdata['0']);?>
+<?php 
+
+$term = $this->objectdata['0']['term'];
+$this->headTitle('Explanation of object term '.$term);
+if(count($this->images)):?>
+<?php
+$cache = Zend_Registry::get('formcache');
+if(!$cache->start('objectterms'.$this->spaceremove(' ','',preg_replace('/[^a-zA-Z0-9\s]/ ', '',$term))))
+{
+?>
+<h2>Latest examples on our database</h2>
+<?php echo $this->partialLoop('partials/database/myimagesList.phtml',$this->images);?>
+<?php 
+$cache->end(); 
+}
+
+
+endif;?>
+<?php
+
+$collection = new CollectionBM();
+$collections = $collection->getAll(urlencode(strtolower($term)),urlencode(strtolower($term)),12);
+if(count($collections)){
+?>
+<div class="clear"></div>
+<?php
+$cache = Zend_Registry::get('formcache');
+
+if(!$cache->start($this->spaceremove(' ','',preg_replace('/[^a-zA-Z0-9\s]/ ', '',$term)))) 
+{
+echo '<h3 id="cl">Examples in the British Museum Collection online</h3><div id="gallerycol">';
+foreach($collections as $data) {
+echo '<div class="thumbnail" id="thumbnail">
+<a href="'.$data->url['href'].'">'.ucfirst($data->title) . '</a> - '.$data->content.'</li><br /><a href="'.$this->spaceremove('_s.jpg','_l.jpg',$data->imageurl).'" rel="lightbox"><img src="'. $data->imageurl.'" alt=""/></a></div>';
+	}
+echo '</div>';
+$cache->end(); 
+}
+}
+
+?>

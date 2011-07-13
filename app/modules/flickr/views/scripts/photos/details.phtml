@@ -1,0 +1,25 @@
+<?php if($this->ownerdata['license'] != 0):?>
+<?php echo $this->partial('partials/flickr/image.phtml',$this->image);
+?>
+<h3>Metadata</h3>
+<ul>
+<li>Licence: <?php echo $this->FlickrLicense((int)$this->ownerdata['license']);?></li>
+<li>Taken by: <?php echo $this->ownerdata['owner']->realname;?></li></ul>
+<?php if($this->comments != NULL):?>
+<h3>Comments</h3>
+<ul id="related">
+<?php echo $this->partialLoop('partials/flickr/comments.phtml',$this->comments);?>
+</ul>
+<?php endif;?>
+<?php if($this->exif):?>
+<h3>Exif details</h3>
+<p><?php 
+foreach($this->exif as $key => $value)
+{
+echo $key.': '.$value.'<br />';
+}?>
+</p>
+<?php endif;?>
+<?php else:?>
+<p>That image is not available to you.</p>
+<?php endif;?>

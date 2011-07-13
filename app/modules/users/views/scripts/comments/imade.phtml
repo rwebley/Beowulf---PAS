@@ -1,0 +1,32 @@
+<style>
+ol.statuses li.status, ol.statuses li.direct_message {
+border-bottom:1px solid #EEEEEE;
+line-height:16px;
+padding:10px 0 8px;
+position:relative;
+list-style:none;
+}
+ol.statuses li {
+padding:10px 0;
+}
+ol.statuses li {
+position:relative;
+}
+* {
+margin:0;
+padding:0;
+}
+li {
+display:list-item;
+}
+</style>
+<?php echo $this->commentheadtitle($this->params);?>
+<?php echo $this->commenttitle($this->params);?>
+<?php if(count($this->comments)):?>
+<ol id="timeline" class="statuses">
+<?php echo $this->partialLoop('partials/users/allcomments.phtml', $this->comments) ?>
+</ol>
+<?echo $this->paginationControl($this->comments, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php else:?>
+<p>No comments are listed or available to you</p>
+<?php endif;?>

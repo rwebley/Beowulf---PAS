@@ -1,0 +1,114 @@
+<?php foreach($this->crime as $c):?>
+<?php
+$this->headTitle('Heritage crime number: ' . $c['id']);
+?>
+<h2><?php echo $this->escape($c['subject']);?></h2>
+<?php if(!is_null($c['latitude'])):?>
+<?php 
+$this->headScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key=ABQIAAAAasv4kXXJ0jQKvwOWfHsLjBSlEYz08iyooQyuh_EGbYeUie1elhTVaZDZHd9xfLdYKWAVz9b3bDuvKA',$type='text/javascript')->appendFile('http://gmaps-utility-library.googlecode.com/svn/trunk/mapiconmaker/1.0/src/mapiconmaker.js',$type='text/javascript');?>
+
+<?php $this->inlineScript()->captureStart();?>
+$(document).ready(function() {
+
+if (GBrowserIsCompatible()) {
+  
+	 
+	 
+	 var copyOSM = new GCopyrightCollection('<a href="http://www.openstreetmap.org/">OpenStreetMap</a>');
+  copyOSM.addCopyright(new GCopyright(1, 
+    new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)),
+    0, // minimum zoom level
+    ' ' // no additional copyright message, but empty string hides entire copyright
+  ));
+	
+	var osmLayer = new GTileLayer(copyOSM, 0, 18, {
+		tileUrlTemplate: 'http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/998/256/{Z}/{X}/{Y}.png',
+		isPng: true,
+		opacity: 1.0
+		});
+	  
+	var osmMap = new GMapType(
+		[osmLayer], // list of layers
+		G_NORMAL_MAP.getProjection(), // borrow the Mercator projection from the standard map
+		'OSM' // name should be short enough to fit in button
+	  );
+	 
+	var map = new GMap2(document.getElementById("map"));
+		map.addControl(new GLargeMapControl());
+      	map.addControl(new GMapTypeControl());
+        map.setCenter(new GLatLng(<?php echo $c['latitude'] . ',' . $c['longitude'];?>),6);
+		map.addMapType(osmMap);
+		map.setMapType(G_HYBRID_MAP); 
+	    map.addMapType(G_PHYSICAL_MAP); 
+		
+	var tinyIcon = new GIcon();
+		tinyIcon.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";
+		tinyIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+		tinyIcon.iconSize = new GSize(12, 20);
+		tinyIcon.shadowSize = new GSize(22, 20);
+		tinyIcon.iconAnchor = new GPoint(6, 20);
+		tinyIcon.infoWindowAnchor = new GPoint(5, 1);
+	markerOptions = { icon:tinyIcon };
+
+	var findIcon = new GIcon();
+		findIcon.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";
+		findIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+		findIcon.iconSize = new GSize(12, 20);
+		findIcon.shadowSize = new GSize(22, 20);
+		findIcon.iconAnchor = new GPoint(6, 20);
+		findIcon.infoWindowAnchor = new GPoint(5, 1);
+		
+		findOptions = { icon:findIcon };
+
+	var point = new GLatLng(<?php echo $c['latitude'] . ',' . $c['longitude'];?>);
+	 	
+	var marker = new GMarker(point, markerOptions);
+        GEvent.addListener(marker, "click", function () {
+	      marker.openInfoWindowHtml("Organisation'\s location");
+        });
+        map.addOverlay(marker);
+		
+	
+		
+    }
+
+});
+<?php $this->inlineScript()->captureEnd();?>
+<div id="map" style="float:right;width:380px;height:380px;"></div>
+<?php endif;?>
+<h3>Description: </h3>
+<?php echo $c['description'];?>
+<h3>Evaluation:</h3>
+<?php echo $c['evaluation'];?>
+<h3>Specific details</h3>
+<ul>
+<?php if(!is_null($c['reporter'])):?>
+<li>Reported by: <?php echo $c['reporter'];?></li>
+<?php endif;?>
+<?php if(!is_null($c['sam'])):?>
+<li>Associated SAM: <a href="<?php echo $this->url(array('module' => 'database','controller' => 'smr','action' => 'record','id' => $c['samID']),NULL,true);?>" title="View SAM's details"><?php echo $c['sam'];?></a></li>
+<?php endif;?>
+<?php if(!is_null($c['gridref'])):?>
+<li>Grid reference: <?php echo $c['gridref'];?></li>
+<li>Four figure: <?php echo $c['fourFigure'];?></li>
+<li>Easting: <?php echo $c['easting'];?></li>
+<li>Northing: <?php echo $c['northing'];?></li>
+<li>Latitude: <?php echo $c['latitude'];?></li>
+<li>Longitude: <?php echo $c['longitude'];?></li>
+<li>Elevation: <?php echo $c['elevation'];?></li>
+<li>WOEID: <?php echo $c['woeid'];?></li>
+<?php endif;?>
+<?php if(!is_null($c['county'])):?>
+<li>County: <?php echo $c['county'];?></li>
+<li>District: <?php echo $c['district'];?></li>
+<li>Parish: <?php echo $c['parish'];?></li>
+<?php endif;?>
+</ul>
+<?php endforeach;;?>
+<p>This record was created: <?php echo $this->niceshortdate($c['created']);?>
+<?php if(!is_null($c['updated'])):?>
+<br />
+This record was updated on: <?php echo $this->niceshortdate($c['updated']);?>
+<?php endif;?>
+</p>
+

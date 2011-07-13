@@ -1,0 +1,70 @@
+<?php $this->headScript()->captureStart() ?>
+var pageUrl = new Array(); 
+pageUrl[1] = "<?php echo $this->baseUrl();?>/database/ironagenumismatics"; 
+pageUrl[2] = "<?php echo $this->baseUrl();?>/database/romannumismatics"; 
+pageUrl[3] = "tab4.html";         
+pageUrl[4] = "<?php echo $this->baseUrl();?>/database/byzantinenumismatics"; 
+function loadTab(id) 
+{ 
+    if (pageUrl[id].length > 0) 
+    { 
+        $("#preloader").show(); 
+        $.ajax( 
+        { 
+            url: pageUrl[id], 
+            cache: false, 
+            success: function(message) 
+            { 
+                $("#tabcontent").empty().append(message); 
+                $("#preloader").hide(); 
+            } 
+        }); 
+    } 
+} 
+
+$(document).ready(function() 
+{ 
+    $("#preloader").hide(); 
+ 
+    $("#tab1").click(function() 
+    { 
+        loadTab(1); 
+    }); 
+ 
+    $("#tab2").click(function() 
+    { 
+        loadTab(2); 
+    }); 
+ 
+    $("#tab3").click(function() 
+    { 
+        loadTab(3); 
+    }); 
+ 
+    $("#tab4").click(function() 
+    { 
+        loadTab(4); 
+    }); 
+});
+<?php $this->headScript()->captureEnd() ?>
+<h2>Advanced numismatic search</h2>
+<p>This form allows you to perform some more advanced database searches. More specific numismatic searching can be affected from period specific forms.</p>
+
+		
+			<div id="navlist">
+				<ul>
+					<li><a id="tab1" href="#">Iron Age</a></li>
+					<li><a id="tab2" href="#">Roman</a></li>
+					<li><a id="tab3" href="#">Greek &amp; Roman Provincial</a></li>
+					<li><a id="tab4" href="#">Byzantine</a></li>
+				</ul>
+			</div>
+
+			<div id="preloader">
+				<p><img src="<?php echo $this->baseUrl();?>/images/loading.gif" align="absmiddle">Loading...</p>				
+			</div>
+			
+			<div id="tabcontent">
+			Here is a simple demonstration of how AJAX Tabs work.
+			</div>
+					
