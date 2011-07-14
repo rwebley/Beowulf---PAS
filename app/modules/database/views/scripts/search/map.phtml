@@ -2,6 +2,7 @@
 $this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$this->googleapikey,$type='text/javascript')
 	->appendFile($this->baseUrl().'/js/maps/clusterer.js',$type='text/javascript')
 	->appendFile('http://nls.tileserver.com/api.js',$type='text/javascript');
+	$this->headTitle('Map of search results ');
 ?>
 
 <?php $this->inlineScript()->captureStart() ?>

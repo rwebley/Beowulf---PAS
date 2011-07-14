@@ -1,5 +1,7 @@
 <h2>Saved searches</h2>
-<?php if(count($this->data)):?>
+<?php 
+$this->headTitle('Saved searches available');
+if(count($this->data)):?>
 <ol id="timeline" class="statuses">
 
 <?php echo $this->partialLoop('partials/users/searchDBList.phtml', $this->data) ?>

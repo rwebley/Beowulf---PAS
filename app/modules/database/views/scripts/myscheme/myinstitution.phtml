@@ -3,13 +3,12 @@ $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocompl
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
-
+	$this->headTitle('All images created by me');
 ?>
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 jQuery(document).ready(function($) {
-
- $('a[rel*=lightbox]').lightBox() 
-    })
+	$('a[rel*=lightbox]').lightBox() 
+});
 <?php $this->jQuery()->javascriptCaptureEnd() ?>
 <?php $this->headTitle('All finds created by ' . $this->Institution($this->inst)); ?>
 <h2>All finds and coins recorded by institution: <?php echo $this->Institution($this->inst);?></h2>
