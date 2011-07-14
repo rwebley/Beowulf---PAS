@@ -2,14 +2,11 @@
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jQueryLinkedSelect.js',$type='text/javascript'); 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/coinslinkedselect.js',$type='text/javascript'); 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/linkedinit.js',$type='text/javascript');
-//$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',
-//$type='text/javascript'); 
-//$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompletecrime.js',
-//$type='text/javascript'); 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',
 $type='text/javascript'); 
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
 				 ->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+$this->headTitle('Submit a new heritage crime');
 				 ?>
 <h2>Add a new crime</h2>
 <p><?php ucwords('Heritage crime intelligence report.');?></p>

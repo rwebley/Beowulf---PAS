@@ -8,6 +8,8 @@
 * @license    GNU General Public License
 */
 class Users_EventsController extends Pas_Controller_ActionAdmin {
+	
+	protected $_gmapskey,$_config,$_geocoder;
 	/** Set up the ACL and contexts
 	*/
 	public function init() {	
@@ -16,6 +18,9 @@ class Users_EventsController extends Pas_Controller_ActionAdmin {
 	$this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
 	. '/js/JQuery/ui.datepicker.js', $type='text/javascript');
 	$this->view->headLink()->appendStylesheet($this->view->baseUrl() . '/css/ui.datepicker.css');
+	$this->_config = Zend_Registry::get('config');
+	$this->_gmapskey = $this->_config->webservice->googlemaps->apikey;
+	$this->_geocoder = new Pas_Service_Geocoder($this->_gmapskey);
     }
 	/** List a paginated events data set
 	*/
@@ -34,7 +39,7 @@ class Users_EventsController extends Pas_Controller_ActionAdmin {
 	$formData = $this->_request->getPost();
 	if ($form->isValid($formData)) {
 	$address = $form->getValue('eventLocation');
-		$coords = $this->_geocoder->getCoordinates($address);
+	$coords = $this->_geocoder->getCoordinates($address);
 	if($coords){
 		$lat = $coords['lat'];
 		$long = $coords['lon']; 

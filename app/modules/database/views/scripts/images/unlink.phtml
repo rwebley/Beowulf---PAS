@@ -1,4 +1,6 @@
-<?php if ($this->slide) :
+<?php
+	$this->headTitle('Delete image association');
+if ($this->slide) :
 ?>
 <h2>Delete image link for <?php echo $this->escape($this->slide->label); ?></h2>
 <p>Are you sure that you want to delete this link for this image. It cannot be undone.

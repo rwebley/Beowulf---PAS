@@ -1,4 +1,6 @@
-<?php if ($this->people) :?>
+<?php 
+$this->headTitle('Delete a person');
+if ($this->people) :?>
 <h2>Delete personal data</h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->people->fullname); ?>' 

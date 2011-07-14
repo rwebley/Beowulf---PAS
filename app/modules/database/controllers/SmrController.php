@@ -11,10 +11,9 @@ class Database_SmrController extends Pas_Controller_ActionAdmin {
 	/** Initialise the ACL and contexts
 	*/
 	public function init() {
-		$this->_helper->_acl->allow('flos',null);
-		$this->_helper->_acl->allow('hero',null);
-        $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$this->view->messages = $this->_flashMessenger->getMessages();
+	$this->_helper->_acl->allow('flos',null);
+	$this->_helper->_acl->allow('hero',null);
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     }
 	const REDIRECT = 'database/smr/';
 	/** Index page for smrs
