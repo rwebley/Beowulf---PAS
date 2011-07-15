@@ -2,22 +2,15 @@
 <?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinitPeople.js',$type='text/javascript'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript'); ?>
 <?php $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
-->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');?>
+->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+$this->headTitle('Edit find details');?>
 
 
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 $(document).ready(function() {
 $("#datefound1").datepicker({ maxDate: '+1y'});
 $("#datefound2").datepicker({ maxDate: '+1y' });
-
-
-	
 });
-
-
-
-
-
 <?php $this->jQuery()->javascriptCaptureEnd() ?>
 <?php $this->DataEditDeleteCheck($this->find->old_findID,$this->find->createdBy);
 ?>
