@@ -1,0 +1,35 @@
+<?php echo "\n";?>
+Coin data (numismatics)<?php echo "\n";?>
+<?php if($this->d != NULL) :?>
+Denomination: <?php echo $this->escape($this->d);?><?php echo "\n";?>
+<?php endif; ?>
+<?php if($this->ruler_id != NULL) :?>
+Ruler/issuer: <?php echo $this->escape($this->ruler1);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->mint_name != NULL):?>
+Mint or issue place: <?php echo $this->escape($this->mint_name);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->category != NULL):?>
+Category: <?php echo $this->escape($this->category);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->type != NULL):?>
+Type: <?php echo $this->escape($this->type);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->obverse_description != NULL):?>
+Obverse description: <?php echo ucfirst($this->escape($this->obverse_description));?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->obverse_inscription != NULL):?>
+Obverse inscription: <?php echo ucfirst($this->obverse_inscription);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->reverse_description != NULL):?>
+Reverse description: <?php echo ucfirst($this->reverse_description);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->reverse_inscription != NULL):?>
+Reverse inscription: <?php echo ucfirst($this->reverse_inscription);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->die_axis_name != NULL):?>
+Die axis measurement: <?php echo $this->escape($this->die_axis_name);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->wear != NULL):?>
+Degree of wear: <?php echo $this->escape($this->wear);?><?php echo "\n";?>
+<?php endif;?><?php echo "\n";?>

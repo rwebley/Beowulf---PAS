@@ -1,0 +1,216 @@
+<?php $this->headTitle('Details for: '.$this->escape($this->fullname));?>
+<h2>Details for: <?php echo $this->fullname;?></h2>
+
+<p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'people','action' => 'edit', 'id'=>$this->id
+),null,true);?>" title="Edit this person's details">Edit</a> <?php if(!$this->finds) :?>| <a href="<?php echo $this->url(array('module' => 'database','controller' => 'people','action' => 'delete', 'id'=>$this->id),null,true);?>" title="Delete this person's details">Delete</a><?php endif;?></p>
+<?php if($this->lat != NULL):?> 
+<?php 
+$this->headScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key=ABQIAAAAasv4kXXJ0jQKvwOWfHsLjBSlEYz08iyooQyuh_EGbYeUie1elhTVaZDZHd9xfLdYKWAVz9b3bDuvKA',$type='text/javascript')->appendFile('http://gmaps-utility-library.googlecode.com/svn/trunk/mapiconmaker/1.0/src/mapiconmaker.js',$type='text/javascript');?>
+
+<?php $this->inlineScript()->captureStart();?>
+$(document).ready(function() {
+
+if (GBrowserIsCompatible()) {
+  var locations = {};
+	var flickr_api_key = 'dbb87ca6390925131a4fedb34d9d8d80';
+	var yahoo_geoplanet_api_key = 'avT7WEDV34HLQLsINzdyv9D4QFGiJtNnPHgtE7C0dvVe7ItxzfuOkGTslkfR_iI9cUCVFKJsrzYTYQ--';
+	var bounds = new GLatLngBounds();
+	var woeid = '<?php echo $this->woeid;?>';
+	var text = '<?php echo $this->address;?> , <?php echo $this->town_city;?> , <?php echo $this->postcode;?>';
+	var colours = ["red", "blue", "green", "purple", "orange", "yellow", "darkred", "darkblue", "darkgreen", "aqua", "magenta", "springgreen"];
+	
+	function displayPolygon(woeid) {
+		$.getJSON('http://api.flickr.com/services/rest/?method=flickr.places.getInfo&api_key=' + flickr_api_key + '&woe_id=' + woeid + '&format=json&jsoncallback=?', function(data) {
+			if(data.place.has_shapedata == 1) {
+			
+				$.each(data.place.shapedata.polylines.polyline, function(index,polyline) {
+					thepoints = [];
+					$.each(polyline._content.split(/ /), function(pindex, point) {
+						lat = parseFloat(point.split(/,/)[0]);
+						lng = parseFloat(point.split(/,/)[1]);
+						thepoints[pindex] = new GLatLng(lat, lng);
+					});
+					
+					var polyOptions = {geodesic:true};
+					var colour = colours.shift();
+					var name = data.place.name.split(',')[0];
+					
+					var polygon = new GPolygon(thepoints, colour, 9, 1, colour, 0.2, polyOptions);
+					map.addOverlay(polygon);
+					$('ul.legend-items').append('<li><div class="colour" style="background-color:' + colour + '"></div><a href="#' + data.place.woeid + '">' + name + '</a></li>');
+					
+					$.each(thepoints, function(pindex, point) {
+						bounds.extend(point);
+					});
+				});
+			
+				if(!bounds.isEmpty()) {
+					map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
+				}
+			}
+		});
+	}
+	
+	function displayNeighbours(woeid) {
+		$.getJSON('http://where.yahooapis.com/v1/place/' + woeid + '/neighbors?appid=' + yahoo_geoplanet_api_key + '&format=json&callback=?', function(data) {
+			neighbours = [];
+			$.each(data.places.place, function(index, place) {
+				displayPolygon(place.woeid, place.name);
+			});
+		});
+	}
+	
+	displayNeighbours(woeid);
+	displayPolygon(woeid);
+	
+	
+	 
+	 
+	 
+	 var copyOSM = new GCopyrightCollection('<a href="http://www.openstreetmap.org/">OpenStreetMap</a>');
+  copyOSM.addCopyright(new GCopyright(1, 
+    new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)),
+    0, // minimum zoom level
+    ' ' // no additional copyright message, but empty string hides entire copyright
+  ));
+	
+	var osmLayer = new GTileLayer(copyOSM, 0, 18, {
+		tileUrlTemplate: 'http://b.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/998/256/{Z}/{X}/{Y}.png',
+		isPng: true,
+		opacity: 1.0
+		});
+	  
+	var osmMap = new GMapType(
+		[osmLayer], // list of layers
+		G_NORMAL_MAP.getProjection(), // borrow the Mercator projection from the standard map
+		'OSM' // name should be short enough to fit in button
+	  );
+	 
+	var map = new GMap2(document.getElementById("personmap"));
+		map.addControl(new GLargeMapControl());
+      	map.addControl(new GMapTypeControl());
+        map.setCenter(new GLatLng(<?php echo $this->lat.',',$this->lon;?>),9);
+		map.addMapType(osmMap);
+		map.setMapType(osmMap); 
+	    map.addMapType(G_PHYSICAL_MAP); 
+		
+	var tinyIcon = new GIcon();
+		tinyIcon.image = "http://labs.google.com/ridefinder/images/mm_20_red.png";
+		tinyIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+		tinyIcon.iconSize = new GSize(12, 20);
+		tinyIcon.shadowSize = new GSize(22, 20);
+		tinyIcon.iconAnchor = new GPoint(6, 20);
+		tinyIcon.infoWindowAnchor = new GPoint(5, 1);
+	markerOptions = { icon:tinyIcon };
+
+	var findIcon = new GIcon();
+		findIcon.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";
+		findIcon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+		findIcon.iconSize = new GSize(12, 20);
+		findIcon.shadowSize = new GSize(22, 20);
+		findIcon.iconAnchor = new GPoint(6, 20);
+		findIcon.infoWindowAnchor = new GPoint(5, 1);
+		
+		findOptions = { icon:findIcon };
+
+	var point = new GLatLng(<?php echo $this->lat.',',$this->lon;?>);
+	 	
+	var marker = new GMarker(point, markerOptions);
+        GEvent.addListener(marker, "click", function () {
+	      marker.openInfoWindowHtml("<?php echo $this->forename.' '.$this->surname.'\'s location';?>");
+        });
+        map.addOverlay(marker);
+		
+	
+		
+		
+		GDownloadUrl("/ajax/mapdata/finderID/<?php echo $this->secuid;?>", function(data) {
+        var xml = GXml.parse(data);
+        var markers = xml.documentElement.getElementsByTagName("marker");
+        for (var i = 0; i < markers.length; i++) {
+          var name = markers[i].getAttribute("name");
+          var address = markers[i].getAttribute("address");
+          var type = markers[i].getAttribute("type");
+          var latlng = new GLatLng(parseFloat(markers[i].getAttribute("lat")),
+                                  parseFloat(markers[i].getAttribute("lng")));
+          var store = {latlng: latlng, name: name, type: type};
+          var latlngHash = (latlng.lat().toFixed(6) + "" + latlng.lng().toFixed(6));
+          latlngHash = latlngHash.replace(".","").replace(".", "").replace("-","");
+          if (locations[latlngHash] == null) {
+            locations[latlngHash] = []
+          }
+          locations[latlngHash].push(store);
+        }
+        for (var latlngHash in locations) {
+          var stores = locations[latlngHash];
+          if (stores.length > 1) {
+            map.addOverlay(createClusteredMarker(stores));
+          } else {
+            map.addOverlay(createMarker(stores));
+          }
+         }
+      });
+    }
+
+    function createMarker(stores) {
+      var store = stores[0];
+      var newIcon = MapIconMaker.createMarkerIcon({width: 32, height: 32, primaryColor: "#00ff00"});
+      var marker = new GMarker(store.latlng, {icon: findIcon});
+      var html = "<b>" + store.name + "</b> <br/>";
+      GEvent.addListener(marker, 'click', function() {
+        marker.openInfoWindowHtml(html);
+      });
+      return marker;
+    }
+
+    function createClusteredMarker(stores) {
+      var newIcon = MapIconMaker.createMarkerIcon({width: 44, height: 44, primaryColor: "#00ff00"});
+      var marker = new GMarker(stores[0].latlng, {icon: findIcon});
+      var html = "";
+      for (var i = 0; i < stores.length; i++) {
+        html += "<b>" + stores[i].name + "</b> <br/>" + "<br/>";
+      }
+      GEvent.addListener(marker, 'click', function() {
+        marker.openInfoWindowHtml(html);
+      });
+      return marker;
+    }
+
+});
+<?php $this->inlineScript()->captureEnd();?>
+<div id="personmap" style="float:right;width:380px;height:380px;"></div>
+<?php endif;?>
+<div class="vcard">
+<p>
+<span class="fn n">
+<?php echo $this->escape($this->title);?> <span class="given-name"><?php echo $this->escape($this->forename);?></span> 
+<span class="family-name"><?php echo $this->escape($this->surname);?></span><br />
+</span>
+<span class="adr">
+Address: <span class="street-address"><?php echo $this->escape($this->address);?></span><br />
+Town: <span class="locality"><?php echo $this->escape($this->town_city);?></span><br />
+County: <?php echo $this->escape($this->county);?><br />
+Postcode: <span class="postal-code"><?php echo $this->escape($this->postcode);?></span><br />
+Country: <span class="country-name"><?php echo $this->escape($this->abode);?></span><br />
+</span>
+<span class="tel"><span class="type">Home</span> T: <span class="value"><?php echo $this->escape($this->hometel);?></span></span><br />
+<span class="tel"><span class="type">Work</span> T: <span class="value"><?php echo $this->escape($this->worktel);?></span></span><br />
+<span class="tel"><span class="type">Fax</span>: <span class="value"><?php echo $this->escape($this->fax);?></span></span><br />
+Member of the: <span class="org"><a href="<?php echo $this->url(array('module' => 'database','controller' => 'organisations','action' => 'organisation','id' => $this->escape($this->i)),null,true);?>" title="View details for <?php $this->escape($this->org);?>"><?php echo $this->escape($this->org);?></a></span><br />
+Email: <a href="mailto:<?php echo $this->email;?>" title="Send an email to this person" class="email"><?php echo $this->email;?></a><br />
+Primary activity engaged in: <?php echo $this->escape($this->role);?>
+<?php 
+if(isset($this->lat)):?>
+<br/>WOEID: <?php echo $this->woeid;?><br /> Latitude: <?php echo $this->lat;?><br /> Longitude: <?php echo $this->lon;?> <br /><?php echo $this->gridref($this->lat,$this->lon);?>
+<?php endif;?>
+</p>
+<?php if($this->comments != NULL):?>
+<h3>Comments on person</h3>
+<?php echo $this->comments;?>
+<?php endif;?>
+<p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'people','action' => 'person', 'id' => $this->id,'format' => 'vcf'),'default',true);?>" title="Download vcard">Download vcard</a></p>
+
+</div>
+
+
+<div class="clear"></div>

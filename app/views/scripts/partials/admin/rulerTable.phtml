@@ -1,0 +1,40 @@
+<?php 
+switch($this->term) {
+case 'IRON AGE':
+$action = 'ironageruler';
+break;
+case 'ROMAN':
+$action = 'romanruler';
+break;
+case 'EARLY MEDIEVAL';
+$action = 'medruler';
+break;
+case 'MEDIEVAL';
+$action = 'medruler';
+break;
+case 'POST MEDIEVAL';
+$action = 'medruler';
+break;
+case 'GREEK AND ROMAN PROVINCIAL';
+$action = 'greekruler';
+break;
+case 'BYZANTINE';
+$action = 'byzruler';
+break;
+}
+?>
+
+<tr class="valid-<?php echo $this->valid;?>">
+<td><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'numismatics','action' => $action,'id' => $this->id),null,true);?>" title="View details"><?php echo $this->issuer;?></a> <br/><?php echo $this->term;?></td>
+<td><?php echo $this->timeagoinwords($this->created);?></td>
+<td><?php echo $this->namethem($this->fullname);?></td>
+<td><?php echo $this->timeagoinwords($this->updated);?></td>
+<td><?php echo $this->namethem($this->fn);?></td>
+<td><?php echo $this->validity($this->valid);?></td>
+<td><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'numismatics','action' => 'editruler','id' => $this->id),null,true);?>" title="Edit this ruler">Edit</a> 
+<?php 
+$string = ' <br/><a href="'.$this->url(array('module' => 'admin','controller' => 'numismatics', 'action' => 'deleteruler','id' => $this->id),null,true).'" title="Delete this ruler">Delete</a>';
+echo $this->allowedtest($string);?>
+
+</td>
+</tr>

@@ -1,0 +1,28 @@
+<?php $this->headTitle('User account public data for '.$this->username);?>
+<h2>Public profile for <?php echo $this->username;?></h2>
+<div id="gravatar-badge">
+<?php
+$gravatar = new Gravatar($this->email);
+$gravatar->size = 200;
+$gravatar->rating = "G";
+$gravatar->border = "FF0000";
+$gravatar->extra = 'alt="Gravatar for '.$this->username.'"';
+echo $gravatar->toHTML();
+?>
+</div>
+<div id="userDetails">
+<ul>
+<li>Username: <?php echo $this->username;?></li>
+<li>Last login: <?php echo $this->timeagoinwords($this->lastLogin);?></li>
+<li>Account created: <?php echo $this->timeagoinwords($this->created);?></li>
+<li>Number of visits: <?php echo $this->visits;?></li>
+</ul>
+</div>
+<?php 
+echo $this->UserEducation($this->username);
+?>
+<?php echo $this->UserInterestsHtml($this->username);?>
+<?php 
+echo $this->UserRecords($this->username);
+?>
+<?php echo $this->OnlineAccountHtmlPublic($this->id);?>

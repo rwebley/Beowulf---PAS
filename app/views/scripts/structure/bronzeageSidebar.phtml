@@ -1,0 +1,22 @@
+<ul id="menu1" class="menu  expandfirst">
+<li><a href="#">Bronze Age guide</a>
+<ul>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage'),'default',true);?>">Introduction</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'gold'),'bronzeage',true);?>">Gold objects</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'bronzeage','controller' => 'objects',
+'action' => 'index','slug' => 'other'),'bronzeage',true);?>">Other metal objects</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'database','controller' => 'search',
+'action' => 'results','broadperiod' => 'BRONZE AGE'),'default',true);?>">All Bronze Age objects</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'database','controller' => 'search',
+'action' => 'map','broadperiod' => 'BRONZE AGE'),'default',true);?>">Map of Bronze Age artefacts</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="enhanced">
+<h4>Data enhanced by:</h4>
+
+<img src="/images/logos/calais.png" alt="The Open Calais logo" width="52" height="68"/><img src="/images/logos/geoplanet.png" alt="Yahoo geoplanet logo" height="68" width="70"/>
+<img src="<?php echo $this->baseUrl();?>/images/logos/dbpedia.png" alt="Dbpedia's logo" height="43" width="70" />
+</div>

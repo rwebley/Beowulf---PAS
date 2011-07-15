@@ -1,0 +1,24 @@
+ <tr typeof="pas:record" about="[<?php echo $this->old_findID;?>]">
+
+    <td rowspan="1">
+	
+	
+</td>
+    <td><?php echo ucfirst(strtolower($this->objecttype));?></td>
+    <td><a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id),null,true);?>"><?php echo $this->old_findID;?></a><br/><?php echo $this->workflow($this->secwfstage);?></td>
+    <td><?php echo ucfirst(strtolower($this->broadperiod));?></td>
+    <td><?php if(isset($this->county)) {echo ucwords(strtolower($this->county));} else { echo $this->FindSpotLinkLister($this->old_findID,$this->id,$this->uniqueID,$this->createdBy);
+}?></td>
+	<td>
+
+    
+	<?php echo $this->DataEditDeleteLinks($this->id,$this->old_findID, $this->createdBy);?>
+	
+
+<a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id,'format' => 'xml'),null,true);?>" title="Export as xml">xml</a> | <a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id,'format' => 'csv'),null,true);?>" title="Export as CSV">csv</a><br /><a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id,'format' => 'json'),null,true);?>" title="Export as json">json</a></td>
+  </tr>
+  <tr> 
+    <td colspan="6"> 
+      <?php echo $this->ellipsisstring(strip_tags($this->description,500));?>
+     </td>
+  </tr>

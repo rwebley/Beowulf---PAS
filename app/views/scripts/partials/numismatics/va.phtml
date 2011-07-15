@@ -1,0 +1,4 @@
+<tr>
+<td><?php echo $this->type;?></td>
+<td><a href="<?php echo $this->url(array('module' => 'database','controller' => 'search','action' => 'results','va' => urlencode($this->type)),NULL,true);?>" title="Search database for all examples of Van Arsdell Type <?php echo $this->type;?>"><?php echo $this->totals;?> recorded</a></td>
+</tr>

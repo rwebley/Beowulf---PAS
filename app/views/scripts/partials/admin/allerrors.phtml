@@ -1,0 +1,20 @@
+<tr id="comment-<?php echo $this->id;?>" class="status-<?php echo $this->comment_approved;?>">
+<td class="author column-author" >
+<?php $gravatar = new Gravatar($this->comment_author_email);
+$gravatar->size = 30;
+$gravatar->rating = "G";
+echo $gravatar;
+?>
+
+<strong><?php echo $this->comment_author;?></strong><br/>
+<?php if(isset($this->comment_author_url)) :?><a href="<?php echo $this->comment_author_url;?>" title="<?php echo $this->comment_author_url;?>"><?php echo $this->comment_author_url;?></a><br/><?php endif;?>
+<a href="mailto:<?php echo $this->comment_author_email;?>"><?php echo $this->comment_author_email;?></a><br/>
+<a href="edit-comments.php?s=193.62.111.10&amp;mode=detail"><?php echo $this->comment_author_IP;?></a></td>
+<td class="comment column-comment"><div id="submitted-on">Submitted:<br />
+<?php echo $this->df;?></div><?php echo 
+$this->ellipsisstring(strip_tags($this->comment_content),200);?></td>
+<td class="response column-response">
+<a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record','id' => $this->comment_findID),null,true);?>">A <?php echo $this->broadperiod . ' ' .$this->objecttype .' - '.$this->old_findID;?></a>
+</td>
+
+</tr>

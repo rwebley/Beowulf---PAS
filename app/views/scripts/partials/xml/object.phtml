@@ -1,0 +1,160 @@
+<object>
+<recordmetadata>
+<created>
+<createdon><?php echo $this->created;?></createdon>
+<createdby>
+<appellation>
+<name><?php echo $this->fullname;?></name>
+<identifier namespace="PAS"><?php echo $this->username;?></identifier></appellation>
+</createdby>
+</created>
+<lastupdated>
+<lastupdatedon><?php echo $this->updated;?></lastupdatedon>
+<lastupdatedby>
+<appellation><name><?php echo $this->fullnameUpdate;?></name>
+<identifier namespace="PAS"><?php echo $this->usernameUpdate;?></identifier>
+</appellation>
+</lastupdatedby>
+</lastupdated>
+</recordmetadata>
+<appellation>
+<identifier namespace="PAS"><?php echo $this->old_findID;?></identifier>
+</appellation>
+<character>
+<objecttype certainty="<?php echo $this->certainty($this->objectCertainty);?>">
+<?php echo $this->objecttype;?>
+</objecttype>
+<descriptions>
+<description>
+<full><?php echo $this->xmlconvert(strip_tags($this->description));?></full>
+<summary><?php echo $this->xmlconvert($this->ellipsisstring(strip_tags($this->description),300));?></summary>
+<notes><?php echo $this->xmlconvert(strip_tags($this->notes));?></notes>
+</description>
+</descriptions>
+<manufacture>
+<materials>
+<material><?php echo $this->primaryMaterial;?></material>
+<?php if(isset($this->mat2)) {;?>
+<material><?php echo $this->secondaryMaterial;?></material>
+<?php }?>
+</materials>
+<technique><?php echo $this->manufacture;?></technique>
+<temporal>
+<span>
+<display>
+<appellation type="broadperiod"><?php echo $this->broadperiod;?></appellation>
+<appellation type="periodFrom"><?php echo $this->periodFrom;?></appellation>
+<appellation type="subperiodFrom"><?php echo $this->subperiod($this->subPeriodFrom);?></appellation>
+<appellation type="periodTo"><?php echo $this->periodTo;?></appellation>
+<appellation type="subperiodTo"><?php echo $this->subperiod($this->subPeriodTo);?></appellation>
+</display>
+<start><appellation type="date" qualifier="circa"><?php echo $this->numdate1;?></appellation></start>
+<end><appellation type="date" qualifier="circa"><?php echo $this->numdate2;?></appellation></end>
+</span>
+</temporal>
+</manufacture>
+<measurements>
+<measurement units="mm" type="width"><?php echo $this->width;?></measurement>
+<measurement units="mm" type="diameter"><?php echo $this->diameter;?></measurement>
+<measurement units="mm" type="height"><?php echo $this->height;?></measurement>
+<measurement units="mm" type="length"><?php echo $this->length;?></measurement>
+<measurement units="mm" type="thickness"><?php echo $this->thickness;?></measurement>
+</measurements>
+<decorations>
+<decoration type="inscription"><?php echo $this->inscription;?></decoration>
+<decoration type="method"><?php echo $this->decoration;?></decoration>
+<decoration type="style"><?php echo $this->style;?></decoration>
+<decoration type="surface treatement"><?php echo $this->surface;?></decoration>
+</decorations>
+</character>
+<condition>
+<state>
+<?php echo $this->preservation;?>
+</state>
+<completeness>
+<?php echo $this->completeness;?>
+</completeness>
+</condition>
+<activities>
+<activity type="recording">
+<temporal>
+<span>
+<start>
+<appellation type="datetime">
+<?php echo $this->created;?>
+</appellation>
+</start>
+</span>
+</temporal>
+</activity>
+</activities>
+<discovery>
+<actor></actor>
+<spatial>
+<place>
+<namedplace>
+<location type="county" namespace="EH_CDP98"><?php echo $this->county;?></location>
+<location type="district"><?php echo $this->district;?></location>
+<location type="parish"><?php echo $this->parish;?></location>
+</namedplace>
+</place>
+<gridref namespace='OSGB36'><?php echo $this->gridref;?></gridref>
+<geometry>
+<spatialappellation>
+<quickpoint>
+<x><?php echo $this->easting;?></x>
+<y><?php echo $this->northing;?></y>
+</quickpoint>
+<entity spatialtype="Point" uri="123" namespace="PAS Database">
+<wkt srs="EPSG:27700">
+POINT(<?php echo $this->easting;?> <?php echo $this->northing;?>)
+</wkt>
+</entity>
+<capturemethod>
+<?php echo $this->source;?>
+</capturemethod>
+</spatialappellation>
+</geometry>
+<representations>
+<representation namespace="O.S.1:10000">
+<?php echo $this->map10k;?> 
+</representation>
+<representation namespace="O.S.1:25000">
+<?php echo $this->map25k;?> 
+</representation>
+</representations>
+</spatial>
+<temporal>
+<span>
+<start>
+<appellation type="date" qualifier="exactly">
+29.06.2003
+</appellation>
+</start>
+</span>
+</temporal>
+<method><?php echo $this->discmethod;?></method>
+<circumstance><?php echo $this->disccircum;?></circumstance>
+</discovery>
+<quantity><?php echo $this->quantity;?></quantity>
+<rights>
+<copyright>
+<holder><?php echo $this->institution;?></holder> 
+<statement>Creative Commons Non Commercial Share Alike - The Portable Antiquities Scheme</statement>
+<year><?php  echo strftime('%Y',strtotime($this->created));?></year>
+</copyright>
+<accessrights>
+<grantedto></grantedto>
+<conditions></conditions>
+<statement></statement>
+</accessrights>
+<reproductionrights>
+<statement>These records can be reproduced in a non commercial enviroment as long as the original recorder is cited.</statement>
+<contact>The Portable Antiquities Scheme info@finds.org.uk</contact>
+<fees>No fees are applicable.</fees>
+</reproductionrights>
+</rights>
+<objectannex>
+<ruler></ruler>
+</objectannex>
+</object>

@@ -1,0 +1,26 @@
+ <tr typeof="pas:record" about="[<?php echo $this->recordNumber;?>]">
+
+    <td rowspan="1">
+    <?php if(isset($this->thumbnail)):?>
+	<img src="/images/thumbnails/<?php echo $this->thumbnail;?>.jpg" alt="Thumbnail image of <?php echo $this->recordNumber;?>" />
+	<?php endif;?>
+</td>
+    <td><?php echo ucfirst(strtolower($this->objectType));?></td>
+    <td><a href="<?php echo $this->url(array('module' => 'database',
+ 'controller' => 'artefacts','action' => 'record', 'id' => $this->id),null,true);?>">
+    <?php echo $this->recordNumber;?></a><br/><?php echo $this->workflow($this->workflow);?></td>
+    <td><?php echo ucfirst(strtolower($this->broadperiod));?></td>
+    <td><?php if(isset($this->county)) {echo ucwords(strtolower($this->county));} ?></td>
+	<td>
+
+    
+	
+	
+
+<a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id,'format' => 'xml'),null,true);?>" title="Export as xml">xml</a> | <a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id,'format' => 'csv'),null,true);?>" title="Export as CSV">csv</a><br /><a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id,'format' => 'json'),null,true);?>" title="Export as json">json</a></td>
+  </tr>
+  <tr> 
+    <td colspan="6"> 
+      <?php echo $this->ellipsisstring(strip_tags($this->description,500));?>
+     </td>
+  </tr>

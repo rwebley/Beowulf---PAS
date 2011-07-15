@@ -1,0 +1,16 @@
+<li>
+<div class="commgrav"><?php
+$gravatar = new Gravatar($this->comment_author_email);
+$gravatar->size = 30;
+$gravatar->rating = "G";
+$gravatar->border = "FF0000";
+echo $gravatar;
+?></div><?php echo $this->comment_author;?> wrote @ <?php echo $this->df;?>.  
+<blockquote><p><?php echo strip_tags($this->comment_content);?></p></blockquote>
+<span><?php echo $this->FindToImage($this->id);?></span>
+	<p>About: <?php echo ucfirst(strtolower($this->objecttype));?>
+   <a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts','action' => 'record', 'id' => $this->id),null,true);?>"><?php echo $this->old_findID;?></a><br/><?php echo $this->workflow($this->secwfstage);?>
+   <?php echo ucfirst(strtolower($this->broadperiod));?>
+   <?php if(isset($this->county)) {echo ucwords(strtolower($this->county));}?></p>
+
+</li>

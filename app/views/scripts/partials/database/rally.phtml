@@ -1,0 +1,147 @@
+<?php 
+
+$dates = '';
+$dates .= $this->escape($this->df);
+if(isset($this->dt)) {
+$dates .= ' - '.$this->escape($this->dt);
+}
+$this->headMeta('This page gives full details for metal detecting rally held at '.$this->escape($this->rally_name).' between '.$dates,'dc.description')
+->headMeta($this->curUrl(),'dc.identifier')
+->headMeta($this->namethem($this->escape($this->fullname)),'dc.creator')
+->headMeta($this->updated, 'updated')
+->headMeta('The Portable Antiquities Scheme','dc.publisher')
+->headMeta('CC NC-SA-BY','dc.rights')
+->headMeta('metal detecting rallies','dc.subject')
+;
+$this->headTitle($this->escape($this->rally_name));
+?>
+
+<h2>Details for <?php echo $this->escape($this->rally_name);?></h2>
+
+
+
+<?php 
+echo $this->Href(array('module' => 'database','controller'=>'rallies', 'action'=>'edit', 'checkAcl'=>true,
+'acl'=>'Zend_Acl',  'params' =>array('id'=>$this->id), 'content'=>'Edit','attribs' => array('title' => 'Edit rally details')));
+?> 
+ 
+<?php 
+echo $this->Href(array('module' => 'database','controller'=>'rallies', 'action'=>'delete', 'checkAcl'=>true,
+'acl'=>'Zend_Acl',  'params' =>array('id'=>$this->id), 'content'=>'Delete','attribs' => array('title' => 'Delete rally details')));
+?>
+<?php
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+{
+if(in_array($user->role,array('fa','flos','research', 'admin')))
+{?>
+<?php 
+
+if($this->gridref != NULL) : ?>
+<?php 
+$config = Zend_Registry::get('config');
+$apikey = $config->googlemaps->apikey;
+$this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$apikey,$type='text/javascript');  
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.jmap.js',$type='text/javascript'); 
+?>
+
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function(){
+var icon1 = Mapifies.createIcon({
+'iconImage':'http://maps.google.com/mapfiles/kml/pal4/icon49.png',
+'iconSize': new GSize(32,32),
+'iconMozPrintImage':'http://maps.google.com/mapfiles/kml/pal4/icon49.png',
+'iconPrintImage':'http://maps.google.com/mapfiles/kml/pal4/icon49.png',
+'iconAnchor': new GPoint(0,10) 
+});
+<?php
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+{
+if(in_array($user->role,array('fa','flos','research', 'admin')))
+{
+echo "jQuery('#map').jmap('init', {'mapType':'physical','mapCenter':[".$this->latitude.",".$this->longitude."],'mapControl':'smallzoom','mapEnableScaleControl':'true','mapShowjMapsIcon':'false', 'mapEnableType':'menumap', 'mapZoom':13, 			'mapAddTerrainType':true});";
+echo "jQuery('#map').jmap('AddMarker', {'pointLatLng': [".$this->latitude.",".$this->longitude."],'pointIcon': icon1,'pointMinZoom': 9,'pointMaxZoom': 13});";
+
+}
+}
+
+}
+else 
+{
+echo "jQuery('#map').jmap('init', {'mapType':'physical','mapCenter':[".substr($this->latitude,0,4).",".substr($this->longitude,0,4)."],'mapControl':'none','mapEnableScaleControl':'true','mapShowjMapsIcon':'false', 'mapEnableType':'menumap', 'mapZoom':9, 			'mapAddTerrainType':true});";
+echo "jQuery('#map').jmap('AddMarker', {'pointLatLng': [".substr($this->latitude,0,5).",".substr($this->longitude,0,5)."],'pointIcon': icon1,'pointMinZoom': 9,'pointMaxZoom': 13});";
+}
+
+?>
+
+jQuery('#map').jmap('AddFeed', {
+			'feedUrl':'http://www.finds.org.uk/kml/<?php echo $this->escape(ucwords(strtolower($this->county)));?>.kml'});
+
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<div id="map">
+</div>
+
+
+<?php endif;
+}}}?>
+
+
+<p>Start date: <?php echo $this->escape($this->df);?><br />
+<?php if(!is_null($this->dt)) {?>
+End date: <?php echo $this->escape($this->dt);?>
+<?php } ?>
+<?php
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity()){
+$user = $auth->getIdentity();
+{
+if(in_array($user->role,array('fa','flos','research', 'admin')))
+{?>
+<br />Organised by: <?php echo $this->organiser;?></p>
+<?php  if(!is_null($this->comments)):?>
+<p>Comments: <?php echo $this->comments;?></p>
+<?php endif;?>
+<?php  if(!is_null($this->record_method)):?>
+<p>Recording methodology: <?php echo $this->record_method;?></p>
+<?php endif;?>
+<?php 
+}}}?>
+<?php
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity()){
+$user = $auth->getIdentity();
+{
+if(in_array($user->role,array('fa','flos','research', 'admin')))
+{?>
+<p>Rally centred on National Grid Reference: <?php echo $this->escape($this->gridref);?><br />
+Four figure grid ref for publication: <?php echo $this->fourFigure;?><br />
+Latitude: <?php echo $this->latitude;?><br />
+Longitude: <?php echo $this->longitude;?><br />
+Easting: <?php echo $this->easting;?><br />
+Northing: <?php echo $this->northing;?><br />
+1:25k map sheet: <?php echo $this->map25k;?><br />
+1:10k map sheet: <?php echo $this->map10k;?><br />
+</p>
+<p>Parish: <?php echo $this->escape($this->parish);?><br />
+District: <?php echo $this->escape($this->district);?>
+<?php 
+}}}?><br />
+County: <?php echo $this->escape($this->county);?></p>
+
+<p>Created by: <?php echo $this->namethem($this->escape($this->fullname));?><br />
+Created on: <?php echo $this->escape($this->timeagoinwords($this->created));?><br />
+Updated: <?php echo $this->namethem($this->escape($this->fn));?><br />
+Updated on: <?php echo $this->escape($this->timeagoinwords($this->updated));?>
+</p>
+<?php if(isset($this->finds)) :?>
+<p>View <a href="<?php echo $this->url(array('module' => 'database','controller' => 'search','action' => 'results', 'rally' => 1,'rallyID' => $this->id),null,true);?>" title="Search database for all records from <?php echo $this->rally_name;?>">all <?php echo $this->finds;?> records</a> from this rally.</p>
+<?php else:?>
+<p>No records of any artefacts have been entered yet on the database.</p>
+<?php endif;?>

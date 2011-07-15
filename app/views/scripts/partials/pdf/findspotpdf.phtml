@@ -1,0 +1,51 @@
+<?php echo "\n";?>
+<h4>Spatial data</h4> 
+<?php echo "\n";?>
+<?php if($this->region != NULL) :?>Region: <?php echo $this->escape(ucwords(strtolower($this->region)));?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->county != NULL) :?>County: <?php echo $this->escape(ucwords(strtolower($this->county)));?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->district != NULL) :?>District: <?php echo $this->escape(ucwords(strtolower($this->district)));?><?php echo "\n";?>
+<?php endif;?>
+<?php
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+{
+$allowed = array('fa','admin','flos','research','hero');
+if(in_array($user->role,$allowed)){
+;?>
+<?php if($this->parish != NULL) :?>Parish: <?php echo $this->escape(ucwords(strtolower($this->parish)));?><?php echo "\n";?><?php endif;?>
+<?php 
+}
+}
+}
+elseif(($this->parish != NULL) && (empty($this->knownas)))
+{
+?>
+Parish: <?php echo  ucwords(strtolower($this->parish));?><?php echo "\n";?>
+<?php }?>
+<?php if($this->knownas != NULL) :?>To be known as: <?php echo $this->escape($this->knownas);?><?php echo "\n";?><?php endif;?>
+<?php if(($this->gridref != NULL)) { ?>
+Grid reference: <?php echo $this->StripGrid($this->gridref);?><?php echo "\n";?>
+4 Figure: <?php echo $this->fourFigure;?><?php echo "\n";?>
+Grid reference source: <?php echo $this->escape($this->source);?><?php echo "\n";?>
+Grid reference accurate to a <?php echo $this->GetAccuracy($this->gridref);?> metre square.<?php echo "\n";?>
+Easting: <?php echo $this->easting;?>  Northing: <?php echo $this->northing;?><?php echo "\n";?>
+Latitude: <?php echo $this->declat;?> Longitude: <?php echo $this->declong;?><?php echo "\n";?>
+1:25K map: <?php echo $this->map25k;?><?php echo "\n";?>
+1:10K map: <?php echo $this->map10k;?><?php echo "\n";?>
+<?php $this->FindSmrs($this->declat,$this->declong);?><?php echo "\n";?>
+<?php } elseif(($this->gridref != NULL) && ($this->knownas == NULL)) { ?>
+Restricted 4 Figure grid reference: <?php echo $this->escape($this->fourFigure);?>
+<?php echo "\n";?>
+Grid reference source: <?php echo $this->escape($this->source);?><?php echo "\n";?>
+Grid reference accurate to a <?php echo $this->GetAccuracy($this->gridref);?> metre square<?php echo "\n";?>
+<?php } ?>
+<?php if($this->method != NULL) :?>Method of discovery: <?php echo $this->escape($this->method);?><?php echo "\n";?><?php endif;?>
+<?php if($this->disccircum != NULL) :?>Discovery circumstances:  <?php echo $this->escape($this->disccircum);?><?php echo "\n";?><?php endif;?>
+<?php if($this->curr_loc != NULL) :?>Current location: <?php echo $this->escape($this->curr_loc);?><?php echo "\n";?><?php endif;?>
+<?php if($this->landvalue != NULL) :?>General landuse: <?php echo $this->landvalue;?><?php echo "\n";?><?php endif;?>
+<?php if(isset($this->landuse)) :?>Specific landuse: <?php echo $this->escape($this->landuse);?><?php echo "\n";?><?php endif;?>
+<?php echo "\n";?>

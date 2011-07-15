@@ -1,0 +1,14 @@
+<vacancy>
+<title><?php echo $this->title;?></title>
+<salary>
+<currency>GBP</currency>
+<amount><?php echo $this->xmlconvert($this->salary);?></amount>
+</salary>
+<description><![CDATA[<?php echo $this->xmlconvert($this->specification);?>]]></description>
+<role></role>
+<employerRegion><?php echo $this->escape($this->staffregions);?></employerRegion>
+<dates>
+<advertised><?php echo $this->niceshortdate($this->created);?></advertised>
+<expired><?php echo $this->niceshortdate($this->expired);?></expired>
+</dates>
+</vacancy>

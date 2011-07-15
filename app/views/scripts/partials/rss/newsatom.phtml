@@ -1,0 +1,9 @@
+<entry>
+		<title><?php echo $this->title; ?></title>
+		<link href="<?php echo 'http://'.$_SERVER['SERVER_NAME'].$this->url(array('module' => 'news','controller' => 'stories',
+	'action' => 'article', 'id' => $this->id),'default',true); ?>" />
+		<id><?php echo 'http://'.$_SERVER['SERVER_NAME'].$this->url(array('module' => 'news','controller' => 'stories',
+	'action' => 'article', 'id' => $this->id),'default',true); ?>#When:<?php echo date(DATE_W3C,strtotime( $this->created));?></id>
+		<updated><?php echo date(DATE_ATOM,strtotime( $this->created));?></updated>
+		<summary><?php echo $this->ellipsisstring($this->xmlconvert($this->summary),300); ?></summary>
+	</entry>

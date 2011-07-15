@@ -1,0 +1,32 @@
+
+<div id="copyright">
+<strong>&copy; <?php echo $this->romannumerals(2003);?> - <?php echo $this->romannumerals(Zend_Date::now()->toString('yyyy'));?></strong> &raquo; <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License"  src="/images/logos/cc.png" height="15" width="80"/></a>
+<ul id="logo">
+<li><a href="http://www.culture.gov.uk" title="The Department of Culture, Media and Sport website"><img src="<?php echo $this->baseUrl();?>/images/logos/dcms.png" width="80" height="70" alt="DCMS logo"/></a></li>
+<li><a href="http://www.britishmuseum.org" title="The British Museum website"><img src="<?php echo $this->baseUrl();?>/images/logos/BM-Logo-Partnership-UK.png"  width="100" height="63" alt="The British Museum logo"/></a></li>
+</ul>
+</div>
+
+<div id="col1">
+<ul>
+<li><a href="<?php echo $this->url(array('module' => 'getinvolved','controller' => 'complaints'),'default',true);?>" title="Submit a complaint about the Scheme" accesskey="7">Complaints</a></li>
+<li><a href="mailto:communications@britishmuseum.org ">British Museum Press Office</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'info','controller' => 'content','action'=> 'page','slug' => 'aboutus'),'i',true);?>" title="More information about the Portable Antiquities Scheme">About the Scheme</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'getinvolved','controller' => 'contactus'),'default',true);?>" title="Contact the Scheme regarding our work" accesskey="9">Contact Us</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'getinvolved','controller' => 'vacancies'),'default',true);?>" title="See all current job vacancies">Work for us</a></li>
+
+</ul>
+</div>
+
+<div id="col2">
+<ul>
+<li><a href="<?php echo $this->url(array('module' => 'help'),'default',true);?>" title="Find helpful information about using our site" accesskey="6">Help with our site</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'info','controller' => 'content','action' => 'page','slug' => 'accessibility'),'i',true);?>" title="Information about our site's accessibility" accesskey="0">Accessibility</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'info','controller' => 'content','action' => 'page','slug' => 'termsandconditions'),'i',true);?>" title="Read about our terms and conditions - nothing onerous" accesskey="8">Terms of Use</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'info','controller' => 'content','action' => 'page','slug' => 'privacy'),'i',true);?>" title="Read about our privacy policy">Privacy &amp; Cookies</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'info','controller' => 'content','action'=> 'page','slug' => 'foi'),'i',true);?>" title="Freedom of information requests and how to submit one">Freedom of Information</a></li>
+</ul>
+</div>
+
+<div id="contact-address" class="vcard"><span class="adr"><span class="org fn">The British Museum</span>, <span class="street-address">Great Russell Street</span>, <span class="locality">London</span> <span class="postal-code">WC1B 3DG</span>.</span> <br />T: <span class="tel"><span class="value">+44(0) 20 73238618</span></span> E: <a href="mailto:info@finds.org.uk" title="Email the Scheme" class="email">info@finds.org.uk</a></div>
+

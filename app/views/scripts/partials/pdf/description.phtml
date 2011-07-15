@@ -1,0 +1,30 @@
+<?php echo "\n";?>
+<?php if(isset($this->description)):?>Description: <?php echo $this->description;?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->notes != NULL) :?>Notes: <?php echo $this->notes;?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->classification != NULL) : ?>Class: <?php echo $this->escape($this->classification);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->subclass != NULL) :?>Sub class: <?php echo $this->escape($this->subclass);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->reuse != NULL ) :?>Evidence of reuse: <?php echo $this->escape($this->reuse);?><?php echo "\n";?>
+<?php endif;?>
+<?php if(isset($this->curr_loc) || isset($this->subsequentAction)):?>
+<?php if(isset($this->curr_loc) ):?>Current location of find: <?php echo $this->escape($this->curr_loc);?><?php echo "\n";?>
+<?php endif;?>
+<?php if(isset($this->subsequentAction)):?>Subsequent action after recording: <?php echo $this->escape($this->subsequentAction);?><?php echo "\n";?>
+
+<?php endif;?><?php endif;?>
+<?php if($this->treasureID != NULL):?>Treasure case tracking number: <?php echo $this->escape($this->treasureID);?><?php echo "\n";?>
+<?php endif;?>
+
+<?php echo "\n";?>Temporal details<?php echo "\n";?>
+Broad period: <?php echo $this->escape($this->broadperiod);?> 
+<?php if(isset($this->subPeriodFrom)  && ($this->subPeriodFrom > 0)):?>Subperiod from: <?php echo $this->escape($this->subPeriodFrom);?><?php echo "\n";?><?php endif;?>
+<?php if(isset($this->term)):?>Period from: <?php echo $this->escape($this->term);?><?php echo "\n";?><?php endif;?>
+<?php if(isset($this->subPeriodTo) && ($this->subPeriodTo > 0)):?>Subperiod to: <?php echo $this->escape($this->subPeriodTo);?><?php echo "\n";?><?php endif;?>
+<?php if($this->t2 != NULL) : ?>Period to: <?php echo $this->t2;?><?php echo "\n";?><?php endif;?>
+<?php if($this->cult != NULL) : ?>Ascribed Culture: <?php echo $this->escape($this->cult);?><?php echo "\n";?><?php endif;?>
+<?php if((int)($this->numdate1)) : ?>Date from:  <?php echo $this->fromcirca;?> <?php echo $this->adbc($this->numdate1);?><?php echo "\n";?><?php endif;?>
+<?php if((int)($this->numdate2)) : ?>Date to:  <?php echo $this->tocirca;?> <?php echo $this->adbc($this->numdate2);?><?php echo "\n";?><?php endif;?>
+<?php if($this->reuse_period != NULL) :?>Period of reuse: <?php echo $this->escape($this->reuse_period);?><?php echo "\n";?><?php endif;?><?php echo "\n";?>

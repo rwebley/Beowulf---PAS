@@ -1,0 +1,39 @@
+<?php $this->headTitle('User account details for '. $this->fullname.' - '.$this->visits. ' visits.');?>
+
+<h2>User account details for: <?php echo $this->fullname;?></h2>
+
+<?php 
+
+$gravatar = new Gravatar($this->email);
+$gravatar->size = 80;
+$gravatar->rating = "G";
+$gravatar->border = "FF0000";
+echo '<div id="gravatar">'.$gravatar.'
+</div>';
+
+
+?>
+<p>
+<?php 
+if($this->institution != NULL)
+{
+echo 'Your recording institution is <strong>'.$this->acronyms($this->institution).'</strong>  and your username is set as <strong>'.$this->username.'</strong><br/>';
+} 
+else 
+{ echo 'Your username is currently '.$this->username;} ?>
+
+You have logged in: <?php echo $this->visits;?> times.
+<?php 
+$more = $this->morevisitsthanme($this->visits);
+if($more != 0)
+{
+echo '<br />'.$more.' people have visited the site more frequently than you!';
+} else {
+echo '<br />You are the most frequent visitor!';
+}?>
+<br>
+Last visit registered at: <?php echo $this->escape($this->timeagoinwords($this->lastLogin));?><br>
+Your specified role on the site is: <?php echo ucfirst($this->role);?><br>
+Your account was last updated by <?php echo $this->updater;?>, <?php echo $this->escape($this->timeagoinwords($this->updated));?>.<br>Your account was created by: <?php echo $this->creator;?>.<br>
+Your account was created: <?php echo $this->escape($this->timeagoinwords($this->created));?>.<br>
+</p>

@@ -1,0 +1,23 @@
+<h3>Your site profile's avatar</h3>
+<div>
+<?php if(isset($this->avatar))
+{
+/*echo '<div id="avatar"><img src="'.$this->baseUrl().'/images/avatars/thumbnails/'.$this->avatar.'" alt="Your avatar"></div>';
+} else {
+echo 'Add an avatar';
+*/
+}
+?>
+<?php 
+
+$gravatar = new Gravatar($this->email);
+$gravatar->size = 80;
+$gravatar->rating = "G";
+$gravatar->border = "FF0000";
+echo '<div>'.$gravatar.'<br>
+<p >This is supplied by <a href="http://en.gravatar.com" title="Change your gravatar settings">gravatar</a>. <br>
+You can change this with them, but we only accept G rated images.</p></div>';
+
+
+?>
+</div>

@@ -1,0 +1,50 @@
+<?php $this->headTitle('View account profile for '.$this->fullname);?>
+<h2>Account details for <?php echo $this->fullname;?></h2>
+<?php 
+$string = '<p><a href="'.$this->url(array('module' => 'admin','controller' => 'users','action' => 'editaccount','id' => $this->id),null,true).'" title="Edit account details for '.$this->fullname.'">Edit account</a></p>';
+$this->allowedtest($string);
+?>
+
+<h3>Personal data</h3>
+<div id="personal-images">
+<div id="gravatar">
+<h4>Their gravatar</h4>
+<?php 
+$gravatar = new Gravatar($this->email);
+$gravatar->size = 80;
+$gravatar->rating = "G";
+$gravatar->border = "FF0000";
+echo $gravatar;
+?>
+</div>
+
+</div>
+<p>
+Username: <?php echo $this->username;?><br />
+Fullname: <?php echo $this->fullname;?><br />
+Firstname: <?php echo $this->first_name;?><br />
+Lastname: <?php echo $this->last_name;?>
+</p>
+<h3>System data</h3>
+<p>
+Assigned role: <?php echo $this->role;?><br>
+Recording institution prefix: <?php echo $this->institution;?><br>
+Last login to the database: <?php echo $this->timeagoinwords($this->escape($this->lastLogin));?><br>
+Number of visits: <?php echo $this->visits;?><br>
+</p>
+
+<?php if(isset($this->researchOutline)) {?>
+<h3>Research data</h3>
+<p>
+Research outline: <?php echo $this->researchOutline;?>
+</p>
+<?php 
+}
+?>
+<h3>Audit data</h3>
+<p>
+Created by: <?php echo $this->creator;?><br>
+Last updated by: <?php echo $this->updater;?>
+</p>
+
+<p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'search','action' => 'results','createdby' => $this->id),null,true);?>" title="Search database for all their records">View all records created by <?php echo $this->fullname;?></a></p>

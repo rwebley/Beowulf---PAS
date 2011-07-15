@@ -1,0 +1,10 @@
+<name><?php echo $this->name;?></name>
+<dynasty><?php echo $this->dyn;?></dynasty>
+<born></born>
+<died></died>
+<ruledFrom><?php echo $this->date_from;?></ruledFrom>
+<ruledTo><?php echo $this->date_to;?></ruledTo>
+<images>
+<image type="fullsize"><?php echo $this->baseUrl().'/images/rulers/'.$this->escape($this->filename);?></image>
+<image type="medium"><?php echo $this->baseUrl().'/images/rulers/resized/'.$this->escape($this->filename);?></image>
+</images>

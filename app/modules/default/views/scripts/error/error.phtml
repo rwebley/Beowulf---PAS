@@ -1,0 +1,44 @@
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+ $(document).ready(function(){
+$('#tabs').tabs({ fx: { opacity: 'toggle' } });  });
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+
+<h1>An error occurred</h1> 
+<h2><?= $this->message ?></h2> 
+
+<p><strong><?php echo $this->code;?></strong></p>
+
+    <h3>Exception information:</h3> 
+    <p> 
+        <b>Message:</b> 
+		<?= $this->exception->getMessage();
+		$this->actionerrors()?> 
+    </p> 
+<h3>The PAStexplorers are on the case!</h3>
+<img src="<?php echo $this->baseUrl();?>/images/children.png">
+
+<div id="tabs" style="width:100%;">
+ <ul>
+       <li><a href="#request"><span>Request parameters</span></a></li>
+        <li><a href="#trace"><span>Stack trace</span></a></li>
+		<li><a href="#compiled"><span>Compiled Stack trace</span></a></li>
+
+		 
+    </ul>
+	<div id="trace">
+    <h3>Stack trace:</h3> 
+    <p style="width:80%;"><?php echo $this->exception->getTraceAsString(); ?></p>
+	</div>
+	
+	<div id="request">
+    <h3>Request Parameters:</h3> 
+    <p style="width:80%;"><? var_dump($this->request->getParams()) ?></p> 
+	</div>
+	
+	<div id="compiled">
+	<ul id="related">
+	<?php echo $this->compiled;?>
+	</ul>
+	</div>
+</div>

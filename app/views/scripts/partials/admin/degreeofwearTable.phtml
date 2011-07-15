@@ -1,0 +1,13 @@
+<tr class="valid-<?php echo $this->valid;?>">
+<td><?php echo $this->escape($this->term);?></td>
+<td><?php echo $this->timeagoinwords($this->created);?></td>
+<td><?php echo $this->namethem($this->fullname);?></td>
+<td><?php echo $this->timeagoinwords($this->updated);?></td>
+<td><?php echo $this->namethem($this->fn);?></td>
+<td><?php echo $this->validity($this->valid);?>
+<td><a href="<?php echo $this->url(array('module' => 'admin','controller'=>'numismatics','action'=>'editdegreeofwear', 'id'=>$this->id),null,true);?>" title="Edit a degree of wear">Edit</a>
+<?php $string = ' | <a href="'.$this->url(array('module' => 'admin','controller'=>'numismatics','action'=>'deletedegreeofwear', 'id'=>$this->id),null,true).'" title="Delete this degree of wear">Delete</a>';
+echo $this->allowedtest($string);
+?>
+</td>
+</tr>

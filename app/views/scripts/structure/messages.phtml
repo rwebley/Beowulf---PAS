@@ -1,0 +1,16 @@
+<?php
+if (!empty($this->messages[0])) {?>
+<?php
+$this->jQuery()->javascriptCaptureStart();?>
+$(document).ready(function(){
+setTimeout(function(){ $('.flashmessenger').fadeOut('slow'); }, 8000);
+}); 
+<?php $this->jQuery()->javascriptCaptureEnd();?>
+<?php
+    echo '<div class="flashmessenger">';
+    echo $this->messages[0];
+    echo '</div>';
+}
+//Zend_debug::dump($this->messages);
+?>
+

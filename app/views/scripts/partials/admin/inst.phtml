@@ -1,0 +1,4 @@
+<?php $this->headTitle('Details for recording institution '.$this->institution);?>
+<h2>Details for <?php echo $this->institution;?></h2>
+<p><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'contacts', 'action' => 'editinstitution','id' => $this->id),null,true);?>" title="Edit this institution's details">Edit</a> <?php if(!isset($this->host)) { ?> | <a href="<?php echo $this->url(array('module' => 'admin','controller' => 'contacts','action' => 'addlogo', 'id' => $this->id),null,true);?>" title="Add a new logo">Add logo</a> <?php } else { ?><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'contacts','action' => 'deletelogo','id' => $this->id),null,true);?>" title="Delete an institutional logo">Delete logo</a><?php }?></p>
+<p><?php echo $this->description;?></p>

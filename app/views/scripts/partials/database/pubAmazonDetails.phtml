@@ -1,0 +1,93 @@
+<?php 
+$this->headTitle('Details for '. $this->escape($this->ellipsisstring($this->title,90)));
+$this->headMeta('','dc.Keywords');
+$this->headMeta('The Portable Antiquities Scheme and the British Museum','dc.Publisher');
+$this->headMeta('Details for reference work '.$this->title,'dc.Description');
+$this->headMeta($this->c,'dc.date.created');
+$this->headMeta('Archaeology','dc.subject');
+?>
+<div about="<?php echo $this->CurUrl();?>" typeof="bibo:AcademicArticle">
+<h2>Publication details</h2>
+
+<p>
+Full title: <span property="dc:title"><?php echo $this->escape($this->title);?></span><br />
+Author or editor: <?php echo $this->escape($this->authors);?><br />
+Publication place: <?php echo $this->escape($this->publication_place);?><br />
+Publisher: <?php echo $this->escape($this->publisher);?><br />
+Published: <?php echo $this->escape($this->publication_year);?><br />
+Publication type: <?php echo $this->escape($this->t);?><br />
+ISBN number: <span property="bibo:isbn10"><?php echo $this->escape($this->ISBN);?></span></p>
+<?php $isbn = $this->ISBN;?>
+<p>This was created by: <?php echo $this->escape($this->fn);?> on the: <?php echo $this->escape($this->c);?><br />
+Record last updated by: <?php echo $this->escape($this->fn2);?> on the <?php echo $this->escape($this->u);?></p>
+<?php
+$auth = Zend_Auth::getInstance();
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+{
+$allowed = array('fa','admin','flos');
+if(in_array($user->role,$allowed))
+{
+echo '<p><a href="'. 
+$this->url(array('module' => 'database','controller'=>'publications','action'=>'edit', 'id'=>$this->id),null,true)
+.'" title="Edit this publication">Edit</a> | <a href="'.
+$this->url(array('module' => 'database','controller'=>'publications','action'=>'delete', 'id'=>$this->id),null,true)
+.'" title="Delete this publication">Delete</a></p>';
+}
+}
+}
+;?>
+</div>
+<?php if($this->ISBN > 0) {
+
+
+$config = Zend_Registry::get('config');
+$cache = Zend_Registry::get('cache');
+$amazonKey = $config->amazon->apikey;
+$amazonSecret = $config->amazon->secretkey;
+$amazonCountry = $config->amazon->country;
+$amazon = new Zend_Service_Amazon($amazonKey,$amazonCountry,$amazonSecret);
+$book = $amazon->itemLookup($isbn,array('ResponseGroup' => 'Large'));
+
+
+//Zend_Debug::dump($book);
+echo '<div><p>';
+if(array_key_exists('MediumImage',$book) && ($book->MediumImage != NULL))
+{
+echo '<img src="'.$book->MediumImage->Url.'" alt="Cover image for '.$book->Title.'" height="'.$book->MediumImage->Height.'" width="'.$book->MediumImage->Width.'" class="amazonpicture" />';
+}
+
+echo '<a href="'.$book->DetailPageURL . '" title="View full details at Amazon"> ' . $book->Title. '</a> <br /> ';
+echo 'Number of pages: '. $book->NumberOfPages.'<br />';
+echo 'Total new copies available: '.$book->Offers->TotalNew . '<br />';
+echo 'Total used copies available: '.$book->Offers->TotalUsed . '<br />';
+if(array_key_exists('FormattedPrice',$book))
+	{
+echo 'Price for new copy: ' .$book->FormattedPrice.'<br />';
+	}
+echo 'Current sales rank at Amazon: ' . $book->SalesRank.'<br />';
+echo 'Binding type: ' . $book->Binding. '<br />';
+echo 'Publisher: ' . $book->Publisher. '<br />';
+echo 'Original publication date: ' . $this->niceshortdate($book->PublicationDate).'<br />';
+if(array_key_exists('Author',$book) && ($book->Author > 0))
+{
+echo 'Authors: ';
+foreach ($book->Author AS $author) {
+   echo "{$author}<br />";
+}
+}
+echo '</p>';
+
+if($book->SimilarProducts > 0){
+echo '<h3>Similar books</h3>';
+echo '<ul>';
+foreach ($book->SimilarProducts AS $sim) {
+echo "<li>{$sim->Title}</li>";
+}
+}
+echo '</ul>';
+
+echo '</div>';
+}
+?>

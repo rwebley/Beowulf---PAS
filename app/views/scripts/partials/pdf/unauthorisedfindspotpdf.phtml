@@ -1,0 +1,36 @@
+<?php echo "\n";?>
+Spatial data 
+
+<?php echo "\n";?>
+<?php if($this->region != NULL) :?>Region: <?php echo $this->escape(ucwords(strtolower($this->region)));?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->county != NULL) :?>County: <?php echo $this->escape(ucwords(strtolower($this->county)));?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->district != NULL) :?>District: <?php echo $this->escape(ucwords(strtolower($this->district)));?><?php echo "\n";?>
+<?php endif;?>
+
+<?php if(($this->parish != NULL) && (empty($this->knownas))):?>
+Parish: <?php echo  ucwords(strtolower($this->parish));?><?php echo "\n";?>
+<?php if($this->knownas != NULL) :?>To be known as: <?php echo $this->escape($this->knownas);?><?php echo "\n";?><?php endif;?>
+<?php endif;?>
+<?php
+ if(($this->gridref != NULL) && (empty($this->knownas))) {
+ ?>
+<p>
+Restricted 4 Figure grid reference: <?php echo $this->fourFigure;?><?php echo "\n";?>
+<?php 
+echo 'Grid reference source: '.$this->escape($this->source);
+echo "\n";
+echo 'Grid reference accurate to a '.$this->GetAccuracy($this->gridref).' metre square';
+echo "\n";
+}
+?>
+<p>
+<?php if($this->method != NULL) :?>Method of discovery: <?php echo $this->escape($this->method);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->disccircum != NULL) :?>Discovery circumstances:  <?php echo $this->escape($this->disccircum);?><?php echo "\n";?>
+<?php endif;?>
+<?php if($this->curr_loc != NULL) :?>Current location: <?php echo $this->escape($this->curr_loc);?><?php echo "\n";?><?php endif;?>
+<?php if($this->landvalue != NULL) :?>General landuse: <?php echo $this->landvalue;?><?php echo "\n";?><?php endif;?>
+<?php if(isset($this->landuse)) :?>Specific landuse: <?php echo $this->escape($this->landuse);?><?php endif;?>
+<?php echo "\n";?>

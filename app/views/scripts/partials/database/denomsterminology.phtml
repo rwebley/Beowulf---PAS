@@ -1,0 +1,5 @@
+<tr>
+<td><a href="<?php echo $this->url(array('module' => $this->denomController($this->temporal), 'controller' => 'denominations','action' => 'denomination' , 'id' => $this->id),null,true);?>" title="View details for denomination <?= ucfirst($this->denomination);?>"><?= ucfirst($this->denomination);?></a></td> 
+<td><?= $this->escape($this->mat);?></td>
+<td><?= $this->escape($this->temporal);?></td>
+</tr>

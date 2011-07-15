@@ -1,0 +1,14 @@
+<?php
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/facebox/facebox.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/facebox.init.js',$type='text/javascript');
+$this->headLink()->appendStylesheet($this->baseUrl().'/js/JQuery/facebox/facebox.css')
+->appendStylesheet($this->baseUrl().'/css/faceboxform.css');
+?>
+<h2>Edit a findspot associated with <?php echo $this->old_findID;?></h2>
+<div id="Findsummary">
+<ul id="related">
+<li>Object type: <?php echo $this->objecttype;?></li>
+<li>Broadperiod: <?php echo $this->broadperiod;?></li>
+</ul>
+<p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'ajax','action' => 'record', 'id' => $this->id),null,true);?>" title="View the find's details" rel="facebox">View find details in overlay.</a></p>
+</div>

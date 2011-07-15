@@ -1,0 +1,12 @@
+<?php 
+$controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+?>
+<ul id="menu1" class="menu collapsible">
+<li><a href="<?php echo $this->url(array('module' => 'treasure','controller' => 'index'),'default',true);?>" 
+title="An introduction to the Treasure Act">Introduction</a></li>
+<?php $this->treasuremenu();?>
+<li <?php if($controller == 'reports') { echo 'class="expandfirst"';};?>><a href="#">Treasure Reports</a>
+<ul><?php echo $this->TreasureReportsMenu();?></ul>
+</li>
+<li><a href="<?php echo $this->url(array('module' => 'treasure','controller' => 'cases'),'default',true);?>" title="Case history">Cases</a></li>
+</ul>

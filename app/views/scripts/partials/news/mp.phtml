@@ -1,0 +1,23 @@
+<h3><?php echo $this->full_name;?></h3>
+<?php if(isset($this->image)): ?>
+<img src="http://www.theyworkforyou.com/<?php echo $this->image;?>" class="flow"/>
+<?php endif;?>
+<p>Last updated: <?php echo $this->timeagoinwords($this->lastupdate);?><br />
+Party: <?php echo $this->party;?><br />
+Constituency: <?php echo $this->constituency;?><br />
+Entered house: <?php echo $this->timeagoinwords($this->entered_house);?></p>
+<?php if($this->left_house != '9999-12-31') {?>
+Left house: <?php echo $this->left_house;?><br />
+Reason for leaving: <?php echo $this->left_reason;?>
+<?php
+}?>
+<?php if(isset($this->office)):?>
+<?php foreach ($this->office as $o)
+{
+?>
+Department: <?php echo $o->dept;?><br />
+Position: <?php echo $o->position;?><br />
+Took up office: <?php echo $this->timeagoinwords($o->from_date);?><br />
+<?php 
+}?>
+<?php endif;?>

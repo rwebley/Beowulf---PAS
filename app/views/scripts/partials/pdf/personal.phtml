@@ -1,0 +1,28 @@
+<?php echo "\n";?>
+Finder and recorder details
+<?php echo "\n";?>
+<?php 
+if(isset($this->finder)) {
+$auth = Zend_Registry::get('auth');
+if($auth->hasIdentity())
+{
+$user = $auth->getIdentity();
+{
+$allowed = array('fa','admin','flos','hero','research');
+if(in_array($user->role,$allowed))
+{
+$string = 'Found by: '.$this->escape($this->finder);
+echo $string;
+echo "\n";
+}
+}
+} else {
+echo 'Found by: This information is restricted for your login';
+echo "\n";
+}
+}
+?>
+<?php if(isset($this->recorder)) : ?>Recorded by: <?php echo $this->escape($this->recorder);?><?php echo "\n";?><?php endif;?>
+<?php if($this->identifier != NULL) :?>Identified by: <?php echo $this->escape($this->identifier);?><?php echo "\n";?><?php endif;?>
+<?php if($this->secondaryIdentifier != NULL) :?>Secondary identifier: <?php echo $this->escape($this->secondaryIdentifier);?><?php echo "\n";?><?php endif;?>
+<?php echo "\n";?>

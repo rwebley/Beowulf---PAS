@@ -1,0 +1,48 @@
+<story>
+<id><?php echo $this->id;?></id>
+<title><?php echo $this->title;?></title>
+<status></status>
+<content><?php echo str_replace('&nbsp','',$this->contents);?></content>
+<summary><?php echo $this->ellipsisstring($this->escape($this->summary),300);?></summary>
+<created>
+<createdon><?php echo $this->niceshortdate($this->created);?></createdon>
+<createdby>
+<appellation>
+<name><?php echo $this->fullname;?></name>
+<identifier namespace="PAS"><?php echo $this->username;?></identifier>
+</appellation>
+</createdby>
+</created>
+<updated>
+<lastupdatedon><?php echo $this->niceshortdate($this->updated);?>
+</lastupdatedon>
+<lastupdatedby>
+<appellation>
+<name><?php echo $this->fn;?></name>
+<identifier namespace="PAS"><?php echo $this->un;?></identifier>
+</appellation>
+</lastupdatedby>
+</updated>
+<spatial>
+<place>
+<namedplace>
+<location type="address"><?php echo $this->address;?></location>
+</namedplace>
+</place>
+<geometry>
+<spatialappellation>
+<quickpoint>
+<x><?php echo $this->lat;?></x>
+<y><?php echo $this->lon;?></y>
+</quickpoint>
+<entity spatialtype="Point" uri="123" namespace="PAS Database">
+<wkt srs="EPSG:27700">
+POINT(<?php echo $this->latitude;?> <?php echo $this->longitude;?>)
+</wkt>
+</entity>
+<capturemethod>Geocoded address</capturemethod>
+</spatialappellation>
+</geometry>
+</spatial>
+
+</story>

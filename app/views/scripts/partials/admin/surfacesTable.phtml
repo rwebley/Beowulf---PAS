@@ -1,0 +1,13 @@
+<tr class="valid-<?php echo $this->valid;?>">
+<td><?php echo $this->escape($this->term);?></td>
+<td><?php echo $this->timeagoinwords($this->created);?></td>
+<td><?php echo $this->namethem($this->fullname);?></td>
+<td><?php echo $this->timeagoinwords($this->updated);?></td>
+<td><?php echo $this->namethem($this->fn);?></td>
+<td><?php echo $this->validity($this->valid);?>
+<td><a href="<?php echo $this->url(array('module' => 'admin','controller'=>'terminology','action'=>'editsurface', 'id'=>$this->id),null,true);?>">Edit</a>
+<?php $string = ' | <a href="'.$this->url(array('module' => 'admin','controller'=>'terminology','action'=>'deletesurface', 'id'=>$this->id),null,true).'" title="Delete this surface treatment">Delete</a>';
+echo $this->allowedtest($string);
+?>
+</td>
+</tr>

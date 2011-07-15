@@ -1,0 +1,29 @@
+<?php $this->headTitle($this->title);?>
+<?php
+$date = new Zend_Date();
+$date->add('72',Zend_Date::HOUR);
+$this->headMeta()->appendHttpEquiv('expires',$date->get(Zend_Date::RFC_1123))
+					   ->appendHttpEquiv('Content-Language', 'en-GB')
+					   ->appendHttpEquiv('imagetoolbar', 'no');
+$this->headMeta('Daniel Pett','dc.creator');
+$this->headMeta($this->CurUrl(),'dc.identifier');
+$this->headMeta(strip_tags($this->metaKeywords),'keywords');
+$this->headMeta('The Portable Antiquities Scheme and the British Museum','dc.publisher');
+$this->headMeta(strip_tags($this->metaDescription),'dc.description');
+$this->headMeta($this->created,'dc.date.created');
+$this->headMeta('Archaeology','dc.subject');
+$this->headMeta('CC BY-NC-SA','dc.rights');
+$this->headRdf($this->CurUrl(),'og:url');
+$this->headRdf(strip_tags($this->metaDescription),'og:description');
+$this->headRdf('http://profile.ak.fbcdn.net/hprofile-ak-snc4/41813_6875839761_3304_q.jpg','og:image');
+$this->headRdf('non_profit','og:type');
+$this->headRdf($this->title,'og:title');
+$this->headRdf('The Portable Antiquities Scheme','og:site_name');
+$this->headRdf('688811070','fb:admins');
+$this->headRdf('166174266729252','fb:app_id')
+
+?>
+<h2><?php echo $this->title;?></h2>
+
+<?php echo $this->body;?>
+

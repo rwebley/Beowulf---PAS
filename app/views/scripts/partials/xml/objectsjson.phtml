@@ -1,0 +1,39 @@
+<?php 
+	$auth = Zend_Registry::get('auth');
+
+if($auth->hasIdentity())
+	{
+	$user = $auth->getIdentity();
+	{
+	$restricted = array('member');
+	if(in_array($user->role,$restricted))
+	{
+	$this->gridref = NULL;
+	$this->easting = NULL;
+	$this->northing = NULL;
+	$this->lat = NULL;
+	$this->lon = NULL;
+	$this->finder = NULL;
+	$this->address = NULL;
+	$this->postcode = NULL;
+	$this->findspotdescription = NULL;
+	}
+	}
+	} else {
+	$this->gridref = NULL;
+	$this->easting = NULL;
+	$this->northing = NULL;
+	$this->lat = NULL;
+	$this->lon = NULL;
+	$this->finder = NULL;
+	$this->address = NULL;
+	$this->postcode = NULL;
+	$this->findspotdescription = NULL;
+	if($this->knownas != NULL){
+	$this->parish = NULL;
+	$this->fourFigure = NULL;
+	}
+	}?>
+	
+<?php $data = array(array('id' => '', 'term' => 'No options available.'));?>	
+<?php $this->json($data);?>

@@ -1,0 +1,11 @@
+<item>
+<title><?php echo $this->title;?></title>
+<link><?php echo 'http://'.$_SERVER['SERVER_NAME'].$this->url(array('module' => 'news','controller' => 'stories',
+	'action' => 'article', 'id' => $this->id),'default',true); ?></link>
+<guid><?php echo 'http://'.$_SERVER['SERVER_NAME'].$this->url(array('module' => 'news','controller' => 'stories',
+	'action' => 'article', 'id' => $this->id),'default',true); ?>#When:<?php echo date(DATE_W3C,strtotime( $this->created));?></guid>
+<description><?php echo strip_tags($this->summary); ?></description>
+<dc:subject><?php echo $this->xmlconvert('archaeology'); ?></dc:subject>
+<dc:date><?php echo date(DATE_W3C,strtotime($this->created));?></dc:date>
+</item>
+

@@ -1,0 +1,130 @@
+<?php 
+$this->headMeta('noodp','robots');
+$this->headMeta('BJ0IxlmtPbri25v9zbMgcOFDOBuZmNacd9-friMs1_E','google-site-verification');
+$this->jQuery()->addJavascriptFile('/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile('/js/JQuery/jquery.nivo.slider.pack.js',$type='text/javascript'); 
+?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    })
+$(window).load(function() {
+        $('#slider').nivoSlider({
+        effect:'random', //Specify sets like: 'fold,fade,sliceDown'
+        slices:15,
+        animSpeed:1000, //Slide transition speed
+        pauseTime:5000,
+        startSlide:0, //Set starting Slide (0 index)
+        directionNav:true, //Next & Prev
+        directionNavHide:true, //Only show on hover
+        controlNav:false, //1,2,3...
+        controlNavThumbs:true, //Use thumbnails for Control Nav
+        keyboardNav:true, //Use left & right arrows
+        pauseOnHover:true, //Stop animation while hovering
+        manualAdvance:false, //Force manual transitions
+        captionOpacity:0.8, //Universal caption opacity
+        beforeChange: function(){},
+        afterChange: function(){},
+        slideshowEnd: function(){}, //Triggers after all slides have been shown
+        lastSlide: function(){}, //Triggers when last slide is shown
+        afterLoad: function(){} //Triggers when slider has loaded
+        });
+    });
+
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+<div id="teaser"><?php echo $this->partialLoop('partials/content/article.phtml',$this->contents);?></div>
+
+ <div id="slider-wrapper">
+        
+            <div id="slider" class="nivoSlider">
+				<img src="/images/frontispiece/coinTray.jpg" title="A tray of gold roman coins - aureii - in Coins and medals" alt="A tray of gold roman coins - aureii - in Coins and medals" height="200" width="917" />
+				<img src="/images/frontispiece/fromeHoard.jpg" title="A detail from the Frome Hoard excavations" alt="A detail from the Frome Hoard excavations" height="200" width="917" />
+				<img src="/images/frontispiece/eagles.jpg" title="A detail from the gold eagle and fish mount, Staffordshire hoard" alt="A detail from the gold eagle and fish mount, Staffordshire hoard" height="200" width="917" />
+				<img src="/images/frontispiece/romanDay.jpg" title="The British Museum's staff at Roman day" alt="The British Museum's staff at Roman day" height="200" width="917" />
+				<img src="/images/frontispiece/torc.jpg" title="A closeup of the Newark torc" alt="A closeup of the Newark torc" height="200" width="917" />
+           </div>
+        
+</div>
+
+
+
+<div id="fbook"><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FPortableAntiquitiesScheme&amp;layout=standard&amp;show_faces=true&amp;width=950&amp;action=recommend&amp;font=arial&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:950px; height:62px;" ></iframe></div>
+
+<div id="staffsnew" >
+<a href="http://farm3.static.flickr.com/2525/3943597899_5d3e038410_z.jpg" rel="lightbox" title="The cheekpiece from the hoard"><img class="flow" src="http://farm3.static.flickr.com/2525/3943597899_5d3e038410_t.jpg" width="80" height="100" alt="The cheekpiece from the hoard"/></a>
+<h3>Staffordshire Hoard papers</h3>
+
+<p>The <a href="http://finds.org.uk/staffshoardsymposium" title="The hoard papers"></s>Staffordshire Hoard symposium papers</a> have been published for all to access and the <a href="http://finds.org.uk/staffshoard" 
+title="The old Staffshoard website">old website</a> has 
+been archived on our site for reference. The hoard's records are being added slowly to the database.</p>
+</div>
+
+
+<div id="tags" class="panel">
+<h3>Numismatic guides</h3>
+<p class="indent">Learn about each numismatic study area.</p>
+<ul>
+<li><a href="<?php echo $this->url(array('module' => 'ironagecoins'),null,true);?>" title="Learn about Iron age coins">Iron Age</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'romancoins'),null,true);?>" title="Learn about Roman coins">Roman</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'byzantinecoins'),null,true);?>" title="Learn about Byzantine coins">Byzantine</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'greekromancoins'),null,true);?>" title="Learn about Greek and roman provincial coins">Greek &amp; Roman Provincial</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'earlymedievalcoins'),null,true);?>" title="Learn about Early Medieval coins">Early Medieval</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'medievalcoins'),null,true);?>" title="Learn about Medieval coins">Medieval</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'postmedievalcoins'),null,true);?>" title="Learn about Post medieval coins">Post Medieval</a></li>
+</ul>
+<span class="twitterbird">
+<a href="http://www.finds.org.uk/database/artefacts/record/id/198178" title="An early 5th-century gold solidus of Honorius"><img src="/images/logos/solidus.jpg" height="60" width="117" alt="A gold solidus of Honorius" /></a>
+<a href="http://www.finds.org.uk/database/artefacts/record/id/413297" title="A gold stater of the Atrebates"><img src="/images/logos/stater.jpg" height="60" width="105" alt="A gold stater of the Atrebates" /></a>
+</span>
+</div>
+
+<div id="findofnotebox" class="panel">
+<iframe src="http://www.facebook.com/plugins/recommendations.php?site=finds.org.uk&amp;width=280&amp;height=320&amp;header=true&amp;colorscheme=dark&amp;font=arial&amp;border_color=%23fff" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:280px; height:320px;" allowTransparency="true"></iframe>
+
+</div>
+
+<div id="newsbox" class="panel"><h3>Latest news</h3>
+<ul>
+<?php 
+
+echo $this->partialLoop('partials/index/headlines.phtml',$this->news);
+?>
+</ul>
+</div>
+
+<div class="clear"></div>
+<div id="infoboard" class="panel"><ul><li><?php echo number_format($this->finds['0']['c']);?> records</li><li><?php echo number_format($this->finds['0']['q']);?> objects</li><li><?php echo number_format($this->people['0']['total']);?> people involved</li><li><?php echo number_format($this->users['0']['count']);?> accounts</li></ul></div>
+
+<div id="quotes">
+<?php echo $this->partialLoop('partials/index/quotes.phtml',$this->quotes);?>
+</div>
+
+
+
+<?php
+echo $this->FlickrFront();
+?>
+
+
+<div class="clear"></div>
+
+<div id="tweets" class="panel">
+<h3>Latest tweets</h3>
+ 
+<?php echo $this->LatestTweets();?>
+<a href="http://twitter.com/findsorguk" title="View our twitter profile"><img class="twitterbird" src="/images/logos/twitter_logo_withbird.png" height="37" width="200" alt="The twitter logo with the tweetie bird" /></a>
+
+</div>
+
+<div id="searchbox" class="panel"><h3>Events</h3>
+<?php echo $this->cal;?>
+</div>
+
+<div id="wp" class="panel"><h3>Scheme blog</h3>
+<ul>
+<?php echo $this->partialLoop('partials/index/wp.phtml',$this->wp);?>
+</ul>
+</div>
+
+

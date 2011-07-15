@@ -10,7 +10,8 @@
 class Flickr_IndexController extends Pas_Controller_ActionAdmin {
 	
 	protected $_oauth, $_flickrkey, $_secret, $_auth, $_config, $_userID, $_cache;
-	
+	/** Setup the contexts by action and the ACL.
+	*/			
 	public function init(){
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->acl->allow('public',null);
@@ -37,7 +38,8 @@ class Flickr_IndexController extends Pas_Controller_ActionAdmin {
 	return $access;
 	} 
 	}	
-	
+	/** Display the index page
+	*/			
 	public function indexAction() {
    	$access = $this->tokens();
 	$flickrkey = $_config->webservice->flickr->apikey;

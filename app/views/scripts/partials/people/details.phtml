@@ -1,0 +1,54 @@
+<person>
+<identifiers>
+<id><?php echo $this->id;?></id>
+<secureid><?php echo $this->secuid;?></secureid>
+</identifiers>
+<names>
+<title><?php echo $this->title;?></title>
+<forename><?php echo $this->forename;?></forename>
+<surname><?php echo $this->surname;?></surname>
+<fullname><?php echo $this->forename;?> <?php echo $this->surname;?></fullname>
+</names>
+<location>
+<address><?php echo $this->address;?></address>
+<county><?php echo $this->county;?></county>
+<postcode><?php echo $this->postcode;?></postcode>
+<country><?php echo $this->abode;?></country>
+<spatial>
+<woeid><?php echo $this->woeid;?></woeid>
+<latitude><?php echo $this->lat;?></latitude>
+<longitude><?php echo $this->lon;?></longitude>
+</spatial>
+</location>
+<contactdetails>
+<hometelephone><?php echo $this->hometel;?></hometelephone>
+<worktelephone><?php echo $this->worktel;?></worktelephone>
+<email><?php echo $this->email;?></email>
+</contactdetails>
+<comments><?php echo $this->xmlconvert($this->comments);?></comments>
+<meta>
+<created><?php echo $this->created;?></created>
+<createdby><?php echo $this->fullname;?></createdby>
+<updated><?php echo $this->updated;?></updated>
+<updatedby><?php echo $this->fn;?></updatedby>
+</meta>
+<organisation>
+<identifiers>
+<id><?php echo $this->i;?></id>
+<secureid><?php echo $this->secid;?></secureid>
+</identifiers>
+<name><?php echo $this->org;?></name>
+<location>
+<address><?php echo $this->orgaddress;?></address>
+<county><?php echo $this->orgcounty;?></county>
+<country><?php echo $this->orgcountry;?></country>
+<postcode><?php echo $this->orgpostcode;?></postcode>
+<spatial>
+<woeid><?php echo $this->orgwoeid;?></woeid>
+<latitude><?php echo $this->orglat;?></latitude>
+<longitude><?php echo $this->orglon;?></longitude>
+</spatial>
+</location>
+<website><?php echo $this->orgwebsite;?></website>
+</organisation>
+</person>

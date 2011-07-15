@@ -1,0 +1,7 @@
+<h2> <?php echo $this->escape(ucFirst($this->objecttype));?></h2>
+<p><strong>Unique ID:</strong> <span class="fourfigure"><?php echo $this->escape($this->old_findID);?></span></p>
+<?php if(!is_null($this->objecttypecert)):?>
+<p>
+Object type certainty: <?php echo $this->certainty($this->escape($this->objecttypecert));?>
+</p>
+<?php endif;?>

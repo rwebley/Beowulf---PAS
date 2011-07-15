@@ -1,0 +1,16 @@
+<tr>
+<td>
+<?php
+if($this->county != NULL) 
+{ 
+echo '<a href="'.$this->url(array('module' => 'database', 'controller' => 'statistics','action' => 'county','institution' => $this->county),null,false).'" title="View stats for '.$this->escape($this->county).'">'.$this->escape($this->county).'</a>';
+}
+else
+{
+echo 'No institition recorded';
+}
+?>
+</td>
+<td><?php echo $this->finds;?></td>
+<td><?php echo $this->records;?></td>
+</tr>
