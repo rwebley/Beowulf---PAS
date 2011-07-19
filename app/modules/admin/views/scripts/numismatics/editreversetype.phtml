@@ -1,0 +1,16 @@
+<?php $this->headScript()->prependFile($this->baseUrl().'/js/fckeditor/fckeditor.js',$type='text/javascript'); ?>
+<script type="text/javascript" >
+    window.onload = function()
+    {
+        if(document.getElementById('biography')) {
+            var oFCKeditor = new FCKeditor('biography') ;
+            oFCKeditor.BasePath = "<?=$this->baseUrl()?>/js/fckeditor/" ;
+            oFCKeditor.Height = 500;
+            oFCKeditor.ReplaceTextarea() ;
+        }
+    }
+</script>
+
+<?php 
+echo $this->form;
+?>

@@ -54,3 +54,10 @@ if($auth->hasIdentity()):?>
 </p>
 <?php endif;?>
 <?php endif;?>
+<?php 
+$config = Zend_Registry::get('config');
+$key = $config->webservice->google->apikey;
+$pm = new Pas_Service_Placemaker('GB');
+$place = $pm->getSingle('London');
+Zend_Debug::dump($place);
+?>

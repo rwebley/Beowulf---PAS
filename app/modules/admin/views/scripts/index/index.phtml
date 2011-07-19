@@ -1,0 +1,32 @@
+<h2>Website administration centre</h2>
+<?php
+{
+$auth = Zend_Auth::getInstance();
+
+if($auth->hasIdentity())
+{
+$welcome = array('Welcome','Welkom','Namaste','Ayubowan','Marhaban','F&agrave;ilte','Witam','Haere mai','Khosh aamadid');
+$randomWelcome = $welcome[array_rand($welcome)];
+$user = $auth->getIdentity(); 
+$fullname = $this->escape(ucfirst($user->fullname));
+$id = $this->escape(ucfirst($user->id));
+$string = '<p><span class="welcome">'.$randomWelcome.'!</span></p>';
+
+}
+else
+{
+$string = '<p><a href="'.$loginUrl.'">Log in to Beowulf</a></p>';
+
+}
+echo $string;
+}
+?>
+
+<?php echo $this->WhatYouWantToDoAdmin();
+$solr = new Apache_Solr_Service( 'localhost', '8983', '/solr' );
+ 
+if (  !$solr->ping() ) {
+echo 'Solr service not responding.';
+
+}
+?>

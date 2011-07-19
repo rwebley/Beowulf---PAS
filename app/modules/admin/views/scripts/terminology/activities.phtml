@@ -1,0 +1,17 @@
+<h2>Primary activities</h2>
+<p><a href="<?php echo $this->url(array('module'=>'admin','controller' => 'terminology','action'=>'addactivity'),null,true);?>">Add a new activity</a></p>
+<table class="stripeMe" summary="List of primary activities on database">
+<thead>
+<tr>
+<th>Activity type</th>
+<th>Created</th>
+<th>Created by</th>
+<th>Updated</th>
+<th>Updated by</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/admin/activityList.phtml',$this->activities);?>
+</tbody>
+</table>

@@ -1,0 +1,11 @@
+<p><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'numismatics','action' => 'addreversetype'),null, true);?>">Add a reverse type</a></p>
+<h2>Most common reverse types</h2>
+<ul id="related">
+<?php echo $this->partialLoop('partials/numismatics/revtypelist.phtml',$this->reverses);?>
+
+</ul>
+
+<h2>Lest frequently found reverses</h2>
+<ul id="related">
+<?php echo $this->partialLoop('partials/numismatics/revtypelist.phtml',$this->uncommonreverses);?>
+</ul>

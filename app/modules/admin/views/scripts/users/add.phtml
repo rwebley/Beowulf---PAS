@@ -1,0 +1,7 @@
+<?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.js',$type='text/javascript');?>
+<?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinitpeople2.js',$type='text/javascript'); ?>
+<?php $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');?>
+
+<?php $this->headTitle('Add a new user account');?>
+<h2>Add a new user</h2>
+<?php echo $this->form;?>

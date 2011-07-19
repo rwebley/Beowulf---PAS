@@ -1,0 +1,7 @@
+<h2>Edit details for event</h2>
+<?php 
+	$this->headTitle('Edit event');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript');
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+echo $this->form;
+?>

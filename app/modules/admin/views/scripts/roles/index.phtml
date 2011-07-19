@@ -1,0 +1,19 @@
+<?php $this->headTitle('Staff roles in use on the database');?>
+<h2>Staff roles</h2>
+<table class="stripeMe" summary="A list of all roles available on the database">
+<thead>
+<tr>
+<th>Role name</th>
+<th>Created</th>
+<th>Created by</th>
+<th>Updated</th>
+<th>Updated by</th>
+<th>Validity</th>
+<th>Actions</th>
+</tr>
+</thead>
+<?php echo $this->partialLoop('partials/admin/staffroles.phtml',$this->roles);?>
+
+<tbody>
+</tbody>
+</table>

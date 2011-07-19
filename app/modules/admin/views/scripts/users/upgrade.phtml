@@ -1,0 +1,6 @@
+<?php $this->headMeta('Approve an account for higher level access','dc.description');
+ $this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+ $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript');
+$this->headTitle('Approve an account');?>
+<h2>Approve account</h2>
+<?php echo $this->form;?>

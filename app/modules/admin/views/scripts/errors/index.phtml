@@ -1,0 +1,29 @@
+<h2>All errors submitted to the Scheme</h2>
+
+
+
+<?php if(count($this->errors)):?>
+<table class="stripeMe" cellspacing="0">
+<thead>
+	<tr>
+	<th scope="col" id="author" class="manage-column column-author">Author</th>
+	<th scope="col" id="comment" class="manage-column column-comment">Comment</th>
+	<th scope="col" id="response" class="manage-column column-response">In Response To</th>
+	
+	</tr>
+
+</thead>
+
+
+<tbody id="the-comment-list" class="list:comment">
+
+<?php echo $this->partialLoop('partials/admin/allerrors.phtml', $this->errors) ?>
+
+</tbody>
+
+</table>
+<?echo $this->paginationControl($this->errors, 'Sliding', 'structure/pagination.phtml'); ?>
+
+<?php else:?>
+<p>No comments are listed or available to you</p>
+<?php endif;?>

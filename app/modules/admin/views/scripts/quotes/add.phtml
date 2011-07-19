@@ -1,0 +1,10 @@
+<?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript'); ?>
+<?php $this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+$(document).ready(function() {
+$("#expire").datepicker({ maxDate: '+1y' });
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>
+
+<h2>Add a quote/announcment</h2>
+<?php echo $this->form;?>

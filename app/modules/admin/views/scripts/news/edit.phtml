@@ -1,0 +1,7 @@
+<h2>Edit news story</h2>
+<?php 
+$this->headTitle('Edit news story details');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript');
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+echo $this->form;
+?>

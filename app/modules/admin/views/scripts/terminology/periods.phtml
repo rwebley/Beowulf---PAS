@@ -1,0 +1,20 @@
+<h2>Periods used on the database</h2>
+<?php $string = '<p><a href="'.$this->url(array('module' => 'admin','controller'=>'terminology','action'=>'addperiod'),null,true).'">Add a new Period</a></p>';
+echo $this->allowedtest($string);?>
+
+<table class="stripeMe" summary="All periods in use on the database">
+<thead>
+<tr>
+<th>Period name</th>
+<th>Created</th>
+<th>Created by</th>
+<th>Updated</th>
+<th>Updated by</th>
+<th>Validity</th>
+<th>Actions</th>
+</tr>
+</thead>
+<?php echo $this->partialLoop('partials/admin/periodsTableList.phtml',$this->periods);?>
+
+</table>
+

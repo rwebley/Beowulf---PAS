@@ -1,0 +1,43 @@
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinitpeople1.js',$type='text/javascript'); 
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
+
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript');
+$this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+?>
+
+<h2>User administration</h2>
+<?php 
+echo $this->Href(array('module' => 'admin','controller'=>'users', 'action'=>'add', 'checkAcl'=>true,
+'acl'=>'Zend_Acl', 'wrapper' => array('tag' => 'div','class' => 'redadd','id' => 'action'), 'content'=>'Add an account','attribs' => array('title' => 'Add a new user')));
+?>
+
+<div id="findsList">
+<?php if (count($this->paginator)): ?>
+
+<table class="stripeMe" summary="List of users registered on the database">
+<thead>
+<tr>
+<th>Username</th>
+<th>Fullname</th>
+<th>Role assigned</th>
+<th>Last login</th>
+<th>Visits</th>
+<th>Actions</th>
+</tr>
+<thead>
+<tr>
+<?php echo $this->form;?>
+</tr>
+<tbody>
+<?php echo $this->partialLoop('partials/admin/userAdminTable.phtml',$this->paginator);?>
+</table>
+</tbody>
+
+
+<?= $this->paginationControl($this->paginator, 'Elastic', 'structure/pagination.phtml'); ?>
+<?php else:?>
+<p>There are no users available with those criteria.</p>
+<?php endif; ?>
+</div>

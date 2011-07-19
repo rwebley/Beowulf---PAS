@@ -9,7 +9,7 @@
 */
 class Users_ProfileController extends Pas_Controller_ActionAdmin {
 
-	protected $_config, $_gmapskey;
+	protected $_config, $_gmapskey, $_gecoder;
 	
 	const LOGOPATH = './images/logos/';
 	
@@ -23,7 +23,8 @@ class Users_ProfileController extends Pas_Controller_ActionAdmin {
  		$this->_helper->_acl->allow('admin',null);
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
         $this->_config = Zend_Registry::get('config');
-        $this->_gmapskey = $this->config->webservices->googlemaps->apikey;
+        $this->_gmapskey = $this->_config->webservice->googlemaps->apikey;
+        $this->_geocoder = new Pas_Service_Geocoder($this->_gmapskey);
     }
 	/** No access to the index page
 	*/		
@@ -55,8 +56,6 @@ class Users_ProfileController extends Pas_Controller_ActionAdmin {
 		$lat = NULL;
 		$lon = NULL;
 	}
-	$pm = new Placemaker();
-	$place = $pm->get($address);
 	$woeid = $place->woeid;
 	
 	$updateData = array(

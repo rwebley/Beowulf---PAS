@@ -1,0 +1,19 @@
+<h2>Reasons for being a find of note</h2>
+<p><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'terminology','action' => 'addnote'),null,true);?>" title="Add a new reason">Add a new find of note reason</a></p>
+
+<table class="stripeMe" summary="List of finds of note reasons">
+<thead>
+<tr>
+<th>Reason</th>
+<th>Created</th>
+<th>Created by</th>
+<th>Updated</th>
+<th>Updated by</th>
+<th>Validity</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php echo $this->partialLoop('partials/admin/reasonsTable.phtml',$this->notes);?>
+</tbody>
+</table>

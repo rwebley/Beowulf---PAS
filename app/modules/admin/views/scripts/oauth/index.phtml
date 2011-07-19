@@ -1,0 +1,10 @@
+<h2>Oauth Tokens in the database</h2>
+<p>
+<?php 
+
+$tokens = ((object)$this->tokens);
+foreach($tokens as $t){
+echo $t->service . ' ' . $t->expires  . '<br />';
+
+}?>
+</p>
