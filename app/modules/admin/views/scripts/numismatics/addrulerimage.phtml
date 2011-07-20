@@ -1,5 +1,7 @@
 <h2>Add an image for a ruler</h2>
-<?php if(count($this->errors))
+<?php 
+	$this->headTitle('Add an image to a ruler biography');
+if(count($this->errors))
 {
 echo '<ul>';
 foreach($this->errors as $key => $value)

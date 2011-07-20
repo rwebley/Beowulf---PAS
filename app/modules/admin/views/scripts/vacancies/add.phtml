@@ -1,5 +1,7 @@
 <?php $this->headScript()->appendFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript'); ?>
-<?php $this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');?>
+<?php $this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+	$this->headTitle('Add a new vacancy');
+?>
 <?php $this->headScript()->captureStart() ?>
 $(document).ready(function() {
 $("#live").datepicker({ maxDate: '+1y'});

@@ -1,4 +1,6 @@
-<?php if ($this->tribe) :?>
+<?php 
+$this->headTitle('Delete a tribe\'s details');
+if ($this->tribe) :?>
 <h2>Delete a tribe</h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->tribe->tribe); ?>'

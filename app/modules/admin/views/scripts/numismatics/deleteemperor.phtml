@@ -1,4 +1,5 @@
-<?php if ($this->emperor) :?>
+<?php if ($this->emperor) :
+	$this->headTitle("Delete an Emperor");?>
 <h2>Delete <?php echo $this->emperor->name;?>'s biography.</h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->emperor->name); ?>'

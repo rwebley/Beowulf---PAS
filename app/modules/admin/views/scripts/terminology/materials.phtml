@@ -1,3 +1,5 @@
+<?php 	
+$this->headTitle('Materials available for use on the database');?>
 <h2>Materials</h2>
 <p><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'terminology','action' => 'addmaterial'),null,true);?>" title="Add a new material">Add a new material</a></p>
 <?php if (count($this->materials)): ?>

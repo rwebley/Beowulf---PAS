@@ -1,4 +1,6 @@
-<?php if ($this->vac) :?>
+<?php 
+	$this->headTitle('Delete a vacancy');
+if ($this->vac) :?>
 <h2>Delete vacancy details for: <?php echo $this->escape($this->vac->title); ?></h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->vac->title); ?> ' 

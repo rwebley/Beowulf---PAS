@@ -1,4 +1,6 @@
-<?php if ($this->manufacture) :?>
+<?php 
+$this->headTitle("Delete a method of manufacture");
+if ($this->manufacture) :?>
 <h2>Delete <?php echo $this->escape($this->manufacture->term); ?></h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->manufacture->term); ?>' 

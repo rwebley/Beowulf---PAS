@@ -1,4 +1,8 @@
-<?php $this->headScript()->prependFile($this->baseUrl().'/js/JQuery/jquery-1.2.3.min.js',$type='text/javascript'); ?>
+<?php 
+	$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/Jquery/coinslinkedselect.js',$type='text/javascript')
+	->addJavascriptFile($this->baseUrl().'/js/Jquery/catlinkedinit.js',$type='text/javascript'); 
+	$this->headTitle('Add a Medieval type');
+$this->headScript()->prependFile($this->baseUrl().'/js/JQuery/jquery-1.2.3.min.js',$type='text/javascript'); ?>
 <?php $this->headScript()->appendFile($this->baseUrl().'/js/JQuery/jquery.menu.js',$type='text/javascript'); ?>
 
 

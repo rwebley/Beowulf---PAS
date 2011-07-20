@@ -1,3 +1,6 @@
+<?php 	
+$this->headTitle('Emperor biographies');
+?>
 <h2>List of Emperor's biographies on database</h2>
 <p><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'numismatics','action' => 'addemperor'),null,true);?>" title="Add a new emperor's biography">Add a new biography</a></p>
 <?php if (count($this->paginator)): ?>

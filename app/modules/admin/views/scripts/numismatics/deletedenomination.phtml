@@ -1,4 +1,6 @@
-<?php if ($this->denomination) :?>
+<?php if ($this->denomination) :
+	$this->headTitle("Delete a denomination from the system");
+?>
 <h2>Delete <?php echo $this->escape($this->denomination->denomination); ?></h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->denomination->denomination); ?>' 

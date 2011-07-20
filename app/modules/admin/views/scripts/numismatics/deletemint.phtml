@@ -1,4 +1,7 @@
-<?php if ($this->mint) :?>
+<?php if ($this->mint) :
+
+$this->headTitle("Delete a mint from the system");
+?>
 <h2>Delete a mint</h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->mint->mint_name); ?>' 

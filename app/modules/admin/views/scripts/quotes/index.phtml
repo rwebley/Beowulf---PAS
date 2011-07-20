@@ -1,3 +1,5 @@
+<?php 	$this->headTitle('Administer quotes and announcements');
+?>
 <h2>Administer quotes &amp; announcements</h2>
 <p><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'quotes','action' => 'add'),null,true);?>" title="Add a new quote or announcement">Add quote or announcement</a></p>
 <?php if (count($this->quotes)) : ?>

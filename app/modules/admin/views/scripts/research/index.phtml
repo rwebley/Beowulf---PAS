@@ -1,4 +1,6 @@
-<?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/confirm.js',$type = 'javascript');?>
+<?php 
+$this->headTitle('Research projects conducted on Scheme data');
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/confirm.js',$type = 'javascript');?>
 
 <?php $this->jQuery()->javascriptCaptureStart();?>
 $(document).ready(function(){

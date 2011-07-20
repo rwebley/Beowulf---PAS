@@ -1,4 +1,6 @@
-<?php if ($this->landuse) :?>
+<?php 
+	$this->headTitle("Delete a Landuse from the system");
+if ($this->landuse) :?>
 <h2>Delete <?php echo $this->escape($this->landuse->term); ?></h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->landuse->term); ?>' 

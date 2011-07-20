@@ -1,5 +1,7 @@
 <h2>Searches performed</h2>
-<?php if(count($this->searches)):?>
+<?php 
+	$this->headTitle('All searches on the database');
+if(count($this->searches)):?>
 <ol id="timeline" class="statuses">
 
 <?php echo $this->partialLoop('partials/users/searchList.phtml', $this->searches) ?>

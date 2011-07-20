@@ -1,4 +1,6 @@
-<?php if ($this->activity) :?>
+<?php 
+	$this->headTitle('Delete an activity');
+if ($this->activity) :?>
 <h2>Delete a primary activity</h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->activity->term); ?>' 

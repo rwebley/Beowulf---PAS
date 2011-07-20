@@ -1,4 +1,6 @@
-<?php if ($this->method) :?>
+<?php 
+	$this->headTitle("Delete a method of discovery");
+if ($this->method) :?>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->method->method); ?>' 
 </p>

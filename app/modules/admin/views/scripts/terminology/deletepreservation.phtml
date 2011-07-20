@@ -1,4 +1,6 @@
-<?php if ($this->preserve) :?>
+<?php 
+	$this->headTitle("Delete a preservation state");
+if ($this->preserve) :?>
 <h2>Delete a preservation state</h2>
 <p>Are you sure that you want to delete
 '<?php echo $this->escape($this->preserve->term); ?>' 
