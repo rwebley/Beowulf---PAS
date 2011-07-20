@@ -1380,5 +1380,4 @@ class Admin_TerminologyController extends Pas_Controller_ActionAdmin {
 	}
 	}
 	}	
-
 }
