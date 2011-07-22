@@ -1,11 +1,9 @@
 <?php
 $auth = Zend_Auth::getInstance();
-if($auth->hasIdentity())
-{
+if($auth->hasIdentity()) {
 $user = $auth->getIdentity();
 $allowed =  array('admin' , 'fa');
-if(in_array($user->role,$allowed))
-{
+if(in_array($user->role,$allowed)) {
 ?>
 <ul id="menu1" class="menu collapsible">
 <li><a href="<?php echo $this->url(array('controller' => 'admin'),null,true);?>" title="Go to administration centre">Administration home</a></li>

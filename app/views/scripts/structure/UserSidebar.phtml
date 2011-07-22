@@ -1,13 +1,9 @@
 <?php
-$allowed = array('flos','fa','admin');
+$allowed = array('flos','fa','admin','treasure');
 $auth = Zend_Auth::getInstance();
-if($auth->hasIdentity())
-{
-$user = $auth->getIdentity();
-{
-
+if($auth->hasIdentity()) {
+$user = $auth->getIdentity(); 
 $controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
-
 ?>
 
 <ul id="menu1" class="menu collapsible">
@@ -43,9 +39,5 @@ if(in_array($user->role,$allowed)) {
 </ul>
 </li>
 </ul>
-<?php
-
-}
-}
-?>
+<?php } ?>
 

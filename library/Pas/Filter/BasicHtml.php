@@ -29,9 +29,7 @@ class Pas_Filter_BasicHtml implements Zend_Filter_Interface
 	$config->set('AutoFormat.RemoveEmpty.RemoveNbsp',TRUE);
 	$config->set('AutoFormat.RemoveEmpty', TRUE);
 	$config->set('AutoFormat.Linkify', true);
-	//$config->set('AutoFormat.AutoParagraph', true);
 	$config->set('HTML.TidyLevel', 'heavy');
-	//Zend_Debug::dump($config);
 	}
 	
 	/** Filter the input

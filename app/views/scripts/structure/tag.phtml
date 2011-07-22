@@ -1,25 +1,11 @@
 <div id="tagfind">
-<?php 
-
-
-//$this->tagform->findID->setValue($this->finds['0']['secuid']);
-
-
-//echo $this->tagform;
-
-?>
 <div id="tags">
-
 <?php 
-
 	$auth = Zend_Auth::getInstance();
-	if($auth->hasIdentity())
-	{
+	if($auth->hasIdentity()) {
 	$user = $auth->getIdentity();
 	$id = $user->id;
-	}
-	else 
-	{
+	} else {
 	$id = '3';
 	}
 	$description = ' ';
@@ -50,11 +36,7 @@
 	}
 
 	$recordID = $this->finds['0']['id'];
-	//Zend_Debug::dump($description);
-// $this->opencalais($recordID,$id,$description);
- $this->placemaker($recordID,$id,$description);
-
+	$this->placemaker($recordID,$id,$description);
 ?>
 </div>
 </div>
-

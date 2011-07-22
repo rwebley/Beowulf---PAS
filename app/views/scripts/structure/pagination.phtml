@@ -22,7 +22,7 @@
 <?php endforeach; ?>
 <li class="next">
 <?php if (isset($this->next)): ?> 
-<a href="<?= $this->url(array('page' => $this->next)); ?>">Next &raquo;</a>
+<a href="<?php $this->url(array('page' => $this->next)); ?>">Next &raquo;</a>
 <?php else: ?> 
 <span class="next-off">Next &raquo;</span>
 <?php endif; ?>

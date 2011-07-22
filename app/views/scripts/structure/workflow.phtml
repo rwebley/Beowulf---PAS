@@ -1,11 +1,7 @@
 <div id="workflow">
 <?php 
-$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/workflow.js',$type='text/javascript');
-
+$this->jQuery()->addJavascriptFile($this->baseUrl() . '/js/JQuery/workflow.js',$type='text/javascript');
 $this->wform->wfstage->setValue($this->finds['0']['secwfstage']);
-
 echo $this->wform;
-
 ?>
-
 </div>

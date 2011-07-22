@@ -1,5 +1,5 @@
 <?php if ($this->pageCount): ?> 
-<resultCount><?= $this->totalItemCount;?></resultCount>
+<resultCount><?php $this->totalItemCount;?></resultCount>
 <page><?php echo $this->current;?></page>
-<viewingResults><?= $this->firstItemNumber; ?> - <?= $this->lastItemNumber; ?></viewingResults>
+<viewingResults><?php $this->firstItemNumber; ?> - <?php $this->lastItemNumber; ?></viewingResults>
 <?php endif; ?>

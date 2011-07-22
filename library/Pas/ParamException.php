@@ -1,5 +1,4 @@
 <?php
 
-class Pas_ParamException extends Exception
-{
+class Pas_ParamException extends Exception {
 }

@@ -11,8 +11,7 @@
 
 */
 
-class Pas_Filter_EmptyParagraph implements Zend_Filter_Interface
-{
+class Pas_Filter_EmptyParagraph implements Zend_Filter_Interface {
     /**
      * Filter out the invalid characters that word puts in.
      * @param string $value

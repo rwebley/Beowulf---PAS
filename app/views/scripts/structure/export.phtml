@@ -1,9 +1,0 @@
-<?php 
-$queryString = ($_SERVER['QUERY_STRING'] != '') ? '?' . $_SERVER['QUERY_STRING'] : '';
-
-	$rssurl = $this->view->baseUrl().'/database/searchresultsrss/'.$_SERVER['QUERY_STRING'];
-	$rssurl .= $queryString;
-	$rss = '<a href="'.$rssurl.'">RSS</a>';
-	$exportformats = '<div><ul id="related"><li>'.$rss.'</li><li>Atom</li><li>YAML</li><li>JSON</li><li>CSV</li><li>XML</li></ul></div>';
-	echo $exportformats;
-	?>

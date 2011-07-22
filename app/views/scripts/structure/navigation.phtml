@@ -15,14 +15,11 @@ $module =  Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
 <li><a <?php if($module == 'events') {echo 'class="active" ';}?>href="<?php echo $this->url(array('module' => 'events'),'default',true);?>" title="Find out what events are happening near you">Events</a></li>
 <?php
 $auth = Zend_Auth::getInstance();
-if($auth->hasIdentity())
-{
+if($auth->hasIdentity()){
 $user = $auth->getIdentity();
-{
 $allowed = array('flos','heros','fa','admin','treasure');
 if(in_array($user->role,$allowed)) {
 echo '<li><a href="/forum/" title="Go to our staff forum and hassle your colleagues">Forum</a>';
-}
 }
 }
 ?>

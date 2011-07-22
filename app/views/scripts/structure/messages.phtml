@@ -3,14 +3,16 @@ if (!empty($this->messages[0])) {?>
 <?php
 $this->jQuery()->javascriptCaptureStart();?>
 $(document).ready(function(){
-setTimeout(function(){ $('.flashmessenger').fadeOut('slow'); }, 8000);
+setTimeout(function(){ 
+$('.flashmessenger').fadeOut('slow'); }, 8000);
 }); 
 <?php $this->jQuery()->javascriptCaptureEnd();?>
 <?php
-    echo '<div class="flashmessenger">';
-    echo $this->messages[0];
-    echo '</div>';
+echo '<div class="flashmessenger">';
+foreach($this->messages as $message){
+echo $messge;
 }
-//Zend_debug::dump($this->messages);
+echo '</div>';
+}
 ?>
 
