@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * A validation class for checking for unique usernames
+ * @category   Pas
+ * @package    Zend_Validate
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @see Zend_Validate_Abstract
+ */
 class Pas_Validate_UsernameUnique extends Zend_Validate_Abstract
 {
     const NOT_UNIQUE = 'notUnique';
@@ -85,7 +92,12 @@ class Pas_Validate_UsernameUnique extends Zend_Validate_Abstract
         $this->_primaryKeyColumn = $primaryKeyColumn;
         return $this;
     }
-
+    
+	/**
+	* Validation failure message template definitions
+	*
+	* @var array
+	*/
     protected $_messageTemplates = array(
         self::NOT_UNIQUE => 'That username is already in use, please try again.'
     );
