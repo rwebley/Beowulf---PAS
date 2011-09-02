@@ -1,0 +1,107 @@
+#opacity_window
+{
+  width: 300px;
+}
+#opacity_window_contents{
+  background: url('../images/opacity_contents.png') top left repeat transparent;
+font:100% Georgia, serif;
+line-height: 170%;  color: #000;
+  width: 250px;
+
+}
+#opacity_window_contents div{
+  padding: 3px;
+}
+* html #opacity_window_contents{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/opacity_contents.png', sizingMethod='scale');
+}
+#opacity_window_tl{
+  width: 22px;
+  height: 22px;
+  background: url('../images/opacity_tl.png') top left no-repeat transparent;
+}
+* html #opacity_window_tl{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_tl.png', sizingMethod='crop');
+}
+#opacity_window_t{
+  background: url('../images/opacity_t.png') top left repeat-x transparent;
+}
+* html #opacity_window_t{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_t.png', sizingMethod='scale');
+}
+#opacity_window_tr{
+  width: 21px;
+  height: 22px;
+  background: url('../images/opacity_tr.png') top right no-repeat transparent;
+}
+* html #opacity_window_tr{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_tr.png', sizingMethod='scale');
+}
+#opacity_window_l{
+  background: url('../images/opacity_l.png') top left repeat-y transparent;
+  width: 22px;
+}
+* html #opacity_window_l{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_l.png', sizingMethod='scale');
+}
+#opacity_window_r{
+  background: url('../images/opacity_r.png') top right repeat-y transparent;
+  width: 21px;
+}
+* html #opacity_window_r {
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_r.png', sizingMethod='scale');
+}
+#opacity_window_bl{
+  width: 22px;
+  height: 18px;
+  background: url('../images/opacity_bl.png') top left no-repeat transparent;
+}
+* html #opacity_window_bl{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_bl.png', sizingMethod='crop');
+}
+#opacity_window_b{
+  height: 18px;
+  background: url('../images/opacity_b.png') bottom left repeat-x transparent;
+}
+* html #opacity_window_b{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_b.png', sizingMethod='scale');
+}
+#opacity_window_br{
+  width: 21px;
+  height: 18px;
+  background: url('../images/opacity_br.png') top left no-repeat transparent;
+}
+* html #opacity_window_br{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_br.png', sizingMethod='crop');
+}
+#opacity_window_close{
+  width: 13px;
+  height: 13px;
+  margin: -8px 0 0 10px;
+  background: url('../images/opacity_close.png') top left no-repeat transparent;
+  cursor: pointer;
+}
+* html #opacity_window_close{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_close.png', sizingMethod='crop');
+}
+#opacity_window_beak{
+	width: 50px;
+  height: 62px;
+  background: url('../images/opacity_beak.png') top left no-repeat transparent;
+}
+* html #opacity_window_beak{
+  background-image:none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/opacity_beak.png', sizingMethod='crop');
+}
+
+

@@ -1,0 +1,380 @@
+#container
+			{
+			width: 95%;
+			margin: auto;
+			background-color: #fff;
+			color: #333;
+			line-height: 130%;
+		
+			}
+			
+	h2 {
+			font:200% Georgia, serif;
+}
+#content  p {
+			text-align:left;
+			padding-right:8px;
+			font:100% Georgia, serif;
+					
+    		}
+
+#vcard {
+			font:100% Georgia, serif;
+			line-height: 170%;}
+#prior-next {
+			font:90% Georgia, serif;
+			line-height: 170%;}
+
+#content table {
+			font:80% Georgia, serif;
+			}
+#related  {
+			font:80% Georgia, serif;
+			}
+#related li 
+{ list-style: square;
+font:120% Georgia, serif;
+}			
+
+#content h1,h2 { 
+			margin: 0 0 .5em 0; 
+			text-align:center;
+			}
+
+
+.flashmessenger
+			{
+			 font:110% Georgia, serif;
+			 background:#CCCCCC;
+			 border:4px solid #99CCCC;
+			 margin:1em 0pt;
+             padding:10pt 0.9em;
+			 text-align:center;
+			 color:#990000;
+		}
+textarea.expanding {
+	line-height: 18px;
+}
+
+#paging ul{border:0; margin:0; padding:0;	font:100% Georgia, serif;} 
+
+#pagination li{
+border:0; margin:0; padding:0;
+font-size:11px;
+list-style:none;
+margin-right:2px;
+}
+#pagination a {
+border:solid 1px #9aafe5;
+margin-right:2px;
+}
+#pagination .previous-off,
+#pagination .next-off {
+border:solid 1px #DEDEDE;
+color:#000000;
+display:block;
+float:left;
+font-weight:bold;
+margin-right:2px;
+padding:3px 4px;
+}
+#pagination .next a,
+#pagination .previous a {
+font-weight:bold;
+}
+#pagination .active{
+background:#2e6ab1;
+color:#FFFFFF;
+font-weight:bold;
+display:block;
+float:left;
+padding:4px 6px;
+}
+#pagination a:link,#pagination a:visited {
+display:block;
+float:left;
+padding:3px 6px;
+text-decoration:none;
+}
+#pagination a:hover{
+border:solid 1px #0e509e;
+}
+#imagery  img {border:3px solid #8B0000;
+}
+#imagery li {display:inline; list-style:none;padding:0; }
+.tmb{border:3px solid #8B0000;}
+#map {border:8px solid #8B0000;height:300px;width:300px;}
+#footer ul {
+list-style-image:none;
+list-style-position:outside;
+list-style-type:none;
+}
+#bottom {
+width:100%;
+}
+#copyright {
+			float:left; 
+			display:inline;
+			color: #ffffff;
+			font:  160% Georgia, serif;
+
+} 
+#col1 
+{
+			float:right; 
+			display:inline;
+			color: #ffffff;
+			font:  90% Georgia, serif;
+} 
+
+#col2
+			{
+			float:right; 
+			display:inline;
+			color: #ffffff;
+			font:  90% Georgia, serif;
+} 
+#content table {
+text-align:justify;
+}
+#content tr {
+vertical-align:top;
+padding: 8px;
+}
+#content td {
+padding: 4px;
+vertical-align: top;
+}
+#footer, #nav a {
+color:#DBDBDB;
+}
+#footer, #nav a:hover {
+text-decoration:none;
+}
+#logo li {display:inline;padding:10px;
+}
+#mysql {color:red;}
+.googleChart { text-align:center;}
+#emperor {clear:both;}
+#emperors ul {
+  float: left;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ 
+#emperors li {
+  float: left;
+  width: 200px;
+  margin: 0;
+  padding: 0;
+  list-style:none;
+}
+ .doing { margin-bottom:10px; }
+ .doing tr { border-bottom: 1px dashed #d2dada; vertical-align: middle;
+}
+.doing td {
+text-align:left;}
+
+#gallery li {display:inline; padding:8px; list-style:none; }
+#gallery a:visited,a:active, a:focus {text-decoration:none;}
+#gallery img {border:3px solid #8B0000;}
+
+/**
+ * jQuery lightBox plugin
+ * This jQuery plugin was inspired and based on Lightbox 2 by Lokesh Dhakar (http://www.huddletogether.com/projects/lightbox2/)
+ * and adapted to me for use like a plugin from jQuery.
+ * @name jquery-lightbox-0.5.css
+ * @author Leandro Vieira Pinho - http://leandrovieira.com
+ * @version 0.5
+ * @date April 11, 2008
+ * @category jQuery plugin
+ * @copyright (c) 2008 Leandro Vieira Pinho (leandrovieira.com)
+ * @license CC Attribution-No Derivative Works 2.5 Brazil - http://creativecommons.org/licenses/by-nd/2.5/br/deed.en_US
+ * @example Visit http://leandrovieira.com/projects/jquery/lightbox/ for more informations about this jQuery plugin
+ */
+#jquery-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 90;
+	width: 100%;
+	height: 500px;
+}
+#jquery-lightbox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 100;
+	text-align: center;
+	line-height: 0;
+}
+#jquery-lightbox a img { border: none; }
+#lightbox-container-image-box {
+	position: relative;
+	background-color: #fff;
+	width: 250px;
+	height: 250px;
+	margin: 0 auto;
+}
+#lightbox-container-image { padding: 10px; }
+#lightbox-loading {
+	position: absolute;
+	top: 40%;
+	left: 0%;
+	height: 25%;
+	width: 100%;
+	text-align: center;
+	line-height: 0;
+}
+#lightbox-nav {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 10;
+}
+#lightbox-container-image-box > #lightbox-nav { left: 0; }
+#lightbox-nav a { outline: none;}
+#lightbox-nav-btnPrev, #lightbox-nav-btnNext {
+	width: 49%;
+	height: 100%;
+	zoom: 1;
+	display: block;
+}
+#lightbox-nav-btnPrev { 
+	left: 0; 
+	float: left;
+}
+#lightbox-nav-btnNext { 
+	right: 0; 
+	float: right;
+}
+#lightbox-container-image-data-box {
+	font: 10px Verdana, Helvetica, sans-serif;
+	background-color: #fff;
+	margin: 0 auto;
+	line-height: 1.4em;
+	overflow: auto;
+	width: 100%;
+	padding: 0 10px 0;
+}
+#lightbox-container-image-data {
+	padding: 0 10px; 
+	color: #666; 
+}
+#lightbox-container-image-data #lightbox-image-details { 
+	width: 70%; 
+	float: left; 
+	text-align: left; 
+}	
+#lightbox-image-details-caption { font-weight: bold; }
+#lightbox-image-details-currentNumber {
+	display: block; 
+	clear: left; 
+	padding-bottom: 1.0em;	
+}			
+#lightbox-secNav-btnClose {
+	width: 66px; 
+	float: right;
+	padding-bottom: 0.7em;	
+}
+.googleChart {
+border:4px solid #99CCCC;
+padding: 10px;
+}
+
+#imagepane img
+{
+border:4px solid #99CCCC;
+}
+#imagepane li {
+list-style:none;
+padding:10px;
+}
+#imagepane {
+float:right;
+}
+#QRtag {
+float:right;
+}
+
+.error {
+color:#8B0000;
+}
+#workflowstatus {
+float:right;}
+#content>form {
+			font:100% Georgia, serif;
+			line-height: 170%;
+}
+#content>form .errors{
+color:#8B0000;
+}
+#content>form label {
+  padding-right:10px;
+}
+.radios dd {
+  display:block;
+}
+
+#content>form input,select {
+background:#F2F2F2 none repeat scroll 0;
+border:1px solid #99CCCC;
+font:100% Georgia, serif;
+			line-height: 170%;
+}
+#content>form textarea {
+background:#F2F2F2 none repeat scroll 0;
+border:1px solid #99CCCC;
+font:100% Georgia, serif;
+			line-height: 170%;
+}
+#content>form textarea.expanding {
+background:#F2F2F2 none repeat scroll 0;
+border:1px solid #990000;
+font:100% Georgia, serif;
+line-height: 170%;
+padding-left:10px;
+}
+#content>form textarea.privatedata {
+border:10px solid #990000;
+}
+
+.required-field input {
+background:#F2F2F2 none repeat scroll 0;
+border:5px solid #990000;
+font:100% Georgia, serif;
+line-height: 170%;
+			}
+#content a {
+color:#229CB3;font-weight:bold;
+text-decoration:none;
+}
+#content a:focus, #content a:hover {
+text-decoration:underline;
+}
+.previous {
+padding-right:50px;
+text-align:right;
+}
+
+#twitterlogo {
+    padding: 55px 0 0 0;
+    overflow: hidden;
+    background-image: url('./images/logos/twitter.png');
+    background-repeat: no-repeat;
+    
+    height: 0px !important;
+    height /**/:55px;
+}
+.scope,#contexts,#beta-corner,#prior-next,#addcomment,#toolBox,#commentform, #breadcrumb, #fieldset-hidden,#sidebar,#breadcrumb,#toolbox,#sidebar,#header,#footer,#prior-next,#nav
+{
+display:none;
+}
+.removePrint
+{
+	display:none;
+}
