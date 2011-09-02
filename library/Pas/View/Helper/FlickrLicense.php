@@ -1,0 +1,57 @@
+<?php
+/**
+ * A view helper for displaying a flickr licence
+ * @category   Pas
+ * @package    Pas_View_Helper
+ * @subpackage Abstract
+ * @copyright  Copyright (c) 2011 dpett @ britishmuseum.org
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ */
+class Pas_View_Helper_FlickrLicense extends Zend_View_Helper_Abstract {
+	
+	const ALLRIGHTS = 'All Rights Reserved';
+	
+	const BASECREATIVE = 'http://creativecommons.org/licenses/';
+	
+	const VIEWLIC = 'View license restrictions';
+	
+	public function FlickrLicense($license) {
+	
+	switch($license) {
+	case (int)'0':
+	$licensetype = self::ALLRIGHTS;
+	break;
+	case (int)'1':
+	$licensetype = '<a href="' . self::BASECREATIVE . 'by-nc-sa/2.0/" title="' . self::VIEWLIC . '">Attribution-NonCommercial-ShareAlike License</a>';
+	break;
+	case  (int) 2:
+	$licensetype ='<a href="' . self::BASECREATIVE . 'by-nc/2.0/" title="' . self::VIEWLIC . '">Attribution-NonCommercial License</a>';
+	break;
+	case  3:
+	$licensetype = '<a href="' . self::BASECREATIVE . 'by-nc-nd/2.0/" title="' . self::VIEWLIC . '">Attribution-NonCommercial-NoDerivs License</a>';
+	break;
+	case  4:
+	$licensetype = '<a href="' . self::BASECREATIVE . 'by/2.0/" title="' . self::VIEWLIC . '">Attribution License</a>';
+	break;
+	case  5:
+	$licensetype = '<a href="' . self::BASECREATIVE . 'by-sa/2.0/" title="' . self::VIEWLIC . '">Attribution-ShareAlike License</a>';
+	break;
+	case  6:
+	$licensetype = '<a href="' . self::BASECREATIVE . 'by-nd/2.0/" title="' . self::VIEWLIC . '">Attribution-NoDerivs License</a>';
+	break;
+	case  7: 
+	$licensetype =  '<a href="http://www.flickr.com/commons/usage/" title="' . self::VIEWLIC . '">No known copyright restrictions</a>';
+	break;
+	case  8:
+	$lciensetype =  '<a href="http://www.usa.gov/copyright.shtml" title="' . self::VIEWLIC . '">United States Government Work</a>';
+	break;
+	default:
+	$licensetype = self::ALLRIGHTS;
+	break;
+	}
+	return $licensetype;
+	}
+	
+
+
+}
