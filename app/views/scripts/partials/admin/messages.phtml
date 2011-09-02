@@ -1,10 +1,13 @@
 <tr id="comment-<?php echo $this->comment_ID;?>" class="status-<?php echo $this->comment_approved;?>">
 <td class="author column-author" >
-<?php $gravatar = new Gravatar($this->comment_author_email);
-$gravatar->size = 30;
-$gravatar->rating = "G";
-echo $gravatar;
+<?php 
+echo $this->gravatar($this->comment_author_email,array(
+'imgSize' => 30, 'defaultImg' => 'monsterid', 'secure' => true),
+    array('class' => 'avatar', 
+    'title' => $this->fullname . '\'s gravatar representation',
+    'rating' => 'G'));
 ?>
+
 
 <strong><?php echo $this->comment_author;?></strong><br/>
 <?php if(isset($this->comment_author_url)) :?><a href="<?php echo $this->comment_author_url;?>" title="<?php echo $this->comment_author_url;?>"><?php echo $this->comment_author_url;?></a><br/><?php endif;?>
@@ -15,6 +18,6 @@ echo $gravatar;
 $this->ellipsisstring(strip_tags($this->comment_content),200);?></td>
 <td><?php if($this->replied == 1) { echo 'Replied '.$this->timeagoinwords($this->updated);} else { echo 'Reply needed';}?></td>
 <td><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'messages',
-'action' => 'reply','id' => $this->id),'default',true);?>" title="Reply to this message">Reply</a>
+'action' => 'reply','id' => $this->id),'default',true);?>" title="Reply to this message">Reply | Delete</a>
 </td>
 </tr>

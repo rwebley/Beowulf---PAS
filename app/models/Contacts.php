@@ -9,7 +9,7 @@
 * @license GNU General Public License
 */
 
-class Contacts extends Zend_Db_Table {
+class Contacts extends Zend_Db_Table_Abstract {
 
 	protected $_name = 'staff';
 	protected $_primary = 'id';
@@ -27,25 +27,27 @@ class Contacts extends Zend_Db_Table {
 	* @return array
 	*/
 	public function getPersonDetails($id) {
-		if (!$data = $this->_cache->load('currentstaffmember' . $id)) {
-	    $persons = $this->getAdapter();
-		$select = $persons->select()
-					   ->from($this->_name,array('number' => 'id', 'firstname', 'lastname', 
-					   							 'email_one', 'email_two', 'address_1', 
-					   							 'address_2', 'identifier', 'town', 
-					   							 'county', 'postcode', 'country', 
-					   							 'profile', 'telephone', 'fax', 
-					   							 'dbaseID', 'longitude', 'latitude',
-					   							 'image'))
-						->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region')
-						->joinLeft('instLogos',$this->_name.'.identifier = instID',array('host' => 'image'))
-						->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',array('staffroles' => 'role'))
-						->where('staff.id= ?',(int)$id)
-						->group($this->_primary);
-	    $data =  $persons->fetchAll($select);
-		$this->_cache->save($data, 'currentstaffmember' . $id);
-		}
-	    return $data;
+	if (!$data = $this->_cache->load('currentstaffmember' . $id)) {
+	$persons = $this->getAdapter();
+	$select = $persons->select()
+		->from($this->_name,array(
+		'number' => 'id', 'firstname', 'lastname', 
+		'email_one', 'email_two', 'address_1', 
+		'address_2', 'identifier', 'town', 
+		'county', 'postcode', 'country', 
+		'profile', 'telephone', 'fax', 
+		'dbaseID', 'longitude', 'latitude',
+		'image'))
+		->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region')
+		->joinLeft('instLogos',$this->_name.'.identifier = instID', array('host' => 'image'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array('staffroles' => 'role'))
+		->where('staff.id= ?',(int)$id)
+		->group($this->_primary);
+	$data =  $persons->fetchAll($select);
+	$this->_cache->save($data, 'currentstaffmember' . $id);
+	}
+	return $data;
     }
     
      /** Get person's image
@@ -54,34 +56,35 @@ class Contacts extends Zend_Db_Table {
 	* @todo add caching and change to fetchrow
 	*/
 	public function getImage($id) {
-		$persons = $this->getAdapter();
-		$select = $persons->select()
-					   ->from($this->_name,array('image'))
-					   ->where('staff.id= ?',(int)$id);
-		return $persons->fetchAll($select);
+	$persons = $this->getAdapter();
+	$select = $persons->select()
+		->from($this->_name,array('image'))
+		->where('staff.id= ?',(int)$id);
+	return $persons->fetchAll($select);
     }
 
-     /** Get a list of alumni
+	/** Get a list of alumni
 	* @return array
 	*/
 	public function getAlumniList() {
-    	if (!$data = $this->_cache->load('alumniList')) {
-    	$persons = $this->getAdapter();
-		$select = $persons->select()
-							->from('staff',array('id', 'firstname', 'lastname', 
-												 'email_one', 'address_1', 'address_2',
-											     'town', 'county', 'postcode', 
-											     'telephone', 'fax', 'role'))
-							->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',
-							array('staffregions' => 'description'))
-							->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
-							array('staffroles' => 'role'))
-							->where('alumni = ?',(int)0)
-							->order('lastname');
-        $data =  $persons->fetchAll($select);
-		$this->_cache->save($data, 'alumniList');
-		}
-        return $data;
+	if (!$data = $this->_cache->load('alumniList')) {
+	$persons = $this->getAdapter();
+	$select = $persons->select()
+		->from('staff',array(
+		'id', 'firstname', 'lastname', 
+		'email_one', 'address_1', 'address_2',
+		'town', 'county', 'postcode', 
+		'telephone', 'fax', 'role'))
+		->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',
+		array('staffregions' => 'description'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array('staffroles' => 'role'))
+		->where('alumni = ?',(int)0)
+		->order('lastname');
+	$data =  $persons->fetchAll($select);
+	$this->_cache->save($data, 'alumniList');
+	}
+    return $data;
     }
 	
     /** Get a list of current staff to display on the map of contacts
@@ -89,20 +92,21 @@ class Contacts extends Zend_Db_Table {
     * @todo add caching
 	*/
 	public function getContactsForMap() {
-		$persons = $this->getAdapter();
-		$select = $persons->select()
-				  ->from($this->_name,array('id', 'firstname', 'lastname', 
-				  							'email_one', 'email_two', 'address_1',
-				  							'address_2', 'identifier', 'town',
-				  							'county', 'postcode', 'country', 
-				  							'profile', 'telephone', 'fax', 
-				  							'dbaseID', 'longitude','latitude',
-				  							'image','alumni'))
-				  ->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',
-				  array('area' => 'DESCRIPTION'))
-				  ->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
-				  array( 'role','roleid' => 'id'))
-				 ->where('alumni = ?',(int)'1');
+	$persons = $this->getAdapter();
+	$select = $persons->select()
+		->from($this->_name,array(
+		'id', 'firstname', 'lastname', 
+		'email_one', 'email_two', 'address_1',
+		'address_2', 'identifier', 'town',
+		'county', 'postcode', 'country', 
+		'profile', 'telephone', 'fax', 
+		'dbaseID', 'longitude','latitude',
+		'image','alumni'))
+		->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',
+		array('area' => 'DESCRIPTION'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array( 'role','roleid' => 'id'))
+		->where('alumni = ?',(int)'1');
 	return $contacts = $persons->fetchAll($select);
 	}
 	
@@ -114,22 +118,25 @@ class Contacts extends Zend_Db_Table {
 	public function getContacts($params) {
     $persons = $this->getAdapter();
 	$select = $persons->select()
-				  ->from($this->_name,array('id', 'firstname', 'lastname',
-				  							'email_one', 'email_two', 'address_1',
-				  							'address_2', 'identifier', 'town',
-				  							'county', 'postcode', 'country', 
-				  							'profile', 'telephone', 'fax',
-				  							'dbaseID', 'longitude', 'latitude',
-				  							'image','alumni'))
-				  ->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',array('area' => 'DESCRIPTION'))
-				  ->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',array( 'role','roleid' => 'id'))
-				  ->order('alumni DESC');
+		->from($this->_name,array(#
+		'id', 'firstname', 'lastname',
+		'email_one', 'email_two', 'address_1',
+		'address_2', 'identifier', 'town',
+		'county', 'postcode', 'country', 
+		'profile', 'telephone', 'fax',
+		'dbaseID', 'longitude', 'latitude',
+		'image','alumni'))
+		->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',
+		array('area' => 'DESCRIPTION'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array( 'role','roleid' => 'id'))
+		->order('alumni DESC');
 	$paginator = Zend_Paginator::factory($select);
 	if(isset($params['page']) && ($params['page'] != "")) {
     $paginator->setCurrentPageNumber((int)$params['page']); 
 	}
 	$paginator->setItemCountPerPage(20) 
-        	  ->setPageRange(10); 
+		->setPageRange(10); 
 	return $paginator;
     }
 
@@ -140,14 +147,16 @@ class Contacts extends Zend_Db_Table {
 	if (!$data = $this->_cache->load('centralUnit')) {
 	$persons = $this->getAdapter();
 	$select = $persons->select()
-						->from($this->_name,array('id', 'firstname', 'lastname', 
-												  'email_one', 'address_1', 'address_2',
-												  'town', 'county', 'postcode',
-												  'telephone', 'fax', 'role',
-												  'longitude','latitude','image'))
-						->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',array('staffroles' => 'role'))
-						->where('staff.role IN (1,2,3,4) AND alumni =1')
-						->order('lastname');
+		->from($this->_name,array(
+		'id', 'firstname', 'lastname', 
+		'email_one', 'address_1', 'address_2',
+		'town', 'county', 'postcode',
+		'telephone', 'fax', 'role',
+		'longitude','latitude','image'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array('staffroles' => 'role'))
+		->where('staff.role IN (1,2,3,4) AND alumni =1')
+		->order('lastname');
     $data =  $persons->fetchAll($select);
 	$this->_cache->save($data, 'centralUnit');
 	}
@@ -161,13 +170,16 @@ class Contacts extends Zend_Db_Table {
 	if (!$data = $this->_cache->load('liaisonOfficers')) {
 	$persons = $this->getAdapter();
 	$select = $persons->select()
-					  ->from($this->_name,array('id', 'firstname', 'lastname',
-												'email_one', 'address_1', 'address_2',
-												'town', 'county', 'postcode',
-												'telephone', 'fax', 'longitude',
-												'latitude', 'image'))
-		->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',array('staffregions' => 'description'))
-		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',array('staffroles' => 'role'))
+		->from($this->_name,array(
+		'id', 'firstname', 'lastname',
+		'email_one', 'address_1', 'address_2',
+		'town', 'county', 'postcode',
+		'telephone', 'fax', 'longitude',
+		'latitude', 'image'))
+		->joinLeft(array('locality' => 'staffregions'),'locality.ID = staff.region',
+		array('staffregions' => 'description'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array('staffroles' => 'role'))
 		->where('staff.role IN (7,10) AND alumni =1')
 		->order('locality.description');
 	$data =  $persons->fetchAll($select);
@@ -184,14 +196,16 @@ class Contacts extends Zend_Db_Table {
 	if (!$data = $this->_cache->load('treasureTeam')) {
 	$persons = $this->getAdapter();
 	$select = $persons->select()
-						->from($this->_name,array('id', 'firstname', 'lastname',
-												  'email_one', 'address_1', 'address_2',
-												  'town', 'county', 'postcode',
-												  'telephone', 'fax', 'role',
-												  'longitude', 'latitude', 'image'))
-						->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',array('staffroles' => 'role'))
-						->where('staff.role IN (6,8) AND alumni =1')
-						->order('lastname');
+		->from($this->_name,array(
+		'id', 'firstname', 'lastname',
+		'email_one', 'address_1', 'address_2',
+		'town', 'county', 'postcode',
+		'telephone', 'fax', 'role',
+		'longitude', 'latitude', 'image'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array('staffroles' => 'role'))
+		->where('staff.role IN (6,8) AND alumni =1')
+		->order('lastname');
 	$data =  $persons->fetchAll($select);
 	$this->_cache->save($data, 'treasureTeam');
 	}
@@ -206,14 +220,16 @@ class Contacts extends Zend_Db_Table {
 	if (!$data = $this->_cache->load('findsAdvisers')) {
 	$persons = $this->getAdapter();
 	$select = $persons->select()
-					  ->from($this->_name,array('id', 'firstname', 'lastname',
-												'email_one', 'address_1', 'address_2',
-												'town', 'county', 'postcode', 
-												'telephone', 'fax', 'role', 
-												'longitude', 'latitude', 'image'))
-	->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',array('staffroles' => 'role'))
-	->where('staff.role IN (12,16,17,18,19,20) AND alumni =1')
-	->order('lastname');
+		->from($this->_name,array(
+			'id', 'firstname', 'lastname',
+			'email_one', 'address_1', 'address_2',
+			'town', 'county', 'postcode', 
+			'telephone', 'fax', 'role', 
+			'longitude', 'latitude', 'image'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',
+		array('staffroles' => 'role'))
+		->where('staff.role IN (12,16,17,18,19,20) AND alumni =1')
+		->order('lastname');
 	$data =  $persons->fetchAll($select);
 	$this->_cache->save($data, 'findsAdvisers');
 	}
@@ -228,16 +244,19 @@ class Contacts extends Zend_Db_Table {
 	if (!$data = $this->_cache->load('currentstaff')) {
 	$persons = $this->getAdapter();
 	$select = $persons->select()
-					->from($this->_name,array('id', 'firstname', 'lastname',
-											  'email_one', 'address_1',' address_2',
-											  'town', 'county', 'postcode',
-											  'telephone', 'fax', 'role', 
-											  'longitude', 'latitude', 'created', 
-											  'updated', 'profile'))
-					->joinLeft(array('locality' => 'staffregions'),'locality.regionID = staff.region',array('staffregions' => 'description'))
-					->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID',array('staffroles' => 'role'))
-					->order($this->_name.'.id')
-					->where('alumni = ?',(int)1);
+		->from($this->_name,array(
+			'id', 'firstname', 'lastname',
+			'email_one', 'address_1','address_2',
+			'town', 'county', 'postcode',
+			'telephone', 'fax', 'role', 
+			'longitude', 'latitude', 'created', 
+			'updated', 'profile'))
+		->joinLeft(array('locality' => 'staffregions'),'locality.regionID = staff.region',
+		array('staffregions' => 'description'))
+		->joinLeft(array('position' => 'staffroles'),'staff.role = position.ID', 
+		array('staffroles' => 'role'))
+		->order($this->_name.'.id')
+		->where('alumni = ?',(int)1);
 		$data =  $persons->fetchAll($select);
 	$this->_cache->save($data, 'currentstaff');
 	}
@@ -248,11 +267,11 @@ class Contacts extends Zend_Db_Table {
     * @return array
 	*/
 	public function getAttending() {
-		$persons = $this->getAdapter();
-		$select = $persons->select()
-							->from($this->_name,array('dbaseID','term' => 'CONCAT(firstname," ",lastname)'))
-							->order($this->_name.'.firstname');
-	    return $persons->fetchPairs($select);
+	$persons = $this->getAdapter();
+	$select = $persons->select()
+		->from($this->_name,array('dbaseID', 'term' => 'CONCAT(firstname," ",lastname)'))
+		->order($this->_name.'.firstname');
+	return $persons->fetchPairs($select);
 	}
 
 }

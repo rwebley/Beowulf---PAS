@@ -1,7 +1,6 @@
 <?php
 /**
 * Model for pulling coin data 
-* I have no idea why this is different to the Coins Classifications model! 
 * @category   Zend
 * @package    Zend_Db_Table
 * @subpackage Abstract
@@ -31,16 +30,17 @@ class Coins extends Zend_Db_Table_Abstract {
 	public function getCoinData($id) {
 		$coins = $this->getAdapter();
 		$select = $coins->select()
-			            ->from($this->_name, array('id', 'obverse_description', 'obverse_inscription',
-			            						   'cciNumber', 'reverse_description', 'ruler_id', 
-			            						   'mint_ID', 'reverse_inscription', 'denomination', 
-			            						   'degree_of_wear', 'allen_type', 'va_type', 
-			            						   'mack' => 'mack_type', 'reeceID', 'ruler_id', 
-			            						   'ruler2_id', 'denom' => 'denomination', 'mint_id', 
-			            						   'die' => 'die_axis_measurement', 'wearID'=> 'degree_of_wear', 
-			            						   'moneyer', 'revtypeID',' categoryID',
-			            						   'typeID', 'tribeID' => 'tribe', 'createdBy', 
-			            						   'reverse_mintmark', 'initial_mark'))
+			            ->from($this->_name, array(
+			            'id', 'obverse_description', 'obverse_inscription',
+						'cciNumber', 'reverse_description', 'ruler_id', 
+			            'mint_ID', 'reverse_inscription', 'denomination', 
+			            'degree_of_wear', 'allen_type', 'va_type', 
+			            'mack' => 'mack_type', 'reeceID', 'ruler_id', 
+			            'ruler2_id', 'denom' => 'denomination', 'mint_id', 
+			            'die' => 'die_axis_measurement', 'wearID'=> 'degree_of_wear', 
+			            'moneyer', 'revtypeID','categoryID',
+			            'typeID', 'tribeID' => 'tribe', 'createdBy', 
+			            'reverse_mintmark', 'initial_mark'))
 						->joinLeft('finds','finds.secuid = coins.findID',array('broadperiod','returnID' => 'id','old_findID'))
 						->joinLeft('ironagetribes','coins.tribe = ironagetribes.id',array('tribe'))
 						->joinLeft('geographyironage','geographyironage.id = coins.geographyID',array('r' => 'region','a' => 'area'))

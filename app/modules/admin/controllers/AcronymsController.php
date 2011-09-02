@@ -34,13 +34,8 @@ class Admin_AcronymsController extends Pas_Controller_ActionAdmin {
 	$formData = $this->_request->getPost();
 	if ($form->isValid($formData)) {
 	$acros = new Acronyms();
-	$insertData = array(
-	'abbreviation' => $form->getValue('abbreviation'),
-	'expanded' => $form->getValue('expanded'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$acros->insert($insertData);
+	$data = $form->getValues();
+	$acros->add($data);
 	$this->_flashMessenger->addMessage('A new acronym has been created.');
 	$this->_redirect(self::REDIRECT);
 	} else 	{

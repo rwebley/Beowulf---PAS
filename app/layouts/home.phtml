@@ -1,8 +1,6 @@
-<?php // echo $this->docType();?>
 <?php echo '<?xml version="1.0" encoding="utf-8"?>';?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
-    "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<?php echo $this->docType();?>
 	
 <html 
 	
@@ -31,44 +29,55 @@
 
 <?echo $this->headMeta(); ?>
 
-
 <?echo $this->headLink(); ?>
 
-
 <?echo $this->headScript(); ?> 
-
 	
 </head>
+
 <body>
+
 <div id="container">
 
 <div id="header">
-<?php echo $this->layout()->header ?>
+
+	<?php echo $this->layout()->header ?>
 
 <div id="nav">
-<?php echo $this->layout()->navigation ?>
+
+	<?php echo $this->layout()->navigation ?>
+
 </div>
 		
 </div>
 
 
 <div id="content">
-<?php echo $this->layout()->breadcrumb;	?>
-<?php echo $this->layout()->messages;?>
+	
+	<?php echo $this->layout()->breadcrumb;	?>
 
-<?php echo $this->acronyms($this->layout()->content); ?>
-<?php echo $this->layout()->contexts; ?>
+	<?php echo $this->layout()->messages;?>
+
+	<?php echo $this->acronyms($this->layout()->content); ?>
+
+	<?php echo $this->layout()->contexts; ?>
 
 </div>
 
 <div id="footer">
-<?php echo $this->layout()->footer; ?>
+
+	<?php echo $this->layout()->footer; ?>
+
 </div>
 
 </div>
-<?echo $this->jQuery(); ?>
 
-<?php echo $this->inlineScript(); ?> 
-<?php echo $this->layout()->analytics; ?> 
+	<?echo $this->JQuery(); ?>
+
+	<?php echo $this->inlineScript(); ?> 
+
+	<?php echo $this->layout()->analytics; ?> 
+
 </body>
+
 </html>

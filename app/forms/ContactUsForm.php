@@ -74,12 +74,11 @@ parent::__construct($options);
 	->setAttrib('rows',10)
 	->setAttrib('cols',40)
 	->setAttrib('Height',400)
-	->setAttrib('ToolbarSet','Finds')
+	->addFilters(array('StringTrim', 'BasicHtml', 'EmptyParagraph', 'WordChars'))
 	->addErrorMessage('Please enter something in the comments box!');
 
-	$config = new Zend_Config_Ini('app/config/config.ini','general');
-	$privateKey = $config->recaptcha->privatekey;
-	$pubKey = $config->recaptcha->pubkey;
+	$privateKey = $this->_config->webservice->recaptcha->privatekey;
+	$pubKey = $this->_config->webservice->recaptcha->pubkey;
 
 	$captcha = new Zend_Form_Element_Captcha('captcha', array(  
                         		'captcha' => 'ReCaptcha',
@@ -90,9 +89,10 @@ parent::__construct($options);
                                 'pubKey' => $pubKey,
 								'theme'=> 'clean')
                         ));
-					
+                        
+                        
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

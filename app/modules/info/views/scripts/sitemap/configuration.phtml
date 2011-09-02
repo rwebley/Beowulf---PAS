@@ -1,0 +1,1094 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<configdata>
+<nav>
+	<home>
+		<label>Home</label>
+		<module>default</module>
+		<changefreq>hourly</changefreq>
+		<lastmod>2010-08-19</lastmod>
+		<priority>1.0</priority>
+	</home>
+	<news>
+		<label>News and reports</label>
+		<module>news</module>
+		<changefreq></changefreq>
+		<priority>0.9</priority>
+			<pages>
+				<?php foreach($this->news as $n):?>
+					<news<?php echo $n['id'];?>>
+						<label><?php echo $this->xmlclean($n['title']);?></label>
+						<module>news</module>
+						<controller>stories</controller>
+						<action>article</action>
+						<params>
+						<id><?php echo $n['id'];?></id>
+						</params>
+						<changefreq>weekly</changefreq>
+						<lastmod><?php echo $n['updated'];?></lastmod>
+						<priority>0.2</priority>
+					</news<?php echo $n['id'];?>>
+				<?php endforeach;?>
+			</pages>
+	</news>
+	<events>
+		<label>Events</label>
+		<module>news</module>
+		<changefreq></changefreq>
+		<priority>0.9</priority>
+	</events>
+	<research>
+		<label>Research</label>
+		<module>research</module>
+		<changefreq>monthly</changefreq>
+		<priority>0.9</priority>
+	</research>
+	<flickr>
+		<label>Photos</label>
+		<module>flickr</module>
+		<changefreq>daily</changefreq>
+		<priority>0.9</priority>
+	</flickr>
+	<conservation>
+		<label>Conservation Advice</label>
+		<module>conservation</module>
+		<controller>index</controller>
+		<action>index</action>
+		<changefreq>monthly</changefreq>
+		<lastmod></lastmod>
+		<priority>0.5</priority>
+			<pages>
+			<?php foreach($this->conservation as $c):?>
+				<<?php echo $c['slug'];?>>
+					<label><?php echo $c['menuTitle'];?></label>
+					<module>conservation</module>
+					<controller>advice</controller>
+					<action>note</action>
+					<params>
+					<slug><?php echo $c['slug'];?></slug>
+					</params>
+					<route>c</route>
+					<changefreq>weekly</changefreq>
+					<lastmod><?php echo $c['updated'];?></lastmod>
+					<priority>0.2</priority>
+				</<?php echo $c['slug'];?>>
+			<?php endforeach;?>
+			</pages>
+	</conservation>
+	<getinvolved>
+		<label>Get Involved</label>
+		<module>getinvolved</module>
+		<controller>index</controller>
+		<action>index</action>
+		<changefreq>monthly</changefreq>
+		<lastmod></lastmod>
+		<priority>0.5</priority>
+	</getinvolved>
+	<treasure>
+		<label>Treasure</label>
+		<module>treasure</module>
+		<changefreq>monthly</changefreq>
+		<lastmod></lastmod>
+		<priority>0.5</priority>
+			<pages>
+				<?php foreach($this->treasure as $t):?>
+				<<?php echo $t['slug'];?>>
+					<label><?php echo $t['menuTitle'];?></label>
+					<module>treasure</module>
+					<controller>advice</controller>
+					<action>index</action>
+					<params>
+					<slug><?php echo $t['slug'];?></slug>
+					</params>
+					<route>t</route>
+					<changefreq>weekly</changefreq>
+					<lastmod><?php echo $t['updated'];?></lastmod>
+					<priority>0.2</priority>
+				</<?php echo $t['slug'];?>>
+			<?php endforeach;?>
+			</pages>
+	</treasure>
+	<database>
+		<label>Database</label>
+		<module>database</module>
+		<changefreq>hourly</changefreq>
+		<lastmod><?php echo date('void');?></lastmod>
+		<priority>1.0</priority>
+			<pages>
+				<search>
+					<label>Search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>index</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</search>
+				<advanced>
+					<label>Advanced Search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>advanced</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</advanced>
+				<roman>
+					<label>Roman coins search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>romannumismatics</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</roman>
+				<ironage>
+					<label>Iron Age coins search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>ironagenumismatics</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</ironage>
+				<earlymedieval>
+					<label>Early Medieval coins search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>earlymednumismatics</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</earlymedieval>
+				<medieval>
+					<label>Medieval coins search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>mednumismatics</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</medieval>
+				<postmedieval>
+					<label>Post Medieval coins search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>postmednumismatics</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</postmedieval>
+				<byzantine>
+					<label>Byzantine coins search</label>
+					<module>database</module>
+					<controller>search</controller>
+					<action>byzantinenumismatics</action>
+					<changefreq>yearly</changefreq>
+					<priority>0.5</priority>
+				</byzantine>
+				<allartefacts>
+					<label>All artefacts and coins</label>
+					<module>database</module>
+					<controller>artefacts</controller>
+					<action>index</action>
+					<changefreq>always</changefreq>
+					<priority>1.0</priority>
+				</allartefacts>
+				<publications>
+					<label>Reference works</label>
+					<module>database</module>
+					<controller>publications</controller>
+					<action>index</action>
+					<changefreq>weekly</changefreq>
+					<priority>0.8</priority>
+				</publications>
+				<rallies>
+					<label>All known rallies</label>
+					<module>database</module>
+					<controller>rallies</controller>
+					<action>index</action>
+					<changefreq>weekly</changefreq>
+					<priority>0.3</priority>
+				</rallies>
+				<comments>
+					<label>Comments on records</label>
+					<module>database</module>
+					<controller>comments</controller>
+					<action>index</action>
+					<changefreq>weekly</changefreq>
+					<priority>0.3</priority>
+				</comments>
+				<statistics>
+					<label>Statistics</label>
+					<module>database</module>
+					<controller>statistics</controller>
+					<action>index</action>
+					<changefreq>weekly</changefreq>
+					<priority>0.3</priority>
+				</statistics>
+			</pages>
+	</database>
+	<contacts>
+		<label>Contacts</label>
+		<module>contacts</module>
+			<pages>
+				<map>
+					<label>Map</label>
+					<module>contacts</module>
+					<controller>staff</controller>
+					<action>map</action>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</map>
+				<coroners>
+					<label>Map</label>
+					<module>contacts</module>
+					<controller>coroners</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</coroners>
+				<alumni>
+					<label>Alumni</label>
+					<module>contacts</module>
+					<controller>alumni</controller>
+					<action>index</action>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</alumni>
+			</pages>	
+	</contacts>
+	<ironagecoins>
+		<label>Introduction</label>
+		<module>ironagecoins</module>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+			<pages>
+				<rulers>
+					<label>Rulers </label>
+					<module>ironagecoins</module>
+					<controller>rulers</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->ironagerulers as $r):?>
+								<iaruler<?php echo $r['id'];?>>
+									<label><?php echo $this->xmlclean($r['issuer']);?>a</label>
+									<module>ironagecoins</module>
+									<controller>rulers</controller>
+									<action>ruler</action>
+									<params>
+									<id><?php echo $r['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $r['updated'];?></lastmod>
+									<priority>0.2</priority>
+									</iaruler<?php echo $r['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</rulers>
+				<mints>
+					<label>Issuing mints</label>
+					<module>ironagecoins</module>
+					<controller>mints</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->ironageMints as $m):?>
+							<iamint<?php echo $m['id'];?>>
+									<label><?php echo $this->xmlclean($m['mint_name']);?></label>
+									<module>ironagecoins</module>
+									<controller>mints</controller>
+									<action>mint</action>
+									<params>
+									<id><?php echo $m['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $m['updated'];?></lastmod>
+									<priority>0.2</priority>
+							</iamint<?php echo $m['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</mints>
+				<denominations>
+					<label>Denominations</label>
+					<module>ironagecoins</module>
+					<controller>denominations</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+					<pages>
+						<?php foreach($this->ironageDenoms as $d):?>
+						 <iadenom<?php echo $d['id'];?>>
+									<label><?php echo $this->xmlclean($d['denomination']);?></label>
+									<module>ironagecoins</module>
+									<controller>denominations</controller>
+									<action>denomination</action>
+									<params>
+									<id><?php echo $d['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $d['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</iadenom<?php echo $d['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</denominations>
+				<regions>
+					<label>Iron Age regions</label>
+					<module>ironagecoins</module>
+					<controller>regions</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</regions>
+				<tribes>
+					<label>Iron Age Tribes</label>
+					<module>ironagecoins</module>
+					<controller>tribes</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->tribes as $t):?>
+								<tribe<?php echo $t['id'];?>>
+									<label><?php echo $this->xmlclean($t['term']);?></label>
+									<module>ironagecoins</module>
+									<controller>tribes</controller>
+									<action>tribe</action>
+									<params>
+										<id><?php echo $t['id'];?></id>
+									</params>
+									<lastmod><?php echo $t['updated'];?></lastmod>
+									<route>default</route>
+									<priority>0.2</priority>
+								</tribe<?php echo $t['id'];?>>
+							<?php endforeach; ?>
+						</pages>
+				</tribes>
+				<vatypes>
+					<label>Van Arsdell Types</label>
+					<module>ironagecoins</module>
+					<controller>vanarsdelltypes</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</vatypes>
+				<mack>
+					<label>Mack Types</label>
+					<module>ironagecoins</module>
+					<controller>macktypes</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</mack>
+				<allen>
+					<label>Allen Types</label>
+					<module>ironagecoins</module>
+					<controller>allentypes</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</allen>				
+			</pages>
+	</ironagecoins>
+	<romancoins>
+		<label>Introduction</label>
+		<module>romancoins</module>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+			<pages>
+				<emperors>
+					<label>Emperor guide</label>
+					<module>romancoins</module>
+					<controller>emperors</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->emperors as $e):?>
+								<emp<?php echo $e['id'];?>>
+									<label><?php echo $this->xmlclean($e['issuer']);?></label>
+									<module>romancoins</module>
+									<controller>emperors</controller>
+									<action>emperor</action>
+									<params>
+									<id><?php echo $e['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $e['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</emp<?php echo $e['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</emperors>
+				<dynasties>
+					<label>Roman dynasties</label>
+					<module>romancoins</module>
+					<controller>dynasties</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</dynasties>
+				<denominations>
+					<label>Denominations</label>
+					<module>romancoins</module>
+					<controller>denominations</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->romanDenoms as $d):?>
+								<romandenom<?php echo $d['id'];?>>
+									<label><?php echo $d['denomination'];?></label>
+									<module>romancoins</module>
+									<controller>denominations</controller>
+									<action>denomination</action>
+									<params>
+									<id><?php echo $d['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $d['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</romandenom<?php echo $d['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</denominations>
+				<mints>
+					<label>Mints</label>
+					<module>romancoins</module>
+					<controller>mints</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->romanMints as $m):?>
+								<romanmint<?php echo $m['id'];?>>
+									<label><?php echo $this->xmlclean($m['mint_name']);?></label>
+									<module>romancoins</module>
+									<controller>mints</controller>
+									<action>mint</action>
+									<params>
+									<id><?php echo $m['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $m['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</romanmint<?php echo $m['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</mints>
+				<reverses>
+					<label>Reverses</label>
+					<module>romancoins</module>
+					<controller>reversetypes</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</reverses>
+				<reeceperiods>
+					<label>Reece Periods</label>
+					<module>romancoins</module>
+					<controller>reeceperiods</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->reeces as $p):?>
+								<reece<?php echo $p['id'];?>>
+									<label><?php echo $this->xmlclean($p['period_name']);?></label>
+									<module>romancoins</module>
+									<controller>reeceperiods</controller>
+									<action>period</action>
+									<params>
+									<id><?php echo $p['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $p['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</reece<?php echo $p['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</reeceperiods>
+				<personifications>
+					<label>Reverse personifications</label>
+					<module>romancoins</module>
+					<controller>personifications</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</personifications>
+				<moneyers>
+					<label>Republican Moneyers</label>
+					<module>romancoins</module>
+					<controller>moneyers</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+				</moneyers>
+			</pages>
+	</romancoins>
+	
+	<!-- Start of medieval coins --> 
+	
+	<medievalcoins>
+		<label>Introduction</label>
+		<module>medievalcoins</module>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+			<pages>
+				<rulers>
+					<label>Rulers</label>
+					<module>medievalcoins</module>
+					<controller>rulers</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+						<pages>
+						<?php foreach($this->medrulers as $r):?>
+								<medruler<?php echo $r['id'];?>>
+									<label><?php echo $this->xmlclean($r['issuer']);?></label>
+									<module>medievalcoins</module>
+									<controller>rulers</controller>
+									<action>ruler</action>
+									<params>
+									<id><?php echo $r['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $r['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</medruler<?php echo $r['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</rulers>
+				<denominations>
+					<label>Denominations</label>
+					<module>medievalcoins</module>
+					<controller>denominations</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->medievalDenoms as $d):?>
+								<meddenom<?php echo $d['id'];?>>
+									<label><?php echo $this->xmlclean($d['denomination']);?></label>
+									<module>medievalcoins</module>
+									<controller>denominations</controller>
+									<action>denomination</action>
+									<params>
+									<id><?php echo $d['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $d['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</meddenom<?php echo $d['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</denominations>
+				<mints>
+					<label>Mints</label>
+					<module>medievalcoins</module>
+					<controller>mints</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->medMints as $m):?>
+								<medmint<?php echo $m['id'];?>>
+									<label><?php echo $this->xmlclean($m['mint_name']);?></label>
+									<module>medievalcoins</module>
+									<controller>mints</controller>
+									<action>mint</action>
+									<params>
+									<id><?php echo $m['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $m['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</medmint<?php echo $m['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</mints>
+				<categories>
+					<label>Categories</label>
+					<module>medievalcoins</module>
+					<controller>categories</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->medcats as $c):?>
+							<catmed<?php echo $c['id'];?>>
+									<label><?php echo $this->xmlclean($c['category']);?></label>
+									<module>medievalcoins</module>
+									<controller>categories</controller>
+									<action>category</action>
+									<params>
+									<id><?php echo $c['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $c['updated'];?></lastmod>
+									<priority>0.2</priority>
+							</catmed<?php echo $c['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</categories>
+				<types>
+					<label>Types</label>
+					<module>medievalcoins</module>
+					<controller>types</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->medtypes as $c):?>
+							<typee<?php echo $c['id'];?>>
+									<label><?php echo $this->xmlclean($c['type']);?></label>
+									<module>medievalcoins</module>
+									<controller>types</controller>
+									<action>type</action>
+									<params>
+									<id><?php echo $c['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $c['updated'];?></lastmod>
+									<priority>0.2</priority>
+							</typee<?php echo $c['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</types>
+				<foreign>
+					<label>Foreign rulers</label>
+					<module>medievalcoins</module>
+					<controller>rulers</controller>
+					<changefreq>foreign</changefreq>
+					<priority>0.2</priority>
+				</foreign>
+			</pages>
+	</medievalcoins>
+	
+	<!-- Start of early med coins -->
+	
+	<earlymedievalcoins>
+		<label>Introduction</label>
+		<module>earlymedievalcoins</module>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+			<pages>
+				<rulers>
+					<label>Rulers</label>
+					<module>earlymedievalcoins</module>
+					<controller>rulers</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+						<pages>
+						<?php foreach($this->earlymedrulers as $r):?>
+								<earlymedruler<?php echo $r['id'];?>>
+									<label><?php echo $this->xmlclean($r['issuer']);?></label>
+									<module>earlymedievalcoins</module>
+									<controller>rulers</controller>
+									<action>ruler</action>
+									<params>
+									<id><?php echo $r['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $r['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</earlymedruler<?php echo $r['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</rulers>
+				<foreign>
+					<label>Foreign Rulers</label>
+					<module>earlymedievalcoins</module>
+					<controller>rulers</controller>
+					<action>foreign</action>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+				</foreign>
+				<denominations>
+					<label>Denominations</label>
+					<module>earlymedievalcoins</module>
+					<controller>denominations</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->earlymedDenoms as $d):?>
+								<earlymeddenom<?php echo $d['id'];?>>
+									<label><?php echo $this->xmlclean($d['denomination']);?></label>
+									<module>earlymedievalcoins</module>
+									<controller>denominations</controller>
+									<action>denomination</action>
+									<params>
+									<id><?php echo $d['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $d['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</earlymeddenom<?php echo $d['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</denominations>
+				<mints>
+					<label>Mints</label>
+					<module>earlymedievalcoins</module>
+					<controller>mints</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+						<pages>
+						<?php foreach($this->earlymedMints as $m):?>
+								<earlymedmint<?php echo $m['id'];?>>
+									<label><?php echo $this->xmlclean($m['mint_name']);?></label>
+									<module>earlymedievalcoins</module>
+									<controller>mints</controller>
+									<action>mint</action>
+									<params>
+									<id><?php echo $m['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $m['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</earlymedmint<?php echo $m['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</mints>
+				<categories>
+					<label>Categories</label>
+					<module>earlymedievalcoins</module>
+					<controller>categories</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+					<pages>
+						<?php foreach($this->earlymedcats as $c):?>
+							<catearly<?php echo $c['id'];?>>
+									<label><?php echo $this->xmlclean($c['category']);?></label>
+									<module>earlymedievalcoins</module>
+									<controller>categories</controller>
+									<action>category</action>
+									<params>
+									<id><?php echo $c['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $c['updated'];?></lastmod>
+									<priority>0.2</priority>
+							</catearly<?php echo $c['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</categories>
+				<types>
+					<label>Types</label>
+					<module>earlymedievalcoins</module>
+					<controller>types</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+						<pages>
+						<?php foreach($this->earlymedtypes as $c):?>
+							<typeearly<?php echo $c['id'];?>>
+									<label><?php echo $this->xmlclean($c['type']);?></label>
+									<module>earlymedievalcoins</module>
+									<controller>types</controller>
+									<action>type</action>
+									<params>
+									<id><?php echo $c['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $c['updated'];?></lastmod>
+									<priority>0.2</priority>
+							</typeearly<?php echo $c['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</types>
+			</pages>
+	</earlymedievalcoins>
+	
+	<!-- Start of Greek coins -->
+	
+	<greekcoins>
+		<label>Introduction</label>
+		<module>greekromancoins</module>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+			<pages>
+				<rulers>
+				<label>Rulers</label>
+				<module>greekromancoins</module>
+				<controller>ruler</controller>
+				<changefreq>monthly</changefreq>
+				<priority>0.5</priority>
+					<pages>
+					<?php foreach($this->greekrulers as $r):?>
+						<greekruler<?php echo $r['id'];?>>
+							<label><?php echo $this->xmlclean($r['issuer']);?></label>
+							<module>medievalcoins</module>
+							<controller>rulers</controller>
+							<action>ruler</action>
+							<params>
+							<id><?php echo $r['id'];?></id>
+							</params>
+							<route>default</route>
+							<changefreq>weekly</changefreq>
+							<lastmod><?php echo $r['updated'];?></lastmod>
+							<priority>0.2</priority>
+						</greekruler<?php echo $r['id'];?>>
+						<?php endforeach;?>
+					</pages>
+				</rulers>
+				<denominations>
+					<label>Denominations</label>
+					<module>greekromancoins</module>
+					<controller>denominations</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->greekDenoms as $d):?>
+								<<?php echo 'g' . $d['id'];?>>
+									<label><?php echo $this->xmlclean($d['denomination']);?></label>
+									<module>greekromancoins</module>
+									<controller>denominations</controller>
+									<action>denomination</action>
+									<params>
+									<id><?php echo $d['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $d['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</<?php echo 'g' . $d['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</denominations>
+				<mints>
+					<label>Mints</label>
+					<module>greekromancoins</module>
+					<controller>mints</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+						<pages>
+						<?php foreach($this->greekMints as $m):?>
+								<greekmint<?php echo $m['id'];?>>
+									<label><?php echo $this->xmlclean($m['mint_name']);?></label>
+									<module>greekromancoins</module>
+									<controller>mints</controller>
+									<action>mint</action>
+									<params>
+									<id><?php echo $m['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $m['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</greekmint<?php echo $m['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</mints>
+			</pages>
+	</greekcoins>
+	
+	<!-- end of greek coins -->
+	
+	<!-- start of Byzantine coins -->
+	
+	<byzantinecoins>
+		<label>Introduction</label>
+		<module>byzantinecoins</module>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+		<pages>
+			<rulers>
+				<label>Rulers</label>
+				<module>byzantinecoins</module>
+				<controller>rulers</controller>
+				<changefreq>monthly</changefreq>
+				<priority>0.5</priority>
+					<pages>
+					<?php foreach($this->byzantinerulers as $r):?>
+						<byzrulera<?php echo $r['id'];?>>
+							<label><?php echo $this->xmlclean( $r['issuer']);?></label>
+							<module>medievalcoins</module>
+							<controller>rulers</controller>
+							<action>ruler</action>
+							<params>
+							<id><?php echo $r['id'];?></id>
+							</params>
+							<route>default</route>
+							<changefreq>weekly</changefreq>
+							<lastmod><?php echo $r['updated'];?></lastmod>
+							<priority>0.2</priority>
+						</byzrulera<?php echo $r['id'];?>>
+						<?php endforeach;?>	
+					</pages>
+			</rulers>
+			<denominations>
+					<label>Denominations</label>
+					<module>byzantinecoins</module>
+					<controller>denominations</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->byzantineDenoms as $d):?>
+								<<?php echo 'byz' . $d['id'];?>>
+									<label><?php echo $this->xmlclean($d['denomination']);?></label>
+									<module>byzantinecoins</module>
+									<controller>denominations</controller>
+									<action>denomination</action>
+									<params>
+									<id><?php echo $d['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $d['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</<?php echo 'byz' . $d['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</denominations>
+				<mints>
+					<label>Mints</label>
+					<module>byzantinecoins</module>
+					<controller>mints</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.5</priority>
+						<pages>
+						<?php foreach($this->byzantineMints as $m):?>
+								<byzmint<?php echo $m['id'];?>>
+									<label><?php echo $this->xmlclean($m['mint_name']);?></label>
+									<module>byzantinecoins</module>
+									<controller>mints</controller>
+									<action>mint</action>
+									<params>
+									<id><?php echo $m['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $m['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</byzmint<?php echo $m['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</mints>
+			</pages>
+	</byzantinecoins>
+	
+	<!-- End of Byzantine coins -->
+	
+	<!-- Post Medieval coins -->
+	
+	<postmedievalcoins>
+		<label>Introduction</label>
+		<module>postmedievalcoins</module>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+		<pages>
+			<rulers>
+				<label>Rulers</label>
+				<module>postmedievalcoins</module>
+				<controller>rulers</controller>
+				<changefreq>monthly</changefreq>
+				<priority>0.7</priority>
+					<pages>
+					<?php foreach($this->postmedrulers as $r):?>
+								<medruler<?php echo $r['id'];?>>
+									<label><?php echo $this->xmlclean($r['issuer']);?></label>
+									<module>postmedievalcoins</module>
+									<controller>rulers</controller>
+									<action>ruler</action>
+									<params>
+									<id><?php echo $r['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $r['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</medruler<?php echo $r['id'];?>>
+						<?php endforeach;?>
+						</pages>
+			</rulers>
+			<denominations>
+					<label>Denominations</label>
+					<module>postmedievalcoins</module>
+					<controller>denominations</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+							<?php foreach($this->postMedDenoms as $d):?>
+								<<?php echo 'pmed' . $d['id'];?>>
+									<label><?php echo $this->xmlclean($d['denomination']);?></label>
+									<module>postmedievalcoins</module>
+									<controller>denominations</controller>
+									<action>denomination</action>
+									<params>
+									<id><?php echo $d['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $d['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</<?php echo 'pmed' . $d['id'];?>>
+							<?php endforeach;?>
+						</pages>
+				</denominations>
+				<mints>
+					<label>Mints</label>
+					<module>postmedievalcoins</module>
+					<controller>mints</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->postmedMints as $m):?>
+								<pmedmint<?php echo $m['id'];?>>
+									<label><?php echo $this->xmlclean($m['mint_name']);?></label>
+									<module>postmedievalcoins</module>
+									<controller>mints</controller>
+									<action>mint</action>
+									<params>
+									<id><?php echo $m['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $m['updated'];?></lastmod>
+									<priority>0.2</priority>
+								</pmedmint<?php echo $m['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</mints>
+				<categories>
+					<label>Categories</label>
+					<module>postmedievalcoins</module>
+					<controller>categories</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->postmedcats as $c):?>
+							<catpmed<?php echo $c['id'];?>>
+									<label><?php echo $this->xmlclean($c['category']);?></label>
+									<module>postmedievalcoins</module>
+									<controller>categories</controller>
+									<action>category</action>
+									<params>
+									<id><?php echo $c['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $c['updated'];?></lastmod>
+									<priority>0.2</priority>
+							</catpmed<?php echo $c['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</categories>
+				<types>
+					<label>Types</label>
+					<module>postmedievalcoins</module>
+					<controller>types</controller>
+					<changefreq>monthly</changefreq>
+					<priority>0.2</priority>
+						<pages>
+						<?php foreach($this->postmedtypes as $c):?>
+							<type<?php echo $c['id'];?>>
+									<label><?php echo $this->xmlclean($c['type']);?></label>
+									<module>postmedievalcoins</module>
+									<controller>types</controller>
+									<action>type</action>
+									<params>
+									<id><?php echo $c['id'];?></id>
+									</params>
+									<route>default</route>
+									<changefreq>weekly</changefreq>
+									<lastmod><?php echo $c['updated'];?></lastmod>
+									<priority>0.2</priority>
+							</type<?php echo $c['id'];?>>
+						<?php endforeach;?>
+						</pages>
+				</types>
+			</pages>
+	</postmedievalcoins>	
+</nav>
+</configdata>

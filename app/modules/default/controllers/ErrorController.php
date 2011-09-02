@@ -1,12 +1,13 @@
 <?php
 class ErrorController extends Pas_Controller_ActionAdmin {
 
+	protected $_log;
 
 	public function init() {
+		$this->_log = Zend_Registry::get('log');
 		$this->_helper->_acl->allow(NULL);
         $this->_helper->layout()->setLayout('database');
 		$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$this->view->messages = $this->_flashMessenger->getMessages();
 		$response = $this->getResponse();
 		$response->insert('header', $this->view->render('structure/header.phtml'));
 		$response->insert('breadcrumb', $this->view->render('structure/breadcrumb.phtml'));
@@ -89,6 +90,16 @@ class ErrorController extends Pas_Controller_ActionAdmin {
 		return "<div class=\"codeFile\" errorid=\"$errorID\">".implode("<br />\n", $lines).'</div>';
 	}	
 	
+public function getLog()
+    {
+        $bootstrap = $this->getInvokeArg('bootstrap');
+        if (!$bootstrap->hasResource('Log')) {
+            return false;
+        }
+        $log = $bootstrap->getResource('Log');
+        return $log;
+    }
+	
 	public function indexAction()
 	{
 
@@ -157,6 +168,11 @@ class ErrorController extends Pas_Controller_ActionAdmin {
                       $errors->request->getControllerName(),
                       $errors->request->getModuleName()
                     );
+		$priority = Zend_Log::NOTICE;
+        if ($log = $this->getLog()) {
+            $log->log($this->view->message . ' ' . $errors->exception, $priority, $errors->exception);
+            $log->log('Request Parameters' . ' ' . $errors->request->getParams(), $priority, $errors->request->getParams());
+        }        
 		$this->view->compiled = $compiledTrace;
 
         }

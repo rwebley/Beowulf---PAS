@@ -36,8 +36,11 @@ class Pas_Form extends Zend_Form {
         'ViewHelper'
     );
 
+    public $_config;
+    
 	public function init()  {
-	$this->setDisableTranslator(true);
+//	$this->setDisableTranslator(true);
+	$this->_config = Zend_Registry::get('config');
     }
 	
     public function __construct($options = null) {

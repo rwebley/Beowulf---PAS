@@ -84,8 +84,8 @@ parent::__construct($options);
 	$this->addElement($hash);
 	
 	$this->addDisplayGroup(array(
-	'old_findID', 'objecttype', 'broadperiod','
-	county','submit'), 'Search');
+	'old_findID', 'objecttype', 'broadperiod',
+	'county','submit'), 'Search');
 	$this->Search->removeDecorator('DtDdWrapper');
 	$this->Search->removeDecorator('HtmlTag');
 	$this->Search->addDecorators(array(array('HtmlTag', array('tag' => 'ul','id' => 'www'))

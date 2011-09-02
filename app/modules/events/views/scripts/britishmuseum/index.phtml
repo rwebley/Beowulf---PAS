@@ -1,7 +1,7 @@
 <h2>Events at the British Museum</h2>
 <p>This data is screen scaped directly off the BM events pages. It is cached for 2 days so may not be totally accurate.</p>
 <?php 
-$cache = Zend_Registry::get('formcache');
+$cache = Zend_Registry::get('rulercache');
 if(!$cache->start('bmeventsdata')) {
 ?>
 

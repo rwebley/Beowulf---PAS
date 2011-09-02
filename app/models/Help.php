@@ -105,8 +105,9 @@ class Help extends Zend_Db_Table_Abstract {
 			->joinLeft('users','users.id = help.author',array('fullname'))
 			->where('publishState = ?', (int)3)
 			->where('section = ?',(string)$section)
-			->where($this->_name.'.id = ?',(int)$id);
+			->where($this->_name . '.id = ?',(int)$id);
        return $content->fetchAll($select);
-}
+	}
 
+	
 }

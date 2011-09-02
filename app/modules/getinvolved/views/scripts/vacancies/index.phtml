@@ -16,7 +16,7 @@ $this->metaBase('The Scheme regularly announces vacancies when they arise via th
 <h2>Current vacancies</h2>
 <p>There are currently no vacancies at the Scheme. However, you can try the following sites for vacancies in the Museum and Heritage/ Archaeology sector:</p>
 <?php 
-$cache = Zend_Registry::get('formcache');
+$cache = Zend_Registry::get('rulercache');
 if(!$cache->start('jobs')) {
 
 $delicious = new Zend_Service_Delicious('portableantiquities', 'gr8tcour1');

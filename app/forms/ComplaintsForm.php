@@ -54,7 +54,7 @@ class ComplaintsForm extends Pas_Form {
 	->addFilters(array('StripTags', 'StringTrim', 'StringToLower'))
 	->addValidator('EmailAddress')   
 	->addErrorMessage('Please enter a valid email address!')
-	->setDescription('* This will not be displayed to the public.');
+	->setDescription('This will not be displayed to the public.');
 
 	$comment_author_url = new Zend_Form_Element_Text('comment_author_url');
 	$comment_author_url->setLabel('Enter your web address: ')
@@ -75,13 +75,13 @@ class ComplaintsForm extends Pas_Form {
 	->addFilter('WordChars')
 	->addErrorMessage('Please enter something in the comments box!');
 
-	$config = new Zend_Config_Ini('app/config/config.ini','general');
-	$privateKey = $config->recaptcha->privatekey;
-	$pubKey = $config->recaptcha->pubkey;
+	$config = new Zend_Config_Ini('app/config/config.ini','production');
+	$privateKey = $config->webservice->recaptcha->privatekey;
+	$pubKey = $config->webservice->recaptcha->pubkey;
 
 	$captcha = new Zend_Form_Element_Captcha('captcha', array(  
                         		'captcha' => 'ReCaptcha',
-								'label' => 'Prove you are not a robot you varmint!',
+								'label' => 'Please prove you aren\'t a spammer',
                                 'captchaOptions' => array(  
                                 'captcha' => 'ReCaptcha',								  
                                 'privKey' => $privateKey,

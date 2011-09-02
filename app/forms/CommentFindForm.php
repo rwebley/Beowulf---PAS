@@ -103,9 +103,9 @@ parent::__construct($options);
 	->setDescription('The following HTML tags can be used - a,p,ul,li,em,strong,br,img,a - and 
 	paragraphs will be automatically created');
 
-	$config = new Zend_Config_Ini('app/config/config.ini','general');
-	$privateKey = $config->recaptcha->privatekey;
-	$pubKey = $config->recaptcha->pubkey;
+	$config = Zend_Registry::get('config');
+	$privateKey = $config->webservice->recaptcha->privatekey;
+	$pubKey = $config->webservice->recaptcha->pubkey;
 
 	$captcha = new Zend_Form_Element_Captcha('captcha', array(  
                         		'captcha' => 'ReCaptcha',

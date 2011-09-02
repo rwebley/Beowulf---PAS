@@ -45,8 +45,8 @@ class ProfileForm extends Pas_Form
         );
         
 		$username = $this->addElement('text','username',array('label' => 'Username:'))
-			->username
-        	->setDecorators($decorators)
+			->username;
+		$username->setDecorators($decorators)
 			->Disabled = true;
 		$username->addFilters(array('StringTrim','StripTags'));
 

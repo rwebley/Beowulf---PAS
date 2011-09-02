@@ -12,18 +12,10 @@
 
 */
 
-class Acronyms extends Zend_Db_Table_Abstract {
+class Acronyms extends Pas_Db_Table_Abstract {
 
 	protected $_primary = 'id';
 	protected $_name = 'abbreviations';
-	protected $_cache;
-	
-	/** Construct the cache object
-	* @return object
-	*/
-	public function init(){
-		$this->_cache = Zend_Registry::get('rulercache');
-	}
 	
 	/** Get all valid acronyms
 	* @return array

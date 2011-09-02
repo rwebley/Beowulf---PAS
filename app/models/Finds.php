@@ -268,7 +268,7 @@ class Finds extends Zend_Db_Table_Abstract {
 		->where('finds.id < ?', (int)$findID)
 		->order('finds.id DESC')
 		->limit(10);
-	if(in_array($this->getRole(),$this->restricted)) {
+	if(in_array($this->getRole(),$this->_restricted)) {
 	$select->where('finds.secwfstage > ?',(int)2);
 	}
 	return $recordsprior->fetchAll($select);
@@ -1030,7 +1030,7 @@ class Finds extends Zend_Db_Table_Abstract {
 	$rowCount->where('findspots.district = ?', $district);
 	}
 	//Parish
-	if( isset($params['parish']) && ($params['parish'] != "") && in_array($role,$this->restricted) ) {
+	if( isset($params['parish']) && ($params['parish'] != "") && in_array($role,$this->_restricted) ) {
 	$parish = $params['parish'];
 	$select->where('findspots.parish = ?', $parish);
 	$rowCount->where('findspots.parish = ?', $parish);
@@ -3004,7 +3004,7 @@ class Finds extends Zend_Db_Table_Abstract {
 		->joinLeft('users','users.id = finds.createdBy',array('username','imagedir'))			
 		->where('people.dbaseID = ?' , $userid)
 		->group('finds.id');
-	if(in_array($this->getRole(),$this->restricted)){
+	if(in_array($this->getRole(),$this->_restricted)){
 	$select->where('finds.secwfstage > ?', (int)2);
 	}
 	$paginator = Zend_Paginator::factory($select);
@@ -3087,7 +3087,7 @@ class Finds extends Zend_Db_Table_Abstract {
 		->where('declong > ?',$longmin)
 		->where('declong < ?',$longmax)
 		->order('finds.id DESC');
-	if(in_array($this->getRole(),$this->restricted)){
+	if(in_array($this->getRole(),$this->_restricted)){
 	$select->where('finds.secwfstage > 2');
 	}
 	return  $finds->fetchAll($select);
@@ -3161,7 +3161,7 @@ class Finds extends Zend_Db_Table_Abstract {
 		->where('declong < ?',$longmax)
 		->where('finds.findofnote = ?',(int)1)
 		->order('finds.id DESC');
-	if(in_array($this->getRole(),$this->restricted)) {
+	if(in_array($this->getRole(),$this->_restricted)) {
 	$select->where('finds.secwfstage > 2');
 	}
 	return  $finds->fetchAll($select);

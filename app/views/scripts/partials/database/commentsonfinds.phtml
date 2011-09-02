@@ -1,10 +1,11 @@
 <li>
 <div class="commgrav"><?php
-$gravatar = new Gravatar($this->comment_author_email);
-$gravatar->size = 30;
-$gravatar->rating = "G";
-$gravatar->border = "FF0000";
-echo $gravatar;
+echo $this->gravatar($this->comment_author_email, array(
+'imgSize' => 30, 'defaultImg' => 'monsterid', 'secure' => true),
+    array('class' => 'avatar', 
+    'title' => $this->comment_author . '\'s gravatar representation',
+    'rating' => 'G'));
+
 ?></div><?php echo $this->comment_author;?> wrote @ <?php echo $this->df;?>.  
 <blockquote><p><?php echo strip_tags($this->comment_content);?></p></blockquote>
 <span><?php echo $this->FindToImage($this->id);?></span>

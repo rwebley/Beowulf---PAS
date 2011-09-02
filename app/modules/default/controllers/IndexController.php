@@ -3,11 +3,10 @@ class IndexController extends Pas_Controller_ActionAdmin
 {
 	protected $_cache, $_config, $_wordpress, $_wpRoute, $_wpUser, $_wpPass;
 	
-	
 	public function init() {
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->acl->allow(null);
-	$this->_cache   = Zend_Registry::get('cache');
+	$this->_cache   = Zend_Registry::get('rulercache');
 	$this->_config  = Zend_Registry::get('config');
 	$this->_wpRoute = $this->_config->webservice->wordpress->xmlrpc;
 	$this->_wpUser  = $this->_config->webservice->wordpress->user;
@@ -15,9 +14,12 @@ class IndexController extends Pas_Controller_ActionAdmin
     }
 
     private function wordpress(){
-	return $this->_wordpress = new Pas_Service_Wordpress($this->_wpRoute,$this->_wpUser,$this->_wpPass);
+	return $this->_wordpress = new Pas_Service_Wordpress($this->_wpRoute, $this->_wpUser, 
+	$this->_wpPass);
     }
+    
 	public function indexAction() {
+		
 	$content = new Content();
 	$this->view->contents = $content->getFrontContent('index');
 	
@@ -53,23 +55,23 @@ class IndexController extends Pas_Controller_ActionAdmin
 	$cal = $calendar->output_calendar();
 	$this->view->cal =$cal;
 
-	if (!($this->_cache->test('wordpressfront'))) {
-	$blog = $this->_wordpress()->getBlog();
-	$this->_cache->save($blog);
-	} else {
-	$blog = $this->_cache->load('wordpressfront');
-	}
-	$this->view->blogTitle = $blog->getTitle();        
-	$wp = array();      
-	foreach ($blog->getRecentPosts(7) as $post) {
-		$data = array();
-		$url =  $post->getUrl();
-		$title =  $post->getTitle();
-		$data['url'] = $url;
-		$data['ptitle'] = $title;
-		$wp[] = $data;
-	}
-	$this->view->wp = $wp;
+//	if (!($this->_cache->test('wordpressfront'))) {
+//	$blog = $this->_wordpress()->getBlog();
+//	$this->_cache->save($blog);
+//	} else {
+//	$blog = $this->_cache->load('wordpressfront');
+//	}
+//	$this->view->blogTitle = $blog->getTitle();        
+//	$wp = array();      
+//	foreach ($blog->getRecentPosts(7) as $post) {
+//		$data = array();
+//		$url =  $post->getUrl();
+//		$title =  $post->getTitle();
+//		$data['url'] = $url;
+//		$data['ptitle'] = $title;
+//		$wp[] = $data;
+//	}
+//	$this->view->wp = $wp;
 	}
 
 }

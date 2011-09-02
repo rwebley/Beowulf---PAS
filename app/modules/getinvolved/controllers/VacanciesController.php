@@ -59,8 +59,8 @@ class GetInvolved_VacanciesController extends Pas_Controller_ActionAdmin
 		} else {
 		$vacs = new Vacancies();
 		$this->view->vacs = $vacs->getLiveJobs($this->_getParam('page'));
-		$links = new Links();
-		$this->view->links = $links->getLinksByType('5');
+//		$links = new Links();
+//		$this->view->links = $links->getLinksByType('5');
 		}
 	}
 

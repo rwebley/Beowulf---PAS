@@ -9,20 +9,19 @@
 * @license GNU General Public License
 */
 
-class Copyrights extends Zend_Db_Table_Abstract {
+class Copyrights extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'copyrights';
 	
 	protected $_primary = 'id';
 	
-	protected $_cache = NULL;
-
-	/** Construct the cache object
-	* @return object
-	*/
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
+//
+//	/** Construct the cache object
+//	* @return object
+//	*/
+//	public function init() {
+//	$this->_cache = Zend_Registry::get('rulercache');
+//	}
 
 	 /** Get dropdown values for personal copyrights
     * @param integer $id

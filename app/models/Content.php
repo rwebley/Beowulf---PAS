@@ -14,10 +14,11 @@ class Content extends Zend_Db_Table_Abstract {
 	
 	protected $_name = 'content';
 	protected $_primary = 'id';
-	protected $_cache = NULL;
+	protected $_adapter;
 
 	public function init()	{
 	$this->_cache = Zend_Registry::get('rulercache');
+	$this->_adapter = Zend_Registry::get('db');
 	}
 	
 	/**
@@ -29,7 +30,7 @@ class Content extends Zend_Db_Table_Abstract {
 	*/
 	public function getFrontContent($section, $frontpage = 1, $publish = 3) {
 		if (!$data = $this->_cache->load('frontcontent'.$section)) {
-		$content = $this->getAdapter();
+		$content = $this->_adapter;
 		$select = $content->select()
 						  ->from($this->_name,array('body','metaDescription','metaKeywords',
 						  						    'title','created','updated'))

@@ -33,7 +33,8 @@ class OnlineAccounts extends Zend_Db_Table_Abstract {
 	$accs = $this->getAdapter();
 	$select = $accs->select()
 		->from($this->_name,array('account','accountName'))
-		->joinLeft('webServices',$this->_name . 'accountName = webServices.service', array('serviceUrl'))
+		->joinLeft('webServices',$this->_name . '.accountName = webServices.service', 
+		array('serviceUrl'))
 		->joinLeft('staff',$this->_name . '.userID = staff.dbaseID', array())
 		->where('staff.id = ?', (int)$id)
 		->where($this->_name . '.public = 1');
@@ -71,7 +72,8 @@ class OnlineAccounts extends Zend_Db_Table_Abstract {
 	$accs = $this->getAdapter();
 	$select = $accs->select()
 		->from($this->_name, array('id','account', 'accountName', 'public'))
-		->joinLeft('webServices', $this->_name . '.accountName = webServices.service', array('serviceUrl'))
+		->joinLeft('webServices', $this->_name . '.accountName = webServices.service', 
+		array('serviceUrl'))
 		->where($this->_name . '.userID = ?',$userID);
 	$data =  $accs->fetchAll($select);
     return $data;

@@ -13,7 +13,7 @@ class Counties extends Zend_Db_Table_Abstract {
 	
 	protected $_name = 'counties';
 	
-	protected $_primary = 'id';
+	protected $_primary = 'ID';
 	
 	protected $_cache;
 
@@ -30,7 +30,7 @@ class Counties extends Zend_Db_Table_Abstract {
 	public function getCountyname() {
 	if (!$data = $this->_cache->load('countynames')) {
         $select = $this->select()
-                       ->from($this->_name, array('id', 'county'))
+                       ->from($this->_name, array('ID', 'county'))
                        ->order('county')
 					   ->where('valid = ?', (int)1);
         $data = $this->getAdapter()->fetchPairs($select);

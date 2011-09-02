@@ -37,7 +37,7 @@ $this->headMeta(substr($this->declat,0,4).';' .substr($this->declong,0,4),'geo.p
 $this->headMeta($this->parish.','.$this->county, 'geo.placename');
 
 echo 'Parish: '. ucwords(strtolower($this->parish)).'<br />';
-	$pm = new Placemaker();
+	$pm = new Pas_Placemaker();
 	$place = $pm->get($this->parish.','.$this->county.' United Kingdom');
 	if(!is_null($place)){
 	echo 'Settlement type: '.$place->type.'<br />';
@@ -49,12 +49,11 @@ echo 'Parish: '. ucwords(strtolower($this->parish)).'<br />';
 <a href="http://www.ygeoblog.com/" title="Yahoo geo developer network resources"><img src="'.$this->baseUrl().'/images/logos/yahoogeo.jpg" height="89" width="250" alt="Yahoo Geo Developer logo" class="geo" /></a>';	
 }
 }
-
 ?>
 </p>
 <?php 
 if(!is_null($this->knownas)){
-$pm = new Placemaker();
+$pm = new Pas_Placemaker();
 $place = $pm->get($this->parish.','.$this->county.' United Kingdom');
 if(!is_null($place)){
 echo $this->YahooGeoAdjacent($place->woeid);
@@ -69,7 +68,7 @@ $(document).ready(function() {
 if (GBrowserIsCompatible()) {
 
 <?php 
-$pm = new Placemaker();
+$pm = new Pas_Placemaker();
 	$place = $pm->get($this->parish.' , '.$this->county.' , United Kingdom');
 	if(!is_null($place)){
 	$woeid = $place->woeid;
@@ -176,7 +175,7 @@ var nlsmap = new GMapType([tilelayer], G_NORMAL_MAP.getProjection(), "Historical
 
 
 <?php if(($this->knownas == NULL) && ($this->declat == NULL) && (isset($this->parish)) && (isset($this->county)))  {
-	$pm = new Placemaker();
+	$pm = new Pas_Placemaker();
 	$place = $pm->get($this->parish.' , '.$this->county.' , United Kingdom');
 	if(!is_null($place)){
 	echo $this->GridRef($place->latitude,$place->longitude).'<br />';

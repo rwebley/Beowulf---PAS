@@ -221,7 +221,7 @@ class Database_ArtefactsController extends Pas_Controller_ActionAdmin {
 			}
 			} else {
 			$this->_helper->layout->disableLayout();    //disable layout
-			$record = $finds->getAllData($id);
+			$record = $this->_finds->getAllData($id);
 		if($this->_auth->hasIdentity()) {
 		$user = $this->_auth->getIdentity();
 		if(in_array($user->role,$this->_restricted)) {
