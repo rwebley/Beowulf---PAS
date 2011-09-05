@@ -27,7 +27,7 @@ class Cultures extends Pas_Db_Table_Abstract {
 	return $options;
     }
     
-    /** Get a list of all ascribed cultures as an array
+	/** Get a list of all ascribed cultures as an array
 	* @return array
 	*/
 	public function getCulturesList() {
@@ -39,7 +39,7 @@ class Cultures extends Pas_Db_Table_Abstract {
 	return $options;
 	}
 	
-    /** Get an admin list of ascribed cultures
+	/** Get an admin list of ascribed cultures
 	* @return array
 	*/
 	public function getCulturesListAdmin() {

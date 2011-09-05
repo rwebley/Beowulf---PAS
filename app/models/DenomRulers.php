@@ -1,5 +1,5 @@
 <?php
-/**
+/** A model for interacting with the link table for denominations and rulers
 * @category Zend
 * @package Db_Table
 * @subpackage Abstract
@@ -9,10 +9,9 @@
 * @license GNU General Public License
 * @todo add caching
 */
-class DenomRulers extends Zend_Db_Table_Abstract {
+class DenomRulers extends Pas_Db_Table_Abstract {
 	
 	protected $_primary = 'id';
-	
 	protected $_name = 'denominations_rulers';
 
 }

@@ -50,4 +50,17 @@ class Pas_Db_Table_Abstract extends Zend_Db_Table_Abstract {
     parent::delete($where);
     $this->_purgeCache();
 	} 
+	
+	public function fetchPairs($sql, $bind = array()) {
+	$id = md5($sql);
+
+    if ((!($this->_cache->test($id))) || (!$this->cache_result)) {
+      $result = parent::fetchPairs($sql, $bind);
+      $this->_cache->save($result);
+
+      return $result;
+    } else {
+      return $this->_cache->load($id);
+    }
+	}
 }

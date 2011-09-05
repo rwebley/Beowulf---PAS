@@ -1,5 +1,5 @@
 <?php
-/**
+/** A model for pulling decorative styles from the database
 * @category Zend
 * @package Db_Table
 * @subpackage Abstract
@@ -10,48 +10,36 @@
 * @todo add caching
 */
 
-class Decstyles extends Zend_Db_Table_Abstract {
+class Decstyles extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'decstyles';
-
 	protected $_primaryKey = 'id';
 
-	protected $_cache = NULL;
-
-	/** Construct the cache object
-	* @return object
-	*/
-	
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
-	
 	/** Retrieve a list of decoration styles as a key pair value chain
 	* @return array
 	*/
 	
 	public function getStyles() {
-		if (!$options = $this->_cache->load('decstyledd')) {
-		$select = $this->select()
-						->from($this->_name, array('id', 'term'))
-						->order('term');
-		$options = $this->getAdapter()->fetchPairs($select);
-		$this->_cache->save($options, 'decstyledd');
-		}
-		return $options;
+	if (!$options = $this->_cache->load('decstyledd')) {
+	$select = $this->select()
+		->from($this->_name, array('id', 'term'))
+		->order('term');
+	$options = $this->getAdapter()->fetchPairs($select);
+	$this->_cache->save($options, 'decstyledd');
+	}
+	return $options;
 	}
 
 	/** Retrieve an array of decoration style by term id
 	* @param integer $decstyle
 	* @return array
 	*/
-	
 	public function getDecStyle($decstyle){
-		$select = $this->select()
-						->from($this->_name, array('term'))
-						->where('id = ?',(int)$decstyle);
-		$options = $this->getAdapter()->fetchAll($select);
-		return $options;
+	$select = $this->select()
+		->from($this->_name, array('term'))
+		->where('id = ?',(int)$decstyle);
+	$options = $this->getAdapter()->fetchAll($select);
+	return $options;
 	}
 	
 	/** Retrieve a list of decoration styles (all columns)
@@ -59,11 +47,11 @@ class Decstyles extends Zend_Db_Table_Abstract {
 	*/
 	
 	public function getDecStyles(){
-		$styles = $this->getAdapter();
-		$select = $styles->select()
-						->from($this->_name)
-						->where('valid = ?',(int)1);
-		return $styles->fetchAll($select);
+	$styles = $this->getAdapter();
+	$select = $styles->select()
+		->from($this->_name)
+		->where('valid = ?',(int)1);
+	return $styles->fetchAll($select);
 	}
 
 	/** Retrieve an individual decoration style (all columns)
@@ -74,12 +62,12 @@ class Decstyles extends Zend_Db_Table_Abstract {
 	*/
 	
 	public function getDecStyleDetails($id) {
-		$select = $this->select()
-						->from($this->_name)
-						->where('valid = ?',(int)1)
-						->where('id = ?',(int)$id);
-		$options = $this->getAdapter()->fetchAll($select);
-		return $options;
+	$select = $this->select()
+		->from($this->_name)
+		->where('valid = ?',(int)1)
+		->where('id = ?',(int)$id);
+	$options = $this->getAdapter()->fetchAll($select);
+	return $options;
 	}
 
 	/** Retrieve an individual decoration style count by objects - expensive
@@ -87,30 +75,28 @@ class Decstyles extends Zend_Db_Table_Abstract {
 	* @return object
 	* @todo add caching
 	*/
-	
 	public function getDecStylesCounts($id) {
-		$styles = $this->getAdapter();
-		$select = $styles->select()
-						->from($this->_name)
-						->joinLeft('finds','finds.decstyle = '.$this->_name.'.id',array('c' => 'count(finds.id)'))
-						->where('valid = ?',(int)1)
-						->where($this->_name.'.id = ?',(int)$id)
-						->group($this->_name.'.id');
-		return $styles->fetchAll($select);
+	$styles = $this->getAdapter();
+	$select = $styles->select()
+		->from($this->_name)
+		->joinLeft('finds','finds.decstyle = ' . $this->_name . '.id', array('c' => 'count(finds.id)'))
+		->where('valid = ?',(int)1)
+		->where($this->_name . '.id = ?',(int)$id)
+		->group($this->_name . '.id');
+	return $styles->fetchAll($select);
     }
     
     /** Retrieve a list of decorative styles for admin interface
 	* @return object
 	* @todo add caching
 	*/
-    
 	public function getDecStylesAdmin() {
-		$styles = $this->getAdapter();
-		$select = $styles->select()
-						->from($this->_name)
-						->joinLeft('users','users.id = '.$this->_name.'.createdBy',array('fullname'))
-						->joinLeft('users','users_2.id = '.$this->_name.'.updatedBy',array('fn' => 'fullname'));
-		return $styles->fetchAll($select);
+	$styles = $this->getAdapter();
+	$select = $styles->select()
+		->from($this->_name)
+		->joinLeft('users','users.id = ' . $this->_name . '.createdBy',array('fullname'))
+		->joinLeft('users','users_2.id = ' . $this->_name . '.updatedBy',array('fn' => 'fullname'));
+	return $styles->fetchAll($select);
     }
 
 }

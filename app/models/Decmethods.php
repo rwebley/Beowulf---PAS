@@ -1,6 +1,7 @@
 <?php
-/**
-* @category Zend
+/** 
+ Model for describing decorative methods for artefacts
+* @category Pas
 * @package Db_Table
 * @subpackage Abstract
 * 
@@ -8,46 +9,38 @@
 * @copyright 2010 - DEJ Pett
 * @license GNU General Public License
 */
-class Decmethods extends Zend_Db_Table {
+class Decmethods extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'decmethods';
 	
 	protected $_primaryKey = 'id';
 	
-	protected $_cache = NULL;
-
-	/** Construct the cache object
-	* @return object
-	*/
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/** retrieve a key pair list of decoration methods for dropdown usage as key value pairs
 	* @return array
 	*/
 	public function getDecmethods() {
- 		if (!$options = $this->_cache->load('decmethoddd')) {
-         $select = $this->select()
-						->from($this->_name, array('id', 'term'))
-						->order('id')
-						->where('valid = ?',(int)1);
-        $options = $this->getAdapter()->fetchPairs($select);
-		$this->_cache->save($options, 'decmethoddd');
-		}
-        return $options;
+	if (!$options = $this->_cache->load('decmethoddd')) {
+	$select = $this->select()
+		->from($this->_name, array('id', 'term'))
+		->order('id')
+		->where('valid = ?', (int)1);
+	$options = $this->getAdapter()->fetchPairs($select);
+	$this->_cache->save($options, 'decmethoddd');
+	}
+	return $options;
     }
 	
     /** retrieve a list of decoration methods for dropdown usage
 	* @return array
 	*/
 	public function getDecorationDetailsList(){
-		$methods = $this->getAdapter();
-		$select = $methods->select()
-							->from($this->_name)
-							->where('valid = ?',(int)1)
-							->order('id');
-	    return $methods->fetchAll($select);
+	$methods = $this->getAdapter();
+	$select = $methods->select()
+		->from($this->_name)
+		->where('valid = ?', (int)1)
+		->order('id');
+	return $methods->fetchAll($select);
     }
 
     /** retrieve a list of decoration methods for dropdown usage as admin
@@ -55,13 +48,13 @@ class Decmethods extends Zend_Db_Table {
 	* @return array
 	*/
 	public function getDecorationDetailsListAdmin() {
-		$methods = $this->getAdapter();
-		$select = $methods->select()
-						->from($this->_name)
-						->joinLeft('users','users.id = '.$this->_name.'.createdBy',array('fullname'))
-						->joinLeft('users','users_2.id = '.$this->_name.'.updatedBy',array('fn' => 'fullname'))
-						->order('id');
-		return $methods->fetchAll($select);
+	$methods = $this->getAdapter();
+	$select = $methods->select()
+		->from($this->_name)
+		->joinLeft('users','users.id = ' . $this->_name . '.createdBy', array('fullname'))
+		->joinLeft('users','users_2.id = ' . $this->_name . '.updatedBy', array('fn' => 'fullname'))
+		->order('id');
+	return $methods->fetchAll($select);
     }
     
     /** retrieve details of decoration method
@@ -71,12 +64,12 @@ class Decmethods extends Zend_Db_Table {
 	* @todo change to fetchrow?
 	*/
 	public function getDecorationDetails($id){
-		$methods = $this->getAdapter();
-		$select = $methods->select()
-		                  ->from($this->_name)
-		                  ->where('valid = ?',(int)1)
-						  ->where($this->_name.'.id = ?',(int)$id);
-		return $methods->fetchAll($select);
+	$methods = $this->getAdapter();
+	$select = $methods->select()
+		->from($this->_name)
+		->where('valid = ?', (int)1)
+		->where($this->_name . '.id = ?', (int)$id);
+	return $methods->fetchAll($select);
     }
 
 	/** retrieve a count of objects with a specific decoration method
@@ -84,14 +77,14 @@ class Decmethods extends Zend_Db_Table {
 	* @return array
 	*/
 	public function getDecCount($id) {
-		$methods = $this->getAdapter();
-		$select = $methods->select()
-							->from($this->_name)
-							->joinLeft('finds','finds.decmethod = '.$this->_name.'.id',array('c' => 'count(finds.id)'))
-							->where('valid = ?',(int)1)
-							->where($this->_name.'.id = ?',(int)$id)
-							->group($this->_name.'.id');
-       return $methods->fetchAll($select);
+	$methods = $this->getAdapter();
+	$select = $methods->select()
+		->from($this->_name)
+		->joinLeft('finds','finds.decmethod = ' . $this->_name . '.id' ,array('c' => 'count(finds.id)'))
+		->where('valid = ?',(int)1)
+		->where($this->_name . '.id = ?',(int)$id)
+		->group($this->_name . '.id');
+	return $methods->fetchAll($select);
     }
 
 }
