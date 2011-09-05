@@ -29,7 +29,7 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	*/
 	public function add($data){
 		if (!isset($data['created']) || ($data['created'] instanceof Zend_Db_Expr)) {
-	    $data['created'] = $this->_time;
+		$data['created'] = $this->_time;
 	  	}
 	  	$data['createdBy'] = $this->_auth->getIdentity()->id;
 		$data['treasureID'] = $this->_treasureID;
@@ -42,7 +42,7 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	*/
 	public function updateTreasure($data){
 		if (!isset($data['updated']) || ($data['updated'] instanceof Zend_Db_Expr)) {
-	    $data['updated'] = $this->_time;
+		$data['updated'] = $this->_time;
 	  	}
 	  	$where = parent::getAdapter()->quoteInto('treasureID = ?', $this->_treasureID);
 	  	$data['updatedBy'] = $this->_auth->getIdentity()->id;
@@ -64,7 +64,7 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	$values = $this->getAdapter();
 	$select = $values->select()
 		->from($this->_name)
-		->joinLeft('users','users.id = ' . $this->_name . '.createdBy',array('enteredBy' => 'fullname'))
+		->joinLeft('users','users.id = ' . $this->_name . '.createdBy', array('enteredBy' => 'fullname'))
 		->where('treasureID = ?',(string)$treasureID)
 		->order($this->_name . '.created');
 	return $values->fetchAll($select);
@@ -78,7 +78,7 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	$values = $this->getAdapter();
 	$select = $values->select()
 		->from($this->_name)
-		->joinLeft('users','users.id = ' . $this->_name . '.createdBy',array('enteredBy' => 'fullname'))
+		->joinLeft('users','users.id = ' . $this->_name . '.createdBy', array('enteredBy' => 'fullname'))
 		->where('treasureID = ?',(string)$treasureID)
 		->order($this->_name . '.created');
 	return $values->fetchAll($select);

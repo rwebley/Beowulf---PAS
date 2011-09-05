@@ -3,58 +3,49 @@
 /**
 * Model for pulling coin classifications
 * I have no idea why this is different to the Coins Classifications model! 
-* @category   Zend
-* @package    Zend_Db_Table
+* @category   Pas
+* @package    Pas_Db_Table
 * @subpackage Abstract
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    GNU General Public License
-
+* @author Daniel Pett dpett @ britishmuseum.org
+* @copyright 2010 - DEJ Pett
+* @license GNU General Public License
 */
 
-class Coinclassifications extends Zend_Db_Table_Abstract {
+class Coinclassifications extends Pas_Db_Table_Abstract {
 	
 	protected $_primary = 'id';
 	protected $_name = 'coinclassifications';
-	protected $_cache;
-
-	/** Construct the cache object
-	* @return object
-	*/
-	
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/** Get all valid references for coin classifications as a dropdown
 	* @return array
 	*/
 	public function getClass() {
-		if (!$options = $this->_cache->load('classificationsdd')) {
-	 	$select = $this->select()
-                       ->from($this->_name, array('id', 'referenceName'))
-                       ->order('id')
-					   ->where('valid = ?',(int)1);
-        $options = $this->getAdapter()->fetchPairs($select);
-        $this->_cache->save($options, 'classificationsdd');
-		}
-        return $options;
+	if (!$options = $this->_cache->load('classificationsdd')) {
+	$select = $this->select()
+		->from($this->_name, array('id', 'referenceName'))
+		->order('id')
+		->where('valid = ?',(int)1);
+	$options = $this->getAdapter()->fetchPairs($select);
+	$this->_cache->save($options, 'classificationsdd');
+	}
+	return $options;
 	}
 	
 	/** Get all valid references for coin classifications
 	* @return array
 	*/
 	public function getAllClasses($id) {
-		if (!$data = $this->_cache->load('classificationscoins')) {
-		$coins = $this->getAdapter();
-		$select = $coins->select()
-						->from($this->_name,array('referenceName'))
-						->joinLeft('coinxclass','coinxclass.classID = coinclassifications.id',array('vol_no','reference','id'))
-						->joinLeft('finds','finds.secuid =  coinxclass.findID',array('returnID' => 'id'))
-						->where('finds.id = ?' ,(int)$id);
-		$data = $coins->fetchAll($select);
-		$this->_cache->save($data, 'classificationscoins');
-		}
-        return $data;
+	if (!$data = $this->_cache->load('classificationscoins')) {
+	$coins = $this->getAdapter();
+	$select = $coins->select()
+		->from($this->_name,array('referenceName'))
+		->joinLeft('coinxclass','coinxclass.classID = coinclassifications.id',array('vol_no','reference','id'))
+		->joinLeft('finds','finds.secuid =  coinxclass.findID',array('returnID' => 'id'))
+		->where('finds.id = ?' ,(int)$id);
+	$data = $coins->fetchAll($select);
+	$this->_cache->save($data, 'classificationscoins');
+	}
+	return $data;
 	}
 
 }
