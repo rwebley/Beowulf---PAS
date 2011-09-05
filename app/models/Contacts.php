@@ -15,7 +15,7 @@ class Contacts extends Pas_Db_Table_Abstract {
 	protected $_primary = 'id';
 
 	/** Get person's details
-    * @param integer $id
+	* @param integer $id
 	* @return array
 	*/
 	public function getPersonDetails($id) {
@@ -40,7 +40,7 @@ class Contacts extends Pas_Db_Table_Abstract {
 	$this->_cache->save($data, 'currentstaffmember' . $id);
 	}
 	return $data;
-    }
+	}
     
      /** Get person's image
     * @param integer $id
@@ -53,7 +53,7 @@ class Contacts extends Pas_Db_Table_Abstract {
 		->from($this->_name,array('image'))
 		->where('staff.id= ?',(int)$id);
 	return $persons->fetchAll($select);
-    }
+	}
 
 	/** Get a list of alumni
 	* @return array
@@ -79,9 +79,9 @@ class Contacts extends Pas_Db_Table_Abstract {
     return $data;
     }
 	
-    /** Get a list of current staff to display on the map of contacts
-    * @return array
-    * @todo add caching
+	/** Get a list of current staff to display on the map of contacts
+	* @return array
+	* @todo add caching
 	*/
 	public function getContactsForMap() {
 	$persons = $this->getAdapter();
@@ -104,11 +104,11 @@ class Contacts extends Pas_Db_Table_Abstract {
 	
 	/** Get a list of current staff to display on the map of contacts
 	* @param integer $params['page']
-    * @return array
-    * @todo add caching
+	* @return array
+	* @todo add caching
 	*/
 	public function getContacts($params) {
-    $persons = $this->getAdapter();
+	$persons = $this->getAdapter();
 	$select = $persons->select()
 		->from($this->_name,array(#
 		'id', 'firstname', 'lastname',
@@ -130,10 +130,10 @@ class Contacts extends Pas_Db_Table_Abstract {
 	$paginator->setItemCountPerPage(20) 
 		->setPageRange(10); 
 	return $paginator;
-    }
+	}
 
-    /** Get a list of current staff for the central unit
-    * @return array
+	/** Get a list of current staff for the central unit
+	* @return array
 	*/
 	public function getCentralUnit() {
 	if (!$data = $this->_cache->load('centralUnit')) {
@@ -149,14 +149,14 @@ class Contacts extends Pas_Db_Table_Abstract {
 		array('staffroles' => 'role'))
 		->where('staff.role IN (1,2,3,4) AND alumni =1')
 		->order('lastname');
-    $data =  $persons->fetchAll($select);
+	$data =  $persons->fetchAll($select);
 	$this->_cache->save($data, 'centralUnit');
 	}
-    return $data;
+	return $data;
 	}
 	
 	/** Get a list of current finds liaison officers
-    * @return array
+	* @return array
 	*/
 	public function getLiaisionOfficers() {
 	if (!$data = $this->_cache->load('liaisonOfficers')) {
@@ -177,12 +177,12 @@ class Contacts extends Pas_Db_Table_Abstract {
 	$data =  $persons->fetchAll($select);
 	$this->_cache->save($data, 'liaisonOfficers');
 	}
-    return $data;
+	return $data;
 	}
 	
 	
 	/** Get a list of current treasure team
-    * @return array
+	* @return array
 	*/
 	public function getTreasures() {
 	if (!$data = $this->_cache->load('treasureTeam')) {
@@ -201,7 +201,7 @@ class Contacts extends Pas_Db_Table_Abstract {
 	$data =  $persons->fetchAll($select);
 	$this->_cache->save($data, 'treasureTeam');
 	}
-    return $data;
+	return $data;
 	}
 	
 	

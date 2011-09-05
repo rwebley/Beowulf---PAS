@@ -1,7 +1,7 @@
 <?php
-
 /**
-* @category Zend
+* A model for pulling a list of crime types from the database. To delete? 
+* @category Pas
 * @package Db_Table
 * @subpackage Abstract
 * 
@@ -10,33 +10,22 @@
 * @license GNU General Public License
 */
 
-class CrimeTypes extends Zend_Db_Table_Abstract
+class CrimeTypes extends Pas_Db_Table_Abstract
 {
 	protected $_primary = 'id';
-	
 	protected $_name = 'crimeTypes';
 	
-	protected $_cache = NULL;
-	
-	/** Construct the cache object
-	* @return object
-	*/
-	
-	public function init(){
-		$this->_cache = Zend_Registry::get('rulercache');
-	}
-
 	/** Get a list of all crime types as key pair values
 	* @return array
 	*/
 	public function getTypes(){
-       if (!$options = $this->_cache->load('crimetypes')) {
-	    $select = $this->select()
-                       ->from($this->_name, array('id', 'term'))
-                       ->order('id');
-        $options = $this->getAdapter()->fetchPairs($select);
-		$this->_cache->save($options, 'crimetypes');
-		}
-        return $options;
-    }	
+	if (!$options = $this->_cache->load('crimetypes')) {
+	$select = $this->select()
+		->from($this->_name, array('id', 'term'))
+		->order('id');
+	$options = $this->getAdapter()->fetchPairs($select);
+	$this->_cache->save($options, 'crimetypes');
+	}
+	return $options;
+	}	
 }
