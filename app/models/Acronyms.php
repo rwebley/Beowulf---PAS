@@ -24,12 +24,12 @@ class Acronyms extends Pas_Db_Table_Abstract {
 		if (!$data = $this->_cache->load('acronymsSite')) {
 		$acros = $this->getAdapter();
 		$select = $acros->select()
-						->from($this->_name, array('abbreviation','expanded'))
-						->where('valid = 1');
+		->from($this->_name, array('abbreviation','expanded'))
+		->where('valid = 1');
 	    $data =  $acros->fetchPairs($select); 
 		$this->_cache->save($data, 'acronymsSite');
 		}
-		return $data;
+	return $data;
 	}
 	
 	/** Get list of all acronyms and paginator them
@@ -39,17 +39,17 @@ class Acronyms extends Pas_Db_Table_Abstract {
 	public function getAllAcronyms($params)	{
 		$acros = $this->getAdapter();
 		$select = $acros->select()
-						->from($this->_name, array('id','abbreviation','expanded','updated'))
-						->joinLeft('users','users.id = '.$this->_name.'.createdBy',array('fullname'))
-	   					->joinLeft('users','users_2.id = '.$this->_name.'.updatedBy',array('fn' => 'fullname'))
-						->order('abbreviation');
+		->from($this->_name, array('id','abbreviation','expanded','updated'))
+		->joinLeft('users','users.id = '.$this->_name.'.createdBy',array('fullname'))
+		->joinLeft('users','users_2.id = '.$this->_name.'.updatedBy',array('fn' => 'fullname'))
+		->order('abbreviation');
 		$paginator = Zend_Paginator::factory($select);
 		$paginator->setItemCountPerPage(20) 
-		          ->setPageRange(20);
+		->setPageRange(20);
 		if(isset($params['page']) && ($params['page'] != "")) {
 	    $paginator->setCurrentPageNumber($params['page']); 
 		}
-		return $paginator;
+	return $paginator;
 	}
 
 }
