@@ -9,20 +9,12 @@
 * @license GNU General Public License
 */
 
-class Contacts extends Zend_Db_Table_Abstract {
+class Contacts extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'staff';
 	protected $_primary = 'id';
-	protected $_cache;
 
-	/** Construct the cache object
-	* @return object
-	*/
-	public function init() {
-		$this->_cache = Zend_Registry::get('rulercache');
-	}
-
-	 /** Get person's details
+	/** Get person's details
     * @param integer $id
 	* @return array
 	*/
@@ -133,7 +125,7 @@ class Contacts extends Zend_Db_Table_Abstract {
 		->order('alumni DESC');
 	$paginator = Zend_Paginator::factory($select);
 	if(isset($params['page']) && ($params['page'] != "")) {
-    $paginator->setCurrentPageNumber((int)$params['page']); 
+	$paginator->setCurrentPageNumber((int)$params['page']); 
 	}
 	$paginator->setItemCountPerPage(20) 
 		->setPageRange(10); 
@@ -230,7 +222,7 @@ class Contacts extends Zend_Db_Table_Abstract {
 		array('staffroles' => 'role'))
 		->where('staff.role IN (12,16,17,18,19,20) AND alumni =1')
 		->order('lastname');
-	$data =  $persons->fetchAll($select);
+	$data = $persons->fetchAll($select);
 	$this->_cache->save($data, 'findsAdvisers');
 	}
     return $data;
@@ -264,7 +256,7 @@ class Contacts extends Zend_Db_Table_Abstract {
 	}
 
 	/** Get a dropdown list of attending staff
-    * @return array
+	* @return array
 	*/
 	public function getAttending() {
 	$persons = $this->getAdapter();

@@ -40,7 +40,7 @@ class Comments extends Pas_Db_Table_Abstract {
 	$comments = $this->getAdapter();
 	$select = $comments->select()
 		->from($this->_name, array('comment_id','df' => 'DATE_FORMAT(comment_date,"%T on the  %D %M %Y")','comment_author','comment_author_url','comment_content','comment_author_email'))
-		->joinLeft('finds','finds.id = comments.comment_findID',array())
+		->joinLeft('finds','finds.id = comments.comment_findID', array())
 		->where('finds.id = ?',$id)
 		->where('comments.comment_type  = ?','newscomments')
 		->where('comments.comment_approved = ?','approved')

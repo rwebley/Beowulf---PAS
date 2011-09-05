@@ -1,7 +1,7 @@
 <?php
 /**
-* @category Zend
-* @package Db_Table
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
 * 
 * @author Daniel Pett dpett @ britishmuseum.org
@@ -9,7 +9,7 @@
 * @license GNU General Public License
 * @todo add some caching to model
 */
-class Completeness extends Zend_Db_Table_Abstract {
+class Completeness extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'completeness';
 	protected $_primary = 'id';
@@ -22,11 +22,11 @@ class Completeness extends Zend_Db_Table_Abstract {
 	*/
 	public function getDetails($id) {
 	$comp = $this->getAdapter();
-		$select = $comp->select()
-						->from($this->_name)
-						->where('id = ?',(int)$id)
-						->order('id');
-		 return $comp->fetchAll($select);
+	$select = $comp->select()
+		->from($this->_name)
+		->where('id = ?', (int)$id)
+		->order('id');
+	return $comp->fetchAll($select);
 	}
 	
 }

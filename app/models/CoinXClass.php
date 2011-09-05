@@ -1,8 +1,8 @@
 <?php 
 
 /**
-* @category Zend
-* @package Db_Table
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
 * 
 * @author Daniel Pett dpett @ britishmuseum.org
@@ -10,11 +10,10 @@
 * @license GNU General Public License
 */
 
-class CoinXClass extends Zend_Db_Table_Abstract {
+class CoinXClass extends Pas_Db_Table_Abstract {
 
 	protected $_primary = 'id';
 	protected $_name = 'coinxclass';
-	protected $_cache = NULL;
 
 
 }
