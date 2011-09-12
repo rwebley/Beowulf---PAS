@@ -28,7 +28,7 @@ class Dieaxes extends Pas_Db_Table_Abstract {
 	return $options;
     }
 
-    /** Retrieve a list of die axes where valid
+	/** Retrieve a list of die axes where valid
 	* @return array
 	*/
 	public function getDieList() {
