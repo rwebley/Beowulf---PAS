@@ -4,13 +4,11 @@
  * 
  * @category   Pas
  * @package    Service
- * @subpackage Abstract
  * @copyright  Copyright (c) 2011 dpett @ britishmuseum.org
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @see Zend_View_Helper_Abstract
  * @uses Pas_View_Helper_RecordEditDeleteLinks
  */
-
 class Pas_Service_GoogleShortUrl {
  
 	const GOOGLE = 'https://www.googleapis.com/urlshortener/v1/url';
@@ -151,8 +149,8 @@ class Pas_Service_GoogleShortUrl {
 	CURLOPT_RETURNTRANSFER =>  1, 
 	);	
 	$config = array(
-    'adapter'   => 'Zend_Http_Client_Adapter_Curl',
-    'curloptions' => $options
+	'adapter'   => 'Zend_Http_Client_Adapter_Curl',
+	'curloptions' => $options
 	);
 	$client = new Zend_Http_Client( $this->_api, $config );
 	$client->setHeaders(Zend_Http_Client::CONTENT_TYPE, 'application/json');
@@ -165,8 +163,8 @@ class Pas_Service_GoogleShortUrl {
 	CURLOPT_RETURNTRANSFER =>  1, 
 	);
 	$config = array(
-    'adapter'   => 'Zend_Http_Client_Adapter_Curl',
-    'curloptions' => $options
+	'adapter'   => 'Zend_Http_Client_Adapter_Curl',
+	'curloptions' => $options
 	);
 	$client = new Zend_Http_Client( $this->_api, $config );
 	}
