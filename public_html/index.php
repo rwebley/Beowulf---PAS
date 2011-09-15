@@ -16,11 +16,10 @@ set_include_path('.' . PATH_SEPARATOR . 'library/'
 . PATH_SEPARATOR . 'app/models'
 . PATH_SEPARATOR . 'app/forms/'
 . PATH_SEPARATOR . 'library/Zend/'
-. PATH_SEPARATOR . 'library/Phlickr/'
 . PATH_SEPARATOR . 'library/ZendX/'
-. PATH_SEPARATOR . 'library/Csv/'
 . PATH_SEPARATOR . 'library/Arc2/'
 . PATH_SEPARATOR . 'library/Apache/'
+. PATH_SEPARATOR . 'library/EasyRdf/'
 . PATH_SEPARATOR . get_include_path());
 
 /* include 'Zend/Loader.php';

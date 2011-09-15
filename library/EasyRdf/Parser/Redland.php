@@ -5,56 +5,51 @@
  *
  * LICENSE
  *
- * Copyright (c) 2009 Nicholas J Humfrey.  All rights reserved.
+ * Copyright (c) 2009-2011 Nicholas J Humfrey.  All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without 
+ * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 1. Redistributions of source code must retain the above copyright 
+ * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 3. The name of the author 'Nicholas J Humfrey" may be used to endorse or 
- *    promote products derived from this software without specific prior 
+ * 3. The name of the author 'Nicholas J Humfrey" may be used to endorse or
+ *    promote products derived from this software without specific prior
  *    written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package    EasyRdf
- * @copyright  Copyright (c) 2009 Nicholas J Humfrey
+ * @copyright  Copyright (c) 2009-2011 Nicholas J Humfrey
  * @license    http://www.opensource.org/licenses/bsd-license.php
- * @version    $Id: Redland.php 275 2009-12-22 00:01:56Z njh@aelius.com $
+ * @version    $Id$
  */
 
 /**
- * @see EasyRdf_Exception
- */
-require_once "EasyRdf/Exception.php";
-
-/**
- * Class to allow parsing of RDF using Redland (librdf) C library.
+ * Class to parse RDF using Redland (librdf) C library.
  *
  * @package    EasyRdf
- * @copyright  Copyright (c) 2009 Nicholas J Humfrey
+ * @copyright  Copyright (c) 2009-2011 Nicholas J Humfrey
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
-class EasyRdf_Parser_Redland
+class EasyRdf_Parser_Redland extends EasyRdf_Parser
 {
     /** Variable set to the librdf world */
     private $_world = null;
-    
+
     /** Parser feature URI string for getting the error count of last parse. */
-    const LIBRDF_PARSER_FEATURE_ERROR_COUNT = 
+    const LIBRDF_PARSER_FEATURE_ERROR_COUNT =
         'http://feature.librdf.org/parser-error-count';
 
     /*
@@ -72,8 +67,11 @@ class EasyRdf_Parser_Redland
      */
 
 
-    /** Convert a librdf node type into a string */
-    private static function nodeTypeString($node)
+    /**
+     * Convert a librdf node type into a string
+     * @ignore
+     */
+    protected static function nodeTypeString($node)
     {
         switch(librdf_node_get_type($node))
         {
@@ -91,12 +89,15 @@ class EasyRdf_Parser_Redland
                 break;
         }
     }
-    
-    /** Convert the URI for a node into a string */
-    private static function nodeUriString($node)
+
+    /**
+     * Convert the URI for a node into a string
+     * @ignore
+     */
+    protected static function nodeUriString($node)
     {
         $type = EasyRdf_Parser_Redland::nodeTypeString($node);
-        if ($type == 'uri') { 
+        if ($type == 'uri') {
             $uri = librdf_node_get_uri($node);
             if (!$uri) {
                 throw new EasyRdf_Exception("Failed to get URI of node");
@@ -114,9 +115,12 @@ class EasyRdf_Parser_Redland
             throw new EasyRdf_Exception("Unsupported type: ".$object['type']);
         }
     }
-    
-    /** Convert a node into an RDF/PHP object */
-    private static function rdfPhpObject($node)
+
+    /**
+     * Convert a node into an associate array
+     * @ignore
+     */
+    protected static function nodeToArray($node)
     {
         $object = array();
         $object['type'] = EasyRdf_Parser_Redland::nodeTypeString($node);
@@ -140,8 +144,11 @@ class EasyRdf_Parser_Redland
         return $object;
     }
 
-    /** Return the number of errors during parsing */
-    private function parserErrorCount($parser)
+    /**
+     * Return the number of errors during parsing
+     * @ignore
+     */
+    protected function parserErrorCount($parser)
     {
         $errorUri = librdf_new_uri(
             $this->_world, self::LIBRDF_PARSER_FEATURE_ERROR_COUNT
@@ -174,33 +181,18 @@ class EasyRdf_Parser_Redland
     }
 
     /**
-      * Parse an RDF document
+      * Parse an RDF document into an EasyRdf_Graph
       *
-      * @param string $uri      the base URI of the data
-      * @param string $data     the document data
-      * @param string $format   the format of the input data
-      * @return array           the parsed data
+      * @param object EasyRdf_Graph $graph   the graph to load the data into
+      * @param string               $data    the RDF document data
+      * @param string               $format  the format of the input data
+      * @param string               $baseUri the base URI of the data being parsed
+      * @return boolean             true if parsing was successful
       */
-    public function parse($uri, $data, $format)
+    public function parse($graph, $data, $format, $baseUri)
     {
-        if (!is_string($uri) or $uri == null or $uri == '') {
-            throw new InvalidArgumentException(
-                "\$uri should be a string and cannot be null or empty"
-            );
-        }
+        parent::checkParseParams($graph, $data, $format, $baseUri);
 
-        if (!is_string($data) or $data == null or $data == '') {
-            throw new InvalidArgumentException(
-                "\$data should be a string and cannot be null or empty"
-            );
-        }
-
-        if (!is_string($format) or $format == null or $format == '') {
-            throw new InvalidArgumentException(
-                "\$format should be a string and cannot be null or empty"
-            );
-        }
-    
         $parser = librdf_new_parser($this->_world, $format, null, null);
         if (!$parser) {
             throw new EasyRdf_Exception(
@@ -208,10 +200,10 @@ class EasyRdf_Parser_Redland
             );
         }
 
-        $rdfUri = librdf_new_uri($this->_world, $uri);
+        $rdfUri = librdf_new_uri($this->_world, $baseUri);
         if (!$rdfUri) {
             throw new EasyRdf_Exception(
-                "Failed to create librdf_uri from: $uri"
+                "Failed to create librdf_uri from: $baseUri"
             );
         }
 
@@ -224,7 +216,6 @@ class EasyRdf_Parser_Redland
             );
         }
 
-        $rdfphp = array();
         do {
             $statement = librdf_stream_get_object($stream);
             if ($statement) {
@@ -234,22 +225,14 @@ class EasyRdf_Parser_Redland
                 $predicate = EasyRdf_Parser_Redland::nodeUriString(
                     librdf_statement_get_predicate($statement)
                 );
-                $object = EasyRdf_Parser_Redland::rdfPhpObject(
+                $object = EasyRdf_Parser_Redland::nodeToArray(
                     librdf_statement_get_object($statement)
                 );
-                
-                if (!isset($rdfphp[$subject])) {
-                    $rdfphp[$subject] = array();
-                }
-            
-                if (!isset($rdfphp[$subject][$predicate])) {
-                    $rdfphp[$subject][$predicate] = array();
-                }
 
-                array_push($rdfphp[$subject][$predicate], $object);
+                $graph->add($subject, $predicate, $object);
             }
         } while (!librdf_stream_next($stream));
-        
+
         $errorCount = $this->parserErrorCount($parser);
         if ($errorCount) {
             throw new EasyRdf_Exception("$errorCount errors while parsing.");
@@ -258,7 +241,14 @@ class EasyRdf_Parser_Redland
         librdf_free_uri($rdfUri);
         librdf_free_stream($stream);
         librdf_free_parser($parser);
-        
-        return $rdfphp;
+
+        // Success
+        return true;
     }
 }
+
+## FIXME: do this automatically
+EasyRdf_Format::registerParser('rdfxml', 'EasyRdf_Parser_Redland');
+EasyRdf_Format::registerParser('turtle', 'EasyRdf_Parser_Redland');
+EasyRdf_Format::registerParser('ntriples', 'EasyRdf_Parser_Redland');
+EasyRdf_Format::registerParser('rdfa', 'EasyRdf_Parser_Redland');

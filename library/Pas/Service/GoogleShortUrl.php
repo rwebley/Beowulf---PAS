@@ -1,4 +1,16 @@
 <?php
+/**
+ * A view helper for displaying toolbox of links
+ * 
+ * @category   Pas
+ * @package    Service
+ * @subpackage Abstract
+ * @copyright  Copyright (c) 2011 dpett @ britishmuseum.org
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @see Zend_View_Helper_Abstract
+ * @uses Pas_View_Helper_RecordEditDeleteLinks
+ */
+
 class Pas_Service_GoogleShortUrl {
  
 	const GOOGLE = 'https://www.googleapis.com/urlshortener/v1/url';
@@ -11,22 +23,42 @@ class Pas_Service_GoogleShortUrl {
 	
 	protected $_api;
 	
+	/** Constructor
+	 * @acess public
+	 * @param string $key The Google api key
+	 * @return void
+	 */
 	public function __construct( $key ) {
 	$this->_api = self::GOOGLE . '?key=' . $key;
 	}
 
+	/** Function to shorten a given url
+	 * @access public
+	 * @param string $url URL to shorten
+	 * @return object $reponse Shortened URL
+	 */
 	public function shorten( $url ) {
 	$url = $this->checkUrl( $url );
 	$response = $this->send($url,true);
 	return $response;
     }     
 
+    /** Expand a url from goo.gl's api
+     * @access public
+     * @param string $url URL to expand
+     * @return object $response
+     */
     public function expand($url ) {
 	$url = $this->checkShortUrl( $url );
 	$response = $this->send($url,false);
 	return $response;
     }
 	
+    /** Get analytics for a URL
+     * @access public
+     * @param string $shortUrl
+     * @return object $response
+     */
     public function analytics($shortUrl){
 	$url = $this->checkShortUrl( $shortUrl );
 	$client = new Zend_Http_Client();
@@ -42,12 +74,21 @@ class Pas_Service_GoogleShortUrl {
 	}
     }
     
+    /** Decode the response from JSON
+     * @access public
+     * @param string $response
+     * @return object $json
+     */
     private function getDecode($response){
     $data = $response->getBody();
 	$json = json_decode($data);
 	return $json;	
     }
     
+    /** Check the request status
+     * @access private
+     * @param object $response
+     */
 	private function getStatus($response) {
     $code = $response->getStatus();
     switch($code) {
@@ -69,13 +110,24 @@ class Pas_Service_GoogleShortUrl {
     }
 	}
 	
+	/** Check that the URL is valid
+	 * @access private
+	 * @param string $url to validate
+	 * @return string $url
+	 */
 	private function checkUrl($url) {
 	if (!Zend_Uri::check($url)) {
-    	throw new Exception(self::INVALIDURL);
+    	throw new Pas_Exception_Url(self::INVALIDURL);
     }
 	return $url;
 	}
 	
+	/** Check the short URL is valid as a goo.gl one
+	 * @access private
+	 * @param string $url
+	 * @return string $url
+	 * @throws Exception
+	 */
 	private function checkShortUrl($url){
 	$shorturl = parse_url($url);
 		if($shorturl['host'] === self::GOOGLEURL){
@@ -84,8 +136,12 @@ class Pas_Service_GoogleShortUrl {
 	throw new Exception(self::INVALIDSHORTURL);		
 	}	
 	}
-	
-	public function send($url, $short = true) {
+	/** Send a url for shortening 
+	 * @access private
+	 * @param string $url
+	 * @param boolean $short
+	 */
+	private function send($url, $short = true) {
 	if($short){
 	$options = array(
 	CURLOPT_URL => $this->_api, 
