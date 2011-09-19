@@ -12,7 +12,7 @@ class Pas_View_Helper_FindspotGeo extends Zend_View_Helper_Abstract
 	
 	public function __construct()
     { 
-        $this->_auth = end_Registry::get('auth');
+        $this->_auth = Zend_Registry::get('auth');
         $this->_cache = Zend_Registry::get('rulercache');
         $this->_config = Zend_Registry::get('config');
         $this->_appid = $this->_config->webservice->ydnkeys->placemakerkey;

@@ -130,8 +130,8 @@ class Rallies extends Zend_Db_Table_Abstract {
                        	  ->from($this->_name, array('id','name' => 'rally_name','df' => 'DATE_FORMAT(date_from,"%D %M %Y")',
                        	  							 'dt' => 'DATE_FORMAT(date_to,"%D %M %Y")','lat' => 'latitude', 'lng' => 'longitude'))
 					      ->where('latitude > ?',0);
-		if(isset($params['year'])){
-		$select->where('EXTRACT(YEAR FROM date_to)= ?',$params['year']);	
+		if(isset($year)){
+		$select->where('EXTRACT(YEAR FROM date_to)= ?', (int)$year);	
 		}			   
         return $rallies->fetchAll($select);
     }

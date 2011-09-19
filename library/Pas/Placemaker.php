@@ -100,7 +100,7 @@
 	// Now parse the response using PHP SimpleXML
 	$xml = simplexml_load_string($response);
 	Zend_Debug::dump($xml);
-	exit;
+	$place = new Place();
 	if (isset($xml->results->place->name)) {
 	$place->name = $xml->results->place->name;
 	}

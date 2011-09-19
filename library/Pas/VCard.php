@@ -153,9 +153,9 @@ class Pas_VCard {
 	
 	if ($this->_data['photo']) { 
 	$image = $this->_data['photo'];
-	if ($imageinfo = @getimagesize($image) AND isset($imagetypes[$imageinfo[2]])) {
+	if ($imageinfo = @getimagesize($image) AND isset($this->_imagetypes[$imageinfo[2]])) {
     $photo = base64_encode(file_get_contents($image));
-    $type  = $imagetypes[$imageinfo[2]];
+    $type  = $this->_imagetypes[$imageinfo[2]];
     $path = 'PHOTO;ENCODING=BASE64;TYPE=' . $type . ':' . $photo;
 	}
 	

@@ -9,7 +9,7 @@ class Pas_Db_Table_Abstract extends Zend_Db_Table_Abstract {
 	$this->_config = Zend_Registry::get('config');	
 	$this->_cache = Zend_Registry::get('cache');
 	
-	parent::__construct($options);
+	parent::__construct();
 	}
 
 	public function userNumber(){

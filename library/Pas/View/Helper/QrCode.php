@@ -35,7 +35,8 @@ class Pas_View_Helper_QrCode extends Zend_View_Helper_Abstract {
      */
     public function google($params = array())  {
 	$default = array(
-	'text'       => $_SERVER['SCRIPT_URI'],
+//	'text'       => $_SERVER['SCRIPT_URI'],
+	'text'		 => $this->_view->curUrl(),
 	'size'       => '250x250',
 	'correction' => 'M',
 	'margin'     => 0
@@ -50,9 +51,15 @@ class Pas_View_Helper_QrCode extends Zend_View_Helper_Abstract {
 	$params['size'] = '100x100';
 	}
  
-	$url = self::APIURL . "?cht=qr&chl={$params['text']}"
-	. "&chld={$params['correction']}|{$params['margin']}"
-	. "&chs={$params['size']}";
+	$url = self::APIURL 
+	. '?cht=qr&chl=' 
+	. $params['text'] 
+	. '&chld=' 
+	. $params['correction'] 
+	. '|' 
+	. $params['margin'] 
+	. '&chs=' 
+	. $params['size'];
 	return sprintf($this->template, $url);
     }
 }

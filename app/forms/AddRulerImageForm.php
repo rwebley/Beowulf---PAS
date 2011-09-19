@@ -51,7 +51,7 @@ public function __construct($options = null) {
 		->setRequired(true);
 			 
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

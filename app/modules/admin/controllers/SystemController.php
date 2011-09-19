@@ -35,8 +35,8 @@ class Admin_SystemController extends Pas_Controller_ActionAdmin {
  	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->view->messages = $this->_flashMessenger->getMessages();
 	$this->_config = Zend_Registry::get('config');
-	$this->_awsKey = $this->_config->amazonS3->accesskey;
-	$this->_awsSecret = $this->_config->amazonS3->secretkey;
+	$this->_awsKey = $this->_config->webservice->amazonS3->accesskey;
+	$this->_awsSecret = $this->_config->webservice->amazonS3->secretkey;
 	$this->_days = 5;
 	$this->_suffix = date("Ymd"); 
 	$this->_s3 = new Zend_Service_Amazon_S3($this->_awsKey, $this->_awsSecret);

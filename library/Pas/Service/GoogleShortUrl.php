@@ -1,6 +1,6 @@
 <?php
 /**
- * A view helper for displaying toolbox of links
+ * A view helper for shortening and expanding links with goo.gl
  * 
  * @category   Pas
  * @package    Service

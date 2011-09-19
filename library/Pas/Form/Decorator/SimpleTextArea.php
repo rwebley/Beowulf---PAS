@@ -13,7 +13,7 @@ class Pas_Form_Decorator_SimpleTextArea extends Zend_Form_Decorator_Abstract
         $value   = htmlentities($element->getValue());
 		$rows = htmlentities($element->getAttrib('rows'));
 		$cols = htmlentities($element->getAttrib('cols'));
-        $markup  = sprintf($this->_format, $id, $label, $id, $name, $value,$rows,$columns);
+        $markup  = sprintf($this->_format, $id, $label, $id, $name, $value,$rows,$cols);
         return $markup;
     }
 }

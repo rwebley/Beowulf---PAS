@@ -16,10 +16,10 @@ class Pas_View_Helper_Urlslug extends Zend_View_Helper_Abstract  {
 	 */
 	public function urlslug($slug){
 	$result = strtolower($slug);
-	$result = preg_replace("/[^a-z0-9\s-]/", "", $result);
-	$result = trim(preg_replace("/\s+/", " ", $result));
+	$result = preg_replace("/[^a-z0-9\\s-]/", "", $result);
+	$result = trim(preg_replace("/\\s+/", " ", $result));
 	$result = trim(substr($result, 0, 45));
-	$result = preg_replace("/\s/", "-", $result);
+	$result = preg_replace("/\\s/", "-", $result);
 	return $result;
 	}
 }

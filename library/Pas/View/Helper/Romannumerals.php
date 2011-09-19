@@ -15,11 +15,11 @@ class Zend_View_Helper_RomanNumerals extends Zend_View_Helper_Abstract {
 	 * @return string
 	 * @uses Zend_Validate_Int
 	 */
-	public function romanNumerals($num) {
+	public function romanNumerals($date) {
 	//Check if the number is an integer
 	$validator = new Zend_Validate_Int();
 	if($validator->isValid($date)){
-	$n = intval($num);
+	$n = intval($date);
     $res = '';
     /** Create the array of Roman numerals based on numbers
 	*/

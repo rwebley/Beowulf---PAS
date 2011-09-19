@@ -14,7 +14,7 @@ class IndexController extends Pas_Controller_ActionAdmin
     }
 
     private function wordpress(){
-	return $this->_wordpress = new Pas_Service_Wordpress($this->_wpRoute, $this->_wpUser, 
+	return $this->_wordpress = new ZendX_Service_Wordpress($this->_wpRoute, $this->_wpUser, 
 	$this->_wpPass);
     }
     
