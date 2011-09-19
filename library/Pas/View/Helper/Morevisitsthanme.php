@@ -9,7 +9,8 @@
  * @see Zend_View_Helper_Abstract
  */
 
-class Pas_View_Helper_MoreVisitsThanMe extends Zend_View_Helper_Abstract {
+class Pas_View_Helper_MoreVisitsThanMe 
+	extends Zend_View_Helper_Abstract {
 	
 	/** Find out how many more people than you have visited the site
 	 * 

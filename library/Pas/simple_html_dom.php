@@ -711,7 +711,7 @@ class simple_html_dom {
         }
 
         // text
-        if ($pos=strpos($tag, '<')!==false) {
+        if ($pos == strpos($tag,'<') !== false) {
             $tag = '<' . substr($tag, 0, -1);
             $node->_[HDOM_INFO_TEXT] = $tag;
             $this->link_nodes($node, false);

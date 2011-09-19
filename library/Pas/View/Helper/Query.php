@@ -1,6 +1,6 @@
 <?php
 /**
- * A view helper for turning dates into Roman numerals
+ * A view helper for creating a formatted url query string
  * @category   Pas
  * @package    Pas_View_Helper
  * @subpackage Abstract

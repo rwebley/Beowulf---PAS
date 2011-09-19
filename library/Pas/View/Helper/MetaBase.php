@@ -9,7 +9,8 @@
  * @see Zend_View_Helper_Abstract
  */
 
-class Pas_View_Helper_MetaBase extends Zend_View_Helper_Abstract {
+class Pas_View_Helper_MetaBase 
+	extends Zend_View_Helper_Abstract {
 
  	/** View helper to produce metadata for the head section
  	 * @access public
