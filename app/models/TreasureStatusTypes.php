@@ -12,20 +12,11 @@
 * @since 22 October 2010, 17:12:34
 * @todo implement add, edit and delete function methods
 */
-class TreasureStatusTypes extends Zend_Db_Table_Abstract {
+class TreasureStatusTypes extends Pas_Db_Table_Abstract {
 
-	protected $_cache;
-	
 	protected $_primary = 'id';
 
 	protected $_name = 'treasureStatusTypes';
-	
-	/** Construct the cache objects
-	* @return object
-	*/
-	public function init() {
-		$this->_cache = Zend_Registry::get('rulercache');
-	}
 	
 	/** get a cached list of actions
 	* @return array
@@ -37,7 +28,7 @@ class TreasureStatusTypes extends Zend_Db_Table_Abstract {
 				->from($this->_name)
 				->where('valid = ?',(int)1)
 				->order('action');
-        $data =  $persons->fetchAll($select);
+        $data =  $actions->fetchAll($select);
 		$this->_cache->save($data, 'tactions');
 		}
         return $data;
@@ -53,7 +44,7 @@ class TreasureStatusTypes extends Zend_Db_Table_Abstract {
 				->from($this->_name,array('id','action'))
 				->where('valid = ?',(int)'1')
 				->order('action');
-        $data =  $persons->fetchPairs($select);
+        $data =  $actions->fetchPairs($select);
 		$this->_cache->save($data, 'tactionslist');
 		}
         return $data;

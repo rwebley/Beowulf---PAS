@@ -26,7 +26,7 @@ class Pas_View_Helper_SearchParams
 	if(array_key_exists('objecttype',$params)) {
 	if($params['objecttype'] != NULL) {
 	$html .= '<li>Object type: '. $this->view->escape($params['objecttype']) . '</li>';
-	$this->view->headTitle(  ' > Object type: '. $this->view->escape($params['objecttype']));
+	$this->view->headTitle(  ' > Object type: ' . $this->view->escape($params['objecttype']));
 	}
 	}
 	
@@ -34,14 +34,14 @@ class Pas_View_Helper_SearchParams
 	if(array_key_exists('broadperiod',$params)) {
 	if($params['broadperiod'] != NULL) {
 	$html .= '<li>Broadperiod: '. $this->view->escape($params['broadperiod']) . '</li>';
-	$this->view->headTitle(  ' > Broadperiod: '. $this->view->escape($params['broadperiod']));
+	$this->view->headTitle(  ' > Broadperiod: ' . $this->view->escape($params['broadperiod']));
 	}
 	}
 	//County
 	if(array_key_exists('county',$params)) {
 	if($params['county'] != NULL) {
 	$html .= '<li>County: '. $this->view->escape($params['county']) . '</li>';
-	$this->view->headTitle(  ' > County: '. $this->view->escape($params['county']));
+	$this->view->headTitle(  ' > County: ' . $this->view->escape($params['county']));
 	}
 	}
 
@@ -53,8 +53,8 @@ class Pas_View_Helper_SearchParams
 	$regions = $regions->getRegion($region);
 	$this->regions = $regions;
 	foreach($this->regions as $region){
-	$html .= '<li>Region: '. $this->view->escape($region['region']).'</li>';
-	$this->view->headTitle(  ' > Region: '. $this->view->escape($region['region']));
+	$html .= '<li>Region: '. $this->view->escape($region['region']) . '</li>';
+	$this->view->headTitle(  ' > Region: ' . $this->view->escape($region['region']));
 	}
 	}
 	}
@@ -66,8 +66,8 @@ class Pas_View_Helper_SearchParams
 	$materials = $materials->getMaterialName($mat);
 	$this->materials = $materials;
 	foreach($this->materials as $material){
-	$html .= '<li>Primary material: '. $this->view->escape($material['term']).'</li>';
-	$this->view->headTitle(  ' > Primary material: '. $this->view->escape($material['term']));
+	$html .= '<li>Primary material: '. $this->view->escape($material['term']) . '</li>';
+	$this->view->headTitle(  ' > Primary material: ' . $this->view->escape($material['term']));
 	}
 	}
 	}
@@ -209,7 +209,7 @@ class Pas_View_Helper_SearchParams
 	if ($from < 0) {
 	$date =  abs($from). ' ' .$suffix;
 	} else if ($from > 0) {
-	$date =  $prefix.' '. abs($from);
+	$date =  $prefix . ' ' .  abs($from);
 	}
 	$html .= '<li>Date from greater or equal to: ' . (int)$date. '</li>';
 	$this->view->headTitle(  ' > Date from starts: '. (int)$date);
@@ -223,12 +223,12 @@ class Pas_View_Helper_SearchParams
 	$suffix="BC";
 	$prefix="AD";
 	if ($from < 0) {
-	$date =  abs($from). ' ' .$suffix;
+	$date =  abs($from) . ' ' . $suffix;
 	} else if ($from > 0) {
-	$date =  $prefix.' '. abs($from);
+	$date =  $prefix .' ' . abs($from);
 	}
 	$html .= '<li>Date from smaller or equal to: ' . $date. '</li>';
-	$this->view->headTitle(  ' > Date from ends: '. $date);
+	$this->view->headTitle(  ' > Date from ends: ' . $date);
 	}
 	}
 
@@ -240,8 +240,8 @@ class Pas_View_Helper_SearchParams
 	//Year found
 	if(array_key_exists('discovered',$params)) {
 	if($params['discovered'] != NULL) {
-	$html .= '<li>Year of discovery where known: ' . $this->view->escape($params['discovered']). '</li>';
-	$this->view->headTitle(  ' > Discovery year: '. $this->view->escape($params['discovered']));
+	$html .= '<li>Year of discovery where known: ' . $this->view->escape($params['discovered']) . '</li>';
+	$this->view->headTitle(  ' > Discovery year: ' . $this->view->escape($params['discovered']));
 	}
 	}
 	
@@ -254,7 +254,7 @@ class Pas_View_Helper_SearchParams
 	$this->peoples = $peoples;
 	foreach($this->peoples as $people) {
 	$html .= '<li>Item found by: ' . $this->view->escape($people['term']). '</li>';
-	$this->view->headTitle(  ' > Finder: '. $this->view->escape($people['term']));
+	$this->view->headTitle(  ' > Finder: ' . $this->view->escape($people['term']));
 	}
 	}
 	}
@@ -268,7 +268,7 @@ class Pas_View_Helper_SearchParams
 	$this->peoples = $peoples;
 	foreach($this->peoples as $people) {
 	$html .= '<li>Identified by: ' . $this->view->escape($people['term']). '</li>';
-	$this->view->headTitle(  ' > Identified by: '. $this->view->escape($people['term']));
+	$this->view->headTitle(  ' > Identified by: ' . $this->view->escape($people['term']));
 	}
 	}
 	}
@@ -283,7 +283,7 @@ class Pas_View_Helper_SearchParams
 	$this->peoples = $peoples;
 	foreach($this->peoples as $people) {
 	$html .= '<li>Recorded by: ' . $this->view->escape($people['term']). '</li>';
-	$this->view->headTitle(  ' > Recorded by: '. $this->view->escape($people['term']));
+	$this->view->headTitle(  ' > Recorded by: ' . $this->view->escape($people['term']));
 	}
 	}
 	}
@@ -296,7 +296,7 @@ class Pas_View_Helper_SearchParams
 	$this->rulers = $rulers;
 	foreach($this->rulers as $ruler){
 	$html .= '<li>Coin issued by: ' . $this->view->escape($ruler['issuer']). '</li>';
-	$this->view->headTitle(  ' > Coin issued by: '.  $this->view->escape($ruler['issuer']));
+	$this->view->headTitle(  ' > Coin issued by: ' .  $this->view->escape($ruler['issuer']));
 	}
 	}
 	}
@@ -317,29 +317,33 @@ class Pas_View_Helper_SearchParams
 
 	if(array_key_exists('TID',$params)) {
 	if ($params['TID'] != NULL){
-	$html .= '<li>Treasure case number: '.$this->view->escape($params['TID']);
-	$this->view->headTitle(  ' > Treasure case number: '.$this->view->escape($params['TID']));
+	$html .= '<li>Treasure case number: ' . $this->view->escape($params['TID']);
+	$this->view->headTitle(  ' > Treasure case number: ' . $this->view->escape($params['TID']));
 	}
 	}
 
 	if(array_key_exists('created',$params)) {
 	if ($params['created'] != NULL){
 	$html .= '<li>Finds entered on: '.$this->view->escape($params['created']);
-	$this->view->headTitle(  ' > finds entered on: '.$this->view->escape($params['created']));
+	$this->view->headTitle(  ' > finds entered on: ' . $this->view->escape($params['created']));
 	}
 	}
 
 	if(array_key_exists('createdBefore',$params)) {
 	if ($params['createdBefore'] != NULL){
-	$html .= '<li>Finds entered on or before: '.$this->view->niceShortDate($this->view->escape($params['createdBefore'])).'</li>';
-	$this->view->headTitle(  ' > finds entered on or before: '.$this->view->niceShortDate($this->view->escape($params['createdAfter'])));
+	$html .= '<li>Finds entered on or before: '
+	. $this->view->niceShortDate($this->view->escape($params['createdBefore'])) . '</li>';
+	$this->view->headTitle(  ' > finds entered on or before: ' 
+	. $this->view->niceShortDate($this->view->escape($params['createdAfter'])));
 	}
 	}
 
 	if(array_key_exists('createdAfter',$params)) {
 	if ($params['createdAfter'] != NULL){
-	$html .= '<li>Finds entered on or after: '.$this->view->niceShortDate($this->view->escape($params['createdAfter'])).'</li>';
-	$this->view->headTitle(  ' > finds entered on or after: '.$this->view->niceShortDate($this->view->escape($params['createdAfter'])));
+	$html .= '<li>Finds entered on or after: ' 
+	. $this->view->niceShortDate($this->view->escape($params['createdAfter'])) .'</li>';
+	$this->view->headTitle(  ' > finds entered on or after: '
+	. $this->view->niceShortDate($this->view->escape($params['createdAfter'])));
 	}
 	}
 
@@ -439,22 +443,11 @@ class Pas_View_Helper_SearchParams
 	}
 
 
-	//Workflow
-	if(array_key_exists('createdby',$params)) {
-	if($params['createdby'] != NULL) {
-	$createdby = $params['createdby'];
-	$users = new Users();
-	$names = $users->getCreatedBy($createdby);
-	$this->names = $names;
-	foreach($this->names as $name) {
-	$html .= '<li>Record created by: <a href="'.$this->view->baseUrl().'/contacts/profile/id/'.$name['i'].'" title="View profile for '.$name['fullname'].'">' . $name['fullname']. '</a></li>';
-	$this->view->headTitle(' > Created by: '.  $this->view->escape($name['fullname']));
-	}
-	}
-	}
 
 
 	$html .= '</ul>';
 	}
 	return $html;
-}
+	}
+
+	}

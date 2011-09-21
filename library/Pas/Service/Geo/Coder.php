@@ -1,5 +1,5 @@
 <?php
-class Pas_Service_Geocoder{
+class Pas_Service_Geo_Coder{
 	
     protected $_key;
 
