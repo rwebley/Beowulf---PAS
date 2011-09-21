@@ -93,7 +93,10 @@ class Pas_Service_Geo_Geoplanet {
     }
     
     
-    
+    /** Get a place from the WOEID
+     * @access public
+     * @param integer $woeid
+     */
     public function getPlace( $woeid = NULL )  {
     if(strlen($woeid) > 0 ){
     $key = 'geoplaceID'.$woeid;
@@ -111,17 +114,19 @@ class Pas_Service_Geo_Geoplanet {
     } else {
     return false;	
     }
-
-    
     } else {
     return false;
     }
     } 
     
+    /** Get a place from a text string
+     * 
+     * @param string $string
+     */
     public function getPlaceFromText( $string )  {
     if(strlen($string) > 3) {
     $yql = 'select * from geo.places where text="' . $string  . '";';
-   $place = $this->_oauth->execute($yql, $this->_accessToken, 
+	$place = $this->_oauth->execute($yql, $this->_accessToken, 
     $this->_accessSecret, $this->_accessExpiry, $this->_handle);
     if(sizeof($place) > 0) {
     $placeData =  $this->_parser->parsePlace($place);
@@ -134,7 +139,10 @@ class Pas_Service_Geo_Geoplanet {
     }
     } 
     
-    
+    /** Get a list of places in a text string
+     * 
+     * @param string $text
+     */
     public function getPlaces($text)  {
     if(strlen($text) > 3) {
     $yql = 'select * from geo.placemaker where documentContent = "' . strip_tags($text) . '" and documentType="' . 
@@ -152,8 +160,11 @@ class Pas_Service_Geo_Geoplanet {
     }
     } 
     
-    public function getAdjacentToWoeid($woeid)
-    {
+    /** Get all the places adjacent to a woeid
+     * 
+     * @param integer $woeid
+     */
+    public function getAdjacentToWoeid($woeid) {
     if(strlen($woeid) > 0){
    	$yql = 'select * from geo.places.neighbors where neighbor_woeid = ' . $woeid;
    	$place = $this->_oauth->execute($yql,$this->_accessToken, 
@@ -169,6 +180,10 @@ class Pas_Service_Geo_Geoplanet {
     }
     } 
 
+    /** Get the parent of a woeid
+     * 
+     * @param integer $woeid
+     */
     public function getParentOfWoeid( $woeid ) {
 	if(strlen($woeid) > 0){
     $yql = 'select * from geo.places.parent where child_woeid = ' . $woeid;	
@@ -185,8 +200,11 @@ class Pas_Service_Geo_Geoplanet {
     }
     } 
     
-    public function getSiblingsOfWoeid($woeid)
-    {
+    /** Get the siblings
+     * 
+     * @param integer $woeid
+     */
+    public function getSiblingsOfWoeid($woeid) {
     if(strlen($woeid) > 0){
     $yql = 'select * from geo.places.siblings where sibling_woeid = ' . $woeid;
     $place = $this->_oauth->execute($yql,$this->_accessToken, 
@@ -255,19 +273,21 @@ class Pas_Service_Geo_Geoplanet {
     'select * from geo.places.neighbors where neighbor_woeid = ' . $woeid . ';' .
     'select * from geo.places.parent where child_woeid = ' . $woeid . ';' .
     'select * from geo.places.siblings where sibling_woeid = ' . $woeid . '"';
-  	$place = $this->_oauth->execute($yql,$this->_accessToken, 
+    
+    $place = $this->_oauth->execute($yql,$this->_accessToken, 
     $this->_accessSecret,$this->_accessExpiry,$this->_handle);
-  	$placeData = array();
-  	$placeData['place']      = $this->_parser->parseSinglePlace($place->query->results->results['0']->place);
-  	$placeData['ancestors']  = $this->_parser->parsePlaceFromList($place->query->results->results['1']);
-  	$placeData['belongsTo']  = $this->_parser->parsePlaceFromList($place->query->results->results['2']);
-  	$placeData['children']   = $this->_parser->parsePlaceFromList($place->query->results->results['3']);
-  	$placeData['neighbours'] = $this->_parser->parsePlaceFromList($place->query->results->results['4']);
-  	$placeData['parent'] 	 = $this->_parser->parseSinglePlace($place->query->results->results['5']->place);
-  	$placeData['siblings'] 	 = $this->_parser->parsePlaceFromList($place->query->results->results['6']);
-  	return $placeData;
+
+    $placeData = array();
+	$placeData['place']      = $this->_parser->parseSinglePlace($place->query->results->results['0']->place);
+	$placeData['ancestors']  = $this->_parser->parsePlaceFromList($place->query->results->results['1']);
+	$placeData['belongsTo']  = $this->_parser->parsePlaceFromList($place->query->results->results['2']);
+	$placeData['children']   = $this->_parser->parsePlaceFromList($place->query->results->results['3']);
+	$placeData['neighbours'] = $this->_parser->parsePlaceFromList($place->query->results->results['4']);
+	$placeData['parent'] 	 = $this->_parser->parseSinglePlace($place->query->results->results['5']->place);
+	$placeData['siblings'] 	 = $this->_parser->parsePlaceFromList($place->query->results->results['6']);
+	return $placeData;
     } else {
-    	return false;
+	return false;
     }
   	}
 }

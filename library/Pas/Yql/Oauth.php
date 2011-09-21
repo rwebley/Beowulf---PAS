@@ -140,24 +140,24 @@ class Pas_Yql_Oauth {
 	return $response;	
 	}
     
-    /** Generate a nonce
-     * 
-     */
+	/** Generate a nonce
+	* 
+	*/
 	private static function generate_nonce() {
     $mt = microtime();
-    $rand = mt_rand();
-    return md5($mt . $rand); 
-  	}
+	$rand = mt_rand();
+	return md5($mt . $rand); 
+	}
    
-  	/** Create an expiry time
+	/** Create an expiry time
   	 * 
   	 */
 	private function expires() {
 	$date = new Zend_Date();
-    $expires = $date->add('1', Zend_Date::HOUR);
+	$expires = $date->add('1', Zend_Date::HOUR);
 	$kickmeout = $expires->toString('yyyy-MM-dd HH:mm:ss');
-    return $kickmeout;
-    }
+	return $kickmeout;
+	}
     
     /** Build an oauth http query
      * 
@@ -165,7 +165,7 @@ class Pas_Yql_Oauth {
      * @param boolean $excludeOauthParams
      */
     private function oauth_http_build_query($params, $excludeOauthParams = false) {
-  	$query_string = '';
+	$query_string = '';
 	if (! empty($params)) {
     // rfc3986 encode both keys and values
     $keys = OAuthUtil::urlencode_rfc3986(array_keys($params));
@@ -188,14 +188,14 @@ class Pas_Yql_Oauth {
 		array_push($kvpairs, ($k . '=' . $value_for_same_key));
 	}
 	} else {
-	// For each parameter, the name is separated from the corresponding
+		// For each parameter, the name is separated from the corresponding
 	// value by an '=' character (ASCII code 61). OAuth Spec: 9.1.1 (2)
-		array_push($kvpairs, ($k . '=' . $v));
-      }
+	array_push($kvpairs, ($k . '=' . $v));
+	}
     }
     // Each name-value pair is separated by an '&' character, ASCII code 38.
-    // OAuth Spec: 9.1.1 (2)
-    $query_string = implode('&', $kvpairs);
+	// OAuth Spec: 9.1.1 (2)
+	$query_string = implode('&', $kvpairs);
 	}
 	return $query_string;
 	}
@@ -372,12 +372,12 @@ class Pas_Yql_Oauth {
 	$tokens = new OauthTokens();
 	$tokenRow = $tokens->createRow();	
 	$tokenRow->service = 'yahooAccess';
-    $tokenRow->accessToken = serialize(urldecode($data->oauth_token));
-    $tokenRow->tokenSecret = serialize($data->oauth_token_secret);
-    $tokenRow->guid = serialize($data->xoauth_yahoo_guid);
-    $tokenRow->sessionHandle = serialize($data->oauth_session_handle);
-    $tokenRow->created = $this->getTimeForForms();
-    $tokenRow->expires = $this->expires();
+	$tokenRow->accessToken = serialize(urldecode($data->oauth_token));
+	$tokenRow->tokenSecret = serialize($data->oauth_token_secret);
+	$tokenRow->guid = serialize($data->xoauth_yahoo_guid);
+	$tokenRow->sessionHandle = serialize($data->oauth_session_handle);
+	$tokenRow->created = $this->getTimeForForms();
+	$tokenRow->expires = $this->expires();
 	$tokenRow->save();
 	$tokenData = array('accessToken' => $data->oauth_token,'secret' => $data->oauth_token_secret);
 	return $tokenData;
