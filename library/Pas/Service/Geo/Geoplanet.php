@@ -278,13 +278,13 @@ class Pas_Service_Geo_Geoplanet {
     $this->_accessSecret,$this->_accessExpiry,$this->_handle);
 
     $placeData = array();
-	$placeData['place']      = $this->_parser->parseSinglePlace($place->query->results->results['0']->place);
-	$placeData['ancestors']  = $this->_parser->parsePlaceFromList($place->query->results->results['1']);
-	$placeData['belongsTo']  = $this->_parser->parsePlaceFromList($place->query->results->results['2']);
-	$placeData['children']   = $this->_parser->parsePlaceFromList($place->query->results->results['3']);
-	$placeData['neighbours'] = $this->_parser->parsePlaceFromList($place->query->results->results['4']);
-	$placeData['parent'] 	 = $this->_parser->parseSinglePlace($place->query->results->results['5']->place);
-	$placeData['siblings'] 	 = $this->_parser->parsePlaceFromList($place->query->results->results['6']);
+    $placeData['place']      = $this->_parser->parseSinglePlace($place->query->results->results['0']->place);
+    $placeData['ancestors']  = $this->_parser->parsePlaceFromList($place->query->results->results['1']);
+    $placeData['belongsTo']  = $this->_parser->parsePlaceFromList($place->query->results->results['2']);
+    $placeData['children']   = $this->_parser->parsePlaceFromList($place->query->results->results['3']);
+    $placeData['neighbours'] = $this->_parser->parsePlaceFromList($place->query->results->results['4']);
+    $placeData['parent'] 	 = $this->_parser->parseSinglePlace($place->query->results->results['5']->place);
+    $placeData['siblings'] 	 = $this->_parser->parsePlaceFromList($place->query->results->results['6']);
 	return $placeData;
     } else {
 	return false;
