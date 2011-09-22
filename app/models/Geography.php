@@ -1,15 +1,16 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
+/** A model for manipulating Iron Age geography
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 * @todo add caching
 */
-class Geography extends Zend_Db_Table_Abstract {
+class Geography extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'geographyironage';
 	

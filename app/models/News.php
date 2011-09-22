@@ -1,33 +1,23 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @todo add edit and delete functions
+/** Model for pulling news data from database
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
+* @todo 		add edit and delete functions
 */
-class News extends Zend_Db_Table_Abstract {
+class News extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'news';
 	
 	protected $_primary = 'id';
 	
-	protected $_cache;
-	
 	protected $_higherlevel = array('admin', 'flos', 'fa'); 
 	
-	protected $_auth;
-	
-	/** Construct the cache and auth object
-	* @return object
-	*/
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	$this->_auth = Zend_Registry::get('auth');
-	}
 	
 	/** get the user's id from their identity object
 	* @return integer

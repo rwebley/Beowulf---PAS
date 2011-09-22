@@ -1,10 +1,8 @@
 <?php
-/**
-* Data model for accessing treasure valuations in the database
-* @category Zend
-* @package Db_Table
+/** Data model for accessing treasure valuations in the database
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
 * @license GNU General Public License
@@ -13,22 +11,20 @@
 * @todo sort out cache and cleaning
 * @todo add delete method
 */
-class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
+class AgreedTreasureValuations extends Pas_Db_Table_Abstract {
 	
-	protected $_treasureID, $_auth, $_cache, $_time;
+	protected $_treasureID, $_time;
 	
 	protected $_primary = 'id';
 
 	protected $_name = 'agreedTreasureValuations';
 	
-	/** Construct the auth, config, treasureID and other objects
+	/** Construct the treasureID and other objects
 	* @return object
 	*/
 	public function init() {
-		$this->_cache = Zend_Registry::get('rulercache');
 		$this->_request = Zend_Controller_Front::getInstance()->getRequest();
 		$this->_treasureID = Zend_Controller_Front::getInstance()->getRequest()->getParam('treasureID');
-		$this->_auth = Zend_Registry::get('auth');
 		$this->_time = Zend_Date::now()->toString('yyyy-MM-dd HH:mm:ss');
 	}
 	

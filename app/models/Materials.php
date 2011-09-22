@@ -1,12 +1,13 @@
 <?php
 /** Get materials from the thesaurus
-* @category Zend
-* @package Db_Table
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 * @todo add caching
 */
 class Materials extends Zend_Db_Table_Abstract {
@@ -14,12 +15,6 @@ class Materials extends Zend_Db_Table_Abstract {
 	protected $_name = 'materials';
 
 	protected $_primary = 'id';
-
-	protected $_cache = NULL;
-
-	public function init(){
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/** Get primary materials
 	* @return array
@@ -118,8 +113,7 @@ class Materials extends Zend_Db_Table_Abstract {
 		->from($this->_name)
 		->where('valid = ?',(int)1)
 		->where('id = ?',(int)$id);
-	$options = $this->getAdapter()->fetchAll($select);
-	return $options;
+	return $this->getAdapter()->fetchAll($select);
     }
     
     /** Get material count

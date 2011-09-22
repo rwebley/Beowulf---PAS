@@ -1,29 +1,19 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @todo add edit and delete functions, caching
+/** Model for interacting with the user's table
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @todo 		add edit and delete functions, caching
 */
 
-class Users extends Zend_Db_Table_Abstract {
+class Users extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'users';
 	
 	protected $_primary = 'id';
-	
-	protected $_cache;
-
-	/** Construct the cache object
-	* @return object
-	*/
-	public function init()	{
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/** Work out who created a user account
 	* @param integer $createdby The userid of the created by, returns the username of creator 

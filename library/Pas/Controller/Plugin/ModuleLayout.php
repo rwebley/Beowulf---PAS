@@ -1,5 +1,10 @@
 <?php
-/** Bootstrap for the website
+
+/** A front controller plugin for layouts
+* 
+* 
+* This class can choose whether to enable or disable layouts after the 
+* request has been dispatched.
 * 
 * @category   Pas
 * @package    Pas_Controller_
@@ -7,28 +12,47 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 * @author	  Daniel Pett
+* @version    1
+* @since	  September 22 2011
 */
 
 class Pas_Controller_Plugin_ModuleLayout
 	extends Zend_Controller_Plugin_Abstract {
 	
+	/** Set up the available array of contexts
+	 * @var array $_contexts
+	 */
+	protected $_contexts = array(
+	'xml','rss','json',
+	'atom','kml','georss',
+	'ics','rdf','xcs',
+	'vcf','csv','foaf',
+	'pdf','qrcode');
+	
+	/** Set up contexts to disable layout for based on modules
+	 * @var array $_disabled
+	 */
+	protected $_disabled = array('ajax','oai','sitemap');
+	
+	/** Create the layout after the request has been dispatched
+	 *  Disable or enable layouts depending on type.
+	 * @access public
+	 * @param  object $request The request being made
+	 * @todo   change this to a database or config.ini method
+	 */
 	public function postDispatch(Zend_Controller_Request_Abstract $request) {
 	$ctrllr = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();	
 	$module = Zend_Controller_Front::getInstance()->getRequest()->getModuleName();	
 	$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
-	$contexts = array(	'xml','rss','json',
-						'atom','kml','georss',
-						'ics','rdf','xcs',
-						'vcf','csv','foaf',
-						'pdf','qrcode');
-	$disabled = array('ajax','oai','sitemap');
-	if(!in_array($ctrllr,$disabled)) {
-	if(!in_array($contextSwitch->getCurrentContext(),$contexts)) {
+	if(!in_array($ctrllr, $this->_disabled)) {
+	if(!in_array($contextSwitch->getCurrentContext(), $this->_contexts)) {
 	$module = strtolower($request->getModuleName());
 	$response = $this->getResponse();
 	$view = Zend_Controller_Action_HelperBroker::getExistingHelper('ViewRenderer')->view;
-	$view->contexts = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')->getActionContexts(Zend_Controller_Front::getInstance()->getRequest()->getActionName());
-	$view->messages = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')->getMessages();
+	$view->contexts = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch')
+		->getActionContexts(Zend_Controller_Front::getInstance()->getRequest()->getActionName());
+	$view->messages = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')
+		->getMessages();
 	switch($module) {
 	case $module == 'experiments':
 		$layouttype = 'flickr';
@@ -153,7 +177,6 @@ class Pas_Controller_Plugin_ModuleLayout
 		break;
 		default:
 		$layouttype = 'home';
-		//$response->insert('sidebar', $view->render('structure/eventsSidebar.phtml'));
 		break;
 		}
 		

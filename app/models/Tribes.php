@@ -1,31 +1,20 @@
 <?php
-/**
-* Data model for accessing tribe listings on the database
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo sort out cache and cleaning
+/** Data model for accessing tribe listings on the database
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		sort out cache and cleaning
 */
-class Tribes extends Zend_Db_Table_Abstract {
+class Tribes extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'ironagetribes';
 	
 	protected $_primary = 'id';
-	
-	protected $_cache;
-
-	/** Construct the cache
-	* @return object
-	*/
-	public function init()	{
-	$this->_cache = Zend_Registry::get('rulercache');	
-	}
 	
 	/** Get a key value pair list of tribes
 	* @return array

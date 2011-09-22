@@ -1,10 +1,8 @@
 <?php
-/**
-* Data model for accessing and manipulating European regions from database
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
+/** Data model for accessing and manipulating European regions from database
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
 * @license GNU General Public License
@@ -14,8 +12,7 @@
 * @todo add caching
 */
 
-
-class Regions extends Zend_Db_Table_Abstract {
+class Regions extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'regions';
 	

@@ -1,14 +1,15 @@
 <?php
 
-/**
-* Form for activating an account
+/** Form for activating an account
 *
-* @category   Zend
-* @package    Zend_Form
-* @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
-* @license    GNU General Public License
-* @todo 	  Check still active
-
+* @category   	Pas
+* @package    	Pas_Form
+* @copyright  	Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
+* @todo 	  	Check still active
+* @author		Daniel Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
 class ActivateForm extends Zend_Form {
 

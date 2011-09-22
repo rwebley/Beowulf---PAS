@@ -1,22 +1,32 @@
 <?php
-
-/**
+/** A model for manipulating data from the Iron Age class system Allen Types
 * @category Pas
 * @package Pas_Db_Table
 * @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
+* @author Daniel Pett 
+* @copyright 2010 - DEJ Pett dpett @ britishmuseum.org
 * @license GNU General Public License
+* @version		1.0
+* @since		22 September 2011
 */
 
 class AllenTypes extends Pas_Db_Table_Abstract {
 	
+	/** Set the table name
+	 * @var string $_name
+	 * @access protected 
+	 */
 	protected $_name = 'allentypes';
+	
+	/** Set the primary key
+	 * @var string $_primary
+	 * @access protected
+	 */
 	protected $_primary = 'id';
 	
 	/** Get all valid Allen Types for a dropdown listing
-	* @return array
+	* @access public 
+	* @return array $options
 	*/
 	public function getATypes(){
 	if (!$options = $this->_cache->load('atypedd')) {
@@ -32,6 +42,7 @@ class AllenTypes extends Pas_Db_Table_Abstract {
     /** Get all valid Allen Types for a dropdown listing from a query string
     * @param string $q
 	* @return array
+	* @access public
 	*/
 	public function getTypes($q){
 	$types = $this->getAdapter();
@@ -46,16 +57,18 @@ class AllenTypes extends Pas_Db_Table_Abstract {
 	 /** Get all valid Allen Types for a dropdown listing from a query string
     * @param array $params
 	* @return array
+	* @access public
 	*/
 	public function getAllenTypes($params){
 	$types = $this->getAdapter();
 	$select = $types->select()
 		->from($this->_name)
-		->order($this->_name.'.type')
-		->group($this->_name.'.type');
+		->order($this->_name . '.type')
+		->group($this->_name . '.type');
 	$paginator = Zend_Paginator::factory($select);
 	$paginator->setItemCountPerPage(30) 
-		->setPageRange(20);
+		->setPageRange(20)
+		->setCache($this->_cache);
 	if(isset($params['page']) && ($params['page'] != "")) {
 	$paginator->setCurrentPageNumber($params['page']); 
 	}

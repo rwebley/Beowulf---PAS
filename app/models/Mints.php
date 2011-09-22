@@ -1,7 +1,7 @@
 <?php
 /** Retrieve and manipulate data for mints issuing coins
-* @category Zend
-* @package Db_Table
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
 * 
 * @author Daniel Pett dpett @ britishmuseum.org
@@ -10,22 +10,12 @@
 * @todo add caching throughout model as the cached version won't be changing!
 */
 
-class Mints extends Zend_Db_Table_Abstract {
+class Mints extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'mints';
 
 	protected $_primary = 'id';
 
-	protected $_cache;
-
-	
-	/** Set up the cache
-	* @return object $_cache
-	*/
-	public function init(){
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
-	
 	/** Get all Roman mints as a key value pair list for dropdown
 	* @return array
 	* @todo add caching

@@ -1,15 +1,16 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
+/** A model for manipulating findspots
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 * @todo add caching
 */
-class Findspots extends Zend_Db_Table_Abstract {
+class Findspots extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'findspots';
 
@@ -20,20 +21,6 @@ class Findspots extends Zend_Db_Table_Abstract {
 	protected $_restricted = array('public','member','research','hero');
 
 	protected $_edittest = array('flos','member');
-
-	protected $_cache;
-
-
-	protected $_auth;
-
-	/** Construct objects for reuse
-	* @return object $_auth
-	* @return object $_cache
-	*/
-	public function init(){
-		$this->_auth = Zend_Registry::get('auth');
-		$this->_cache = Zend_Registry::get('rulercache');	
-	}
 	
 	/** Determine role of the user
 	* @return string $role

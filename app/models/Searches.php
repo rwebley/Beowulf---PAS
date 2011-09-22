@@ -1,19 +1,17 @@
 <?php
-/**
-* Data model for accessing searches from database
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo implement edit and delete function methods
+/** Data model for accessing searches from database
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		implement edit and delete function methods
 */
 
-class Searches extends Zend_Db_Table_Abstract {
+class Searches extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'searches';
 	

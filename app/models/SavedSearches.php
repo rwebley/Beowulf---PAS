@@ -1,17 +1,15 @@
 <?php 
-/**
-* Data model for accessing and manipulating saved searches
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
+/** Data model for accessing and manipulating saved searches
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
 */
-class SavedSearches extends Zend_Db_Table_Abstract {
+class SavedSearches extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'savedSearches';
 	

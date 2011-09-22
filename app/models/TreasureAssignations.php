@@ -1,21 +1,20 @@
 <?php
 /**
 * Data model for accessing treasure assignations in the database
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo implement edit and delete function methods
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		implement edit and delete function methods
 */
 
-class TreasureAssignations extends Zend_Db_Table_Abstract {
+class TreasureAssignations extends Pas_Db_Table_Abstract {
 
-	protected $_cache, $_treasureID, $_auth;
+	protected  $_treasureID;
 	
 	protected $_primary = 'id';
 	
@@ -25,10 +24,9 @@ class TreasureAssignations extends Zend_Db_Table_Abstract {
 	* @return object
 	*/
 	public function init() {
-		$this->_cache = Zend_Registry::get('rulercache');
+
 		$this->_request = Zend_Controller_Front::getInstance()->getRequest();
 		$this->_treasureID = Zend_Controller_Front::getInstance()->getRequest()->getParam('treasureID');
-		$this->_auth = Zend_Registry::get('auth');
 		$this->_time = Zend_Date::now()->toString('yyyy-MM-dd HH:mm:ss');
 	}
 	

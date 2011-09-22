@@ -1,26 +1,26 @@
 <?php
-
-/**Retrieve treasure valuations from the database
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-*/
-class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
+/** Retrieve treasure valuations from the database
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
+ */
+class AgreedTreasureValuations 
+	extends Pas_Db_Table_Abstract {
 	
-	protected $_treasureID, $_auth, $_time, $_cache;
+	protected $_treasureID;
 	protected $_primary = 'id';
 	protected $_name = 'agreedTreasureValuations';
 	
+	/** Initialise the request and get treasure ID from the request
+	 */
 	public function init() {
-		$this->_cache = Zend_Registry::get('rulercache');
-		$this->_request = Zend_Controller_Front::getInstance()->getRequest();
-		$this->_treasureID = $this->_request->getParam('treasureID');
-		$this->_auth = Zend_Registry::get('auth');
-		$this->_time = Zend_Date::now()->toString('yyyy-MM-dd HH:mm:ss');
+	$this->_request = Zend_Controller_Front::getInstance()->getRequest();
+	$this->_treasureID = $this->_request->getParam('treasureID');
 	}
 	
 	/** Add  a valuation
@@ -29,20 +29,21 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	*/
 	public function add($data){
 		if (!isset($data['created']) || ($data['created'] instanceof Zend_Db_Expr)) {
-		$data['created'] = $this->_time;
+		$data['created'] = $this->timeCreation();
 	  	}
-	  	$data['createdBy'] = $this->_auth->getIdentity()->id;
+	  	$data['createdBy'] = $this->userNumber();
 		$data['treasureID'] = $this->_treasureID;
 		return parent::insert($data);
 	}
 	
 	/** Update a valuation
+	* @access public
 	* @param array $data 
 	* @return boolean
 	*/
 	public function updateTreasure($data){
 		if (!isset($data['updated']) || ($data['updated'] instanceof Zend_Db_Expr)) {
-		$data['updated'] = $this->_time;
+		$data['updated'] = $this->timeCreation();
 	  	}
 	  	$where = parent::getAdapter()->quoteInto('treasureID = ?', $this->_treasureID);
 	  	$data['updatedBy'] = $this->_auth->getIdentity()->id;
@@ -50,6 +51,7 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	}
 	
 	/** Delete a valuation
+	* @access public
 	* @return boolean
 	*/
 	public function delete($data){
@@ -57,6 +59,7 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	}
 	
 	/** List valuations
+	* @access public
 	* @param integer $treasureID 
 	* @return array
 	*/
@@ -71,6 +74,7 @@ class AgreedTreasureValuations extends Zend_Db_Table_Abstract {
 	}
 	
 	/** Get individual valuation
+	* @access public
 	* @param integer $treasureID 
 	* @return array
 	*/

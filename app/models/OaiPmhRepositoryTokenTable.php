@@ -1,24 +1,20 @@
 <?php
 /** Retrieve and manipulate data for OAI-PMH tokens
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
-class OaiPmhRepositoryTokenTable extends Zend_Db_Table_Abstract {
+class OaiPmhRepositoryTokenTable
+	extends Pas_Db_Table_Abstract {
     
 	protected $_primary = 'id';
 	protected $_name = 'oai_pmh_repository_tokens';
 	
-	/** Deletes the rows for expired tokens from the table.
-	* @return array
-	*/
-    public function purgeExpiredTokens() {
-	$where = $tokens->getAdapter()->quoteInto('expiration <= ?', 'NOW()');	
-    }
 	/** Get a specific token
 	* @param integer $token
 	* @return array

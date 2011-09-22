@@ -1,15 +1,16 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+/** Model for manipulating events data
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
 
-class Events extends Zend_Db_Table_Abstract {
+class Events extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'events';
 	
@@ -17,19 +18,6 @@ class Events extends Zend_Db_Table_Abstract {
 	
 	protected $higherlevel = array('flos', 'fa'); 
 	
-	protected $_cache;
-	
-	protected $_auth;
-
-	/** Construct the cache object
-	* @return object $_cache
-	* @return object $_auth
-	*/
-	public function init(){
-	$this->_cache = Zend_Registry::get('rulercache');
-	$this->_auth = Zend_Registry::get('auth');
-	}
-
 	public function getIdentityForForms() {
 	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();

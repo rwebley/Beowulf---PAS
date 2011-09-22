@@ -1,38 +1,28 @@
 <?php
 
-/**
-* Data model for accessing slides data
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo rewrite this terrible piece of cruddy programming. Man, I've learnt since I 
-* wrote this crap. SOLR it up baby!
+/** Data model for accessing slides data
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		rewrite this terrible piece of cruddy programming. Man, I've learnt since I 
+* 				wrote this crap. SOLR it up baby!
 */
-class Slides extends Zend_Db_Table_Abstract {
+class Slides extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'slides';
 	
 	protected $_primary = 'imageID';
 	
-	protected $_cache, $_auth;
 	
 	protected $_higherlevel = array('admin','flos','fa'); 
 	
 	protected $_restricted = array('public','member');
 
-	/** Construct the auth, config, treasureID and other objects
-	* @return object
-	*/
-	public function init(){
-	$this->_auth = Zend_Registry::get('auth');
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/** get user's role
 	* @return string

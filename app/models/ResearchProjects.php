@@ -1,20 +1,18 @@
 <?php
-/**
-* Data model for accessing and manipulating registered research topics
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo add edit and delete functions
-* @todo add caching
+/** Data model for accessing and manipulating registered research topics
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		add edit and delete functions
+* @todo 		add caching
 */
 
-class ResearchProjects extends Zend_Db_Table_Abstract {
+class ResearchProjects extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'researchprojects';
 

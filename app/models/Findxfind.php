@@ -1,20 +1,24 @@
 <?php
 /** Linked finds lookup table
-* @category Zend
-* @package Db_Table
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 * @todo add caching
 */
-class Findxfind extends Zend_Db_Table_Abstract {
+class Findxfind extends Pas_Db_Table_Abstract {
 
 	protected $_primary = 'id';
 
 	protected $_name = 'findxfind';
 
+	/** Set up the array of restricted user accounts
+	 * @var array $_restricted
+	 */
 	protected $_restricted = array('public','member','research');
 
 	public function getRole() {
@@ -40,7 +44,7 @@ class Findxfind extends Zend_Db_Table_Abstract {
 		->joinLeft(array('finds1' => 'finds'),'finds1.secuid = findxfind.find1ID',array())
 		->joinLeft(array('finds2' => 'finds'),'finds2.secuid = findxfind.find2ID',array('id' ,'broadperiod', 'objecttype', 'old_findID','secuid'))
 		->where('findxfind.find1ID = ? ', (string)$secuid) ;
-	if(in_array($this->getRole(),$this->_restricted)) {
+	if(in_array($this->getRole(), $this->_restricted)) {
 	$select->where('finds1.secwfstage NOT IN ( 1, 2 )');
 	}
 	return $relatedfinds->fetchAll($select);

@@ -1,11 +1,14 @@
 <?php
-/** Bootstrap for the website
+/** Bootstrap for the website to run
 * 
 * @category   Zend
 * @package    Zend_Application_
 * @subpackage Bootstrap
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
+* @author     Daniel Pett
+* @version    1.0
+* @since      22 September 2011
 */
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {

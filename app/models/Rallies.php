@@ -1,23 +1,19 @@
 <?php
 
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+/** Model for interacting with rallies database table
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
-class Rallies extends Zend_Db_Table_Abstract {
+class Rallies extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'rallies';
 	protected $_primary = 'id';
-	protected $_cache = NULL;
-
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/**
      * Retrieves dropdown list array for rallies (cached)

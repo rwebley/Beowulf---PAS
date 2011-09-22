@@ -1,20 +1,24 @@
 <?php
-
-/**
-* Model for constructing coin category relationships for Medieval period coinage
-*
-*
-* @category   Zend
-* @package    Zend_Db_Table
-* @subpackage Abstract
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+/** Model for constructing coin category relationships for Medieval period coinage
+* @category   	Pas
+* @package    	Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
 
-class CategoriesCoins extends Pas_Db_Table_Abstract {
+class CategoriesCoins 
+	extends Pas_Db_Table_Abstract {
 	
+	/** Set the table name
+	 */ 
 	protected $_name = 'categoriescoins';
+
+	/** Set the primary key
+	 */
 	protected $_primary = 'id';
 
 	/** Get all valid category names
@@ -73,7 +77,7 @@ class CategoriesCoins extends Pas_Db_Table_Abstract {
 	$select = $cats->select()
 		->from($this->_name, array('id','term' => 'category'))
 		->joinLeft('medievaltypes','medievaltypes.categoryID = categoriesCoins.id', array())
-		->where('medievaltypes.rulerID = ?',(int)$type)
+		->where('medievaltypes.rulerID = ?', (int)$type)
   		->order('medievaltypes.id')
 		->limit(1);
 	return $cats->fetchAll($select);
@@ -88,8 +92,8 @@ class CategoriesCoins extends Pas_Db_Table_Abstract {
 	$cats = $this->getAdapter();
 	$select = $cats->select()
 		->from($this->_name, array('id','term' => 'category'))
-		->joinLeft('periods','periods.id = '.$this->_name.'.periodID',array())
-		->where($this->_name.'.periodID = ?',$period)
+		->joinLeft('periods','periods.id = ' . $this->_name . '.periodID', array())
+		->where($this->_name . '.periodID = ?', (int) $period)
 		->order('id');
 	return $cats->fetchAll($select);
     }
@@ -102,21 +106,21 @@ class CategoriesCoins extends Pas_Db_Table_Abstract {
 	$cats = $this->getAdapter();
 	$select = $cats->select()
 		->from($this->_name)
-		->joinLeft('users','users.id = '.$this->_name.'.createdBy',array('fullname'))
-		->joinLeft('users','users_2.id = '.$this->_name.'.updatedBy',array('fn' => 'fullname'))
-		->where($this->_name.'.periodID = ?',$period)
+		->joinLeft('users','users.id = ' . $this->_name . '.createdBy', array('fullname'))
+		->joinLeft('users','users_2.id = ' . $this->_name . '.updatedBy', array('fn' => 'fullname'))
+		->where($this->_name . '.periodID = ?', (int) $period)
 		->order('id');
 	return $cats->fetchAll($select);
     }
 
-	 /** Get all categories for a dropdown listing
+	/** Get all categories for a dropdown listing
 	* @return array 
 	*/
 	public function getCategoriesAll() {
 	$cats = $this->getAdapter();
 	$select = $cats->select()
 		->from($this->_name, array('id','term' => 'category'))
-		->order('id');
+		->order($this->_primary);
 	return $cats->fetchPairs($select);
     }
     
@@ -127,7 +131,7 @@ class CategoriesCoins extends Pas_Db_Table_Abstract {
 	public function getCategory($id) {
 	$cats = $this->getAdapter();
 	$select = $cats->select()
-		->from($this->_name, array('id','term' => 'category'))
+		->from($this->_name, array('id', 'term' => 'category'))
 		->where('id = ?',(int)$id);
 	return $cats->fetchAll($select);
     }
@@ -141,7 +145,8 @@ class CategoriesCoins extends Pas_Db_Table_Abstract {
 	$select = $cats->select()
 		->from($this->_name, array('id','term' => 'category'))
 		->joinLeft('medievaltypes','medievaltypes.categoryID = categoriescoins.ID', array())
-		->joinLeft('rulers','rulers.id = medievaltypes.rulerID', array('id', 'issuer', 'date1', 'date2'))
+		->joinLeft('rulers','rulers.id = medievaltypes.rulerID', 
+		array('id', 'issuer', 'date1', 'date2'))
 		->where('medievaltypes.categoryID = ?',(int)$categoryID)
 		->group('rulers.id');
 	return $cats->fetchAll($select);
@@ -155,11 +160,11 @@ class CategoriesCoins extends Pas_Db_Table_Abstract {
 	if (!$data = $this->_cache->load('sitemapcat'.$period)) {
 	$cats = $this->getAdapter();
 	$select = $cats->select()
-		->from($this->_name,array('id','category','updated'))
-		->where($this->_name.'.periodID = ?',$period)
+		->from($this->_name,array('id', 'category', 'updated'))
+		->where($this->_name . '.periodID = ?', (int)$period)
 		->order('id');
 	$data =  $cats->fetchAll($select);
-	$this->_cache->save($data, 'sitemapcat'.$period);
+	$this->_cache->save($data, 'sitemapcat' . $period);
 	}
 	return  $data;
 	}

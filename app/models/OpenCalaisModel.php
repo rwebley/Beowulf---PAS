@@ -1,14 +1,15 @@
 <?php
 /** Retrieve and manipulate data for open calais tagged content
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
-class OpenCalaisModel extends Zend_Db_Table_Abstract {
+class OpenCalaisModel extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'opencalais';
 
@@ -20,15 +21,6 @@ class OpenCalaisModel extends Zend_Db_Table_Abstract {
 
 	protected $edittest = array('flos','member');
 
-	protected $_cache;
-
-	
-	/** Set up the cache
-	* return object $_cache
-	*/
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 	/** Get role of user
 	* @return string $role
 	*/

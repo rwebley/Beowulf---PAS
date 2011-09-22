@@ -1,10 +1,8 @@
 <?php
-/**
-* Data model for accessing and manipulating system roles from database
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
+/** Data model for accessing and manipulating system roles from database
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
 * @license GNU General Public License
@@ -13,7 +11,7 @@
 * @todo add edit and delete functions
 * @todo add caching
 */
-class Roles extends Zend_Db_Table_Abstract {
+class Roles extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'roles';
 
@@ -28,7 +26,6 @@ class Roles extends Zend_Db_Table_Abstract {
 				->from($this->_name, array('role','description'));
         return $roles->fetchPairs($select);
 	}
-	
 	
 	/** Get a list of all roles on system 
 	* @return array

@@ -1,25 +1,19 @@
 <?php 
-/**
+/** Model for manipulating event types
 * @category Zend
-* @package Db_Table
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
 
-class EventTypes extends Zend_Db_Table_Abstract
+class EventTypes extends Pas_Db_Table_Abstract
 {
 	protected $_name = 'eventtypes';
 	protected $_primaryKey = 'id';
-	protected $_cache;
-	
-	
-	public function init(){
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
-	
 	/**
      * Retrieves all event types that we list
      * @param integer $type

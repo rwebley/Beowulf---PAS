@@ -1,12 +1,13 @@
 <?php
 /** A model for pulling denominations from the database
 * @category Pas
-* @package Db_Table
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 * @todo add caching and amalgamate some functions (duplication!!!)
 */
 class Denominations extends Pas_Db_Table_Abstract {

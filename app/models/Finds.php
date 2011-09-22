@@ -1,17 +1,17 @@
 <?php
 /** Access, manipulate and delete finds data. I wrote this when I was 
-* a naive new php programmer. It sucks.  
-* @category Zend
-* @package Db_Table
+* a naive new php programmer (still am really!). It sucks in a massive way.  
+* @category Pas
+* @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 * @todo needs a complete overhaul. Lots of duplication.
-* 
-* */
-class Finds extends Zend_Db_Table_Abstract {
+*/
+class Finds extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'finds';
 
@@ -25,14 +25,12 @@ class Finds extends Zend_Db_Table_Abstract {
 	
 	protected $_edittest = array('flos','member');
 	
-	protected $_auth, $_cache, $config;
+	protected $config;
 
-	/** Construct the cache, auth and config object
+	/** Construct the config object
 	* @return object
 	*/
 	public function init(){
-		$this->_cache = Zend_Registry::get('rulercache');
-		$this->_auth = Zend_Registry::get('auth');
 		$this->_config = Zend_Registry::get('config');
 	}
 	/** Get identity for any form that is used

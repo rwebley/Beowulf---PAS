@@ -1,22 +1,21 @@
 <?php
-
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-*/
+/** Model for manipulating contents for static pages
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
+* */
 
 class Content extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'content';
 	protected $_primary = 'id';
 
-	/**
-     * Retrieves single front page article when publication status is set to published
+	/** Retrieves single front page article when publication status is set to published
      * @param string $section
      * @param integer $type
      * @param integer $publish
@@ -39,8 +38,7 @@ class Content extends Pas_Db_Table_Abstract {
 	return $data;
 	}
 	
-	/**
-     * Retrieves content by section, slug and when publication status is set to published
+	/** Retrieves content by section, slug and when publication status is set to published
      * @param string $section
      * @param string $slug
      * @return array
@@ -63,8 +61,7 @@ class Content extends Pas_Db_Table_Abstract {
 	return $data;
 	}
 
-	/**
-     * Retrieves all content in administration interface
+	/** Retrieves all content in administration interface
      * @param integer $page
      * @return array
 	*/
@@ -84,8 +81,7 @@ class Content extends Pas_Db_Table_Abstract {
 	return $paginator;
 	}
 
-	/**
-     * Retrieves conservation notes list when publication status is set to published
+	/** Retrieves conservation notes list when publication status is set to published
      * @param string $section
      * @return array
 	*/
@@ -99,8 +95,7 @@ class Content extends Pas_Db_Table_Abstract {
 	return $content->fetchAll($select);
 	}
 	
-	/**
-     * Retrieves treasure section list for menu when publication status is set to published
+	/** Retrieves treasure section list for menu when publication status is set to published
      * @return array
 	*/
 	public function getTreasureContent() {
@@ -113,8 +108,7 @@ class Content extends Pas_Db_Table_Abstract {
 	return $content->fetchAll($select);
 	}
 
-	/**
-     * Retrieves section list for menu when publication status is set to published
+	/** Retrieves section list for menu when publication status is set to published
      * @param string $section
      * @return array
 	*/
@@ -128,8 +122,7 @@ class Content extends Pas_Db_Table_Abstract {
 	return $content->fetchAll($select);
 	}
 
-	/**
-     * Retrieves content list for menu by section when publication status is set to published
+	/** Retrieves content list for menu by section when publication status is set to published
      * and frontpage status is not set
      * @param string $section
      * @param integer $front
@@ -147,8 +140,7 @@ class Content extends Pas_Db_Table_Abstract {
 	return $content->fetchAll($select);
 	}
 	
-	/**
-     * Retrieves content list for treasure section when publication status is set to published
+	/** Retrieves content list for treasure section when publication status is set to published
      * and frontpage status is not set
      * @param string $section
      * @param integer $front

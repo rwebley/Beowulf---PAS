@@ -1,18 +1,16 @@
 <?php
-/**
-* Data model for accessing data for array based searching
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo this is to be replaced by SOLR and sucks the big dong
+/** Data model for accessing data for array based searching
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		this is to be replaced by SOLR and sucks the big dong
 */
-class Search extends Zend_Db_Table_Abstract {
+class Search extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'finds';
 
@@ -26,7 +24,6 @@ class Search extends Zend_Db_Table_Abstract {
 
 	protected $_edittest = array('flos','member');
 
-	protected $_auth;
 	
 	protected $_config;
 	
@@ -34,7 +31,6 @@ class Search extends Zend_Db_Table_Abstract {
 	* @return object
 	*/
 	public function init(){
-		$this->_auth = Zend_Registry::get('auth');
 		$this->_config = Zend_Registry::get('config');
 	}
 	

@@ -1,28 +1,21 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
+/**Model for interacting with OS data from their opendata downloads
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
-* @license GNU General Public License
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
 
-class Osdata extends Zend_Db_Table_Abstract {
+class Osdata 
+	extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'osdata';
 	
 	protected $_primary = 'id';
-	
-	protected $_cache;
-	
-	/** Set up cache object
-	* @return object
-	*/
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}	
 	
 	/** Get all adjacent OSData points in set radius
 	* @param double $lat

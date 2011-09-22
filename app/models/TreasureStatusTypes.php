@@ -1,16 +1,14 @@
 <?php
-/**
-* Data model for treasure statuses
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo implement add, edit and delete function methods
+/** Data model for treasure statuses
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		implement add, edit and delete function methods
 */
 class TreasureStatusTypes extends Pas_Db_Table_Abstract {
 

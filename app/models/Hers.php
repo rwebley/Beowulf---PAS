@@ -1,16 +1,17 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @todo add caching and work out if still valid function
+/** Model for sorting out which HERs have signed up
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
+* @todo 		add caching and work out if still valid function
 */
 
-class Hers extends Zend_Db_Table_Abstract {
+class Hers extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'hers';
 

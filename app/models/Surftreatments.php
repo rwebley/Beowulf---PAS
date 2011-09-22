@@ -1,31 +1,21 @@
 <?php
 /**
 * Data model for accessing surface treatment table
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
 */
-class Surftreatments extends Zend_Db_Table_Abstract {
+class Surftreatments extends Pas_Db_Table_Abstract {
 
 	protected $_primaryKey = 'id';
 
 	protected $_name = 'surftreatments';
 
-	protected $_cache = NULL;
-
-	/** Construct the cache objects
-	* @return object
-	*/
-	public function init(){
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
-	
 	/** Get surface treatment dropdowns
 	* @return array
 	*/

@@ -1,12 +1,14 @@
 <?php
-/**
+/** A model for manipulating the bibliograpic data
+* Books are stored in publications table
 * @category Pas
 * @package Pas_Db_Table
 * @subpackage Abstract
-* 
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
 * @license GNU General Public License
+* @version		1.0
+* @since		22 September 2011
 */
 
 class Bibliography extends Pas_Db_Table_Abstract {

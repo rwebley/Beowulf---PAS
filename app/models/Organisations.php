@@ -1,15 +1,15 @@
 <?php
-/**
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @todo add edit and delete functions
+/** Model for pulling organisational data from database
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 September 2011
 */
-class Organisations extends Zend_Db_Table_Abstract {
+class Organisations extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'organisations';
 

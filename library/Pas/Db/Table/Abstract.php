@@ -1,27 +1,55 @@
 <?php
-class Pas_Db_Table_Abstract extends Zend_Db_Table_Abstract {
+/** Abstracted Db table method for adding and deleting data
+ * Has config, cache and auth objects setp
+ * @category	Pas
+ * @package		Pas_Db_Table_
+ * @subpackage	Abstract
+ * @version		1
+ * @since		22nd September 2011
+ * @license		GNU General Public License
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+ *
+ */
+class Pas_Db_Table_Abstract
+	extends Zend_Db_Table_Abstract {
 
 	public $_config;
 	
 	public $_cache;
 	
-	public function __construct(){
-	$this->_config = Zend_Registry::get('config');	
-	$this->_cache = Zend_Registry::get('cache');
+	public $_auth;
 	
+	public function __construct(){
+	$this->_config	= Zend_Registry::get('config');	
+	$this->_cache	= Zend_Registry::get('cache');
+	$this->_auth	= Zend_Registry::get('auth');
 	parent::__construct();
 	}
 
+	/** Get the user number for updating
+	 * @access 	public
+	 * @uses 	Pas_UserDetails
+	 */
 	public function userNumber(){
 	$user = new Pas_UserDetails();
 	return $user->getIdentityForForms();
 	}
 	
+	/** Create an update time stamp
+	 * @access 	public
+	 * @uses	Zend_Date
+	 * @return	string $dateTime The timestamp
+	 */
 	public function timeCreation(){
 	$dateTime = Zend_Date::now()->toString('yyyy-MM-dd HH:mm:ss');
 	return $dateTime;
 	}
 	
+	/** Add the data to the model
+	 * @access public
+	 * @param array $data
+	 */
 	public function add($data){
 	if(empty($data['created'])){
 		$data['created'] = $this->timeCreation();
@@ -32,6 +60,10 @@ class Pas_Db_Table_Abstract extends Zend_Db_Table_Abstract {
 	return parent::insert($data);	
 	}
 	
+	/** Update the data to the model
+	 * @access public
+	 * @param array $data
+	 */
 	public function update($data, $where){
 	if(empty($data['updated'])){
 		$data['updated'] = $this->timeCreation();

@@ -1,20 +1,18 @@
 <?php
 
-/**
-* Data model for accessing and manipulating list of Roman mints
-* @category Zend
-* @package Db_Table
-* @subpackage Abstract
-* 
-* @author Daniel Pett dpett @ britishmuseum.org
-* @copyright 2010 - DEJ Pett
-* @license GNU General Public License
-* @version 1
-* @since 22 October 2010, 17:12:34
-* @todo add edit and delete functions
-* @todo add caching
+/** Data model for accessing and manipulating list of Roman mints
+* @category 	Pas
+* @package 		Pas_Db_Table
+* @subpackage 	Abstract
+* @author 		Daniel Pett dpett @ britishmuseum.org
+* @copyright 	2010 - DEJ Pett
+* @license 		GNU General Public License
+* @version 		1
+* @since 		22 October 2010, 17:12:34
+* @todo 		add edit and delete functions
+* @todo 		add caching
 */
-class Romanmints extends Zend_Db_Table_Abstract {
+class Romanmints extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'romanmints';
 	
