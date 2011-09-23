@@ -10,7 +10,7 @@
 * @since 		22 September 2011
 * @todo add caching
 */
-class Materials extends Zend_Db_Table_Abstract {
+class Materials extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'materials';
 

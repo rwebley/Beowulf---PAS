@@ -235,7 +235,7 @@ public function __construct($options = null) {
 	->addValidators(array('NotEmpty'))
 	->setAttrib('rows',5)
 	->setAttrib('cols',40)
-	->addFilters(array('StripTags','BasicHtml', 'StringTrim', 'EmptyParagraphs'))
+	->addFilters(array('StripTags','BasicHtml', 'StringTrim', 'EmptyParagraph'))
 	->setAttrib('class','expanding')
 	->setAttrib('class','privatedata');
 

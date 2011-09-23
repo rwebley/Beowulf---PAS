@@ -1,29 +1,24 @@
 <?php
-/**
-* The upcoming events controller for the events package
+/** The upcoming events controller for the events package
 *
-* @category   Pas
-* @package    Controller
-* @subpackage ActionAdmin
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    GNU General Public License
-
+* @category   	Pas
+* @package    	Pas_Controller
+* @subpackage 	ActionAdmin
+* @copyright	Copyright (c) 2011 Daniel Pett
+* @license		GNU General Public License
+* @author		Daniel Pett
 */
 
 class Events_UpcomingController extends Pas_Controller_ActionAdmin {
 
-	/**
-	* Initialise the ACL for access levels and the context switches
+	/** Initialise the ACL for access levels and the context switches
 	*/
 
 	public function init() {
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$this->initView();
 	$this->_helper->acl->allow('public',null);
-	
 	$contexts = array('xml','json','ics');
 	$contextsindex = array('xml','json','rss','atom');
-
 	$contextSwitch = $this->_helper->contextSwitch();
 	$contextSwitch->setAutoDisableLayout(true)
 		->addContext('ics',array('suffix' => 'ics'))
@@ -36,8 +31,7 @@ class Events_UpcomingController extends Pas_Controller_ActionAdmin {
 		->initContext();
 	}
 
-	/**
-	* Render data for view on index action
+	/** Render data for view on index action
 	*/	
 	public function indexAction() {
 	$format = $this->_getParam('format');

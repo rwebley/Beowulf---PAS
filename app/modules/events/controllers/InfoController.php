@@ -1,13 +1,14 @@
 <?php
-/**
-* The information controller for the events package
+/** The information controller for the events package
 *
-* @category   Pas
-* @package    Controller
-* @subpackage ActionAdmin
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    GNU General Public License
-
+* @category		Pas
+* @package		Pas_Controller
+* @subpackage	ActionAdmin
+* @copyright	Copyright (c) 2011 Daniel Pett
+* @license		GNU General Public License
+* @author		Daniel Pett
+* @since		23 Sept 2011
+* @version		1	
 */
 class Events_InfoController extends Pas_Controller_ActionAdmin {
 

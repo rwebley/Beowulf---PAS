@@ -1,27 +1,29 @@
 <?php
-/**
-* Statistical events Controller
+/** Statistical events Controller
 *
-* @category   Pas
-* @package    Controller
-* @subpackage ActionAdmin
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    GNU General Public License
-
+* @category		Pas
+* @package		Pas_Controller
+* @subpackage	ActionAdmin
+* @copyright	Copyright (c) Daniel Pett
+* @license		GNU General Public License
+* @version		1
+* @author		Daniel Pett
+* @since		Sept 23 2011
 */
 class Events_StatisticsController extends Pas_Controller_ActionAdmin {
 
-	/**
-	* Initialise the ACL for access levels, context switch, messages
+	/** An array of contexts available to the consumer
+	 * 
+	 * @var array $_contextsindex
+	 */
+	protected $_contextsindex = array('xml','rss','json','atom');
+	/** Initialise the ACL for access levels, context switch, messages
 	*/
     public function init() {
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$this->initView();
-	$this->view->messages = $this->_flashMessenger->getMessages();
 		
 	$this->_helper->acl->allow('public',null);
-	$contexts = array('xml','rss','json','atom','ics','rdf','xcs');
-	$contextsindex = array('xml','rss','json','atom');
+	
 
 	$contextSwitch = $this->_helper->contextSwitch();
 	$contextSwitch->setAutoDisableLayout(true)
@@ -33,18 +35,15 @@ class Events_StatisticsController extends Pas_Controller_ActionAdmin {
 		->addContext('ics',array('suffix' => 'ics'))
 		->addContext('rdf',array('suffix' => 'rdf'))
 		->addContext('xcs',array('suffix' => 'xcs'))
-		->addActionContext('index', $contextsindex)
-		->addActionContext('upcoming', $contextsindex)
-		->addActionContext('event',$contexts)
+		->addActionContext('index', $this->_contextsindex)
+		->addActionContext('upcoming', $this->_contextsindex)
+		->addActionContext('event', $this->_contextsindex)
 		->initContext();
     }
 
-    /**
-	* The index action
-	* @todo move the headtitle to view
+    /** The index action
 	*/
 	public function indexAction() {
-	$this->view->headTitle('Overall statistics for our events');
 	$events = new Events();
 	$this->view->stats = $events->getStatistics();
 	}		

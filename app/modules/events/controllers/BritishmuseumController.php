@@ -1,22 +1,25 @@
 <?php
 /**
-* Screen scraped British Museum events controller. This is because they don't have RSS!!!
+* Screen scraped British Museum events controller. 
+* 
+* This has been implemented because they don't have RSS that works properly or feeds
 *
-* @category   Pas
-* @package    Controller
-* @subpackage ActionAdmin
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    GNU General Public License
+* @category		Pas
+* @package		Pas_Controller
+* @subpackage	ActionAdmin
+* @copyright	Copyright (c) 2011 DEJ PETT
+* @license		GNU General Public License
+* @uses			Simple_html_dom
+* @author		Daniel Pett
+* @version		1
+* @since		23 Sept. 2011
 */
 class Events_BritishmuseumController extends Zend_Controller_Action {
 
-	/**
-	* Initialise the ACL for access levels and the contexts
+	/** Initialise the ACL for access levels and the contexts
 	*/
-    public function init() {
-        $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$this->view->messages = $this->_flashMessenger->getMessages();
-		$this->_helper->acl->allow('public',null);
+	public function init() {
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	}
 
 	/**

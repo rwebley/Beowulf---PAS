@@ -1,23 +1,23 @@
 <?php
 
-/**
-* Index controller for PAS based events module
+/** Index controller for PAS based events module
 *
-* @category   Pas
-* @package    Controller
-* @subpackage ActionAdmin
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    GNU General Public License
-
+* @category		Pas
+* @package		Pas_Controller
+* @subpackage	ActionAdmin
+* @copyright	Copyright (c) 2011 Daniel Pett
+* @license		GNU General Public License
+* @author		Daniel Pett
+* @since		23 Sept. 2011
+* @version		1.0
 */
 class Events_IndexController extends Pas_Controller_Action {
 
-	/**
-	* Initialise the ACL for access levels
+	/** Initialise the ACL for access levels
 	*/
-    public function init() {
-        $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$this->_helper->acl->allow('public',null);
+	public function init() {
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$this->_helper->acl->allow('public',null);
 	}
 		
 	 /**

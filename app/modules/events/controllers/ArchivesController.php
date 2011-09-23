@@ -1,19 +1,23 @@
 <?php
 
-/**
-* Archived events controller
+/** Archived events controller
 *
-* @category   Pas
-* @package    Controller
-* @subpackage ActionAdmin
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    GNU General Public License
+* This controller serves to produce an events archive for the Portable Antiquities Scheme.
+* Formats include JSON, XML, ATOM, RSS
+* 
+* @category		Pas
+* @package		Pas_Controller
+* @subpackage	ActionAdmin
+* @copyright	Copyright (c) 2011 Daniel Pett
+* @license		GNU General Public License
+* @author		Daniel Pett
+* @version		1
+* @since		23 September 2011
 */
-class Events_ArchivesController extends Pas_Controller_ActionAdmin
-{
-    protected $_contextSwitch;
-    
-    protected $_contexts;
+class Events_ArchivesController extends Pas_Controller_ActionAdmin {
+
+	protected $_contextSwitch;
+    protected $_contexts = array('xml','json','atom','rss');
 	
     /**
 	* Initialise the ACL for access levels and the contexts
@@ -22,16 +26,17 @@ class Events_ArchivesController extends Pas_Controller_ActionAdmin
 	$this->_helper->acl->allow('public',null);
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_contextSwitch = $this->_helper->contextSwitch();
-	$this->_contexts = array('xml','json','atom','rss');
 	$this->_contextSwitch->addContext('rss',array('suffix' => 'rss'))
 		->addContext('atom',array('suffix' => 'atom'))
 		->addActionContext('index', $this->_contexts)
 		->addActionContext('upcoming', $this->_contexts)
 		 ->addActionContext('event',$this->_contexts)
 		->initContext();
-	    }
-	/**
-	* Return data for the index page
+	}
+	
+	/** Return data for the index page of the archive
+	* @access public
+	* @todo Clean up the atom output 
 	*/	
 	public function indexAction() {
 	$events = new Events();
@@ -61,8 +66,7 @@ class Events_ArchivesController extends Pas_Controller_ActionAdmin
 	}
 	}
 	
-	/**
-	* Return data for the archive by years
+	/** Return data for the archive by years
 	*/
 	public function yearAction() {
 	$date = $this->_getParam('date').'-01-01' ? $this->_getParam('date') 
@@ -101,9 +105,9 @@ class Events_ArchivesController extends Pas_Controller_ActionAdmin
 	print("</ul></div>"); 
 	}
 	
-	/**
-	* Return data for the list page
-	* @exception 
+	/** Return data for the list page of archived events
+	* @uses Events.php
+	* @throws Exception
 	*/
 	public function listAction() {
 	if($this->_getParam('day',false)){

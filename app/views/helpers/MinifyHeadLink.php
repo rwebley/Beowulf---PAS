@@ -45,6 +45,7 @@
  *
  *
  * @see        http://code.google.com/p/minify/
+ * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
  * @copyright  Copyright (c) 2010-2011 Signature Tech Studios (http://www.stechstudio.com)

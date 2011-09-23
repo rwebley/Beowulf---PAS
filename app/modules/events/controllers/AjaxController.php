@@ -1,18 +1,17 @@
 <?php
-/**
-* Screen scraped British Museum events controller. This is because they don't have RSS!!!
+/** Provide a feed of mapping data
 *
 * @category   Pas
-* @package    Controller
+* @package    Pas_Controller
 * @subpackage ActionAjax
 * @author Daniel Pett dpett @ britishmuseum.org
 * @copyright 2010 - DEJ Pett
 * @license GNU General Public License
+* @todo This could probably be transferred to pull data directly from XML with XSL transform.
 */
 class Events_AjaxController extends Pas_Controller_ActionAjax {
 
-	/**
-	* Initialise the ACL for access levels and the contexts
+	/** Initialise the ACL for access levels and the contexts
 	*/
 	public function init() {
 		$this->_helper->_acl->allow(NULL);
