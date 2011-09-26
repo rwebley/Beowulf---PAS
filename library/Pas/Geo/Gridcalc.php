@@ -370,23 +370,23 @@ class Pas_Geo_Gridcalc  {
 	$cleanLat = round($Lat, $round);
 	$cleanLon = round($Lon, $round);
 	$geodata = array(
-	'gridref'    		=> strtoupper($cleangrid),
+	'gridref'			=> strtoupper($cleangrid),
 	'25kmap'     		=> $twoPointFiveKMap,
 	'10kmap'     		=> $tenKMap,
 	'easting'   		=> $gridX,
-	'northing' 	 		=> $gridY,
+	'northing'			=> $gridY,
 	'gridsquare' 		=> $letterpair,
-	'decimalLatLon'   => array(
-	'decimalLatitude' => $cleanLat,
+	'decimalLatLon'		=> array(
+	'decimalLatitude'	=> $cleanLat,
 	'decimalLongitude'  => $cleanLon),
-	'ordinalLatLon' =>  $this->_decimalToOrdinalCoords($cleanLat, $cleanLon),
+	'ordinalLatLon'		=>  $this->_decimalToOrdinalCoords($cleanLat, $cleanLon),
 	'fourFigureGridRef' => $this->fourFigure($cleangrid),
-	'accuracy'	 => array(
-	'precision' => $this->_getaccuracy() * $multiplier,
-	'precisionUnits' => $unit,
-	'string' => $this->_getaccuracy() * $multiplier . ' ' . $unit . '<sup>2</sup>'),
-	'gridrefLength' => strlen($cleangrid) - 2,
-	'utm'		 => $this->_convertLatLonUtm($cleanLat, $cleanLon),
+	'accuracy'			=> array(
+	'precision'			=> $this->_getaccuracy() * $multiplier,
+	'precisionUnits'	=> $unit,
+	'string'			=> $this->_getaccuracy() * $multiplier . ' ' . $unit . '<sup>2</sup>'),
+	'gridrefLength'		=> strlen($cleangrid) - 2,
+	'utm'				=> $this->_convertLatLonUtm($cleanLat, $cleanLon),
 	);
 	return $geodata;
 	}
@@ -462,12 +462,12 @@ class Pas_Geo_Gridcalc  {
 	*/
 	private function _latHtoZ ($PHI, $H, $a, $b) {
 	// Convert angle measures to radians
-    $RadPHI = $PHI * (self::PI / 180);
+	$RadPHI = $PHI * (self::PI / 180);
 	// Compute eccentricity squared and nu
-    $e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
-    $V = $a / (sqrt(1 - ($e2 * (  pow(sin($RadPHI),2)) )));
+	$e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
+	$V = $a / (sqrt(1 - ($e2 * (  pow(sin($RadPHI),2)) )));
 	// Compute X
-    return (($V * (1 - $e2)) + $H) * (sin($RadPHI));
+	return (($V * (1 - $e2)) + $H) * (sin($RadPHI));
 	}
 
 	/** Computed Helmert transformed X coordinate//
@@ -487,7 +487,7 @@ class Pas_Geo_Gridcalc  {
 	$RadY_Rot = ($Y_Rot / 3600) * (self::PI / 180);
 	$RadZ_Rot = ($Z_Rot / 3600) * (self::PI / 180);
 	//Compute transformed X coord
-    return  ($X + ($X * $sfactor) - ($Y * $RadZ_Rot) + ($Z * $RadY_Rot) + $DX);
+	return  ($X + ($X * $sfactor) - ($Y * $RadZ_Rot) + ($Z * $RadY_Rot) + $DX);
 	}
 
 	/** Computed Helmert transformed Y coordinate.
@@ -734,7 +734,7 @@ class Pas_Geo_Gridcalc  {
 	$Et = $East - $e0;
 	//Compute initial value for latitude (PHI) in radians
 	$PHId = $this->_initialLat($North, $n0, $af0, $RadPHI0, $n, $bf0);
-    //Compute nu, rho and eta2 using value for PHId
+	//Compute nu, rho and eta2 using value for PHId
 	$nu = $af0 / (sqrt(1 - ($e2 * (pow(sin($PHId),2)))));
 	$rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(Sin($PHId),2)));
 	$eta2 = ($nu / $rho) - 1;
