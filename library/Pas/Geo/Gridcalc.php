@@ -39,32 +39,32 @@ class Pas_Geo_Gridcalc  {
 	 * @var array $ellipsoid
 	 */
 	public static $ellipsoid = array(
-	"Airy"					=>array (6377563, 0.00667054),
-	"Australian National"	=>array	(6378160, 0.006694542),
-	"Bessel 1841"			=>array	(6377397, 0.006674372),
-	"Bessel 1841 Nambia"	=>array	(6377484, 0.006674372),
-	"Clarke 1866"			=>array	(6378206, 0.006768658),
-	"Clarke 1880"			=>array	(6378249, 0.006803511),
-	"Everest"				=>array	(6377276, 0.006637847),
-	"Fischer 1960 Mercury"	=>array (6378166, 0.006693422),
-	"Fischer 1968"			=>array (6378150, 0.006693422),
-	"GRS 1967"				=>array	(6378160, 0.006694605),
-	"GRS 1980"				=>array	(6378137, 0.00669438),
-	"Helmert 1906"			=>array	(6378200, 0.006693422),
-	"Hough"					=>array	(6378270, 0.00672267),
-	"International"			=>array	(6378388, 0.00672267),
-	"Krassovsky"			=>array	(6378245, 0.006693422),
-	"Modified Airy"			=>array	(6377340, 0.00667054),
-	"Modified Everest"		=>array	(6377304, 0.006637847),
-	"Modified Fischer 1960"	=>array	(6378155, 0.006693422),
-	"South American 1969"	=>array	(6378160, 0.006694542),
-	"WGS 60"				=>array (6378165, 0.006693422),
-	"WGS 66"				=>array (6378145, 0.006694542),
-	"WGS 72"				=>array (6378135, 0.006694318),
-	"WGS 84"				=>array (6378137, 0.00669438),
-	"ED50"					=>array	(6378388, 0.00672267),
-	"EUREF89"				=>array	(6378137, 0.00669438),
-	"ETRS89"				=>array	(6378137, 0.00669438)
+	"Airy"						=>array (6377563, 0.00667054),
+	"Australian National"		=>array	(6378160, 0.006694542),
+	"Bessel 1841"				=>array	(6377397, 0.006674372),
+	"Bessel 1841 Nambia"		=>array	(6377484, 0.006674372),
+	"Clarke 1866"				=>array	(6378206, 0.006768658),
+	"Clarke 1880"				=>array	(6378249, 0.006803511),
+	"Everest"					=>array	(6377276, 0.006637847),
+	"Fischer 1960 Mercury"		=>array (6378166, 0.006693422),
+	"Fischer 1968"				=>array (6378150, 0.006693422),
+	"GRS 1967"					=>array	(6378160, 0.006694605),
+	"GRS 1980"					=>array	(6378137, 0.00669438),
+	"Helmert 1906"				=>array	(6378200, 0.006693422),
+	"Hough"						=>array	(6378270, 0.00672267),
+	"International"				=>array	(6378388, 0.00672267),
+	"Krassovsky"				=>array	(6378245, 0.006693422),
+	"Modified Airy"				=>array	(6377340, 0.00667054),
+	"Modified Everest"			=>array	(6377304, 0.006637847),
+	"Modified Fischer 1960"		=>array	(6378155, 0.006693422),
+	"South American 1969"		=>array	(6378160, 0.006694542),
+	"WGS 60"					=>array (6378165, 0.006693422),
+	"WGS 66"					=>array (6378145, 0.006694542),
+	"WGS 72"					=>array (6378135, 0.006694318),
+	"WGS 84"					=>array (6378137, 0.00669438),
+	"ED50"						=>array	(6378388, 0.00672267),
+	"EUREF89"					=>array	(6378137, 0.00669438),
+	"ETRS89"					=>array	(6378137, 0.00669438)
 	);
 	
 	/** Set up the constructor and objects
@@ -193,9 +193,9 @@ class Pas_Geo_Gridcalc  {
 	$letterpair = substr($cleangrid, 0, 2); //strips off characters
 	$coordcount= $rawcount - 2;//simple math to get coord count
 	$gridcoords = substr($cleangrid, 2, $coordcount);	//isolates the grid numbers
-	$squareArray["SV"] = array("x" =>0,	"y"=>0);
-	$squareArray["SW"] = array("x" =>1,	"y"=>0);
-	$squareArray["SX"] = array("x" =>2,	"y"=>0);
+	$squareArray["SV"] = array("x" =>0, "y"=>0);
+	$squareArray["SW"] = array("x" =>1, "y"=>0);
+	$squareArray["SX"] = array("x" =>2, "y"=>0);
 	$squareArray["SY"] = array("x" =>3,	"y"=>0);
 	$squareArray["SZ"] = array("x" =>4,	"y"=>0);
 	$squareArray["TV"] = array("x" =>5,	"y"=>0);
@@ -357,8 +357,8 @@ class Pas_Geo_Gridcalc  {
 	$height = 0;
 	$e = $gridX;
 	$n = $gridY;
-    $lat1 = $this->_eNtoLat ($e, $n, 6377563.396, 6356256.910, 400000, -100000, 0.999601272, 49.00000, -2.00000);
-    $lon1 = $this->_eNtoLong($e, $n, 6377563.396, 6356256.910, 400000, -100000, 0.999601272, 49.00000, -2.00000);
+	$lat1 = $this->_eNtoLat ($e, $n, 6377563.396, 6356256.910, 400000, -100000, 0.999601272, 49.00000, -2.00000);
+	$lon1 = $this->_eNtoLong($e, $n, 6377563.396, 6356256.910, 400000, -100000, 0.999601272, 49.00000, -2.00000);
 	$x1 = $this->_latLongHtoX($lat1, $lon1, $height, 6377563.396, 6356256.910);
 	$y1 = $this->_latLongHtoY($lat1, $lon1, $height, 6377563.396, 6356256.910);
 	$z1 = $this->_latHtoZ     ($lat1, $height, 6377563.396, 6356256.910);
@@ -403,18 +403,18 @@ class Pas_Geo_Gridcalc  {
 	 */
 	private function _initialLat($North, $n0, $afo, $PHI0, $n, $bfo) {
 	//First PHI value (PHI1)
-    $PHI1 = (($North - $n0) / $afo) + $PHI0;
+	$PHI1 = (($North - $n0) / $afo) + $PHI0;
 	//Calculate M
-    $M = $this->_marc($bfo, $n, $PHI0, $PHI1);
+	$M = $this->_marc($bfo, $n, $PHI0, $PHI1);
 	//Calculate new PHI value (PHI2)
-    $PHI2 = (($North - $n0 - $M) / $afo) + $PHI1;
+	$PHI2 = (($North - $n0 - $M) / $afo) + $PHI1;
 	//Iterate to get final value for InitialLat
 	While (abs($North - $n0 - $M) > 0.00001) {
         $PHI2 = (($North - $n0 - $M) / $afo) + $PHI1;
         $M = $this->_marc($bfo, $n, $PHI0, $PHI2);
         $PHI1 = $PHI2;
 	}    
-    return $PHI2;
+	return $PHI2;
 	}
 
 	/** Convert geodetic coords lat (PHI), long (LAM) and height (H) to cartesian X coordinate.
@@ -426,12 +426,12 @@ class Pas_Geo_Gridcalc  {
 	 * @param $b ellipsoid axis dimensions in metres
 	 */
 	private function _latLongHtoX ($PHI, $LAM, $H, $a, $b) {
-	//Convert angle measures to radians
-    $RadPHI = $PHI * (self::PI / 180);
-    $RadLAM = $LAM * (self::PI / 180);
-    $e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
-    $V = $a / (sqrt(1 - ($e2 * (  pow(sin($RadPHI),2)))));
-    return ($V + $H) * (cos($RadPHI)) * (cos($RadLAM));
+	//Convert angle measures to radians 
+	$RadPHI = $PHI * (self::PI / 180);
+	$RadLAM = $LAM * (self::PI / 180);
+	$e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
+	$V = $a / (sqrt(1 - ($e2 * (  pow(sin($RadPHI),2)))));
+	return ($V + $H) * (cos($RadPHI)) * (cos($RadLAM));
 	}
 
 	/** Convert geodetic coords lat (PHI), long (LAM) and height (H) to cartesian Y coordinate.
@@ -444,13 +444,13 @@ class Pas_Geo_Gridcalc  {
 	 */
 	private function _latLongHtoY ($PHI, $LAM, $H, $a, $b) {
 	// Convert angle measures to radians
-    $RadPHI = $PHI * (self::PI / 180);
-    $RadLAM = $LAM * (self::PI / 180);
+	$RadPHI = $PHI * (self::PI / 180);
+	$RadLAM = $LAM * (self::PI / 180);
 	// Compute eccentricity squared and nu
-    $e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
-    $V = $a / (sqrt(1 - ($e2 * (  pow(sin($RadPHI),2))) ));
+	$e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
+	$V = $a / (sqrt(1 - ($e2 * (  pow(sin($RadPHI),2))) ));
 	// Compute Y
-    return ($V + $H) * (cos($RadPHI)) * (sin($RadLAM));
+	return ($V + $H) * (cos($RadPHI)) * (sin($RadLAM));
 	}
 
 	/** Convert geodetic coord components latitude (PHI) and height (H) to cartesian Z coordinate.
@@ -542,12 +542,12 @@ class Pas_Geo_Gridcalc  {
 	 * @param $b
 	 */
 	private function _xyzToLat ($X, $Y, $Z, $a, $b) {
-    $RootXYSqr = sqrt(pow($X,2) + pow($Y,2));
-    $e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
-    $PHI1 = atan2 ($Z , ($RootXYSqr * (1 - $e2)) );
-    $PHI = $this->_iterateXYZtoLat($a, $e2, $PHI1, $Z, $RootXYSqr);
-    return $PHI * (180 / self::PI);
-    }
+	$RootXYSqr = sqrt(pow($X,2) + pow($Y,2));
+	$e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
+	$PHI1 = atan2 ($Z , ($RootXYSqr * (1 - $e2)) );
+	$PHI = $this->_iterateXYZtoLat($a, $e2, $PHI1, $Z, $RootXYSqr);
+	return $PHI * (180 / self::PI);
+	}
 
 	/** Iterative computation of Latitude (PHI)
 	 * ellipsoid semi major axis (a) in meters; _
@@ -563,14 +563,14 @@ class Pas_Geo_Gridcalc  {
 	 * @param $RootXYSqr
 	 */
 	private function _iterateXYZtoLat ($a, $e2, $PHI1, $Z, $RootXYSqr) {
-    $V = $a / (sqrt(1 - ($e2 * pow(sin($PHI1),2))));
-    $PHI2 = atan2(($Z + ($e2 * $V * (sin($PHI1)))) , $RootXYSqr);
-    while (abs($PHI1 - $PHI2) > 0.000000001) {
-    $PHI1 = $PHI2;
-    $V = $a / (sqrt(1 - ($e2 * pow(sin($PHI1),2))));
-    $PHI2 = atan2(($Z + ($e2 * $V * (sin($PHI1)))) , $RootXYSqr);
-    }
-    return $PHI2;
+	$V = $a / (sqrt(1 - ($e2 * pow(sin($PHI1),2))));
+	$PHI2 = atan2(($Z + ($e2 * $V * (sin($PHI1)))) , $RootXYSqr);
+	while (abs($PHI1 - $PHI2) > 0.000000001) {
+	$PHI1 = $PHI2;
+	$V = $a / (sqrt(1 - ($e2 * pow(sin($PHI1),2))));
+	$PHI2 = atan2(($Z + ($e2 * $V * (sin($PHI1)))) , $RootXYSqr);
+	}
+	return $PHI2;
 	}
 
 	/** Convert XYZ to Longitude (LAM) in Dec Degrees.
@@ -578,7 +578,7 @@ class Pas_Geo_Gridcalc  {
 	 * @param $Y
 	 */
 	private function _xyzToLong ($X, $Y) {
-    return atan2($Y , $X) * (180 / self::PI);
+	return atan2($Y , $X) * (180 / self::PI);
 	}
 
 	/**Convert XYZ to Ellipsoidal Height.
@@ -589,15 +589,15 @@ class Pas_Geo_Gridcalc  {
 	 * @param $b
 	 */	
 	private function _xyzToH ($X, $Y, $Z, $a, $b) {
-    $PHI = $this->_xyzToLat($X, $Y, $Z, $a, $b);
+	$PHI = $this->_xyzToLat($X, $Y, $Z, $a, $b);
 	//Convert PHI radians
-    $RadPHI = $PHI * (self::PI / 180);
+	$RadPHI = $PHI * (self::PI / 180);
 	// Compute H
-    $RootXYSqr = sqrt(pow($X,2) + pow($Y,2));
-    $e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
-    $V = $a / (sqrt(1 - ($e2 * pow(sin($RadPHI),2))));
-    $H = ($RootXYSqr / cos($RadPHI)) - $V;
-    return $H;
+	$RootXYSqr = sqrt(pow($X,2) + pow($Y,2));
+	$e2 = (pow($a,2) - pow($b,2)) / pow($a,2);
+	$V = $a / (sqrt(1 - ($e2 * pow(sin($RadPHI),2))));
+	$H = ($RootXYSqr / cos($RadPHI)) - $V;
+	return $H;
 	}
 
 	/** Project Latitude and longitude to Transverse Mercator eastings.
@@ -616,23 +616,23 @@ class Pas_Geo_Gridcalc  {
 	 * @param $LAM0
 	 */
 	private function _latLongToEast ($PHI, $LAM, $a, $b, $e0, $f0, $PHI0, $LAM0) {
-    $RadPHI = $PHI   * (self::PI / 180);
-    $RadLAM = $LAM   * (self::PI / 180);
-    $RadPHI0 = $PHI0 * (self::PI / 180);
-    $RadLAM0 = $LAM0 * (self::PI / 180);
-    $af0 = $a * $f0;
-    $bf0 = $b * $f0;
-    $e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
-    $n = ($af0 - $bf0) / ($af0 + $bf0);
-    $nu = $af0 / (sqrt(1 - ($e2 * pow(sin($RadPHI),2) )));
-    $rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(sin($RadPHI),2) ));
-    $eta2 = ($nu / $rho) - 1;
-    $p = $RadLAM - $RadLAM0;
-    $IV = $nu * (cos($RadPHI));
-    $V = ($nu / 6) * ( pow(cos($RadPHI),3)) * (($nu / $rho) - (pow(tan($RadPHI),2)));
-    $VI = ($nu / 120) * (pow(cos($RadPHI),5)) * (5 - (18 * (pow(tan($RadPHI),2))) + (pow(tan($RadPHI),4))
-    + (14 * $eta2) - (58 * (pow(tan($RadPHI),2)) * $eta2));
-    return $e0 + ($p * $IV) + (pow($p,3) * $V) + (pow($p,5) * $VI);
+	$RadPHI = $PHI   * (self::PI / 180);
+	$RadLAM = $LAM   * (self::PI / 180);
+	$RadPHI0 = $PHI0 * (self::PI / 180);
+	$RadLAM0 = $LAM0 * (self::PI / 180);
+	$af0 = $a * $f0;
+	$bf0 = $b * $f0;
+	$e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
+	$n = ($af0 - $bf0) / ($af0 + $bf0);
+	$nu = $af0 / (sqrt(1 - ($e2 * pow(sin($RadPHI),2) )));
+	$rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(sin($RadPHI),2) ));
+	$eta2 = ($nu / $rho) - 1;
+	$p = $RadLAM - $RadLAM0;
+	$IV = $nu * (cos($RadPHI));
+	$V = ($nu / 6) * ( pow(cos($RadPHI),3)) * (($nu / $rho) - (pow(tan($RadPHI),2)));
+	$VI = ($nu / 120) * (pow(cos($RadPHI),5)) * (5 - (18 * (pow(tan($RadPHI),2))) + (pow(tan($RadPHI),4))
+	+ (14 * $eta2) - (58 * (pow(tan($RadPHI),2)) * $eta2));
+	return $e0 + ($p * $IV) + (pow($p,3) * $V) + (pow($p,5) * $VI);
 	}
 
 	/** Project Latitude and longitude to Transverse Mercator northings.
@@ -651,25 +651,25 @@ class Pas_Geo_Gridcalc  {
 	 * @param $LAM0
 	 */
 	private function _latLongToNorth ($PHI, $LAM, $a, $b, $e0, $n0, $f0, $PHI0, $LAM0) {
-    $RadPHI = $PHI   * (self::PI / 180);
-    $RadLAM = $LAM   * (self::PI / 180);
-    $RadPHI0 = $PHI0 * (self::PI / 180);
-    $RadLAM0 = $LAM0 * (self::PI / 180);
-    $af0 = $a * $f0;
-    $bf0 = $b * $f0;
-    $e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
-    $n = ($af0 - $bf0) / ($af0 + $bf0);
-    $nu = $af0 / (sqrt(1 - ($e2 * pow(sin($RadPHI),2))));
-    $rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(sin($RadPHI),2)));
-    $eta2 = ($nu / $rho) - 1;
-    $p = $RadLAM - $RadLAM0;
-    $M = $this->_marc($bf0, $n, $RadPHI0, $RadPHI);
-    $I = $M + $n0;
-    $II = ($nu / 2) * (sin($RadPHI)) * (cos($RadPHI));
-    $III = (($nu / 24) * (sin($RadPHI)) * (pow(cos($RadPHI),3))) * (5 - (pow(tan($RadPHI),2)) + (9 * $eta2));
-    $IIIA = (($nu / 720) * (sin($RadPHI)) * (pow(cos($RadPHI),5))) * (61 - (58 * (pow(tan($RadPHI),2))) 
-    + (pow(tan($RadPHI),4)));
-    return $I + (pow($p,2) * $II) + (pow($p,4) * $III) + (pow($p,6) * $IIIA);
+	$RadPHI = $PHI   * (self::PI / 180);
+	$RadLAM = $LAM   * (self::PI / 180);
+	$RadPHI0 = $PHI0 * (self::PI / 180);
+	$RadLAM0 = $LAM0 * (self::PI / 180);
+	$af0 = $a * $f0;
+	$bf0 = $b * $f0;
+	$e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
+	$n = ($af0 - $bf0) / ($af0 + $bf0);
+	$nu = $af0 / (sqrt(1 - ($e2 * pow(sin($RadPHI),2))));
+	$rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(sin($RadPHI),2)));
+	$eta2 = ($nu / $rho) - 1;
+	$p = $RadLAM - $RadLAM0;
+	$M = $this->_marc($bf0, $n, $RadPHI0, $RadPHI);
+	$I = $M + $n0;
+	$II = ($nu / 2) * (sin($RadPHI)) * (cos($RadPHI));
+	$III = (($nu / 24) * (sin($RadPHI)) * (pow(cos($RadPHI),3))) * (5 - (pow(tan($RadPHI),2)) + (9 * $eta2));
+	$IIIA = (($nu / 720) * (sin($RadPHI)) * (pow(cos($RadPHI),5))) * (61 - (58 * (pow(tan($RadPHI),2))) 
+	+ (pow(tan($RadPHI),4)));
+	return $I + (pow($p,2) * $II) + (pow($p,4) * $III) + (pow($p,6) * $IIIA);
 	}
 	
 	/**  Un-project Transverse Mercator eastings and northings back to latitude.
@@ -685,27 +685,27 @@ class Pas_Geo_Gridcalc  {
 	 */
 	private function _eNtoLat($East, $North, $a, $b, $e0, $n0, $f0, $PHI0, $LAM0) {
 	//Convert angle measures to radians
-    $RadPHI0 = $PHI0 * (self::PI / 180);
-    $RadLAM0 = $LAM0 * (self::PI / 180);
+	$RadPHI0 = $PHI0 * (self::PI / 180);
+	$RadLAM0 = $LAM0 * (self::PI / 180);
 	//Compute af0, bf0, e squared (e2), n and Et
-    $af0 = $a * $f0;
-    $bf0 = $b * $f0;
-    $e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
-    $n = ($af0 - $bf0) / ($af0 + $bf0);
-    $Et = $East - $e0;
+	$af0 = $a * $f0;
+	$bf0 = $b * $f0;
+	$e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
+	$n = ($af0 - $bf0) / ($af0 + $bf0);
+	$Et = $East - $e0;
 	//Compute initial value for latitude (PHI) in radians
-    $PHId = $this->_initialLat($North, $n0, $af0, $RadPHI0, $n, $bf0);
+	$PHId = $this->_initialLat($North, $n0, $af0, $RadPHI0, $n, $bf0);
 	//Compute nu, rho and eta2 using value for PHId
-    $nu = $af0 / (sqrt(1 - ($e2 * ( pow(Sin($PHId),2)))));
-    $rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(Sin($PHId),2)));
-    $eta2 = ($nu / $rho) - 1;
+	$nu = $af0 / (sqrt(1 - ($e2 * ( pow(Sin($PHId),2)))));
+	$rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(Sin($PHId),2)));
+	$eta2 = ($nu / $rho) - 1;
 	//Compute Latitude
-    $VII = (tan($PHId)) / (2 * $rho * $nu);
-    $VIII = ((tan($PHId)) / (24 * $rho * pow($nu,3))) * (5 + (3 * (pow(tan($PHId),2))) + $eta2 
-    - (9 * $eta2 * (pow(tan($PHId),2))));
-    $IX = ((tan($PHId)) / (720 * $rho * pow($nu,5))) * (61 + (90 * ((tan($PHId)) ^ 2)) + (45 
-    * (pow(tan($PHId),4))));
-    $E_N_to_Lat = (180 / self::PI) * ($PHId - (pow($Et,2) * $VII) + (pow($Et,4) * $VIII) - (($Et ^ 6) * $IX));
+	$VII = (tan($PHId)) / (2 * $rho * $nu);
+	$VIII = ((tan($PHId)) / (24 * $rho * pow($nu,3))) * (5 + (3 * (pow(tan($PHId),2))) + $eta2 
+	- (9 * $eta2 * (pow(tan($PHId),2))));
+	$IX = ((tan($PHId)) / (720 * $rho * pow($nu,5))) * (61 + (90 * ((tan($PHId)) ^ 2)) + (45 
+	* (pow(tan($PHId),4))));
+	$E_N_to_Lat = (180 / self::PI) * ($PHId - (pow($Et,2) * $VII) + (pow($Et,4) * $VIII) - (($Et ^ 6) * $IX));
 	return ($E_N_to_Lat);
 	}
 	
@@ -724,32 +724,29 @@ class Pas_Geo_Gridcalc  {
 	 */
 	private function _eNtoLong($East, $North, $a, $b, $e0, $n0, $f0, $PHI0, $LAM0) {
 	//Convert angle measures to radians
-    $RadPHI0 = $PHI0 * (self::PI / 180);
-    $RadLAM0 = $LAM0 * (self::PI / 180);
+	$RadPHI0 = $PHI0 * (self::PI / 180);
+	$RadLAM0 = $LAM0 * (self::PI / 180);
 	//Compute af0, bf0, e squared (e2), n and Et
-    $af0 = $a * $f0;
-    $bf0 = $b * $f0;
-    $e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
-    $n = ($af0 - $bf0) / ($af0 + $bf0);
-    $Et = $East - $e0;
-
+	$af0 = $a * $f0;
+	$bf0 = $b * $f0;
+	$e2 = (pow($af0,2) - pow($bf0,2)) / pow($af0,2);
+	$n = ($af0 - $bf0) / ($af0 + $bf0);
+	$Et = $East - $e0;
 	//Compute initial value for latitude (PHI) in radians
-    $PHId = $this->_initialLat($North, $n0, $af0, $RadPHI0, $n, $bf0);
-    
-	//Compute nu, rho and eta2 using value for PHId
-    $nu = $af0 / (sqrt(1 - ($e2 * (pow(sin($PHId),2)))));
-    $rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(Sin($PHId),2)));
-    $eta2 = ($nu / $rho) - 1;
-
+	$PHId = $this->_initialLat($North, $n0, $af0, $RadPHI0, $n, $bf0);
+    //Compute nu, rho and eta2 using value for PHId
+	$nu = $af0 / (sqrt(1 - ($e2 * (pow(sin($PHId),2)))));
+	$rho = ($nu * (1 - $e2)) / (1 - ($e2 * pow(Sin($PHId),2)));
+	$eta2 = ($nu / $rho) - 1;
 	//Compute Longitude
-    $X = (pow(cos($PHId),-1)) / $nu;
-    $XI = ((pow(cos($PHId),-1)) / (6 * pow($nu,3))) * (($nu / $rho) + (2 * (pow(tan($PHId),2))));
-    $XII = ((pow(cos($PHId),-1)) / (120 * pow($nu,5))) * (5 + (28 * (pow(tan($PHId),2))) 
-    + (24 * (pow(tan($PHId),4))));
-    $XIIA = ((pow(Cos($PHId),-1)) / (5040 * pow($nu,7))) * (61 + (662 * (pow(tan($PHId),2))) 
-    + (1320 * (pow(Tan($PHId),4))) + (720 * (pow(tan($PHId),6))));
-    $E_N_to_Long = (180 / self::PI) * ($RadLAM0 + ($Et * $X) - (pow($Et,3) * $XI) + (pow($Et,5) * $XII) 
-    - (pow($Et,7) * $XIIA));
+	$X = (pow(cos($PHId),-1)) / $nu;
+	$XI = ((pow(cos($PHId),-1)) / (6 * pow($nu,3))) * (($nu / $rho) + (2 * (pow(tan($PHId),2))));
+	$XII = ((pow(cos($PHId),-1)) / (120 * pow($nu,5))) * (5 + (28 * (pow(tan($PHId),2))) 
+	+ (24 * (pow(tan($PHId),4))));
+	$XIIA = ((pow(Cos($PHId),-1)) / (5040 * pow($nu,7))) * (61 + (662 * (pow(tan($PHId),2))) 
+	+ (1320 * (pow(Tan($PHId),4))) + (720 * (pow(tan($PHId),6))));
+	$E_N_to_Long = (180 / self::PI) * ($RadLAM0 + ($Et * $X) - (pow($Et,3) * $XI) + (pow($Et,5) * $XII) 
+	- (pow($Et,7) * $XIIA));
 	return $E_N_to_Long;
 	}
 
@@ -780,15 +777,15 @@ class Pas_Geo_Gridcalc  {
 	 * @param $bFo
 	 */
 	private function _phid($gridX, $N0, $aFo, $PHI0, $n, $bFo) {
-    $PHI1 = (($gridX - $N0) / $aFo) + $PHI0;
+	$PHI1 = (($gridX - $N0) / $aFo) + $PHI0;
 	$M = $this->_marc($bFo, $n, $PHI0, $PHI1);
-    $PHI2 = (($gridX - $N0 - $M) / $aFo) + $PHI1;
-    While (abs($gridX - $N0 - $M) > 0.000000001){
-        $PHI2 = (($gridX - $N0 - $M) / $aFo) + $PHI1;
-		$M = $this->_marc($bFo, $n, $PHI0, $PHI2);
-        $PHI1 = $PHI2;
-    }
-    $PHId = $PHI2;
+	$PHI2 = (($gridX - $N0 - $M) / $aFo) + $PHI1;
+	while (abs($gridX - $N0 - $M) > 0.000000001){
+	$PHI2 = (($gridX - $N0 - $M) / $aFo) + $PHI1;
+	$M = $this->_marc($bFo, $n, $PHI0, $PHI2);
+	$PHI1 = $PHI2;
+	}
+	$PHId = $PHI2;
 	return $PHId;
 	}
 
