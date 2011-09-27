@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Database_TerminologyController extends Pas_Controller_ActionAdmin {
+class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	
 	protected $_contexts, $_periods;
 	/** Setup the contexts by action and the ACL.

@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class PostMedievalCoins_RulersController extends Pas_Controller_ActionAdmin {
+class PostMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	/** Set up ACL and action contexts
 	*/	
 	public function init() {

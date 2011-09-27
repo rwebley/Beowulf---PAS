@@ -1,5 +1,5 @@
 <?php
-class ErrorController extends Pas_Controller_ActionAdmin {
+class ErrorController extends Pas_Controller_Action_Admin {
 
 	protected $_log;
 

@@ -6,7 +6,7 @@
  *
  * @uses Pas_OaiPmhRepository_ResponseGenerator
  */
-class Database_OaiController extends Pas_Controller_ActionAdmin {   
+class Database_OaiController extends Pas_Controller_Action_Admin {   
 	/** Setup the contexts by action and the ACL.
 	*/ 
 	public function init() {

@@ -8,7 +8,7 @@
 * @license    GNU General Public License
 */
 
-class Staffshoardsymposium_IndexController extends Pas_Controller_ActionAdmin {
+class Staffshoardsymposium_IndexController extends Pas_Controller_Action_Admin {
 	
 	/**
 	 * Set up the ACL

@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Database_OsdataController extends Pas_Controller_ActionAdmin {
+class Database_OsdataController extends Pas_Controller_Action_Admin {
 	
 	protected $_contexts;
 

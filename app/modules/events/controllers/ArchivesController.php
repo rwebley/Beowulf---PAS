@@ -14,7 +14,7 @@
 * @version		1
 * @since		23 September 2011
 */
-class Events_ArchivesController extends Pas_Controller_ActionAdmin {
+class Events_ArchivesController extends Pas_Controller_Action_Admin {
 
 	protected $_contextSwitch;
     protected $_contexts = array('xml','json','atom','rss');

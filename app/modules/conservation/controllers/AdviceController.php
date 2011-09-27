@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Conservation_AdviceController extends Pas_Controller_ActionAdmin {
+class Conservation_AdviceController extends Pas_Controller_Action_Admin {
 	/** Initialise the ACL and contexts
 	*/
 	public function init() {

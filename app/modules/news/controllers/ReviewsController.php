@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class News_ReviewsController extends Pas_Controller_ActionAdmin {
+class News_ReviewsController extends Pas_Controller_Action_Admin {
 	
 	/** Initialise the ACL and contexts
 	*/ 

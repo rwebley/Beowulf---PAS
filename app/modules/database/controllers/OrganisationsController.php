@@ -1,6 +1,6 @@
 <?php
 
-class Database_OrganisationsController extends Pas_Controller_ActionAdmin {
+class Database_OrganisationsController extends Pas_Controller_Action_Admin {
 	
 	protected $_gmapskey,$_config,$_geocoder, $_organisations;
 

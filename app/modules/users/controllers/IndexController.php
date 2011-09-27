@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Users_IndexController extends Pas_Controller_ActionAdmin {
+class Users_IndexController extends Pas_Controller_Action_Admin {
 	
 	protected $_auth;
 	/** Set up the ACL and contexts

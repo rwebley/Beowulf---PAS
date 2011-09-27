@@ -9,7 +9,7 @@
 */
 
 
-class Staffshoardsymposium_PapersController extends Pas_Controller_ActionAdmin {
+class Staffshoardsymposium_PapersController extends Pas_Controller_Action_Admin {
 	/**
 	 * The default action - show the home page
 	 */

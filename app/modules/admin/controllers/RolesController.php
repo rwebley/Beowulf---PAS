@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Admin_RolesController extends Pas_Controller_ActionAdmin {
+class Admin_RolesController extends Pas_Controller_Action_Admin {
 
 	protected $_redirectUrl = 'admin/contacts/';
 	/** Set up the ACL and contexts

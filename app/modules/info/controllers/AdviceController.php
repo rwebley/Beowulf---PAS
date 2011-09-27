@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Info_AdviceController extends Pas_Controller_ActionAdmin {
+class Info_AdviceController extends Pas_Controller_Action_Admin {
 	/** Setup the contexts by action and the ACL.
 	*/
 	public function init(){

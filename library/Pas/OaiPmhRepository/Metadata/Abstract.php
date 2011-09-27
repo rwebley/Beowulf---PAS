@@ -1,7 +1,9 @@
 <?php
-/**
- * @package OaiPmhRepository
- * @subpackage MetadataFormats
+/** Abstract class on which all other metadata format handlers are based.
+ * Includes logic for all metadata-independent record output.
+ * @category Pas
+ * @package Pas_OaiPmhRepository
+ * @subpackage Metadata
  * @author John Flatness, Yu-Hsun Lin
  * @copyright Copyright 2009 John Flatness, Yu-Hsun Lin
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
@@ -10,15 +12,8 @@
 require_once('Pas/OaiPmhRepository/OaiXmlGeneratorAbstract.php');
 require_once('Pas/OaiPmhRepository/OaiIdentifier.php');
 
-/**
- * Abstract class on which all other metadata format handlers are based.
- * Includes logic for all metadata-independent record output.
- *
- * @package OaiPmhRepository
- * @subpackage Metadata Formats
- */
-abstract class Pas_OaiPmhRepository_Metadata_Abstract extends Pas_OaiPmhRepository_OaiXmlGeneratorAbstract
-{   
+abstract class Pas_OaiPmhRepository_Metadata_Abstract
+	extends Pas_OaiPmhRepository_OaiXmlGeneratorAbstract {   
     /**
      * Item object for this record.
      * @var Item
@@ -39,14 +34,12 @@ abstract class Pas_OaiPmhRepository_Metadata_Abstract extends Pas_OaiPmhReposito
      * @param Item item Item object whose metadata will be output.
      * @param DOMElement element Parent element for XML output.
      */
-    public function __construct($item, $element)
-    {
-    	
-        $this->item = $item;
-        $this->parentElement = $element;
-        if(isset($element)){
-        $this->document = $element->ownerDocument;
-        }
+    public function __construct($item, $element){
+	$this->item = $item;
+	$this->parentElement = $element;
+	if(isset($element)){
+	$this->document = $element->ownerDocument;
+	}
     }
     
     /**
@@ -58,15 +51,13 @@ abstract class Pas_OaiPmhRepository_Metadata_Abstract extends Pas_OaiPmhReposito
      * @uses appendHeader
      * @uses appendMetadata
      */
-    public function appendRecord()
-    {
-        $record = $this->document->createElement('record');
-        $this->parentElement->appendChild($record);
-        
-        // Sets the parent of the next append functions
-        $this->parentElement = $record;
-        $this->appendHeader();
-        $this->appendMetadata();
+    public function appendRecord(){
+	$record = $this->document->createElement('record');
+    $this->parentElement->appendChild($record);
+    // Sets the parent of the next append functions
+    $this->parentElement = $record;
+	$this->appendHeader();
+	$this->appendMetadata();
     }
     
     /**
@@ -78,33 +69,26 @@ abstract class Pas_OaiPmhRepository_Metadata_Abstract extends Pas_OaiPmhReposito
      * @uses appendHeader
      * @uses appendMetadata
      */
-    public function appendHeader()
-    {
-    	
-        $table = new OaiFinds();
-        if(array_key_exists('0',$this->item)) {
-        $itemid = $this->item['0']['id'];
-        $updated = $this->item['0']['created'];
-        $collectionId = $this->item['0']['institution'];
-        } else {
-        $itemid = $this->item['id'];
-         $updated = $this->item['created'];
-         $collectionId = $this->item['institution'];
-        }
-     
-        $item = $table->fetchRow($table->select()->where('finds.id = ?',$itemid));
-          
-       	$object = new Pas_OaiPmhRepository_OaiIdentifier();
-       	$itemNumber = $object->itemToOaiId($itemid);
-        $headerData['identifier'] = $itemNumber;
-        $headerData['datestamp'] = self::dbToUtc($updated);
-        
-       
-        if ($collectionId)
-            $headerData['setSpec'] = $collectionId;
-        
-        $this->createElementWithChildren(
-            $this->parentElement, 'header', $headerData);
+    public function appendHeader() {
+	$table = new OaiFinds();
+	if(array_key_exists('0',$this->item)) {
+	$itemid = $this->item['0']['id'];
+	$updated = $this->item['0']['created'];
+	$collectionId = $this->item['0']['institution'];
+	} else {
+	$itemid = $this->item['id'];
+	$updated = $this->item['created'];
+	$collectionId = $this->item['institution'];
+	}
+	$item = $table->fetchRow($table->select()->where('finds.id = ?',$itemid));
+  	$object = new Pas_OaiPmhRepository_OaiIdentifier();
+   	$itemNumber = $object->itemToOaiId($itemid);
+    $headerData['identifier'] = $itemNumber;
+    $headerData['datestamp'] = self::dbToUtc($updated);
+	if ($collectionId)
+    $headerData['setSpec'] = $collectionId;
+    $this->createElementWithChildren(
+    $this->parentElement, 'header', $headerData);
     }
     
     /**
@@ -113,13 +97,14 @@ abstract class Pas_OaiPmhRepository_Metadata_Abstract extends Pas_OaiPmhReposito
      * Declares the metadataPrefix, schema URI, and namespace for the oai_dc
      * metadata format.
      */    
-    public function declareMetadataFormat()
-    {
-        $elements = array( 'metadataPrefix'    => $this->getMetadataPrefix(),
-                           'schema'            => $this->getMetadataSchema(),
-                           'metadataNamespace' => $this->getMetadataNamespace() );
-        $this->createElementWithChildren(
-            $this->parentElement, 'metadataFormat', $elements);
+    public function declareMetadataFormat(){
+	$elements = array( 
+	'metadataPrefix'    => $this->getMetadataPrefix(),
+    'schema'            => $this->getMetadataSchema(),
+    'metadataNamespace' => $this->getMetadataNamespace() 
+	);
+    $this->createElementWithChildren(
+    $this->parentElement, 'metadataFormat', $elements);
     }
     
     /**

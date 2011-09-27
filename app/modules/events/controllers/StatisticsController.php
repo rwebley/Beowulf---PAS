@@ -10,7 +10,7 @@
 * @author		Daniel Pett
 * @since		Sept 23 2011
 */
-class Events_StatisticsController extends Pas_Controller_ActionAdmin {
+class Events_StatisticsController extends Pas_Controller_Action_Admin {
 
 	/** An array of contexts available to the consumer
 	 * 

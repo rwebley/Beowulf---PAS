@@ -9,7 +9,7 @@
 * @author		Daniel Pett
 */
 
-class Events_UpcomingController extends Pas_Controller_ActionAdmin {
+class Events_UpcomingController extends Pas_Controller_Action_Admin {
 
 	/** Initialise the ACL for access levels and the context switches
 	*/

@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class RomanCoins_MintsController extends Pas_Controller_ActionAdmin {
+class RomanCoins_MintsController extends Pas_Controller_Action_Admin {
 	/** Configuration and google apikey
 	*/		
 	protected $_config, $_googleapikey;

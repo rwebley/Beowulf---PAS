@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Flickr_AjaxController extends Pas_Controller_ActionAdmin {
+class Flickr_AjaxController extends Pas_Controller_Action_Admin {
 
 	protected $_cache, $_config, $_oauth, $_flickrkey, $_secret, $_auth;
 	/** Setup the contexts by action and the ACL.

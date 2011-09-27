@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class RomanCoins_DenominationsController extends Pas_Controller_ActionAdmin {
+class RomanCoins_DenominationsController extends Pas_Controller_Action_Admin {
 	
 	/** Set up the ACL and contexts
 	*/		

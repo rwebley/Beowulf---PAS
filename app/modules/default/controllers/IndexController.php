@@ -1,5 +1,5 @@
 <?php
-class IndexController extends Pas_Controller_ActionAdmin
+class IndexController extends Pas_Controller_Action_Admin
 {
 	protected $_cache, $_config, $_wordpress, $_wpRoute, $_wpUser, $_wpPass;
 	

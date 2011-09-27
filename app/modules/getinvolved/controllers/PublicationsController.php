@@ -8,7 +8,7 @@
 * @license    GNU General Public License
 * @todo		  Move adding data and editing into model
 */
-class Getinvolved_PublicationsController extends Pas_Controller_ActionAdmin {
+class Getinvolved_PublicationsController extends Pas_Controller_Action_Admin {
 
 	protected $_cache = NULL;
 	protected $_config = NULL;

@@ -6,7 +6,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Treasure_ReportsController extends Pas_Controller_ActionAdmin {
+class Treasure_ReportsController extends Pas_Controller_Action_Admin {
 	
 	protected $_cache = NULL;
 	

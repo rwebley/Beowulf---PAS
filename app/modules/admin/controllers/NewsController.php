@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Admin_NewsController extends Pas_Controller_ActionAdmin {	
+class Admin_NewsController extends Pas_Controller_Action_Admin {	
 	
 	protected $_news;
 	/** Set up the ACL and contexts

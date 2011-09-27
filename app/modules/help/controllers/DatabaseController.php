@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Help_DatabaseController extends Pas_Controller_ActionAdmin {
+class Help_DatabaseController extends Pas_Controller_Action_Admin {
 	/** Setup the ACL.
 	*/
 	public function init()  {

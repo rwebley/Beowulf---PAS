@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class News_TheyworkforyouController extends Pas_Controller_ActionAdmin {
+class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
 	
 	const TWFYURL = 'http://www.theyworkforyou.com/api/';
 	

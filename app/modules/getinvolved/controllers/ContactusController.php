@@ -1,5 +1,5 @@
 <?php
-class GetInvolved_ContactUsController extends Pas_Controller_ActionAdmin
+class GetInvolved_ContactUsController extends Pas_Controller_Action_Admin
 {
 	
 

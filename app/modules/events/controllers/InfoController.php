@@ -10,7 +10,7 @@
 * @since		23 Sept 2011
 * @version		1	
 */
-class Events_InfoController extends Pas_Controller_ActionAdmin {
+class Events_InfoController extends Pas_Controller_Action_Admin {
 
 	/**
 	* Initialise the ACL for access levels and the context switches

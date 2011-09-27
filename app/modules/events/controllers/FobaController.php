@@ -14,7 +14,7 @@
 * @since		23 Sept. 2011
 * @version		1.0
 */
-class Events_FobaController extends Pas_Controller_ActionAdmin {
+class Events_FobaController extends Pas_Controller_Action_Admin {
 
 	/**
 	* Initialise the ACL for access levels

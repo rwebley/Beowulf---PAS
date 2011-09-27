@@ -1,5 +1,7 @@
 <?php
-/**
+/** Class implmenting metadata output for the required oai_dc metadata format.
+ * oai_dc is output of the 15 unqualified Dublin Core fields.
+ *
  * @package OaiPmhRepository
  * @subpackage MetadataFormats
  * @author John Flatness, Yu-Hsun Lin
@@ -9,13 +11,6 @@
 
 require_once('Pas/OaiPmhRepository/Metadata/Abstract.php');
 
-/**
- * Class implmenting metadata output for the required oai_dc metadata format.
- * oai_dc is output of the 15 unqualified Dublin Core fields.
- *
- * @package OaiPmhRepository
- * @subpackage Metadata Formats
- */
 class Pas_OaiPmhRepository_Metadata_OaiDc extends Pas_OaiPmhRepository_Metadata_Abstract
 {
     /** OAI-PMH metadata prefix */
@@ -40,67 +35,57 @@ class Pas_OaiPmhRepository_Metadata_OaiDc extends Pas_OaiPmhRepository_Metadata_
      */
     
     
-    public function appendMetadata() 
-    {
-        $metadataElement = $this->document->createElement('metadata');
-        $this->parentElement->appendChild($metadataElement);   
+    public function appendMetadata() {
+	$metadataElement = $this->document->createElement('metadata');
+	$this->parentElement->appendChild($metadataElement);   
         
-        $oai_dc = $this->document->createElementNS(
-            self::METADATA_NAMESPACE, 'oai_dc:dc');
-        $metadataElement->appendChild($oai_dc);
+	$oai_dc = $this->document->createElementNS( self::METADATA_NAMESPACE, 'oai_dc:dc');
+	$metadataElement->appendChild($oai_dc);
 
-        /* Must manually specify XML schema uri per spec, but DOM won't include
-         * a redundant xmlns:xsi attribute, so we just set the attribute
-         */
-        $oai_dc->setAttribute('xmlns:dc', self::DC_NAMESPACE_URI);
-        $oai_dc->setAttribute('xmlns:xsi', parent::XML_SCHEMA_NAMESPACE_URI);
-        $oai_dc->setAttribute('xsi:schemaLocation', self::METADATA_NAMESPACE.' '.
-            self::METADATA_SCHEMA);
+	/* Must manually specify XML schema uri per spec, but DOM won't include
+	* a redundant xmlns:xsi attribute, so we just set the attribute
+	*/
+	$oai_dc->setAttribute('xmlns:dc', self::DC_NAMESPACE_URI);
+	$oai_dc->setAttribute('xmlns:xsi', parent::XML_SCHEMA_NAMESPACE_URI);
+	$oai_dc->setAttribute('xsi:schemaLocation', self::METADATA_NAMESPACE . ' ' . self::METADATA_SCHEMA);
 		
-        if(!array_key_exists('0',$this->item))    	
-        {
+	if(!array_key_exists('0',$this->item)) {
         
-        $data = array(
-        	'title' => $this->item['broadperiod']. ' ' . $this->item['objecttype'] ,
-        	'creator' => $this->item['identifier'],
-        	'subject' => 'archaeology',
-        	'description' => strip_tags($this->item['description']),
-        	'publisher' => 'The Portable Antiquities Scheme',
-        	'contributor' => $this->item['institution'],
-        	'date' => $this->item['created'],
-        	'type' => $this->item['objecttype'],
-        	'format' => 'text/html',
-       		'id' => $this->item['id'],
-        	'identifier' => self::PAS_RECORD_URL . $this->item['id'],
-        	'source' => 'The Portable Antiquities Scheme Database',
-        	'language' => 'en-GB');
-        
+	$data = array(
+   	'title'			=> $this->item['broadperiod']. ' ' . $this->item['objecttype'] ,
+	'creator'		=> $this->item['identifier'],
+	'subject'		=> 'archaeology',
+	'description' 	=> strip_tags($this->item['description']),
+	'publisher' 	=> 'The Portable Antiquities Scheme',
+	'contributor' 	=> $this->item['institution'],
+	'date' 			=> $this->item['created'],
+ 	'type' 			=> $this->item['objecttype'],
+	'format' 		=> 'text/html',
+	'id' 			=> $this->item['id'],
+	'identifier' 	=> self::PAS_RECORD_URL . $this->item['id'],
+	'source' 		=> 'The Portable Antiquities Scheme Database',
+	'language' 		=> 'en-GB');
         	
-        $files = new OaiFinds();
-            $images = $files->getImages($this->item['id']);
-            if(count($images)){
-            foreach($images as $image){
-            if(!is_null($image['i'])){
-            $thumbnail = 'http://www.finds.org.uk/images/thumbnails/' . $image['i'] . '.jpg'; 	
-       		$data['relation'] = $thumbnail;
-            } else {
-            $data['relation'] = '';	
-            }	
-            }	
-            }
-        	$data['coverage'] = $this->item['broadperiod'];
-        	$data['rights'] = 'The Portable Antiquities Scheme - Creative Commons Share-Alike Non-Commercial';	
-            unset($data['id']);
-        	foreach($data as $k => $v)
-            {
-                $this->appendNewElement($oai_dc, 
-                    'dc:'.$k, $v);
-                
-            }
-            
-        
-        } 
-        }
+    $files = new OaiFinds();
+    $images = $files->getImages($this->item['id']);
+    if(count($images)){
+    foreach($images as $image){
+	if(!is_null($image['i'])){
+    $thumbnail = 'http://www.finds.org.uk/images/thumbnails/' . $image['i'] . '.jpg'; 	
+	$data['relation'] = $thumbnail;
+	} else {
+	$data['relation'] = '';	
+	}	
+	}	
+	}
+	$data['coverage'] = $this->item['broadperiod'];
+	$data['rights'] = 'The Portable Antiquities Scheme - Creative Commons Share-Alike Non-Commercial';	
+	unset($data['id']);
+	foreach($data as $k => $v){
+	$this->appendNewElement($oai_dc, 'dc:' . $k, $v);
+	}
+	}
+    }
     
     
     /**
@@ -108,8 +93,7 @@ class Pas_OaiPmhRepository_Metadata_OaiDc extends Pas_OaiPmhRepository_Metadata_
      *
      * @return string Metadata prefix
      */
-    public function getMetadataPrefix()
-    {
+    public function getMetadataPrefix() {
         return self::METADATA_PREFIX;
     }
     
@@ -118,8 +102,7 @@ class Pas_OaiPmhRepository_Metadata_OaiDc extends Pas_OaiPmhRepository_Metadata_
      *
      * @return string XML schema URI
      */
-    public function getMetadataSchema()
-    {
+    public function getMetadataSchema() {
         return self::METADATA_SCHEMA;
     }
     
@@ -128,8 +111,7 @@ class Pas_OaiPmhRepository_Metadata_OaiDc extends Pas_OaiPmhRepository_Metadata_
      *
      * @return string XML namespace URI
      */
-    public function getMetadataNamespace()
-    {
+    public function getMetadataNamespace() {
         return self::METADATA_NAMESPACE;
     }
 }

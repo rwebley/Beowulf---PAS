@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class EarlyMedievalCoins_CategoriesController extends Pas_Controller_ActionAdmin
+class EarlyMedievalCoins_CategoriesController extends Pas_Controller_Action_Admin
 {
 	/** Initialise the ACL and contexts
 	*/

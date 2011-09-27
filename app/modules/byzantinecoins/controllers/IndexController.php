@@ -8,7 +8,7 @@
 * @license    GNU General Public License
 */
 
-class ByzantineCoins_IndexController extends Pas_Controller_ActionAdmin extends {
+class ByzantineCoins_IndexController extends Pas_Controller_Action_Admin extends {
 	
 	/** Initialise the ACL and contexts
 	*/ 
