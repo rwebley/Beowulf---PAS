@@ -25,14 +25,6 @@ class Search extends Pas_Db_Table_Abstract {
 	protected $_edittest = array('flos','member');
 
 	
-	protected $_config;
-	
-	/** Construct the auth and config objects
-	* @return object
-	*/
-	public function init(){
-		$this->_config = Zend_Registry::get('config');
-	}
 	
 	/** Get user's role for checking permissions
 	* @return string $role

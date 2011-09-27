@@ -13,6 +13,7 @@
 
  class Pas_View_Helper_Meta extends Zend_View_Helper_Abstract {
 
+ 	protected $_keywords = NULL;
 	/** Display meta data
 	 * 
 	 * @param string $keywords
@@ -22,7 +23,7 @@
 	 * @uses Pas_View_Helper_Title
 	 * 
 	 */
-	public function meta($keywords){
+	public function meta(){
 	$date = new Zend_Date();
 	$date->add('72',Zend_Date::HOUR);
 	$this->view->headMeta()->appendHttpEquiv('expires', $date->get(Zend_Date::RFC_1123))

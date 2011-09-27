@@ -16,7 +16,7 @@ class Pas_View_Helper_FindspotGeo extends Zend_View_Helper_Abstract
         $this->_cache = Zend_Registry::get('rulercache');
         $this->_config = Zend_Registry::get('config');
         $this->_appid = $this->_config->webservice->ydnkeys->placemakerkey;
-        $this->_geoplanet = new Pas_Service_Geoplanet2($this->_appid);
+        $this->_geoplanet = new Pas_Service_Geo_Geoplanet($this->_appid);
         $this->_flickr = $this->_config->webservice->flickr_apikey; 
     }	
 	

@@ -20,14 +20,7 @@ class ScheduledMonuments extends Pas_Db_Table_Abstract {
 
 	protected $_primaryKey = 'id';
 
-	protected $_cache;
-
-	/** Construct the cache object
-	* @return object
-	*/
-	public function init(){
-	$this->_cache = Zend_Registry::get('rulercache');
-	}	
+	
 	
 	/** Curl function
 	* @param string $url the url to curl

@@ -4,14 +4,14 @@
  * This class needs total refactoring. Written in 2009 and not very good.
  * @category	Pas
  * @package		Pas_Controller
- * @subpackage	ActionAjax
+ * @subpackage	Action
  * @author 		Daniel Pett
  * @version		0.5
  * @license		GNU
  * @since		September 2009
  * @todo		Refactor completely - is this actually needed?
  */
-class Pas_Controller_ActionAjax extends Zend_Controller_Action {
+class Pas_Controller_Action_Ajax extends Zend_Controller_Action {
     
 	/** The error message for a missing parameter
 	 * 

@@ -99,10 +99,6 @@ class Database_FindspotsController
 	if($ngr != ""){
 	$conversion = new Pas_Geo_Gridcalc($form->getValue('gridref'));
 	$results = $conversion->convert();
-	Zend_Debug::dump($results);
-	exit;
-	$fourFigure = $this->FourFigure($form->getValue('gridref'));
-	$acc = $this->get_accuracy($form->getValue('gridref'));
 	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
 	
 //	$findelevation = $place->getElevation(NULL,$results['Latitude'],$results['Longitude']);
@@ -125,15 +121,15 @@ class Database_FindspotsController
 		'knownas' => $form->getValue('knownas'),
 		'regionID' => $form->getValue('regionID'),
 		'knownas' => $form->getValue('knownas'),
-		'gridref' => str_replace(' ','',$form->getValue('gridref')),
+		'gridref' => $results['gridref'],
 		'gridrefsrc' => $form->getValue('gridrefsrc'),
-		'declat' => $results['Latitude'],
-		'declong' => $results['Longitude'],
-		'easting' => $results['Easting'],
-		'northing' => $results['Northing'],	  
-		'map10k' => $results['Tenk'],
-		'map25k' => $results['2pt5K'],
-		'fourFigure' => $fourFigure,
+		'declat' => $results['decimalLatLon']['decimalLatitude'],
+		'declong' => $results['decimalLatLon']['decimalLongitude'],
+		'easting' => $results['easting'],
+		'northing' => $results['northing'],	  
+		'map10k' => $results['10kmap'],
+		'map25k' => $results['25kmap'],
+		'fourFigure' => $results['fourFigureGridRef'],
 		'gridrefcert' => $form->getValue('gridrefcert'),
 		'description' => $form->getValue('description'),
 		'comments' => $form->getValue('comments'),

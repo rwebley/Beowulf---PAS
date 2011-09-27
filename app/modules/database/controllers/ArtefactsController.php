@@ -15,6 +15,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 	 */
 	protected $_restricted = array('member','public');
 
+	protected $_higherLevel = array('treasure', 'flos', 'admin', 'hero' );
 	/** 
 	 * @var array coins pseudonyms
 	 */
@@ -176,7 +177,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$this->view->comments = $comments->getFindComments($id);
 		
 		$response = $this->getResponse();
-		if(in_array($this->getRole(),$this->higherLevel)  && 
+		if(in_array($this->getRole(),$this->_higherLevel)  && 
 		(!in_array($this->_cs->getCurrentContext(),array('xml','json','qrcode')))){
 		$wform = new WorkflowStageForm();
 		$wform->id->setValue($id);

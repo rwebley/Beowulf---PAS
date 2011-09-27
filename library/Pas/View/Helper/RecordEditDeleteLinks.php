@@ -24,7 +24,7 @@ class Pas_View_Helper_RecordEditDeleteLinks extends Zend_View_Helper_Abstract {
 	/** Constructor for authorisation
 	* @access private
 	*/
-	private function __construct()  { 
+	public function __construct()  { 
 	$auth = Zend_Registry::get('auth');
 	$this->_auth = $auth; 
 	}

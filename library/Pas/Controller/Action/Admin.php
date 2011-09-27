@@ -83,12 +83,16 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	}
 	
 	public function secuid() {
-	list($usec,$sec)=explode(" ", microtime());
-	$ms=dechex(round($usec*4080));
-    while(strlen($ms)<3) {$ms="0".$ms; }
-    $secuid=strtoupper(self::DBASE_ID.dechex($sec).self::SECURE_ID.$ms);
-    while(strlen($ms)<3) {$ms="0".$ms; }
-    $secuid=strtoupper(self::DBASE_ID.dechex($sec).self::SECURE_ID.$ms);
+	list($usec, $sec)= explode(" ", microtime());
+	$ms=dechex(round($usec * 4080));
+	while(strlen($ms) < 3) {
+	$ms = '0' . $ms; 
+	}
+	$secuid=strtoupper(self::DBASE_ID . dechex($sec) . self::SECURE_ID.$ms);
+	while(strlen($ms)<3) {
+	$ms = '0' . $ms; 
+	}
+	$secuid=strtoupper(self::DBASE_ID . dechex($sec) . self::SECURE_ID.$ms);
 	return $secuid;
 	}
 
@@ -96,9 +100,9 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$inst = $user->institution;
-	list($usec,$sec)=explode(" ", microtime());
-	$suffix =  strtoupper(substr(dechex($sec),3).dechex(round($usec*8)));
-	$findid = $inst.'-'.$suffix;
+	list($usec, $sec) = explode(" ", microtime());
+	$suffix =  strtoupper(substr(dechex($sec), 3) . dechex(round($usec * 8)));
+	$findid = $inst . '-' . $suffix;
 	return $findid;
 	}
 	}
