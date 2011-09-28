@@ -38,7 +38,7 @@ class GreekRomanCoins_MintsController extends Pas_Controller_Action_Admin {
     $images = new Slides();
 	$this->view->images = $images->getExamplesCoinsMints($this->_getParam('id'),4);
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);		
+	throw new Pas_Exception_Param($this->_missingParameter);		
 	}
     }
 }

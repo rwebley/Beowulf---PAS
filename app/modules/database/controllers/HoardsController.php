@@ -43,7 +43,7 @@ class Database_HoardsController extends Pas_Controller_Action_Admin {
 	$hoards = new Hoards();
 	$this->view->hoards = $hoards->getHoardDetails((int)$this->_getParam('id'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -102,12 +102,12 @@ class Database_HoardsController extends Pas_Controller_Action_Admin {
 	if(count($hoards)) {
 	$form->populate($hoard->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -134,7 +134,7 @@ class Database_HoardsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	

@@ -34,7 +34,7 @@ require_once 'Zend/Controller/Action/Helper/Abstract.php';
  * @copyright  Copyright (c) 2007,2008 Rob Allen
  * @license    http://framework.zend.com/license/new-bsd  New BSD License
  */
-class Pas_Controller_Action_Helper_Acl extends Zend_Controller_Action_Helper_Abstract
+class Pas_Controller_Action_Admin_Helper_Acl extends Zend_Controller_Action_Helper_Abstract
 {
     /**
      * @var Zend_Controller_Action
@@ -129,7 +129,7 @@ class Pas_Controller_Action_Helper_Acl extends Zend_Controller_Action_Helper_Abs
 		
 	/**	
 		 if (!$this->_acl->isAllowed($role, $resource, $privilege)){
-		throw new Pas_NotAuthorisedException('Not authorised');
+		throw new Pas_Exception_NotAuthorised('Not authorised');
 		
 		}
 

@@ -110,7 +110,7 @@ class Events_UpcomingController extends Pas_Controller_Action_Admin {
 	$events = new Events();
 	$this->view->events = $events->getEventsDate($this->_getParam('day'));
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	} 
 

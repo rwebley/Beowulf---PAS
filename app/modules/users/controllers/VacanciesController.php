@@ -92,12 +92,12 @@ class Users_VacanciesController extends Pas_Controller_Action_Admin {
 		{
 		$form->populate($vac->toArray());
 		} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 		}
 		}
 		}
 		} else {
-		throw new Pas_ParamException($this->_missingParamter);
+		throw new Pas_Exception_Param($this->_missingParamter);
 		}
 	}
 	/** Delete a vacancy

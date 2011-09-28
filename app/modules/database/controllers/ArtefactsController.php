@@ -138,7 +138,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		if(count($findsdata)) {
 		$this->view->finds = $findsdata; 
 		} else {
-			throw new Pas_NotAuthorisedException('You are not authorised to view this record');
+			throw new Pas_Exception_NotAuthorised('You are not authorised to view this record');
 		}
 		$contextSwitch = Zend_Controller_Action_HelperBroker::getStaticHelper('ContextSwitch');
 		$contexts = array(
@@ -255,7 +255,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		
 		}
 		} else {
-			throw new Pas_ParamException($this->_missingParameter);
+			throw new Pas_Exception_Param($this->_missingParameter);
 		}
 	}
 		
@@ -586,12 +586,12 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$form->populate($formData['0']);
 		$this->view->find = $finds->fetchRow('id='.$id);
 		} else {
-			throw new Pas_ParamException($this->_nothingFound);
+			throw new Pas_Exception_Param($this->_nothingFound);
 		}
 		}
 		}
 		} else {
-			throw new Pas_ParamException($this->_missingParameter);
+			throw new Pas_Exception_Param($this->_missingParameter);
 		}
 	}
 	/** Delete a record
@@ -662,7 +662,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Set up the akisemet key etc

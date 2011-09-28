@@ -746,7 +746,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
     $this->view->paginator = $paginator;
 	$this->view->results = $data;
 	} else {
-		throw new Pas_ParamException('No query has been entered',500);
+		throw new Pas_Exception_Param('No query has been entered',500);
 	}
 	}
 //EOS

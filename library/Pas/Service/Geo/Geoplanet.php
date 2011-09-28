@@ -1,26 +1,55 @@
 <?php
 /**
 * A class for parsing geo data from Yahoo geoplanet
-*
 * @category   Pas
 * @package    service
 * @subpackage Geo
-* @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+* @copyright  Copyright (c) 2011 
 * @license    GNU General Public License
-
+* @version	  1
+* @author     Daniel Pett
+* @since 	  September 27 2011
+* @uses 	  Pas_Yql_Oauth
+* @uses		  Pas_Geo_Parser
+* @todo		  Sort out class to have a non oauth YQL fallback
+* 
 */
 class Pas_Service_Geo_Geoplanet {
 	
+	/** The yahoo api endpoint
+	 * 
+	 * @var string
+	 */
  	const API_URI = 'http://where.yahooapis.com/v1/';
  	
+ 	/** The geonames url
+ 	 * @todo this might be worth changing to google elevation api
+ 	 * @var string
+ 	 */ 	
  	const ELEVATION_URI = 'http://ws.geonames.org/astergdemJSON?';
     
+ 	/** The language to use
+ 	 * 
+ 	 * @var string
+ 	 */
  	const LANG    = 'en-US';
 	
+ 	/** The YQL endpoint - authorised
+ 	 * 
+ 	 * @var string
+ 	 */
  	const YQL_URI = 'http://query.yahooapis.com/v1/public/yql?format=json&_maxage=7200&q=';
 	
+ 	/** The community table string
+ 	 * 
+ 	 * @var string
+ 	 */
  	const YQL_TABLES = '&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
 	
+ 	/** The context mime type
+ 	 * 
+ 	 * @var string
+ 	 */
  	const CONTENT = 'text/plain';
  	
  	protected $_cache, $_oauth, $_appID, $_accessToken, $_accessSecret;
@@ -28,10 +57,9 @@ class Pas_Service_Geo_Geoplanet {
  	protected $_accessExpiry, $_handle, $_parser;
 	
 	/** Set up the constructor
-	 * 
 	 * @param string $appid The Yahoo application ID
 	 */
- 	public function __construct( $appid) {
+ 	public function __construct( $appid ) {
 	$this->_appID = $appid;
 	$this->_cache = Zend_Registry::get('rulercache');
 	$this->_oauth = new Pas_Yql_Oauth();
@@ -59,8 +87,8 @@ class Pas_Service_Geo_Geoplanet {
 	$point = $this->getPlace($woeid);
 	$lat = $point['latitude'];
 	$lon = $point['longitude'];
-	$yql = 'select * from json where url="' .self::ELEVATION_URI . 'lat=' . $lat  . '&lng=' . $lon. '";';
-	$place = $this->_oauth->execute($yql,$this->_accessToken, $this->_accessSecret,$this->_accessExpiry,$this->_handle);
+	$yql = 'select * from json where url="' . self::ELEVATION_URI . 'lat=' . $lat  . '&lng=' . $lon. '";';
+	$place = $this->_oauth->execute($yql, $this->_accessToken, $this->_accessSecret,$this->_accessExpiry, $this->_handle);
 	$this->_cache->save($place);
 	} else {
 		$place = $this->_cache->load($key);
@@ -120,7 +148,6 @@ class Pas_Service_Geo_Geoplanet {
     } 
     
     /** Get a place from a text string
-     * 
      * @param string $string
      */
     public function getPlaceFromText( $string )  {
@@ -140,13 +167,12 @@ class Pas_Service_Geo_Geoplanet {
     } 
     
     /** Get a list of places in a text string
-     * 
      * @param string $text
      */
     public function getPlaces($text)  {
     if(strlen($text) > 3) {
-    $yql = 'select * from geo.placemaker where documentContent = "' . strip_tags($text) . '" and documentType="' . 
-    self::CONTENT . '" AND appid = "' . $this->_appID . '";';
+    $yql = 'select * from geo.placemaker where documentContent = "' . strip_tags($text) . '" and documentType="' 
+    . self::CONTENT . '" AND appid = "' . $this->_appID . '";';
     $place = $this->_oauth->execute($yql,$this->_accessToken, 
     $this->_accessSecret,$this->_accessExpiry,$this->_handle);
     if(sizeof($place) > 0) {
@@ -161,7 +187,6 @@ class Pas_Service_Geo_Geoplanet {
     } 
     
     /** Get all the places adjacent to a woeid
-     * 
      * @param integer $woeid
      */
     public function getAdjacentToWoeid($woeid) {
@@ -181,7 +206,6 @@ class Pas_Service_Geo_Geoplanet {
     } 
 
     /** Get the parent of a woeid
-     * 
      * @param integer $woeid
      */
     public function getParentOfWoeid( $woeid ) {
@@ -201,7 +225,6 @@ class Pas_Service_Geo_Geoplanet {
     } 
     
     /** Get the siblings
-     * 
      * @param integer $woeid
      */
     public function getSiblingsOfWoeid($woeid) {
@@ -220,10 +243,13 @@ class Pas_Service_Geo_Geoplanet {
    	}
     } 
 	
-    public function getAncestorsOfWoeid( $woeid )
-    {
+    /** Get the ancestors of a Woeid
+	* 
+    * @param $woeid
+    */
+    public function getAncestorsOfWoeid( $woeid )  {
     if(strlen($woeid) > 0){
-    $yql = 'select * from geo.places.ancestors where descendant_woeid = '.$woeid;
+    $yql = 'select * from geo.places.ancestors where descendant_woeid = ' . $woeid;
     $place = $this->_oauth->execute($yql,$this->_accessToken, 
     $this->_accessSecret,$this->_accessExpiry,$this->_handle);
      if(sizeof($place) > 0) {
@@ -237,9 +263,12 @@ class Pas_Service_Geo_Geoplanet {
 	}
     } 
     
+    /** Get the woeid that the current one belongs to (parent!)
+     * @param int $woeid
+     */
     public function getWoeidBelongsTo( $woeid ) {
     if(strlen($woeid) > 0){
-    $yql =  'select * from geo.places.belongtos where member_woeid = '.$woeid;
+    $yql =  'select * from geo.places.belongtos where member_woeid = ' . $woeid;
     $place = $this->_oauth->execute($yql,$this->_accessToken, 
     $this->_accessSecret,$this->_accessExpiry,$this->_handle);
     if(sizeof($place) > 0) {
@@ -253,15 +282,21 @@ class Pas_Service_Geo_Geoplanet {
     }
     }
     
+    /** Get the distance between two woeid
+     * 
+     * @param int $place1
+     * @param int $place2
+     */
     public function getDistance($place1, $place2) {
     $yql = 'select * from geo.distance where place1="' . $place1 . '" and place2="' . $place2 . '";';	
     $place = $this->_oauth->execute($yql,$this->_accessToken, 
     $this->_accessSecret,$this->_accessExpiry,$this->_handle);
     return $place;
     }
-    /**
- 	* @author Chris Heilmann originally for the YQL.
- 	*
+    
+    /** Call all data in one lump!
+ 	* @author Chris Heilmann originally for the YQL statements
+ 	* 
  	*/
     public function getThePlanet( $woeid ) {
     if(strlen($woeid) > 0){
@@ -291,6 +326,10 @@ class Pas_Service_Geo_Geoplanet {
     }
   	}
   	
+  	/** Reverse geocode for woeid and other data
+  	 * @param float $lat
+  	 * @param float $lon
+  	 */
 	public function reverseGeoCode($lat,$lon) {
     if(!is_null($lat) && !is_null($lon)){ 
     $key = 'geocode' . md5($lat . $lon);	
@@ -313,4 +352,6 @@ class Pas_Service_Geo_Geoplanet {
    	return false;
     }
     }
+    
+    
 }

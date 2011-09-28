@@ -242,12 +242,12 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 		
 	/** Edit coin data
-	 * @throws Pas_ParamException
+	 * @throws Pas_Exception_Param
 	*/	
 	public function editAction() {
 	if($this->_getParam('id',false)){
@@ -567,7 +567,7 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete coin data
@@ -592,7 +592,7 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -601,13 +601,13 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
 	public function coinrefAction() {
 	$params = $this->_getAllParams();
 	if(!isset($params['returnID']) && !isset($params['findID'])) {
-	throw new Pas_ParamException('Find ID and return ID missing');
+	throw new Pas_Exception_Param('Find ID and return ID missing');
 	}
 	if(!isset($params['returnID'])) {
-	throw new Pas_ParamException('The return ID parameter is missing.');
+	throw new Pas_Exception_Param('The return ID parameter is missing.');
 	}
 	if(!isset($params['findID'])) {
-	throw new Pas_ParamException('The find ID parameter is missing.');
+	throw new Pas_Exception_Param('The find ID parameter is missing.');
 	}
 	$form = new ReferenceCoinForm();
 	$form->submit->setLabel('Add reference');

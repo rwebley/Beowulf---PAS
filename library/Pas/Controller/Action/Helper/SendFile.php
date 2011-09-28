@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2009 Tom Graham (http://www.noginn.com)
  * @license http://www.opensource.org/licenses/mit-license.php
  */
-class Pas_Controller_Action_Helper_SendFile extends Zend_Controller_Action_Helper_Abstract
+class Pas_Controller_Action_Admin_Helper_SendFile extends Zend_Controller_Action_Helper_Abstract
 {
     /**
      * Set cache headers

@@ -5,7 +5,8 @@
  *
  * @original http://www.zfsnippets.com/snippets/view/id/30
  */
-class Pas_View_Helper_GoogleAnalytics extends Zend_View_Helper_Placeholder_Container_Standalone
+class Pas_View_Helper_GoogleAnalytics 
+	extends Zend_View_Helper_Placeholder_Container_Standalone
 {
     /**
      * @var string registry key

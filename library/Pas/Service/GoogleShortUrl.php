@@ -8,6 +8,8 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @see Zend_View_Helper_Abstract
  * @uses Pas_View_Helper_RecordEditDeleteLinks
+ * @author Daniel Pett
+ * @since September 28 2011
  */
 class Pas_Service_GoogleShortUrl {
  

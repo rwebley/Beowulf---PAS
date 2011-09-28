@@ -11,7 +11,7 @@
 * @since		23 Sept. 2011
 * @version		1.0
 */
-class Events_IndexController extends Pas_Controller_Action {
+class Events_IndexController extends Pas_Controller_Action_Admin {
 
 	/** Initialise the ACL for access levels
 	*/

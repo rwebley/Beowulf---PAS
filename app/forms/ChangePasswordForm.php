@@ -50,7 +50,7 @@ class ChangePasswordForm extends Pas_Form
 
     // identical field validator with custom messages
    	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

@@ -144,7 +144,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	*/ 
 	protected function _initAcl(){
 	$acl = new Pas_Acl();
-	$aclHelper = new Pas_Controller_Action_Helper_Acl(null, array('acl'=>$acl));
+	$aclHelper = new Pas_Controller_Action_Admin_Helper_Acl(null, array('acl'=>$acl));
 	Zend_Registry::set('acl',$acl);
 	Zend_Controller_Action_HelperBroker::addHelper($aclHelper);
 	}
@@ -152,7 +152,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	/** Initialise the send file action helper
 	*/ 	
 	protected function _initSendFile(){
-	$sendFile = new Pas_Controller_Action_Helper_SendFile();
+	$sendFile = new Pas_Controller_Action_Admin_Helper_SendFile();
 	Zend_Controller_Action_HelperBroker::addHelper($sendFile);
 	}
     

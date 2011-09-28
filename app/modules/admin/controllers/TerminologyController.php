@@ -88,12 +88,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($activity->toArray());
 	} else {
-	throw new Pas_ParamException($this->_nothingFound);
+	throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete an activity
@@ -159,12 +159,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($method->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a method of discovery
@@ -280,12 +280,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	if(count($decs)) {
 	$form->populate($dec->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a decorative method
@@ -377,12 +377,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($surface->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a surface treatment
@@ -450,12 +450,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($period->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a period
@@ -576,12 +576,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($culture->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -673,12 +673,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($workflow->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a workflow stage
@@ -769,12 +769,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	if(count($preserve)) {
 	$form->populate($preserve->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a preservation state
@@ -866,12 +866,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($origin->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParamter);
+		throw new Pas_Exception_Param($this->_missingParamter);
 	}
 	}
 	/** Delete a map origin statement
@@ -961,12 +961,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($note->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParamter);
+		throw new Pas_Exception_Param($this->_missingParamter);
 	}
 	}
 	/** Delete a find of note statement
@@ -1056,12 +1056,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	if(count($material)) {
 	$form->populate($material->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -1151,7 +1151,7 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	if(count($dec)){
 	$form->populate($dec->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
@@ -1246,7 +1246,7 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($manufacture->toArray());
 	} else {
-	throw new Pas_ParamException($this->_nothingFound);
+	throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
@@ -1349,12 +1349,12 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($landuse->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	

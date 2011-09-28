@@ -11,7 +11,7 @@
  * @since		September 2009
  * @todo		Refactor completely - is this actually needed?
  */
-class Pas_Controller_Action_Ajax extends Zend_Controller_Action {
+class Pas_Controller_Action_Admin_Ajax extends Zend_Controller_Action {
     
 	/** The error message for a missing parameter
 	 * 
@@ -87,7 +87,7 @@ class Pas_Controller_Action_Ajax extends Zend_Controller_Action {
 	$name = $user->username;
 	return $name;
 	} else 	{
-	throw new Pas_BadJuJuException('No identity');
+	throw new Pas_Exception_BadJuJu('No identity');
 	}
 	}	
 	/** Get a time for updating form

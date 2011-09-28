@@ -94,12 +94,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($dieaxis)) {
 	$form->populate($dieaxis->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a die axis
@@ -200,12 +200,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($denomination->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a denomination
@@ -237,7 +237,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	$denoms = new Denominations();
 	$this->view->paginator = $denoms->getDenominations($period,$this->_getParam('page'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	} 
 	/** Add a medieval ruler
@@ -347,12 +347,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($mint)) {
 	$form->populate($mint->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a mint
@@ -480,12 +480,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($ruler)) {
 	$form->populate($ruler->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -526,7 +526,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	$reverses = new Revtypes();
 	$this->view->reverses = $reverses->getTypesAdmin($id);
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}	
 	/** Iron age ruler details
@@ -543,7 +543,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	$denominations = new Denominations();
 	$this->view->denoms = $denominations->getRomanRulerDenomAdmin($id);	
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** medieval ruler details
@@ -564,7 +564,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	$bios = new Monarchs();
 	$this->view->bios = $bios->getBiography($id);
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Byzantine ruler details
@@ -573,7 +573,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$id = $this->_getParam('id');
  	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}	
 	/** Greek and roman prov ruler detais
@@ -582,7 +582,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$id = $this->_getParam('id');
  	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Roman emperor biographical details
@@ -662,12 +662,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($emperor) > 0) {
 	$form->populate($emperor->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -831,12 +831,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($reece)) {
 	$form->populate($reece->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -940,7 +940,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else 	{
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete reverse type
@@ -1100,12 +1100,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($degree)){
 	$form->populate($degree->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a degree of wear
@@ -1175,12 +1175,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	{
 	$form->populate($monarch->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}	
 	/** Link a ruler to a denomination
@@ -1342,12 +1342,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($tribe)){
 	$form->populate($tribe->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Add a tribe
@@ -1468,12 +1468,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($geo)){
 	$form->populate($geo->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete iron age region
@@ -1504,7 +1504,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	$categories = new CategoriesCoins();
 	$this->view->categories = $categories->getCategoriesPeriodAdmin((int)$this->_getParam('period'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Add a medieval category
@@ -1572,12 +1572,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($cat)) {
 	$form->populate($cat->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a medieval category
@@ -1679,12 +1679,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($medtype)){
 	$form->populate($medtype->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a medieval type
@@ -1783,12 +1783,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($dynasty)){
 	$form->populate($dynasty->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a roman dynasty
@@ -1877,12 +1877,12 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	if(count($class)){
 	$form->populate($class->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** List reference types

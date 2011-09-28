@@ -53,7 +53,7 @@ public function __construct($options = null)
 	->addErrorMessage('You must set the status of this term');
 
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')
 	->removeDecorator('label')

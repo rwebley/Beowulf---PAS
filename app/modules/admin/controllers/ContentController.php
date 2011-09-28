@@ -111,12 +111,12 @@ class Admin_ContentController extends Pas_Controller_Action_Admin {
 		$form->populate($content->toArray());
 		$this->view->headTitle('Edit content &raquo; ' . $content['title']);
 		} else {
-			throw new Pas_ParamException($this->_nothingFound);
+			throw new Pas_Exception_Param($this->_nothingFound);
 		}
 		}
 		}
 		} else {
-			throw new Pas_ParamException($this->_missingParameter);
+			throw new Pas_Exception_Param($this->_missingParameter);
 		}
 		}
 	/** Delete article

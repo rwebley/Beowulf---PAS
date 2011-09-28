@@ -33,7 +33,7 @@ class Database_MyschemeController extends Pas_Controller_Action_Admin {
 	const REDIRECT = '/database/myscheme/';
 	/** Protected function for finding institution
 	 * @todo needs abstracting out to extended controller's getAccount()
-	 * @throws Pas_ParamException if no institution is attached
+	 * @throws Pas_Exception_Param if no institution is attached
 	 * 
 	 */
 	protected function getInstitution() {
@@ -42,13 +42,13 @@ class Database_MyschemeController extends Pas_Controller_Action_Admin {
 	$inst = $user->institution;
 	return $inst;
 	} else {
-		throw new Pas_ParamException('No institution attached');
+		throw new Pas_Exception_Param('No institution attached');
 	}
 	}
 	
 	/** Protected function for finding user's image directory
 	 * @todo needs abstracting out to extended controller's getAccount()
-	 * @throws Pas_ParamException if no institution is attached
+	 * @throws Pas_Exception_Param if no institution is attached
 	 * 
 	 */
 	protected function getImageDir() {
@@ -57,7 +57,7 @@ class Database_MyschemeController extends Pas_Controller_Action_Admin {
 	$imagedir = $user->imagedir;
 	return $imagedir;
 	} else {
-		throw new Pas_ParamException('No image directory set up');
+		throw new Pas_Exception_Param('No image directory set up');
 	}
 	}
 

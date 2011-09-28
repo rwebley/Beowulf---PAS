@@ -116,7 +116,7 @@ class Events_ArchivesController extends Pas_Controller_Action_Admin {
 	$events = new Events();
 	$this->view->events = $events->getEventsDate($this->_getParam('day'));
 	} else {
-	throw new Pas_ParamException('No date has been entered');
+	throw new Pas_Exception_Param('No date has been entered');
 	}
 	} 
 	

@@ -20,7 +20,7 @@ class Conservation_AdviceController extends Pas_Controller_Action_Admin {
  			$content = new Content();
 			$this->view->contents = $content->getContent('conservation',$this->_getParam('slug'));
 		} else {
-			throw new Pas_ParamException('That page is not found.');
+			throw new Pas_Exception_Param('That page is not found.');
 		}
 	}
 

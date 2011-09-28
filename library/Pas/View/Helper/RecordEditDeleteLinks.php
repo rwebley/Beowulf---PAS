@@ -17,7 +17,6 @@ class Pas_View_Helper_RecordEditDeleteLinks extends Zend_View_Helper_Abstract {
 	protected $recorders = array('flos');
 	protected $higherLevel = array('admin','fa','treasure');
 	protected $_auth = NULL;
-	
 	protected $_missingGroup = 'User is not assigned to a group';
 	protected $_message = 'You are not allowed edit rights to this record';
 

@@ -1,6 +1,18 @@
 <?php
+/** A class for geocoding against the google api
+ * @version 1
+ * @author Daniel Pett
+ * @license GNU
+ * @package Pas_Service
+ * @subpackage Geo
+ * @category Pas
+ */
 class Pas_Service_Geo_Coder{
-	
+
+	/** The google map key
+	 * 
+	 * @var string $api_key
+	 */
     protected $_key;
 
     const GEOCODEURI = 'http://maps.google.com/maps/geo';
@@ -9,6 +21,9 @@ class Pas_Service_Geo_Coder{
         $this->_key = $api_key;
     }
 
+    /** Get the coordinates from an address string
+     * @param string $address
+     */
     public function _getGeocodedLatitudeAndLongitude($address) {
         $client = new Zend_Http_Client();
         $client->setUri(self::GEOCODEURI);
@@ -21,7 +36,11 @@ class Pas_Service_Geo_Coder{
                     Zend_Json::TYPE_OBJECT);
         return $response;
     }
-
+	
+    /** Get the coordinates of an address
+     * 
+     * @param string $address
+     */
     public function getCoordinates($address)  {
         $response = $this->_getGeocodedLatitudeAndLongitude($address);
         if(isset($response->Placemark[0]->Point->coordinates[1])){

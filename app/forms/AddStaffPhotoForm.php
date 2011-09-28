@@ -29,7 +29,7 @@ public function __construct($options = null) {
 		->addValidator('Count', false, array('min' => 1, 'max' => 1));
 	
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

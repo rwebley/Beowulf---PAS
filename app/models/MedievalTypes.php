@@ -17,14 +17,6 @@ class MedievalTypes extends Pas_Db_Table_Abstract {
 
 	protected $_primary = 'id';
 
-	protected $_cache = NULL;
-
-	/** Set up the cache
-	* return object $_cache
-	*/
-	public function init() {
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/** Get all the early medieval types attached to a ruler
 	* @param integer $rulerID 

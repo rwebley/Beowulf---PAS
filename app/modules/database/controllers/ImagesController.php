@@ -29,7 +29,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$this->_auth = Zend_Registry::get('auth');
 	$this->_images = new Slides();
 	$this->_cache = Zend_Registry::get('cache');
-	$this->_zoomifyObject = new ZoomifyFileProcessor();
+	$this->_zoomifyObject = new Pas_Zoomify_FileProcessor();
     }
 	const REDIRECT = 'database/images/';
 	
@@ -406,7 +406,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	}
 	}
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Unlink an image from a record
@@ -446,7 +446,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	}
 	}
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -483,7 +483,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$this->_zoomifyObject->_filemode = '664';
 	$this->_zoomifyObject->_dirmode = '2775';
 	$this->_zoomifyObject->_dir = $imagepath;
-	$this->_zoomifyObject->_v_saveToLocation = $ord . $zoomedimagepath.'_zdata';
+	$this->_zoomifyObject->_vSaveToLocation = $ord . $zoomedimagepath.'_zdata';
 	$this->_zoomifyObject->ZoomifyProcess($filename, $imagepath);
 	
 	$this->view->path = $ord . $zoomedimagepath . '_zdata';
@@ -493,7 +493,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	//EOF controller

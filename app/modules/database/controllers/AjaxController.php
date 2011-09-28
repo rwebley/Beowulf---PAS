@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Database_AjaxController extends Pas_Controller_ActionAjax {
+class Database_AjaxController extends Pas_Controller_Action_AdminAjax {
 	/** Setup the contexts by action and the ACL.
 	*/
 	public function init() {
@@ -32,7 +32,7 @@ class Database_AjaxController extends Pas_Controller_ActionAjax {
 		$finds = new Finds();
 		$this->view->finds = $finds->getWebCiteFind((int)$this->_request->getParam('id'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display the find embed view
@@ -46,7 +46,7 @@ class Database_AjaxController extends Pas_Controller_ActionAjax {
 		$thumbs = new Slides;
 		$this->view->thumbs = $thumbs->getThumbnails($id);
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display other discoveries
@@ -86,10 +86,10 @@ class Database_AjaxController extends Pas_Controller_ActionAjax {
 		$this->_helper->viewRenderer->setNoRender(); 
 		$this->_helper->sendFile($file,$mime_type);
 	} else {
-		throw new Pas_ParamException('That file doesn\'t exist');
+		throw new Pas_Exception_Param('That file doesn\'t exist');
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display rally data
@@ -116,7 +116,7 @@ class Database_AjaxController extends Pas_Controller_ActionAjax {
 	if(count($findsdata)) {
 	$this->view->finds = $findsdata; 
 	} else {
-		throw new Pas_NotAuthorisedException('You are not authorised to view this record');
+		throw new Pas_Exception_NotAuthorised('You are not authorised to view this record');
 	}
 	$findsdata = new Finds();
 	$this->view->findsdata = $findsdata->getFindData($id);
@@ -132,7 +132,7 @@ class Database_AjaxController extends Pas_Controller_ActionAjax {
 	$refs = new Publications;
 	$this->view->refs = $refs->getReferences($id);
 	}else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display a report in pdf format
@@ -146,7 +146,7 @@ class Database_AjaxController extends Pas_Controller_ActionAjax {
 	if(count($findsdata)) {
 	$this->view->finds = $findsdata; 
 	} else {
-		throw new Pas_NotAuthorisedException('You are not authorised to view this record');
+		throw new Pas_Exception_NotAuthorised('You are not authorised to view this record');
 	}
 	$findsdata = new Finds();
 	$this->view->findsdata = $findsdata->getFindData($id);
@@ -164,7 +164,7 @@ class Database_AjaxController extends Pas_Controller_ActionAjax {
 	$findspotsdata = new Findspots();
 	$this->view->findspots = $findspotsdata->getFindSpotData($id);
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Get a find autdit overlay

@@ -60,7 +60,7 @@ class MedievalCoins_DenominationsController extends Pas_Controller_Action_Admin 
 	$images = new Slides();
 	$this->view->images = $images->getExamplesCoinsDenominations($id,4); 
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 }

@@ -86,7 +86,7 @@ class Database_PublicationsController extends Pas_Controller_Action_Admin {
 	$finds = new Finds();
 	$this->view->finds = $finds->getFindtoPublication($this->_getParam('id'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Add a publication
@@ -199,7 +199,7 @@ class Database_PublicationsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 }

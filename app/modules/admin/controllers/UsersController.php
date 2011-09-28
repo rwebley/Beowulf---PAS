@@ -62,7 +62,7 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	$slides = new Slides();
 	$this->view->images = $slides->recentFinds((string)$this->_getParam('username'),4);
 	} else {
-		throw new Pas_ParamException('Parameter not found');
+		throw new Pas_Exception_Param('Parameter not found');
 	}
 	}
 	/** Edit a user's account
@@ -139,12 +139,12 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	}
 	$form->populate($data);
 	} else {
-		throw new Pas_ParamException('No user account found with that id');
+		throw new Pas_Exception_Param('No user account found with that id');
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException('No parameter found on url string');
+		throw new Pas_Exception_Param('No parameter found on url string');
 	}
 	}
 	/** Add a new user
@@ -294,12 +294,12 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	if(count($user)) {
 	$form->populate($user->toArray());
 	} else {
-	throw new Pas_ParamException('No user account found with that id');
+	throw new Pas_Exception_Param('No user account found with that id');
 	}
 	}
 	}
 	}else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Reject a user's account
@@ -372,12 +372,12 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 
 	$form->populate($user->toArray());
 	} else {
-	throw new Pas_ParamException($this->_nothingFound);
+	throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	}else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	//EOC

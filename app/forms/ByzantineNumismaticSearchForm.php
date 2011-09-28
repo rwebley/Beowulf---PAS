@@ -259,7 +259,7 @@ public function __construct($options = null)
 	->removeDecorator('DtDdWrapper')->removeDecorator('label');
 
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

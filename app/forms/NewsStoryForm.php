@@ -133,7 +133,7 @@ class NewsStoryForm extends Pas_Form {
 	$config = Zend_Registry::get('config');
 	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
 		->removeDecorator('HtmlTag')->removeDecorator('label')
 		->setTimeout(4800);

@@ -1,22 +1,34 @@
 <?php
-/* SCRIPT: gridcalc.class.php
-* PURPOSE: Calculate derivative information on OS grid references
-* MODULE: map
-* ASSUMPTIONS:
-* 	Requires logger.class.php; instance already declared as '$logger'
-* © Oxford ArchDigital Ltd. 2001-2002
-*/
-class Zend_View_Helper_GetAccuracy
+/** This view helper gets the accuracy of a grid reference
+ * @todo phase this out as it won't be needed shortly
+ * @author Daniel Pett
+ * @copyright DEJ Pett
+ * @license GNU
+ * @version 1
+ * @since 28 September 2011
+ * @category Pas
+ * @package Pas_View_Helper
+ */
 
-{
-private function stripgrid($string=""){
-	$stripOut = array(" ","-","-",".");
+class Pas_View_Helper_GetAccuracy
+	extends Zend_View_Helper_Abstract {
+	/** Strip out the NGR bad characters
+	 * 
+	 * @param string $string
+	 */		
+	private function stripgrid($string=""){
+	$stripOut = array(" ","-",'/',".");
 	$gridRef = str_replace($stripOut,"",$string);
 	$gridRef = strtoupper($gridRef);
 	return $gridRef;
-}
+	}
 
-public function GetAccuracy($gridref,$clean=1){
+	/** Get accuracy of the grid ref
+	 * 
+	 * @param string $gridref
+	 * @param int $clean
+	 */
+	public function GetAccuracy($gridref,$clean=  1){
 
 	if ($clean == 1){$gridref = $this->stripgrid($gridref);}
 	$coordCount = strlen($gridref)-2; //count length and strip off fist two characters
@@ -53,6 +65,6 @@ public function GetAccuracy($gridref,$clean=1){
 	
 	$gridAcc = $acc;
 	return $acc;	
-}
+	}
 
 }

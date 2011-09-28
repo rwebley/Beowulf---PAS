@@ -57,7 +57,7 @@ class ByzantineCoins_DenominationsController extends Pas_Controller_Action_Admin
     $counts = new Finds;
     $this->view->counts = $counts->getDenominationTotals($id);
    	} else {
-   		throw new Pas_ParamException($this->_missingParameter);
+   		throw new Pas_Exception_Param($this->_missingParameter);
    	}
     }
 }

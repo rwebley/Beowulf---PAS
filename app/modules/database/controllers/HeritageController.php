@@ -32,7 +32,7 @@ class Database_HeritageController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$this->view->crime = $this->_crimes->getCrime($this->_getParam('id'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);	
+		throw new Pas_Exception_Param($this->_missingParameter);	
 	}
 	}
 	/** Add a heritage crime
@@ -49,7 +49,7 @@ class Database_HeritageController extends Pas_Controller_Action_Admin {
 	if(!is_null($ngr) || ($ngr != '')) {
 	$results = $this->GridCalc($form->getValue('gridref'));
 	$fourFigure = $this->FourFigure($form->getValue('gridref'));
-	$place = new Pas_Service_Geoplanet2($this->_appid);
+	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
 	$findelevation = $place->getElevation(NULL,$results['Latitude'],$results['Longitude']);
 	$findwoeid = $place->reverseGeoCode($results['Latitude'],$results['Longitude']);
 	$elevation = $findelevation['elevation'];
@@ -127,7 +127,7 @@ class Database_HeritageController extends Pas_Controller_Action_Admin {
 	if(!is_null($ngr) || ($ngr != "")){
 	$results = $this->GridCalc($ngr);
 	$fourFigure = $this->FourFigure($ngr);
-	$place = new Pas_Service_Geoplanet2($this->_appid);
+	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
 	$findelevation = $place->getElevation(NULL,$results['Latitude'],$results['Longitude']);
 	$findwoeid = $place->reverseGeoCode($results['Latitude'],$results['Longitude']);
 	$elevation = $findelevation['elevation'];
@@ -233,7 +233,7 @@ class Database_HeritageController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 		

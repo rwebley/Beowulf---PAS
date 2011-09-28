@@ -62,7 +62,7 @@ class Earlymedievalcoins_TypesController extends Pas_Controller_Action_Admin {
 	$this->view->images = $images->getExamplesCoinsMedTypes($this->_getParam('id'),4);
 	
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 

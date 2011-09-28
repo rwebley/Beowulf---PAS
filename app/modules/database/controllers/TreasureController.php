@@ -45,14 +45,14 @@ class Database_TreasureController extends Pas_Controller_Action_Admin {
 	$finals = new AgreedTreasureValuations();
 	$this->view->finalvalues = $finals->listvaluations($this->_treasureID);
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}	
 	}
 	public function eventAction(){
 	if($this->_getParam('treasureID',false)){	
 		
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -60,7 +60,7 @@ class Database_TreasureController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('treasureID',false)){	
 		
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}	
 	}
 	
@@ -82,7 +82,7 @@ class Database_TreasureController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}	
 	}
 	
@@ -131,7 +131,7 @@ class Database_TreasureController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}	
 	}
 	
@@ -165,7 +165,7 @@ class Database_TreasureController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}		
 	}
 	
@@ -187,7 +187,7 @@ class Database_TreasureController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}			
 	}
 
@@ -209,7 +209,7 @@ class Database_TreasureController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}	
 	}
 }

@@ -79,7 +79,7 @@ class Database_SmrController extends Pas_Controller_Action_Admin {
 	$smrs = new ScheduledMonuments();
 	$this->view->smrs = $smrs->getSmrDetails($this->_getParam('id'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** SMR by WOEID
@@ -90,7 +90,7 @@ class Database_SmrController extends Pas_Controller_Action_Admin {
 	$smrs = new ScheduledMonuments();
 	$this->view->smrs = $smrs->getSmrsByWoeid($this->_getParam('number'),$this->_getParam('page'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 }

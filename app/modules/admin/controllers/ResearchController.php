@@ -104,7 +104,7 @@ class Admin_ResearchController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}	
 	}
 	/** Add a suggested research topic
@@ -185,7 +185,7 @@ class Admin_ResearchController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}	
 	}
 	/** Delete a suggested topic

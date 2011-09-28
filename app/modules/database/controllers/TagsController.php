@@ -30,7 +30,7 @@ class Database_TagsController extends Pas_Controller_Action_Admin {
 	$this->view->headTitle('All records tagged by opencalais with: ' . $this->_getParam('tag'));
 	$this->view->tags = $this->_opencalais->getRecordsByTag($this->_getAllParams());
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Tags created by yahoo
@@ -40,7 +40,7 @@ class Database_TagsController extends Pas_Controller_Action_Admin {
 	$this->view->headTitle('All records tagged by Yahoo! Geo Placemaker with: '.$this->_getParam('tag'));
 	$this->view->tags = $this->_opencalais->getRecordsByGeoTag($this->_getAllParams());
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 }

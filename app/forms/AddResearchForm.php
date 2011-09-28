@@ -61,7 +61,7 @@ class AddResearchForm extends Zend_Form
 	$this->addElements(array($title,$findID,$submit));
 	
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

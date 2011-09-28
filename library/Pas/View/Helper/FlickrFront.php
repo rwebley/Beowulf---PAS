@@ -48,7 +48,7 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	private function getFlickr($access) {
 	$access = (object)$access;
 	if (!($this->_cache->test('flickrimagesfrontjson'))) {
-	$oauth = new Pas_YqlOauth();
+	$oauth = new Pas_Yql_Oauth();
 	$q = 'SELECT * FROM flickr.photos.search WHERE tag_mode ="all" AND user_id="10257668@N04" AND extras="geo,license,url_sq,url_m" and api_key="dbb87ca6390925131a4fedb34d9d8d80" LIMIT 10';
     $data = $oauth->execute($q,$access->access_token, $access->access_token_secret,$access->access_token_expiry,$access->handle);
    

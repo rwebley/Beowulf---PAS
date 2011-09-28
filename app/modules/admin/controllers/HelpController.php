@@ -99,12 +99,12 @@ class Admin_HelpController extends Pas_Controller_Action_Admin {
 	if(count($content)) {
 	$form->populate($content->toArray());
 	} else {
-	throw new Pas_ParamException($this->_nothingFound);
+	throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Delete a help topic

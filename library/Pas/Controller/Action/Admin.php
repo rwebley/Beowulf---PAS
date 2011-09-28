@@ -5,7 +5,7 @@
  * available to all actions that utilise it. Probably could be stream 
  * lined.
  * @category Pas
- * @package Pas_Controller_Action
+ * @package Pas_Controller_Action_Admin
  * @subpackage Action
  * @version 1
  * @author Daniel Pett
@@ -37,14 +37,14 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	protected $_noChange = 'No changes have been implemented';
 	
 	protected $_config, $_auth, $_identity;
-	
-	
-	
+	protected $_geocoder;
+
 	public function preDispatch(){
 	$this->_config = Zend_Registry::get('config');
 	$this->_auth = Zend_Registry::get('auth');
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_identity = new Pas_UserDetails();
+	$this->_geocoder = new Pas_Service_Geo_Coder($this->_config->webservice->googlemaps->apikey);
 	}
 	
 	public function postDispatch() {

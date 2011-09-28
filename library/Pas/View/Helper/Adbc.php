@@ -10,6 +10,7 @@
  * @author     	Originally TW Bell, extended for Zend by Daniel Pett
  * @version		1
  * @since		26 September 2011
+ * @uses Zend_Validate_Int
  */
 class Pas_View_Helper_Adbc extends Zend_View_Helper_Abstract {
 	

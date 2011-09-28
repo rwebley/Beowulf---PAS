@@ -63,7 +63,7 @@ class Database_OrganisationsController extends Pas_Controller_Action_Admin {
 	$members = new Organisations();
 	$this->view->members = $members->getMembers($this->_getParam('id'));
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 
@@ -286,7 +286,7 @@ class Database_OrganisationsController extends Pas_Controller_Action_Admin {
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	

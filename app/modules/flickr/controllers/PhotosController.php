@@ -202,7 +202,7 @@ class Flickr_PhotosController extends Pas_Controller_Action_Admin {
 	$this->view->pictures = $paginator;
 	$this->view->id = $id;
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** get photos's details
@@ -274,7 +274,7 @@ class Flickr_PhotosController extends Pas_Controller_Action_Admin {
 	}
 	$this->view->comments = $comms;
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Find images tagged in a certain way.
@@ -424,7 +424,7 @@ class Flickr_PhotosController extends Pas_Controller_Action_Admin {
     	      ->setPageRange(10); 	
 	$this->view->photos = $paginator;
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Get a list of our favourite images

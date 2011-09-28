@@ -18,14 +18,6 @@ class Reeces extends Pas_Db_Table_Abstract {
 
 	protected $_primary = 'id';
 
-	protected $_cache;
-
-	/** Construct the cache object
-	* @return object
-	*/
-	public function init(){
-	$this->_cache = Zend_Registry::get('rulercache');
-	}
 
 	/** Retrieve key value pairs for Reece period dropdowns
 	* @return array

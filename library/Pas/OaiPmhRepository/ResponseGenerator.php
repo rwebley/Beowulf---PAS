@@ -511,7 +511,7 @@ class Pas_OaiPmhRepository_ResponseGenerator extends Pas_OaiPmhRepository_OaiXml
                 // Check for all PHP files, ignore the abstract class
                 if(preg_match('/^(.+)\.php$/', $filename, $match) && $match[1] != 'Abstract') {
 //                    require_once($pathname);
-                    $class = "Pas_OaiPmhRepository_Metadata_${match[1]}";
+                    $class = "Pas_OaiPmhRepository_Metadata_. $match[1]";
                     $object = new $class(null, null);
                     $metadataFormats[$object->getMetadataPrefix()] = $class;
                     

@@ -36,7 +36,7 @@ class Users_AuditController extends Pas_Controller_Action_Admin {
 	$logins = new Logins();
 	$this->view->logins = $logins->users2Ip($ip);
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 }

@@ -74,12 +74,12 @@ class Admin_MessagesController extends Pas_Controller_Action_Admin {
 	if(count($message) != NULL) {
 	$form->populate($message->toArray());
 	} else {
-		throw new Pas_ParamException($this->_nothingFound);
+		throw new Pas_Exception_Param($this->_nothingFound);
 	}
 	}
 	}
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	

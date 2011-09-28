@@ -115,6 +115,9 @@ if (isset($img["APP13"])) {
  //   Zend_Debug::dump($iptc);
 }
 if($img['mime'] == 'image/jpeg') {
+$data = new Pas_Exif_Reader($location, true, false, false);
+Zend_Debug::dump($data);
+exit;
 $exif = exif_read_data($location, 0, true);
 if(isset($exif['FILE'])){
 echo $this->partial('partials/database/exifData.phtml',$exif['FILE']);

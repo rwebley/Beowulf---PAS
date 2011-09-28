@@ -72,14 +72,14 @@ class GetInvolved_VacanciesController extends Pas_Controller_Action_Admin
 	}
 
 	/** Render a vacancy's details
-	* @throws Pas_ParamException if missing parameter on URL. 
+	* @throws Pas_Exception_Param if missing parameter on URL. 
 	*/ 
 	public function vacancyAction() {
 		if($this->_getParam('id',false)){
 			$vacs = new Vacancies();
 			$this->view->vacs = $vacs->getJobDetails($this->_getParam('id'));
 		} else {
-			throw new Pas_ParamException($this->_missingParameter);
+			throw new Pas_Exception_Param($this->_missingParameter);
 		}
 	}
 

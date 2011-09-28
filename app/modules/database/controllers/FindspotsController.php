@@ -6,7 +6,7 @@
  * 
  * @author Daniel Pett
  * @category Pas
- * @package  Pas_Controller_Action
+ * @package  Pas_Controller_Action_Admin
  * @subpackage Admin
  * @version 1
  * @license GNU 
@@ -103,7 +103,8 @@ class Database_FindspotsController
 	
 //	$findelevation = $place->getElevation(NULL,$results['Latitude'],$results['Longitude']);
 	
-	$findwoeid = $place->reverseGeoCode($results['Latitude'],$results['Longitude']);
+	$findwoeid = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],
+		$results['decimalLatLon']['decimalLongitude']);
 //	$elevation = $findelevation['elevation'];
 	$woeid = $findwoeid['woeid'];
 	} else {
@@ -161,7 +162,7 @@ class Database_FindspotsController
 	}
 	}
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 
@@ -435,7 +436,7 @@ class Database_FindspotsController
 	}
 	}
 	} else {
-	throw new Pas_ParamException($this->_missingParameter);
+	throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 

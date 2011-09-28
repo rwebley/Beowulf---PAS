@@ -562,7 +562,7 @@ class AdvancedSearchForm extends Pas_Form {
 	$this->details->setLegend('Main details: ');
 	
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

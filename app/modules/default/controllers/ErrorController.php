@@ -179,7 +179,7 @@ public function getLog()
 		break;
 	  case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_OTHER:
 	  	switch (get_class($errors['exception'])) {
-                    case 'Pas_NotAuthorisedException' :
+                    case 'Pas_Exception_NotAuthorised' :
 					        $this->getResponse()->setHttpResponseCode(401);
 					        $this->view->message = 'This record falls outside your access levels. If you contact us, 
 					        we can let you know when you can see it. This normally means the record is not on public view.';
@@ -187,7 +187,7 @@ public function getLog()
 							$this->view->code  = 403;
 							$this->view->headTitle('Not authorised.');
                     break;
-					case 'Pas_BadJuJuException':
+					case 'Pas_Exception_BadJuJu':
 					        $this->getResponse()->setHttpResponseCode(500);
 							$this->view->message = 'Bad JuJu on your part!';
 							$this->view->info  = $errors->exception;
@@ -195,7 +195,7 @@ public function getLog()
 							$this->view->compiled = $compiledTrace;
 	
                     break;
-					case 'Pas_ParamException':
+					case 'Pas_Exception_Param':
 					        $this->getResponse()->setHttpResponseCode(500);
 							$this->view->message = 'Something has gone wrong with what you are trying to do';
 							$this->view->info  = $errors->exception;

@@ -84,7 +84,7 @@ parent::__construct($options);
 	->setJQueryParams(array('yearRange'=> '-20:+10'));
 	
 	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($_formsalt)
+	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')->removeDecorator('label')
 	->setTimeout(60);

@@ -40,7 +40,7 @@ class PostMedievalCoins_CategoriesController extends Pas_Controller_Action_Admin
 	$rulers =  new CategoriesCoins();
 	$this->view->rulers = $rulers->getMedievalRulersToType($id);
 	} else {
-		throw new Pas_ParamException($this->_missingParameter);
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 }
