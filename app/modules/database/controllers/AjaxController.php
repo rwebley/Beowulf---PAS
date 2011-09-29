@@ -7,7 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class Database_AjaxController extends Pas_Controller_Action_AdminAjax {
+class Database_AjaxController extends Pas_Controller_Action_Ajax {
 	/** Setup the contexts by action and the ACL.
 	*/
 	public function init() {
