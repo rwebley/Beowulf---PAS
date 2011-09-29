@@ -9,62 +9,8 @@
 * @todo Sort out a version that deals with Tiffs.
 * 
 */
-	/** Function to remove an image
-	 * 
-	 * @param $fileglob
-	 */
-
-	function rm($fileglob) {
-	if (is_string($fileglob)) {
-       if (is_file($fileglob)) {
-           return unlink($fileglob);
-       } else if (is_dir($fileglob)) {
-           $ok = rm("$fileglob/*");
-           if (! $ok) {
-               return false;
-           }
-           return rmdir($fileglob);
-       } else {
-           $matching = glob($fileglob);
-           if ($matching === false) {
-               trigger_error(sprintf('No files match supplied glob %s', $fileglob), E_USER_WARNING);
-               return false;
-           }      
-           $rcs = array_map('rm', $matching);
-           if (in_array(false, $rcs)) {
-               return false;
-           }
-       }      
-	} else if (is_array($fileglob)) {
-       $rcs = array_map('rm', $fileglob);
-       if (in_array(false, $rcs)) {
-           return false;
-       }
-	} else {
-       trigger_error('Param #1 must be filename or glob pattern, or array of filenames or glob patterns', E_USER_ERROR);
-       return false;
-	}
-	return true;
-	}
-
-	/** Crop an image
-	 * 
-	 * @param $image
-	 * @param $left
-	 * @param $upper
-	 * @param $right
-	 * @param $lower
-	 */
-	function imageCrop($image,$left,$upper,$right,$lower) {
-	$x = imagesx($image);
-	$y = imagesy($image);
-	$w = abs($right-$left);
-	$h = abs($lower-$upper);
-	$crop = imagecreatetruecolor($w,$h);
-	imagecopy($crop, $image, 0, 0, $left, $upper, $w, $h);
-	return $crop;
-	}
-
+	
+	
 
 class Pas_Zoomify_FileProcessor  {
 	
@@ -508,9 +454,64 @@ class Pas_Zoomify_FileProcessor  {
 	$this->_imageName = $path . $filename;
 	$this->createDataContainer($this->_vImageFilename);
 	$this->getImageMetadata();
-    $this->processImage();
-    $this->saveXMLOutput();
+	$this->processImage();
+	$this->saveXMLOutput();
 	}   
 
 }
+/** Function to remove an image
+	 * 
+	 * @param $fileglob
+	 */
+
+	function rm($fileglob) {
+	if (is_string($fileglob)) {
+       if (is_file($fileglob)) {
+           return unlink($fileglob);
+       } else if (is_dir($fileglob)) {
+           $ok = rm("$fileglob/*");
+           if (! $ok) {
+               return false;
+           }
+           return rmdir($fileglob);
+       } else {
+           $matching = glob($fileglob);
+           if ($matching === false) {
+               trigger_error(sprintf('No files match supplied glob %s', $fileglob), E_USER_WARNING);
+               return false;
+           }      
+           $rcs = array_map('rm', $matching);
+           if (in_array(false, $rcs)) {
+               return false;
+           }
+       }      
+	} else if (is_array($fileglob)) {
+       $rcs = array_map('rm', $fileglob);
+       if (in_array(false, $rcs)) {
+           return false;
+       }
+	} else {
+       trigger_error('Param #1 must be filename or glob pattern, or array of filenames or glob patterns', E_USER_ERROR);
+       return false;
+	}
+	return true;
+	}
+
+	/** Crop an image
+	 * 
+	 * @param $image
+	 * @param $left
+	 * @param $upper
+	 * @param $right
+	 * @param $lower
+	 */
+	function imageCrop($image,$left,$upper,$right,$lower) {
+	$x = imagesx($image);
+	$y = imagesy($image);
+	$w = abs($right-$left);
+	$h = abs($lower-$upper);
+	$crop = imagecreatetruecolor($w,$h);
+	imagecopy($crop, $image, 0, 0, $left, $upper, $w, $h);
+	return $crop;
+	}
 

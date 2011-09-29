@@ -11,7 +11,7 @@
  * @author Daniel Pett
  */
 
-class Guide_TorecordingController extends Pas_Controller_ActionAdmin {
+class Guide_TorecordingController extends Pas_Controller_Action_Admin {
 
 	/** Initiate the ACL
 	 * 
