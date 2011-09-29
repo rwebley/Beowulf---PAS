@@ -1,68 +1,109 @@
 <?php
-##############################################################################
-# Copyright (C) 2005  Adam Smith  asmith@agile-software.com
-# 
-# Ported from Python to PHP by Wes Wright
-# Cleanup for Drupal by Karim Ratib (kratib@open-craft.com)
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-##############################################################################
+/** Class for creating zoomify images on the fly.
+* @author Ported from Python to PHP by Wes Wright
+* @license GNU General Public License
+* @author Daniel Pett
+* @Copyright (C) 2005  Adam Smith  asmith@agile-software.com
+* @category Pas
+* @package Pas_Zoomify
+* @todo Sort out a version that deals with Tiffs.
+* 
+*/
+	/** Function to remove an image
+	 * 
+	 * @param $fileglob
+	 */
 
+	function rm($fileglob) {
+	if (is_string($fileglob)) {
+       if (is_file($fileglob)) {
+           return unlink($fileglob);
+       } else if (is_dir($fileglob)) {
+           $ok = rm("$fileglob/*");
+           if (! $ok) {
+               return false;
+           }
+           return rmdir($fileglob);
+       } else {
+           $matching = glob($fileglob);
+           if ($matching === false) {
+               trigger_error(sprintf('No files match supplied glob %s', $fileglob), E_USER_WARNING);
+               return false;
+           }      
+           $rcs = array_map('rm', $matching);
+           if (in_array(false, $rcs)) {
+               return false;
+           }
+       }      
+	} else if (is_array($fileglob)) {
+       $rcs = array_map('rm', $fileglob);
+       if (in_array(false, $rcs)) {
+           return false;
+       }
+	} else {
+       trigger_error('Param #1 must be filename or glob pattern, or array of filenames or glob patterns', E_USER_ERROR);
+       return false;
+	}
+	return true;
+	}
 
+	/** Crop an image
+	 * 
+	 * @param $image
+	 * @param $left
+	 * @param $upper
+	 * @param $right
+	 * @param $lower
+	 */
+	function imageCrop($image,$left,$upper,$right,$lower) {
+	$x = imagesx($image);
+	$y = imagesy($image);
+	$w = abs($right-$left);
+	$h = abs($lower-$upper);
+	$crop = imagecreatetruecolor($w,$h);
+	imagecopy($crop, $image, 0, 0, $left, $upper, $w, $h);
+	return $crop;
+	}
 
 
 class Pas_Zoomify_FileProcessor  {
 	
- 	protected $_vImageFilename;
-	protected $_originalWidth;
-	protected $_originalHeight;
-	protected $_vScaleInfo = array();
-	protected $_numberOfTiles;
-	protected $_vTileGroupMappings = array();
-	protected $_qualitySetting;
-	protected $_tileSize;
-	protected $_debug;
-	protected $_filemode;
-	protected $_dirmode;
-	protected $_filegroup;
-	protected $_dir;
-	protected $_vSaveToLocation;
- 	protected $_iMagick;
+ 	public $_vImageFilename;
+	public $_originalWidth;
+	public $_originalHeight;
+	public $_vScaleInfo = array();
+	public $_numberOfTiles;
+	public $_vTileGroupMappings = array();
+	public $_qualitySetting;
+	public $_tileSize;
+	public $_filemode;
+	public $_dirmode;
+	public $_filegroup;
+	public $_vSaveToLocation;
+ 	public $_iMagick;
  	
+ 	/** Construct the variables
+ 	 */
     public function __construct() {
-		$this->_vImageFilename = '';
-		$this->_format = '';
-		$this->_originalWidth = 0;
-		$this->_originalHeight = 0;
-		$this->_numberOfTiles = 0;
-		$this->_qualitySetting = 100;
-		$this->_tileSize = 256;
-		$this->_debug = 0;
-		$this->_filemode = octdec('665');
-		$this->_dirmode = octdec('2775');
-		$this->_filegroup = "www-data";
-		$this->_dir = '';
-		$this->_vSaveToLocation ='';
-		$this->_iMagick = new phMagick();
+	$this->_originalWidth 	= 0;
+	$this->_originalHeight	= 0;
+	$this->_numberOfTiles	= 0;
+	$this->_qualitySetting	= 100;
+	$this->_tileSize		= 256;
+	$this->_filemode		= octdec('664');
+	$this->_dirmode			= octdec('2775');
+	$this->_filegroup		= 'www-data';
+	$this->_vSaveToLocation = '';
+	$this->_iMagick			= new phMagick();
+	$this->_format			= '';
     }
     
-	
-	private function _openImage() {
-	$stripped = explode('.',$this->_zFilename);
+	/** Open the image and sort out how to create image
+	 * 
+	 */
+	public function _openImage() {
+	$stripped = explode('.', $this->_zFilename);
 	$ext = end($stripped); 
-	
     switch (strtolower($ext)) {
     case 'jpg':
     case 'jpe':
@@ -78,7 +119,10 @@ class Pas_Zoomify_FileProcessor  {
     }
     }    
 
-	private function getImageFromFile($filename) {
+    /** Get the image from
+     * @param string $filename
+     */
+	public function getImageFromFile($filename) {
     list($root, $ext) = explode('.',$filename);
     if ( !$root ) {
     $root = $filename;
@@ -102,7 +146,7 @@ class Pas_Zoomify_FileProcessor  {
 	 * @param int $rowNumber
 	 * @return '%s-%s-%s.jpg' % (str(scaleNumber), str(columnNumber), str(rowNumber))
 	 */
-	private function getTileFileName($scaleNumber, $columnNumber, $rowNumber) {
+	public function getTileFileName($scaleNumber, $columnNumber, $rowNumber) {
 	return "$scaleNumber-$columnNumber-$rowNumber.jpg";
 	}
 
@@ -110,18 +154,18 @@ class Pas_Zoomify_FileProcessor  {
 	 * @param int $tileGroupNumber
 	 * @return string 
 	 */
-	private function getNewTileContainerName($tileGroupNumber = 0) {
+	public function getNewTileContainerName($tileGroupNumber = 0) {
 	return "TileGroup" . $tileGroupNumber;
 	}
 
 	/** plan for the arrangement of the tile groups
 	 */
-	private function preProcess() {
+	public function preProcess() {
 	$tier				= 0;
 	$tileGroupNumber	= 0;
 	$numberOfTiles		= 0;
 	foreach ($this->_vScaleInfo as $width_height) {
-	list($width,$height)=$width_height;
+	list($width,$height) = $width_height;
 	//cycle through columns, then rows
 	$row	= 0;
 	$column	= 0;
@@ -167,24 +211,20 @@ class Pas_Zoomify_FileProcessor  {
 	$tier++;
 	}
 	}
-
-
-
 	/** For each image, create and save tiles for zoomify
-	 * 
 	 * @param int $tier
 	 * @param int $row
 	 */
-	private	function processRowImage($tier=0, $row=0) {
+	public	function processRowImage($tier = 0, $row = 0) {
 	
-	list($tierWidth, $tierHeight) = $this->_v_scaleInfo[$tier];
+	list($tierWidth, $tierHeight) = $this->_vScaleInfo[$tier];
 	
-	$rowsForTier = floor($tierHeight/$this->_tileSize);
+	$rowsForTier = floor($tierHeight / $this->_tileSize);
 	
 	if ($tierHeight % $this->_tileSize > 0){
 	$rowsForTier++;
 	}
-	list($root, $ext) = explode(".",$this->_v_imageFilename);
+	list($root, $ext) = explode(".", $this->_vImageFilename);
 	
 	if ( !$root){ 
 	$root = $this->_v_imageFilename;
@@ -210,10 +250,10 @@ class Pas_Zoomify_FileProcessor  {
 	$secondRowHeight	= 0;
 	
 	if (is_file($firstRowFile)) {
-	$firstRowImage = imagecreatefromjpeg($firstRowFile);
-	$firstRowWidth=imagesx( $firstRowImage);
-	$firstRowHeight = imagesy( $firstRowImage);
-	$imageRowHalfHeight=floor($this->_tileSize/2);
+	$firstRowImage 		= imagecreatefromjpeg($firstRowFile);
+	$firstRowWidth		= imagesx( $firstRowImage );
+	$firstRowHeight 	= imagesy( $firstRowImage );
+	$imageRowHalfHeight = floor( $this->_tileSize / 2 );
 	imagecopyresized($imageRow, $firstRowImage, 0, 0, 0, 0, $tierWidth, $imageRowHalfHeight, 
 	$firstRowWidth, $firstRowHeight);
 	unlink($firstRowFile);
@@ -222,9 +262,9 @@ class Pas_Zoomify_FileProcessor  {
 	$r= $r + 1;
 	$secondRowFile =  $root . $t . "-" . $r . $ext;
 	if (is_file($secondRowFile)) {
-	$secondRowImage =imagecreatefromjpeg($secondRowFile);
-	$secondRowWidth=imagesx( $secondRowImage);
-	$secondRowHeight = imagesy( $secondRowImage);
+	$secondRowImage 	= imagecreatefromjpeg( $secondRowFile );
+	$secondRowWidth		= imagesx( $secondRowImage );
+	$secondRowHeight	= imagesy( $secondRowImage );
 	imagecopyresampled($imageRow, $secondRowImage, 0, $imageRowHalfHeight, 0, 0, $tierWidth, 
 	$imageRowHalfHeight, $secondRowWidth, $secondRowHeight);
 	unlink($secondRowFile);
@@ -233,7 +273,7 @@ class Pas_Zoomify_FileProcessor  {
 	$rowHeight=$firstRowHeight+$secondRowHeight;
 	$tileHeight=$this->_tileSize*2;
 	if (($firstRowHeight + $secondRowHeight) < $this->_tileSize * 2) {
-	$imageRow=imageCrop($imageRow,0,0,$tierWidth,$firstRowHeight+$secondRowHeight);
+	$imageRow = imageCrop($imageRow, 0, 0, $tierWidth, $firstRowHeight + $secondRowHeight);
 	}
 	}
 	
@@ -247,8 +287,7 @@ class Pas_Zoomify_FileProcessor  {
 	$lr_x			= 0;
 	$lr_y 			= 0;
 	while  (!(($lr_x == $imageWidth) && ($lr_y == $imageHeight))){
-	
-		# set lower right cropping point
+	//set lower right cropping point
 	if (($ul_x + $this->_tileSize) < $imageWidth) {
 	$lr_x = $ul_x + $this->_tileSize;
 	} else {
@@ -261,18 +300,18 @@ class Pas_Zoomify_FileProcessor  {
 	$lr_y = $imageHeight;
 	}
 					
-	#tierLabel = len($this->_v_scaleInfo) - tier
+	//tierLabel = len($this->_v_scaleInfo) - tier
 	$this->saveTile(imageCrop($imageRow, $ul_x, $ul_y, $lr_x, $lr_y), $tier, $column, $row);
-	$this->numberOfTiles++;
+	$this->_numberOfTiles++;
 
-	# set upper left cropping point
+	//set upper left cropping point
 	if ($lr_x == $imageWidth) {
 	$ul_x	= 0;
 	$ul_y	= $lr_y;
 	$column = 0;
 	#row += 1
 	} else {
-	$ul_x = $lr_x;
+	$ul_x 	= $lr_x;
 	$column++;
 	}
 	}
@@ -303,8 +342,8 @@ class Pas_Zoomify_FileProcessor  {
   	/** starting with the original image, start processing each row 
   	 * 
   	 */
-	private function processImage() {
-	$tier=(count($this->_vScaleInfo) -1);
+	public function processImage() {
+	$tier=(count($this->_vScaleInfo) - 1);
 	$row = 0;
 	list($ul_y, $lr_y) = array(0,0);
 	list($root, $ext) = explode('.', $this->_vImageFilename)  ;
@@ -312,17 +351,17 @@ class Pas_Zoomify_FileProcessor  {
 	$ext = ".jpg";
 	$image = $this->_openImage();
 	while ($row * $this->_tileSize < $this->_originalHeight) {
-			$ul_y = $row * $this->_tileSize;
-			if ($ul_y + $this->_tileSize < $this->_originalHeight) {
-				$lr_y = $ul_y + $this->_tileSize;
-			} else {
-				$lr_y = $this->originalHeight;
-			}
-	$imageRow = $this->imageCrop($image,0, $ul_y, $this->_originalWidth, $lr_y);
+	$ul_y = $row * $this->_tileSize;
+	if ($ul_y + $this->_tileSize < $this->_originalHeight) {
+	$lr_y = $ul_y + $this->_tileSize;
+	} else {
+	$lr_y = $this->originalHeight;
+	}
+	$imageRow = imageCrop($image, 0, $ul_y, $this->_originalWidth, $lr_y);
 	$saveFilename = $root . $tier . '-' . $row .  $ext;
 	touch($saveFilename);
 	chmod ($saveFilename,$this->_filemode);
-	imagejpeg($imageRow,$saveFilename, 100);
+	imagejpeg($imageRow,$saveFilename, $this->_qualitySetting);
 	chgrp ($saveFilename, $this->_filegroup);
 	imagedestroy($imageRow);
 	$this->processRowImage($tier, $row);
@@ -331,18 +370,23 @@ class Pas_Zoomify_FileProcessor  {
 	imagedestroy($image);
 	}
     
-
-	private function getXMLOutput() {
-	$xml = "<IMAGE_PROPERTIES WIDTH=\""
-	. $this->_originalWidth . "\" HEIGHT=\""
-	. $this->_originalHeight . "\" NUMTILES=\""
-	. $numberOfTiles."\" NUMIMAGES=\"1\" VERSION=\"1.8\" TILESIZE=\""
-	. $this->_tileSize . "\" />";
+	/** Create the XML for zoomify to read and compose the image
+	*/
+	public function getXMLOutput() {
+	$numberOfTiles = $this->getNumberOfTiles();
+	$xml = strtoupper('<image_properties width="'
+	. $this->_originalWidth . '" height="'
+	. $this->_originalHeight . '" numtiles="'
+	. $numberOfTiles .'" numimages="1" version="1.8" tilesize="'
+	. $this->_tileSize . '" />');
 	return $xml;
 	}
 
-
-	private function getAssignedTileContainerName($tileFileName) {
+	/** Get the tile's container name
+	 * @param string $tileFileName
+	 * @return string $containerName
+	 */
+	public function getAssignedTileContainerName($tileFileName) {
 	if ($tileFileName) {
 	if (isset($this->_vTileGroupMappings) && $this->_vTileGroupMappings) {
 	$containerName = $this->_vTileGroupMappings[$tileFileName];
@@ -355,53 +399,54 @@ class Pas_Zoomify_FileProcessor  {
 	return $containerName ;
     }
 
-
-	
-	
-  	private function getImageMetadata() {
-	list($this->originalWidth, $this->originalHeight,$this->format)=getimagesize($this->_v_imageFilename);
-	# get scaling information
-	$width = $this->originalWidth;
-	$height = $this->originalHeight;
-	$width_height=array($width,$height);
-	array_unshift($this->_vScaleInfo,$width_height);
+    /** Retrieve the image metadata for an image
+     */
+  	public function getImageMetadata() {
+	list($this->_originalWidth, $this->_originalHeight, $this->_format) = getimagesize($this->_vImageFilename);
+	$width = $this->_originalWidth;
+	$height = $this->_originalHeight;
+	$width_height = array($width, $height);
+	array_unshift($this->_vScaleInfo, $width_height);
 	while (($width > $this->_tileSize) || ($height > $this->_tileSize)) {
 	$width = floor($width / 2);
 	$height = floor($height / 2);
-	$width_height=array($width,$height);
-	array_unshift($this->_vScaleInfo,$width_height);
+	$width_height = array($width, $height);
+	array_unshift($this->_vScaleInfo, $width_height);
 	}
-	# tile and tile group information
 	$this->preProcess();
 	}  
 
-	private function createTileContainer($tileContainerName="") {
-	
-#	""" create a container for the next group of tiles within the data container """
-		$tileContainerPath =$this->_v_saveToLocation."/".$tileContainerName;
-	    if (!is_dir($tileContainerPath)) {
-	    	mkdir($tileContainerPath) ;
-	    	# chmod($tileContainerPath,$this->_dirmode);
-			# chgrp($tileContainerPath,$this->_filegroup);
-		}
+	/** create a container for the next group of tiles within the data container
+	* 
+	* @param $tileContainerName
+	*/
+	public function createTileContainer($tileContainerName = "") {
+	$tileContainerPath = $this->_vSaveToLocation . '/' . $tileContainerName;
+	if (!is_dir($tileContainerPath)) {
+	mkdir($tileContainerPath) ;
+	chmod($tileContainerPath, $this->_dirmode);
+	chgrp($tileContainerPath, $this->_filegroup);
+	}
 	}
       
      
-  
-	private function createDataContainer($imageName) {
-    
+	/** Create the data container from the image name
+	* @param string $imageName
+	*/
+	public function createDataContainer($imageName) {
 	$directory = dirname($imageName);
-	$filename =basename($imageName);
+	$filename = basename($imageName);
 	list($root,$ext) = explode('.', basename($filename));
-		$root = $root . '_zdata';
+	$root = $root . '_zdata';
+	//$this->_vSaveToLocation =  "./".$this->_dir."zoom/".$root;
 	
-		//$this->_v_saveToLocation =  "./".$this->_dir."zoom/".$root;
-	
-	#	If the paths already exist, an image is being re-processed, clean up for it.
+	//If the paths already exist, an image is being re-processed, clean up for it.
 	if (is_dir($this->_vSaveToLocation)) {
-	$rm_err= $this->rm($this->_vSaveToLocation);
+	$rm_err= rm($this->_vSaveToLocation);
 	} 
+	//Make the directory 
 	mkdir($this->_vSaveToLocation);
+	//Change the permissions
 	chmod($this->_vSaveToLocation, $this->_dirmode);
 	chgrp($this->_vSaveToLocation, $this->_filegroup);
 		
@@ -409,11 +454,11 @@ class Pas_Zoomify_FileProcessor  {
 	
 	/** get the full path of the file the tile will be saved as
 	 * 
-	 * @param $scaleNumber
-	 * @param $columnNumber
-	 * @param $rowNumber
+	 * @param int $scaleNumber
+	 * @param int $columnNumber
+	 * @param int $rowNumber
 	 */
-	private function getFileReference($scaleNumber, $columnNumber, $rowNumber) {
+	public function getFileReference($scaleNumber, $columnNumber, $rowNumber) {
 	$tileFileName = $this->getTileFileName($scaleNumber, $columnNumber, $rowNumber);
 	$tileContainerName = $this->getAssignedTileContainerName($tileFileName);
 	return $this->_vSaveToLocation . '/' . $tileContainerName . '/' . $tileFileName;
@@ -422,17 +467,16 @@ class Pas_Zoomify_FileProcessor  {
 	/**get the number of tiles generated
 	 * 
 	 */    
-	private	function getNumberOfTiles() {
-    #return len(os.listdir($this->_v_tileContainerPath))
-	return $this->numberOfTiles;
+	public	function getNumberOfTiles() {
+	return $this->_numberOfTiles;
 	}
     
-	/**  save xml metadata about the tiles
+	/** Save xml metadata about the tiles
 	 * 
 	 */
-	private function saveXMLOutput() {
+	public function saveXMLOutput() {
 	$xmlFile = fopen($this->_vSaveToLocation . '/ImageProperties.xml', 'w');
-	fwrite($xmlFile,$this->getXMLOutput());
+	fwrite(	$xmlFile,$this->getXMLOutput() );
 	fclose( $xmlFile);
 	chmod($this->_vSaveToLocation . '/ImageProperties.xml', $this->_filemode);
 	chgrp($this->_vSaveToLocation . '/ImageProperties.xml', $this->_filegroup);
@@ -446,65 +490,27 @@ class Pas_Zoomify_FileProcessor  {
   	 * @param $column
   	 * @param $row
   	 */
-	private function saveTile($image, $scaleNumber, $column, $row) {
-	$tile_file=$this->getFileReference($scaleNumber, $column, $row);
+	public function saveTile($image, $scaleNumber, $column, $row) {
+	$tile_file = $this->getFileReference($scaleNumber, $column, $row);
 	touch($tile_file);
 	chmod ($tile_file, $this->_filemode);
 	imagejpeg($image,$tile_file, $this->_qualitySetting);
 	}    
     
+	/** Process the image to a zoomified version
+	 * 
+	 * @param string $filename
+	 * @param string $path
+	 */
 	public function ZoomifyProcess($filename, $path) {
-      $this->_zFilename = $filename;
-      $this->_vImageFilename = $path . $filename;
-	  $this->_imageName = $path . $filename;
-      $this->createDataContainer($filename);
-      $this->getImageMetadata();
-      $this->processImage();
-      $this->saveXMLOutput();
+	$this->_zFilename = $filename;
+	$this->_vImageFilename = $path . $filename;
+	$this->_imageName = $path . $filename;
+	$this->createDataContainer($this->_vImageFilename);
+	$this->getImageMetadata();
+    $this->processImage();
+    $this->saveXMLOutput();
 	}   
 
-	private function imageCrop($image,$left,$upper,$right,$lower) {
-	$x=imagesx($image);
-	$y=imagesy($image);
-	$w=abs($right-$left);
-	$h=abs($lower-$upper);
-	$crop=imagecreatetruecolor($w,$h);
-	imagecopy($crop,$image,0,0,$left,$upper,$w,$h);
-	return $crop;
-	}
-
-	private function rm($fileglob) {
-   if (is_string($fileglob)) {
-       if (is_file($fileglob)) {
-           return unlink($fileglob);
-       } else if (is_dir($fileglob)) {
-           $ok = rm("$fileglob/*");
-           if (! $ok) {
-               return false;
-           }
-           return rmdir($fileglob);
-       } else {
-           $matching = glob($fileglob);
-           if ($matching === false) {
-               trigger_error(sprintf('No files match supplied glob %s', $fileglob), E_USER_WARNING);
-               return false;
-           }      
-           $rcs = array_map('rm', $matching);
-           if (in_array(false, $rcs)) {
-               return false;
-           }
-       }      
-	} else if (is_array($fileglob)) {
-       $rcs = array_map('rm', $fileglob);
-       if (in_array(false, $rcs)) {
-           return false;
-       }
-   } else {
-       trigger_error('Param #1 must be filename or glob pattern, or array of filenames or glob patterns', E_USER_ERROR);
-       return false;
-   }
-
-   return true;
-}
 }
 

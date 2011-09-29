@@ -89,7 +89,7 @@ class Flickr_IndexController extends Pas_Controller_Action_Admin {
 	$contactslist = array();
 	foreach($friends->query->results->rsp->contacts->contact as $contact => $value)	{
 	$contactslist[] = array(
-	$contact => $value;
+	$contact => $value
 	);
 	}
 	$this->view->contactslist = $contactslist;

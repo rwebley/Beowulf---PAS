@@ -1,6 +1,19 @@
 <?php
-	class Pas_View_Helper_FindSpotLink extends Zend_View_Helper_Abstract
-	{
+/** A view helper for determining whether findspot link should be printed 
+ * @category Pas
+ * @package Pas_View_Helper
+ * @todo streamline code
+ * @todo extend the view helper for auth and config objects
+ * @copyright DEJ Pett
+ * @license GNU
+ * @version 1
+ * @since 29 September 2011
+ * @author dpett
+ */
+
+class Pas_View_Helper_FindSpotLink 
+	extends Zend_View_Helper_Abstract {
+	
 	protected $noaccess = array('public');
 	protected $restricted = array('member','research','hero');
 	protected $recorders = array('flos');
@@ -8,15 +21,17 @@
 	protected $_missingGroup = 'User is not assigned to a group';
 	protected $_message = 'You are not allowed edit rights to this record';
 	protected $_auth = NULL;
-	
-	public function __construct()
-    { 
+
+	/** Construct the auth object
+	*/
+	public function __construct() { 
     $auth = Zend_Auth::getInstance();
     $this->_auth = $auth; 
     }
     
-	public function getRole()
-	{
+	/** Construct the user role
+	*/
+	public function getRole(){
 	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$role = $user->role;
@@ -26,8 +41,10 @@
 	return $role;
 	}
 	
-	public function getIdentityForForms()
-	{
+	
+	/** Get the user's id
+	*/
+	public function getIdentityForForms() {
 	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$id = $user->id;
@@ -38,29 +55,37 @@
 	}
 	}
 	
-	public function checkAccessbyInstitution($oldfindID)
-	{
+	/** Check the user's access by institution
+	 * 
+	 * @param string $oldfindID
+	 */
+	public function checkAccessbyInstitution($oldfindID) {
 	$find = explode('-', $oldfindID);
 	$id = $find['0'];
 	$inst = $this->getInst();
 	if((in_array($this->getRole(),$this->recorders) && ($id == 'PUBLIC'))) {
 	return true;
-	} else if($id == $inst) {
+	} else if($id === $inst) {
 	return true;
 	}
 	}
 
-	public function checkAccessbyUserID($userID,$createdBy)
-	{
-	if($userID == $createdBy) {
+	/** Check access by user id
+	 * 
+	 * @param int $userID
+	 * @param int $createdBy
+	 */
+	public function checkAccessbyUserID($userID,$createdBy) {
+	if($userID === $createdBy) {
 	return true;
 	}
 	}
 
-	public function getInst()
-	{
-	if($this->_auth->hasIdentity())
-	{
+	/** Check for inst
+	 * 
+	 */
+	public function getInst() {
+	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$inst = $user->institution;
 	if(is_null($inst)){
@@ -72,8 +97,14 @@
 	}	
 	}
 	
-	public function FindSpotLink($oldfindID,$findID,$secuid,$createdBy)
-	{
+	/** Determine whether link can be displayed
+	 * 
+	 * @param string $oldfindID
+	 * @param int $findID
+	 * @param string $secuid
+	 * @param int $createdBy
+	 */
+	public function FindSpotLink($oldfindID, $findID, $secuid, $createdBy) {
 	$byID = $this->checkAccessbyUserID($this->getIdentityForForms(),$createdBy);
 	$instID = $this->checkAccessbyInstitution($oldfindID);
 	if(in_array($this->getRole(),$this->restricted)) {
@@ -92,8 +123,12 @@
 	}
 	}
 	
-	public function buildHtml($findID,$secuid)
-	{
+	/** Build the html
+	 * 
+	 * @param int $findID
+	 * @param string $secuid
+	 */
+	public function buildHtml($findID, $secuid) {
 	$url = $this->view->url(array('module' => 'database', 'controller' => 'findspots','action' => 'add',
 	'id' => $findID, 'secuid' => $secuid),null,true);
 	$string = '<div class="addpanel noprint"><a href="' . $url

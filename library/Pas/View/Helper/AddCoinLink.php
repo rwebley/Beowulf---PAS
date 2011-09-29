@@ -1,6 +1,18 @@
 <?php
-class Pas_View_Helper_AddCoinLink extends Zend_View_Helper_Abstract
-{
+/** A view helper for determining whether coin link should be printed 
+ * @category Pas
+ * @package Pas_View_Helper
+ * @todo streamline code
+ * @todo extend the view helper for auth and config objects
+ * @copyright DEJ Pett
+ * @license GNU
+ * @version 1
+ * @since 29 September 2011
+ * @author dpett
+ */
+class Pas_View_Helper_AddCoinLink 
+	extends Zend_View_Helper_Abstract {
+	
 	protected $noaccess = array('public');
 	protected $restricted = array('member','research','hero');
 	protected $recorders = array('flos');
@@ -11,15 +23,17 @@ class Pas_View_Helper_AddCoinLink extends Zend_View_Helper_Abstract
 	protected $_missingGroup = 'User is not assigned to a group';
 	protected $_message = 'You are not allowed edit rights to this record';
 	
-	public function __construct()
-    { 
-    	$auth = Zend_Auth::getInstance();
-        $this->_auth = $auth; 
+	/** Construct the auth object
+	 */
+	public function __construct(){ 
+	$auth = Zend_Auth::getInstance();
+	$this->_auth = $auth; 
     }
-	public function getRole()
-	{
-	if($this->_auth->hasIdentity())
-	{
+    
+    /** Get the user's role
+     */
+	public function getRole(){
+	if($this->_auth->hasIdentity()){
 	$user = $this->_auth->getIdentity();
 	$role = $user->role;
 	} else {
@@ -28,10 +42,10 @@ class Pas_View_Helper_AddCoinLink extends Zend_View_Helper_Abstract
 	return $role;
 	}
 	
-	public function getIdentityForForms()
-	{
-	if($this->_auth->hasIdentity())
-	{
+	/** Get the userid
+	*/
+	public function getIdentityForForms() {
+	if($this->_auth->hasIdentity()){
 	$user = $this->_auth->getIdentity();
 	$id = $user->id;
 	return $id;
@@ -40,8 +54,12 @@ class Pas_View_Helper_AddCoinLink extends Zend_View_Helper_Abstract
 	return $id;
 	}
 	}
-public function getInst()
-	{
+	
+	/** Get the user's institution
+	 * 
+	 * @return string $inst
+	 */
+	public function getInst() {
 	if($this->_auth->hasIdentity())	{
 	$user = $this->_auth->getIdentity();
 	$inst = $user->institution;
@@ -53,8 +71,12 @@ public function getInst()
 	return FALSE;
 	}	
 	}
-	public function checkAccessbyInstitution($oldfindID)
-	{
+
+	/** Check for access by inst
+	 * @param string $oldfindID
+	 * @return boolean
+	 */
+	public function checkAccessbyInstitution($oldfindID) {
 	$find = explode('-', $oldfindID);
 	$id = $find['0'];
 	$inst = $this->getInst();
@@ -65,17 +87,24 @@ public function getInst()
 	}
 	}
 
-	public function checkAccessbyUserID($userID,$createdBy)
-	{
-	if($userID == $createdBy) {
+	/** Check for access by userid
+	 * 
+	 * @param int $userID
+	 * @param string $createdBy
+	 * @return boolean
+	 */
+	public function checkAccessbyUserID($userID,$createdBy)	{
+	if($userID === $createdBy) {
 	return TRUE;
 	}
 	}
 
-	public function getUserGroups()
-	{
-	if($this->_auth->hasIdentity())
-	{
+	/** Get the user groupds or inst 
+	 * @todo is this a repeat of getinst?
+	 * @return string $string
+	 */
+	public function getUserGroups() {
+	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$inst = $user->institution;
 	} else {
@@ -84,11 +113,17 @@ public function getInst()
 	return $inst;
 	}
 	
-	public function AddCoinLink($oldfindID,$findID,$secuid,$createdBy,$broadperiod)
-	{
-	$byID = $this->checkAccessbyUserID($this->getIdentityForForms(),$createdBy);
+	/** Add the coin link to the page if access says yes
+	 * 
+	 * @param $oldfindID
+	 * @param $findID
+	 * @param $secuid
+	 * @param $createdBy
+	 * @param $broadperiod
+	 */
+	public function AddCoinLink($oldfindID, $findID, $secuid, $createdBy, $broadperiod) {
+	$byID = $this->checkAccessbyUserID($this->getIdentityForForms(), $createdBy);
 	$instID = $this->checkAccessbyInstitution($oldfindID);
-	
 	if(in_array($this->getRole(),$this->restricted)) {
 	if(($byID == TRUE && $instID == false) || ($byID == TRUE && $instID == TRUE)) {
 	return $this->buildHtml($findID,$secuid,$broadperiod);
@@ -105,11 +140,18 @@ public function getInst()
 	}
 	}
 	
-	public function buildHtml($findID,$secuid,$broadperiod)
-	{
+	/** Build the html
+	 * 
+	 * @param $findID
+	 * @param $secuid
+	 * @param $broadperiod
+	 * @return string $html
+	 */
+	public function buildHtml($findID, $secuid, $broadperiod) {
 	$url = $this->view->url(array('module' => 'database','controller' => 'coins','action' => 'add', 
 	'broadperiod' => $broadperiod,'findID' => $secuid,'returnID' => $findID),NULL,TRUE);
-	$string = '<a href="'.$url.'" title="Add '.$broadperiod.' coin data" accesskey="m">Add '.$broadperiod.' coin data</a>';
+	$string = '<a href="' . $url . '" title="Add ' . $broadperiod . ' coin data" accesskey="m">Add ' . $broadperiod 
+	.' coin data</a>';
 	return $string;
 	}
 

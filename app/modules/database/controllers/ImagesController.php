@@ -480,10 +480,10 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	if(!file_exists($path . $zoomedimagepath.'_zdata')) {
 
 	$this->_zoomifyObject->_filegroup = "www-data"; // name of group to write files as
-	$this->_zoomifyObject->_filemode = '664';
-	$this->_zoomifyObject->_dirmode = '2775';
+//	$this->_zoomifyObject->_filemode = '664';
+//	$this->_zoomifyObject->_dirmode = '2775';
 	$this->_zoomifyObject->_dir = $imagepath;
-	$this->_zoomifyObject->_vSaveToLocation = $ord . $zoomedimagepath.'_zdata';
+	$this->_zoomifyObject->_vSaveToLocation = $ord . $zoomedimagepath . '_zdata';
 	$this->_zoomifyObject->ZoomifyProcess($filename, $imagepath);
 	
 	$this->view->path = $ord . $zoomedimagepath . '_zdata';

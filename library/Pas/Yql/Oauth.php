@@ -54,6 +54,7 @@ class Pas_Yql_Oauth {
 	 * @param string $access_token_expiry
 	 */
 	private function hasExpired($access_token_expiry) {
+	$now = time();
 	$tokenDate = new Zend_Date($access_token_expiry, new Zend_Date(NULL,'yyyy-MM-dd HH:mm:ss'));
 	$difference = $tokenDate->isLater($now); 
  	if(($now > $tokenDate)){

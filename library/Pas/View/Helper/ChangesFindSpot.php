@@ -1,8 +1,22 @@
-<?php 
-class Pas_View_Helper_ChangesFindSpot extends Zend_View_Helper_Abstract
-{
-public function buildHtml($a)
-	{
+<?php
+/** View helper for displaying the number of changes for findspot records from audit table
+ * @category Pas
+ * @package Pas_View_Helper
+ * @uses Pas_View_Helper_TimeAgoInWords
+ * @license GNU
+ * @copyright DEJ PETT
+ * @author Daniel Pett
+ * @version 1
+ * @since September 29 2011
+ */  
+class Pas_View_Helper_ChangesFindSpot
+	extends Zend_View_Helper_Abstract {
+	
+	/** Build the html from data array
+	* @param array $a
+	* @return string $html
+	*/	
+	public function buildHtml($a) {
 	$html = '';
 	$html .= '<li><a href="';
 	$html .= $this->view->url(array('module' => 'database', 'controller' => 'ajax', 'action' => 'fsaudit','id' => $a['editID']),NULL,true);
@@ -11,19 +25,20 @@ public function buildHtml($a)
 	$html .= '</a> ';
 	$html .= $a['fullname'];
 	$html .= ' edited this record.</li>';
-	echo $html;
-	
+	return $html;
 	}
-public function ChangesFindSpot($id) {
+
+	public function ChangesFindSpot($id) {
 	$audit = new FindSpotsAudit();
 	$auditdata = $audit->getChanges($id);
 	if($auditdata) {
-	echo '<h5>Find spot data audit</h5>';
-	echo '<ul id="related">';
+	$html = '<h5>Find spot data audit</h5>';
+	$html .='<ul id="related">';
 	foreach($auditdata as $a) {
 	$this->buildHtml($a);
 	}
-	echo '</ul>';
+	$html .= '</ul>';
+	return $html;
 	}
 
 }

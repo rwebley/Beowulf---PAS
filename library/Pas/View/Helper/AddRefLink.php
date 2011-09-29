@@ -1,6 +1,17 @@
 <?php
-class Pas_View_Helper_AddRefLink extends Zend_View_Helper_Abstract
-{
+/** A view helper for adding references for publications
+ * @category Pas
+ * @package Pas_View_Helper
+ * @todo streamline code
+ * @todo extend the view helper for auth and config objects
+ * @copyright DEJ Pett
+ * @license GNU
+ * @version 1
+ * @since 29 September 2011
+ * @author dpett
+ */
+class Pas_View_Helper_AddRefLink 
+	extends Zend_View_Helper_Abstract {
 
 	protected $noaccess = array('public');
 	protected $restricted = array('member','research','hero');
@@ -10,16 +21,17 @@ class Pas_View_Helper_AddRefLink extends Zend_View_Helper_Abstract
 	protected $_missingGroup = 'User is not assigned to a group';
 	protected $_message = 'You are not allowed edit rights to this record';
 	
-	public function __construct()
-    { 
+	/** Construct the auth object
+	*/
+	public function __construct() { 
     $auth = Zend_Auth::getInstance();
     $this->_auth = $auth; 
     }
-		
-	public function getRole()
-	{
-	if($this->_auth->hasIdentity())
-	{
+    
+	/** Get the user's role
+	*/	
+	public function getRole() {
+	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$role = $user->role;
 	} else {
@@ -28,18 +40,18 @@ class Pas_View_Helper_AddRefLink extends Zend_View_Helper_Abstract
 	return $role;
 	}
 	
-	public function getUserID()
-	{
+	/** Get the userid
+	*/
+	public function getUserID() {
 	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$id = $user->id;
 	return $id;
 	}
 	}
-
-	
-	public function getIdentityForForms()
-	{
+	/** Get the userid
+	*/
+	public function getIdentityForForms(){
 	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$id = $user->id;
@@ -49,7 +61,10 @@ class Pas_View_Helper_AddRefLink extends Zend_View_Helper_Abstract
 	return $id;
 	}
 	}
-	
+	/** Check access by institution
+	* @return boolean
+	* @param string $oldfindID
+	*/
 	public function checkAccessbyInstitution($oldfindID)
 	{
 	$find = explode('-', $oldfindID);
@@ -64,22 +79,24 @@ class Pas_View_Helper_AddRefLink extends Zend_View_Helper_Abstract
 	}
 	}
 	
-	public function getUserGroups()
-	{
+	/** Get the user's group
+	 * @return boolean
+	 */
+	public function getUserGroups() {
 	if($this->_auth->hasIdentity()) {
 	$user = $this->_auth->getIdentity();
 	$inst = $user->institution;
 	return $inst;
 	} else {
 	return FALSE;
-		//throw new Exception($this->_missingGroup);
 	}	
-	
 	}
 	
-	
-	public function checkAccessbyUserID($createdBy)
-	{
+	/** Check access by userid
+	 * @return boolean
+	 * @param int $createdBy
+	 */
+	public function checkAccessbyUserID($createdBy) {
 	if(!in_array($this->getRole(),$this->restricted)) {
 	return true;
 	} else if(in_array($this->getRole(),$this->restricted)) {
@@ -91,9 +108,14 @@ class Pas_View_Helper_AddRefLink extends Zend_View_Helper_Abstract
 	}
 	}
 
-	
-	public function AddRefLink($oldfindID,$findID,$secuid,$createdBy)
-	{
+	/** Add the reference link
+	 * 
+	 * @param $oldfindID
+	 * @param $findID
+	 * @param $secuid
+	 * @param $createdBy
+	 */
+	public function AddRefLink($oldfindID,$findID, $secuid, $createdBy) {
 	$byID = $this->checkAccessbyUserID($createdBy);
 	$instID = $this->checkAccessbyInstitution($oldfindID);
 	if(in_array($this->getRole(),$this->noaccess)) {
@@ -112,11 +134,14 @@ class Pas_View_Helper_AddRefLink extends Zend_View_Helper_Abstract
 	}
 	}
 	
-	public function buildHtml($findID,$secuid)
-	{
+	/** Build the html
+	 * 
+	 * @param string $findID
+	 * @param string $secuid
+	 */
+	public function buildHtml($findID, $secuid) {
 	$url = $this->view->url(array('module' => 'database','controller' => 'references','action' => 'add',
-	'findID' => $findID,'secID' => $secuid),NULL,TRUE);
-		
+	'findID' => $findID,'secID' => $secuid), null, true);
 	$string = '<div id="addref" class="addpanel noprint"><a href="' . $url 
 	. '" title="Add a reference" accesskey="r">Add a reference</a></div>';
 
