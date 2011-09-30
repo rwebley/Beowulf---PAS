@@ -33,4 +33,18 @@ class OauthTokens extends Pas_Db_Table_Abstract {
     return $data;
 	}
 
+	public function create($data){
+	$data = (object)$data;
+	$tokenRow = $this->_tokens->createRow();	
+	$tokenRow->service = 'yahooAccess';
+	$tokenRow->accessToken = serialize(urldecode($data->oauth_token));
+	$tokenRow->tokenSecret = serialize($data->oauth_token_secret);
+	$tokenRow->guid = serialize($data->xoauth_yahoo_guid);
+	$tokenRow->sessionHandle = serialize($data->oauth_session_handle);
+	$tokenRow->created = $this->getTimeForForms();
+	$tokenRow->expires = $this->expires();
+	$tokenRow->save();
+	$tokenData = array('accessToken' => $data->oauth_token, 'secret' => $data->oauth_token_secret);
+	return $tokenData;	
+	}
 }

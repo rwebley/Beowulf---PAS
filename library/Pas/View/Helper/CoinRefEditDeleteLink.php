@@ -18,8 +18,6 @@ class Pas_View_Helper_CoinRefEditDeleteLink
 	protected $_recorders = array('flos');
 	protected $_higherLevel = array('admin','fa','treasure');
 	protected $_auth;
-	
-	protected $_auth = NULL;
 
 	/** Construct the auth object
 	 */

@@ -31,7 +31,7 @@ class Pas_View_Helper_YahooGeoAltitude
 	} else {
 	$args = 'woeid=' . $woeid;
 	$url = URL . $args . FORMAT;
-	$json = $this->get($url)l
+	$json = $this->get($url);
 	$altitude = $json->altitude;
 	return STRING . $altitude . UNITSPOS; 
 	}

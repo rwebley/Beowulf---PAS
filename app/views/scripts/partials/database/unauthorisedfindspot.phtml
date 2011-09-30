@@ -75,7 +75,7 @@ if (GBrowserIsCompatible()) {
 $pm = new Pas_Service_Geo_Placemaker($config->webservice->ydnkeys->appid);
 	$place = $pm->getSingle($this->parish.' , '.$this->county.' , United Kingdom');
 	if(!is_null($place)){
-	$woeid = $place['woeid'];
+	$woeid = $place->woeid;
 	} else {
 		$woeid = NULL; 
 	}
