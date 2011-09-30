@@ -1,4 +1,6 @@
-<?php $module = Zend_Controller_Front::getInstance()->getRequest()->getModuleName();?>
+<?php $module = Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+$config = Zend_Registry::get('config');
+?>
 
 <h4>Spatial data</h4> 
 <?php if(($this->gridref != NULL) && ($this->knownas == NULL)) : ?>
@@ -37,8 +39,10 @@ $this->headMeta(substr($this->declat,0,4).';' .substr($this->declong,0,4),'geo.p
 $this->headMeta($this->parish.','.$this->county, 'geo.placename');
 
 echo 'Parish: '. ucwords(strtolower($this->parish)).'<br />';
-	$pm = new Pas_Placemaker();
-	$place = $pm->get($this->parish.','.$this->county.' United Kingdom');
+
+
+	$pm = new Pas_Service_Geo_Placemaker($config->webservice->ydnkeys->appid);
+	$place = $pm->getSingle($this->parish.','.$this->county.' United Kingdom');
 	if(!is_null($place)){
 	echo 'Settlement type: '.$place->type.'<br />';
 	if(isset($place->postal)) {
@@ -53,8 +57,8 @@ echo 'Parish: '. ucwords(strtolower($this->parish)).'<br />';
 </p>
 <?php 
 if(!is_null($this->knownas)){
-$pm = new Pas_Placemaker();
-$place = $pm->get($this->parish.','.$this->county.' United Kingdom');
+$pm = new Pas_Service_Geo_Placemaker($config->webservice->ydnkeys->appid);
+$place = $pm->getSingle($this->parish.','.$this->county.' United Kingdom');
 if(!is_null($place)){
 echo $this->YahooGeoAdjacent($place->woeid);
 }
@@ -68,10 +72,10 @@ $(document).ready(function() {
 if (GBrowserIsCompatible()) {
 
 <?php 
-$pm = new Pas_Placemaker();
-	$place = $pm->get($this->parish.' , '.$this->county.' , United Kingdom');
+$pm = new Pas_Service_Geo_Placemaker($config->webservice->ydnkeys->appid);
+	$place = $pm->getSingle($this->parish.' , '.$this->county.' , United Kingdom');
 	if(!is_null($place)){
-	$woeid = $place->woeid;
+	$woeid = $place['woeid'];
 	} else {
 		$woeid = NULL; 
 	}

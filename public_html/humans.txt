@@ -1,0 +1,16 @@
+/* TEAM */
+Project lead, developer, designer, debugger, tester: Daniel Pett
+Twitter: @portableant
+Location: The British Museum, Great Russell Street
+
+                    
+
+/* THANKS */
+Tom Elliot, Sean Gillies, Tom Goskar, Sebastian Heath, Tyler Bell
+Andrew Larcomber, Yegor Veter               
+
+/* SITE */
+Last update: 2011/09/29
+Standards: xHTML1, CSS2, PHP5.3, MYSQL5
+Components: jQuery, php, flash
+Software: Zend Studio

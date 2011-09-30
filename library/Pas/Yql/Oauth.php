@@ -22,7 +22,22 @@ class Pas_Yql_Oauth {
 	protected $_consumerKey;
 	
 	protected $_consumerSecret;
+	
+	protected $_config;
 
+	protected $_now;
+	
+	
+	/** This probably needs changing for construction methods.
+	 * @todo remove need for calling config
+	 * @todo pass variables to the constructor
+	 */
+	public function __construct(){
+	$this->_config = Zend_Registry::get('config');
+	$this->_consumerKey = $this->_config->webservice->ydnkeys->consumerKey; 
+	$this->_consumerSecret = $this->_config->webservice->ydnkeys->consumerSecret;
+	$this->_now = new Zend_Date(NULL,'yyyy-MM-dd HH:mm:ss');
+	}
 	/** Execute the YQL call
 	 * 
 	 * @param string $consumerKey
@@ -33,11 +48,10 @@ class Pas_Yql_Oauth {
 	 * @param string $access_token_expiry
 	 * @param string $oauthhandle
 	 */
-	public function execute($consumerKey, $consumerSecret, $q, $access_token, $access_token_secret, 
-		$access_token_expiry, $oauthhandle){
-	$this->_consumerKey = $consumerKey;
-	$this->_consumerSecret = $consumerSecret;
-  	$expired = $this->hasExpired($access_token_expiry);
+	public function execute( $q, $access_token, $access_token_secret, 
+	$access_token_expiry, $oauthhandle){
+
+	$expired = $this->hasExpired($access_token_expiry);
 	if($expired === false){
 	$response = $this->callYQL($q,$access_token,$access_token_secret);
 	return $response;	
@@ -54,10 +68,10 @@ class Pas_Yql_Oauth {
 	 * @param string $access_token_expiry
 	 */
 	private function hasExpired($access_token_expiry) {
-	$now = time();
-	$tokenDate = new Zend_Date($access_token_expiry, new Zend_Date(NULL,'yyyy-MM-dd HH:mm:ss'));
-	$difference = $tokenDate->isLater($now); 
- 	if(($now > $tokenDate)){
+//	$now = new Zend_Date(NULL,'yyyy-MM-dd HH:mm:ss');
+  	$tokenDate = new Zend_Date($access_token_expiry,'YYYY-MM-dd HH:mm:ss');
+	$difference = $tokenDate->isLater($this->_now); 
+ 	if(($this->_now > $tokenDate)){
  	return true;
  	} else {
  	return false;
@@ -369,6 +383,7 @@ class Pas_Yql_Oauth {
 	 * @param array $data
 	 */
 	private function createToken($data) {
+	
 	$data = (object)$data;
 	$tokens = new OauthTokens();
 	$tokenRow = $tokens->createRow();	
@@ -377,7 +392,7 @@ class Pas_Yql_Oauth {
 	$tokenRow->tokenSecret = serialize($data->oauth_token_secret);
 	$tokenRow->guid = serialize($data->xoauth_yahoo_guid);
 	$tokenRow->sessionHandle = serialize($data->oauth_session_handle);
-	$tokenRow->created = $this->getTimeForForms();
+	$tokenRow->created = $this->_now;
 	$tokenRow->expires = $this->expires();
 	$tokenRow->save();
 	$tokenData = array('accessToken' => $data->oauth_token,'secret' => $data->oauth_token_secret);

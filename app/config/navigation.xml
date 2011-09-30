@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+<nav>
+	<home>
+		<label>Home</label>
+		<module>default</module>
+		<controller>index</controller>
+		<action>index</action>
+		<changefreq>hourly</changefreq>
+		<lastmod>2010-08-19</lastmod>
+		<priority>1.0</priority>
+	</home>
+	<conservation>
+		<label>Conservation Advice</label>
+		<module>conservation</module>
+		<controller>index</controller>
+		<action>index</action>
+	</conservation>
+	<getinvolved>
+		<label>Get Involved</label>
+		<module>getinvolved</module>
+		<controller>index</controller>
+		<action>index</action>
+	</getinvolved>
+	<treasure>
+		<label>Treasure</label>
+		<module>treasure</module>
+	</treasure>
+	<database>
+		<label>Database</label>
+		<module>database</module>
+	</database>
+	<contacts>
+		<label>Contacts</label>
+		<module>contacts</module>
+			<pages>
+			<page>
+			<label>Local</label>
+			<module>contacts</module>
+			<controller>index</controller>
+			<action>index</action>
+			<changefreq>hourly</changefreq>
+			</page>
+			</pages>	
+	</contacts>
+</nav>
+</configdata>

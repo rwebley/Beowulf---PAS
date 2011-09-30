@@ -111,14 +111,17 @@ echo '<li>Bits: '.$img['bits'] .'</li>';
 }
 echo '<li>Mime type: '.$img['mime'] .'</li>';
 if (isset($img["APP13"])) {
-    $iptc = iptcparse($info["APP13"]);
+$iptc = iptcparse($info["APP13"]);
  //   Zend_Debug::dump($iptc);
 }
 if($img['mime'] == 'image/jpeg') {
 	
 $data = new Pas_Exif_Reader($location);
 Zend_Debug::dump($data->getImageInfo());
-
+Zend_Debug::dump($data->getThumbnail());
+if($data->ThumbnailSize > 0) {
+	echo "<br><img src='".$data->getThumbnail()."'>";
+ }
 $exif = exif_read_data($location, 0, true);
 if(isset($exif['FILE'])){
 echo $this->partial('partials/database/exifData.phtml',$exif['FILE']);

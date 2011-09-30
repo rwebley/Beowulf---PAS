@@ -1488,7 +1488,8 @@ class Pas_Exif_Reader {
     /**
      * Function to extract thumbnail from Exif data of the image.
      * and store it in a filename given by $ThumbFile
-     *
+     * @todo rewrite this to work the way I want it to. Thumbnails are generated already by another 
+     * script.
      * @param   String   Files name to store the thumbnail
      *
      */
