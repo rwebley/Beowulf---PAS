@@ -9,22 +9,19 @@
 */
 class Admin_OauthController extends Pas_Controller_Action_Admin {
 	
-	protected $_config;
-	
-	protected $_tokens; 
-	
 	/** Set up the ACL and resources
 	*/		
 	public function init() {
 	$this->_helper->_acl->allow('admin',null);
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$this->_tokens = new OauthTokens();
+	$this->view->messages = $this->_flashMessenger->getMessages();
     }
     
-	/** List available Oauth tokens
+	/** List available Oauth tokens that have been generated for use.
 	*/	
     public function indexAction() {
-    $this->view->tokens = $this->_tokens->fetchAll();
+    $tokens = new OauthTokens();
+    $this->view->tokens = $tokens->fetchAll();
     }
     
 	/** Initiate request to create a yahoo token. This can only be done when logged into Yahoo
@@ -32,7 +29,7 @@ class Admin_OauthController extends Pas_Controller_Action_Admin {
 	*/	
     public function yahooAction() {
     $yahoo = new Yahoo();
-    $request = $yahoo->request();
+    $this->_redirect($yahoo->request());
 	}
     
 	/** Initiate request to create a yahoo token. This can only be done when logged into Yahoo
@@ -40,13 +37,15 @@ class Admin_OauthController extends Pas_Controller_Action_Admin {
 	*/	
     public function yahooaccessAction(){
 	$yahoo = new Yahoo();
-	$data = $yahoo->access();
+	$yahoo->access();
+	$this->_flashMessenger->addMessage('Token created');
+	$this->_redirect('/admin/oauth/');
 	}
 	
 	public function twitterAction(){
+	$twitter = new Twitter($this->_config->webservice->twitter->consumerkey, 
+		$this->_config->webservice->twitter->consumerSecret);
+	$this->_redirect($twitter->request());
 	}
 	
-	public function googleAction(){
-		
-	}
 }

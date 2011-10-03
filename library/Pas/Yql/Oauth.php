@@ -90,7 +90,7 @@ class Pas_Yql_Oauth {
 	}
 	
 	/** Determine response status
-	* 
+	* @see http://developer.yahoo.com/search/errors.html
 	* @param object $response
 	*/
 	private function getStatus($response) {
@@ -100,16 +100,22 @@ class Pas_Yql_Oauth {
     		return true;
     		break;
     	case ($code == 400):
-    		throw new Exception('A valid appid parameter is required for this resource');
+    		throw new Pas_Yql_Exception('Bad request. The parameters passed to the service did not match as expected. 
+    		The Message should tell you what was missing or incorrect.');
     		break;
     	case ($code == 403):
-    		throw new Exception('You have exceeded your request limit');
+    		throw new Pas_Yql_Exception('Forbidden. You do not have permission to access this resource, 
+    		or are over your rate limit.');
     		break;
     	case ($code == 404):
-    		throw new Exception('The resource could not be found');
+    		throw new Pas_Yql_Exception('The resource could not be found');
     		break;
     	case ($code == 406):
-    		throw new Exception('You asked for an unknown representation');
+    		throw new Pas_Yql_Exception('You asked for an unknown representation');
+    		break;
+    	case ($code == 503):
+    		throw new Pas_Yql_Exception('Service unavailable. An internal problem prevented 
+    		us from returning data to you.');
     		break;
     	default;
     		return false;
@@ -238,8 +244,8 @@ class Pas_Yql_Oauth {
 	}
 	array_push($query_array[$k], $v);
 	} else {
-		$query_array[$k] = $v;
-      }
+	$query_array[$k] = $v;
+	}
     }
 	}
 	return $query_array;
@@ -318,16 +324,15 @@ class Pas_Yql_Oauth {
     $params = array_merge($params, $parsed_query);
   	}
 
-  	// Strip oit oauth_signature from params array if isset
+  	// Strip out oauth_signature from params array if isset
   	if (isset($params['oauth_signature'])) {
     unset($params['oauth_signature']);
 	}
 
 	// Create a double encoded param signature base string
-  	$base_string = OAuthUtil::urlencode_rfc3986(strtoupper($http_method)) . '&' .
-                   OAuthUtil::urlencode_rfc3986($this->normalize_url($url)) . '&' .
-                 OAuthUtil::urlencode_rfc3986($this->oauth_http_build_query($params));
-
+  	$base_string =  OAuthUtil::urlencode_rfc3986(strtoupper($http_method)) . '&' .
+                    OAuthUtil::urlencode_rfc3986($this->normalize_url($url)) . '&' .
+					OAuthUtil::urlencode_rfc3986($this->oauth_http_build_query($params));
 	return $base_string;
 	}
 
@@ -351,16 +356,16 @@ class Pas_Yql_Oauth {
 	private function curl($url, $port, $headers) {
 	$config = array(
     'adapter'   => 'Zend_Http_Client_Adapter_Curl',
-    'curloptions' => array(CURLOPT_POST =>  false,
-						   CURLOPT_USERAGENT =>  $_SERVER["HTTP_USER_AGENT"],
-						   CURLOPT_FOLLOWLOCATION => true,
-						   CURLOPT_PORT => $port,
-						   CURLOPT_HEADER => false,
-						   CURLOPT_RETURNTRANSFER => true,
-						   CURLOPT_LOW_SPEED_TIME => 1,
-						   CURLOPT_SSL_VERIFYHOST => false,
-                     	   CURLOPT_SSL_VERIFYPEER => false,
-                     	   CURLOPT_CONNECTTIMEOUT => 1,
+    'curloptions' => array(CURLOPT_POST 			=>  false,
+						   CURLOPT_USERAGENT 		=>  $_SERVER["HTTP_USER_AGENT"],
+						   CURLOPT_FOLLOWLOCATION 	=> true,
+						   CURLOPT_PORT				=> $port,
+						   CURLOPT_HEADER			=> false,
+						   CURLOPT_RETURNTRANSFER 	=> true,
+						   CURLOPT_LOW_SPEED_TIME 	=> 1,
+						   CURLOPT_SSL_VERIFYHOST 	=> false,
+                     	   CURLOPT_SSL_VERIFYPEER 	=> false,
+                     	   CURLOPT_CONNECTTIMEOUT 	=> 1,
 						   ),
 	);
 	$request = $url;
@@ -383,7 +388,6 @@ class Pas_Yql_Oauth {
 	 * @param array $data
 	 */
 	private function createToken($data) {
-	
 	$data = (object)$data;
 	$tokens = new OauthTokens();
 	$tokenRow = $tokens->createRow();	
