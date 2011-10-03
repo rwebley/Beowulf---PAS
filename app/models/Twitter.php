@@ -54,12 +54,12 @@ class Twitter extends Pas_Db_Table_Abstract {
 	);
 	$consumer	= new Zend_Oauth_Consumer($config);
 	$token		= $consumer->getRequestToken();
-    $secret		= serialize($token);
-    $tokenRow	= $this->createRow();
-    $tokenRow->service = 'twitterRequest';
-    $tokenRow->created = Zend_Date::now()->toString('YYYY-MM-dd HH:mm:ss');
-    $tokenRow->accessToken = serialize($token);
-    $tokenRow->save();
+	$secret		= serialize($token);
+	$tokenRow	= $this->createRow();
+	$tokenRow->service = 'twitterRequest';
+	$tokenRow->created = Zend_Date::now()->toString('YYYY-MM-dd HH:mm:ss');
+	$tokenRow->accessToken = serialize($token);
+	$tokenRow->save();
 	$consumer->redirect();
 	} else {
 		throw new Pas_Yql_Exception('Token already exists');
