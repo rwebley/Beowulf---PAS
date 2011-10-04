@@ -70,6 +70,9 @@ class Yahoo extends Pas_Db_Table_Abstract {
     'consumerKey' => $this->_consumerKey,
  	'consumerSecret' => $this->_consumerSecret,
     );
+    $tokens = new OauthTokens();
+	$tokenexists = $tokens->fetchRow($tokens->select()->where('service = ?', 'yahooAccess'));
+	if(is_null($tokenexists)){
 	$consumer = new Zend_Oauth_Consumer($config);
 	$token = $consumer->getRequestToken();
 	$session = new Zend_Session_Namespace('yahoo_oauth');
@@ -77,7 +80,10 @@ class Yahoo extends Pas_Db_Table_Abstract {
 	$session->secret = $token->getTokenSecret();
 	$urlParams = $token->getResponse()->getBody();
 	$url = self::OAUTHYAHOOREQ . $urlParams;
-	return $url;	
+	return $url;
+	} else {
+		throw new Pas_Yql_Exception('Token exists');
+	}
 	}
 
 	/** Create the token for yahoo access and save to database.

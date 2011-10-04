@@ -7,6 +7,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
+
 class Admin_OauthController extends Pas_Controller_Action_Admin {
 	
 	/** Set up the ACL and resources
@@ -41,11 +42,24 @@ class Admin_OauthController extends Pas_Controller_Action_Admin {
 	$this->_flashMessenger->addMessage('Token created');
 	$this->_redirect('/admin/oauth/');
 	}
-	
+	/** Initiate request to create a twitter request token. This can only be done when logged into twitter
+	* and also as an admin
+	*/	
 	public function twitterAction(){
-	$twitter = new Twitter($this->_config->webservice->twitter->consumerkey, 
-		$this->_config->webservice->twitter->consumerSecret);
+	$twitter = new Twitter();
 	$this->_redirect($twitter->request());
 	}
-	
+	/** Initiate request to create a twitter access token. This can only be done when logged into twitter
+	 * and also as an admin
+	*/	
+	public function twitteraccessAction(){
+	$twitter = new Twitter();
+	$twitter->access();
+	if(isset($twitter)){
+	$this->_flashMessenger->addMessage('Token created');
+	$this->_redirect('/admin/oauth/');
+	} else {
+		throw new Pas_Yql_Exception('Token creation failed');
+	}
+	}
 }
