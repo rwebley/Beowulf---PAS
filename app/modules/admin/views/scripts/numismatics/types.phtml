@@ -4,6 +4,7 @@
 <?php if (count($this->paginator)): ?>
 
 <table class="stripeMe" summary="List of all active medieval coin types">
+<caption>All active medieval types</caption>
 <thead>
 <tr>
 <th>Type name</th>
@@ -15,7 +16,8 @@
 </tr>
 <thead>
 <tbody>
-<?php echo $this->partialLoop('partials/admin/types.phtml',$this->paginator);?></tbody>
+<?php echo $this->partialLoop('partials/admin/types.phtml',$this->paginator);?>
+</tbody>
 </table>
 <?php else:?>
 <p>You have either entered an incorrect url parameter, or there are no recorded coin types available.</p>

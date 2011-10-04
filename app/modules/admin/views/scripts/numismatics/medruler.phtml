@@ -4,8 +4,8 @@
 <?php if(count($this->bios)) {
 echo $this->bios['0']['biography'];
 echo '<p><a href="'
-.$this->url(array('module' => 'admin','controller' => 'numismatics', 'action' => 'editmedievalruler', 'id' => $this->bios['0']['dbaseID']),NULL,true)
-.'" title="Edit biography">Edit this biography</a></p>';
+. $this->url(array('module' => 'admin','controller' => 'numismatics', 'action' => 'editmedievalruler', 'id' => $this->bios['0']['dbaseID']),NULL,true)
+. '" title="Edit biography">Edit this biography</a></p>';
 } else {
 echo '<p><a href="'.$this->url(array('module' => 'admin','controller' => 'numismatics', 'action' => 'addmedievalruler' , 'id' => $this->details['0']['id']),NULL,true).'" title="Add a biography">Add a new biography</a></p>';
 }?>
@@ -69,10 +69,10 @@ $('a.delete').click(function(e) {
 <th>Created by</th>
 <th>Actions</th>
 </tr>
+</thead>
 <tbody>
 <?php echo $this->partialLoop('partials/admin/mintruler.phtml',$this->mints);?>
 </tbody>
-</thead>
 </table>
 <?php else:?>
 <p>No mints available</p>
@@ -113,10 +113,10 @@ $('a.deletedenom').click(function(e) {
 <th>Created by</th>
 <th>Actions</th>
 </tr>
+</thead>
 <tbody>
 <?php echo $this->partialLoop('partials/admin/denomruler.phtml',$this->denoms);?>
 </tbody>
-</thead>
 </table>
 <?php else:?>
 <p>No denominations listed</p>
@@ -156,10 +156,10 @@ $('a.deletetype').click(function(e) {
 <th>Created by</th>
 <th>Actions</th>
 </tr>
+</thead>
 <tbody>
 <?php echo $this->partialLoop('partials/admin/type.phtml',$this->types);?>
 </tbody>
-</thead>
 </table>
 <?php else:?>
 <p>No types listed</p>

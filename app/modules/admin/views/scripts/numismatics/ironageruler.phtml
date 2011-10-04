@@ -60,10 +60,10 @@ $('a.delete').click(function(e) {
 <th>Created by</th>
 <th>Actions</th>
 </tr>
+</thead>
 <tbody>
 <?php echo $this->partialLoop('partials/admin/mintruler.phtml',$this->mints);?>
 </tbody>
-</thead>
 </table>
 <?php else:?>
 <p>No mints available</p>
@@ -104,10 +104,10 @@ $('a.deletedenom').click(function(e) {
 <th>Created by</th>
 <th>Actions</th>
 </tr>
+</thead>
 <tbody>
 <?php echo $this->partialLoop('partials/admin/denomruler.phtml',$this->denoms);?>
 </tbody>
-</thead>
 </table>
 <?php else:?>
 <p>No denominations listed</p>
@@ -147,10 +147,10 @@ $('a.deletereverse').click(function(e) {
 <th>Created by</th>
 <th>Actions</th>
 </tr>
+</thead>
 <tbody>
 <?php echo $this->partialLoop('partials/admin/reverseruler.phtml',$this->reverses);?>
 </tbody>
-</thead>
 </table>
 <?php else:?>
 <p>No reverse types listed</p>
