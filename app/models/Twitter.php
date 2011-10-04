@@ -51,13 +51,13 @@ class Twitter extends Pas_Db_Table_Abstract {
 	'consumerKey' => $this->_config->webservice->twitter->consumerKey,
 	'consumerSecret' => $this->_config->webservice->twitter->consumerSecret
 	);
-	$consumer	= new Zend_Oauth_Consumer($config);
-	$token		= $consumer->getRequestToken();
-	$secret		= serialize($token);
-	$tokenRow	= $this->createRow();
-	$tokenRow->service = 'twitterRequest';
-	$tokenRow->created = Zend_Date::now()->toString('YYYY-MM-dd HH:mm:ss');
-	$tokenRow->accessToken = serialize($token);
+	$consumer			= new Zend_Oauth_Consumer($config);
+	$token				= $consumer->getRequestToken();
+	$secret				= serialize($token);
+	$tokenRow			= $this->createRow();
+	$tokenRow->service 		= 'twitterRequest';
+	$tokenRow->created 		= Zend_Date::now()->toString('YYYY-MM-dd HH:mm:ss');
+	$tokenRow->accessToken		= serialize($token);
 	$tokenRow->save();
 	$consumer->redirect();
 	} else {
@@ -82,11 +82,11 @@ class Twitter extends Pas_Db_Table_Abstract {
    	if(!is_null($token)) {
     $accessToken = $consumer->getAccessToken(Zend_Controller_Front::getInstance()->getRequest()->getQuery(),
      unserialize( $token['accessToken'] ) );
-	$oauth_token = $accessToken->getToken();
-	$tokenRow	= $this->createRow();
-	$tokenRow->service = 'twitterAccess';
-	$tokenRow->created = Zend_Date::now()->toString('YYYY-MM-dd HH:mm:ss');
-	$tokenRow->accessToken = serialize($accessToken);
+	$oauth_token 		= $accessToken->getToken();
+	$tokenRow		= $this->createRow();
+	$tokenRow->service	= 'twitterAccess';
+	$tokenRow->created	= Zend_Date::now()->toString('YYYY-MM-dd HH:mm:ss');
+	$tokenRow->accessToken	= serialize($accessToken);
 	$tokenRow->save();
 	return true;
     } else {

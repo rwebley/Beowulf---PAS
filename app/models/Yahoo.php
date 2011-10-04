@@ -78,7 +78,7 @@ class Yahoo extends Pas_Db_Table_Abstract {
 	$session = new Zend_Session_Namespace('yahoo_oauth');
 	$session->token  = $token->getToken();
 	$session->secret = $token->getTokenSecret();
-	$urlParams = $token->getResponse()->getBody();
+	$urlParams 		 = $token->getResponse()->getBody();
 	$url = self::OAUTHYAHOOREQ . $urlParams;
 	return $url;
 	} else {
@@ -112,13 +112,13 @@ class Yahoo extends Pas_Db_Table_Abstract {
 	$oauth_token = $token->getToken();
 	$oauth_token_secret = $token->getTokenSecret();
 	$tokenRow = $this->createRow();	
-	$tokenRow->service = 'yahooAccess';
-	$tokenRow->accessToken = serialize($oauth_token);
-	$tokenRow->tokenSecret = serialize($oauth_token_secret);
-	$tokenRow->guid = serialize($oauth_guid);
-	$tokenRow->sessionHandle = serialize($oauth_session);
-	$tokenRow->created = $now;
-	$tokenRow->expires = $expires;
+	$tokenRow->service 		= 'yahooAccess';
+	$tokenRow->accessToken 		= serialize($oauth_token);
+	$tokenRow->tokenSecret 		= serialize($oauth_token_secret);
+	$tokenRow->guid 		= serialize($oauth_guid);
+	$tokenRow->sessionHandle 	= serialize($oauth_session);
+	$tokenRow->created 		= $now;
+	$tokenRow->expires 		= $expires;
 	$tokenRow->save();
 	}
 }

@@ -1,0 +1,11 @@
+<?php
+$this->headTitle('Configuration');
+?>
+<h2>Website configuration entries</h2>
+<p>The configuration for this site is defined through the use of config files in the app/config folder.
+There are three config files.</p>
+<ul>
+<li><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'configuration','action' => 'system'),null,true);?>">System</a></li>
+<li><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'configuration','action' => 'routing'),null,true);?>">Routing</li>
+<li><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'configuration','action' => 'webservice'),null,true);?>">Webservices</li>
+</ul>
