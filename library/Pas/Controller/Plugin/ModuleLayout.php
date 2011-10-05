@@ -152,7 +152,7 @@ class Pas_Controller_Plugin_ModuleLayout
 	    $view->headTitle('Information about our site')->setSeparator(' - ');
 		break;
 	case $module == 'flickr':
-		$layouttype = 'flickr';
+		$layouttype = 'database';
 		$view->headTitle('The Scheme on flickr')->setSeparator(' - ');
 		$response->insert('sidebar', $view->render('structure/flickrSidebar.phtml'));
 		break;
