@@ -1,8 +1,7 @@
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 jQuery(document).ready(function($) {
-
- $('a[rel*=lightbox]').lightBox() 
-    })
+$('a[rel*=lightbox]').lightBox() 
+});
 <?php $this->jQuery()->javascriptCaptureEnd() ?>
 <?php 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
@@ -19,7 +18,7 @@ $this->MetaBase('A list of our favourite images that we have found on flickr fro
 <?php 
 echo $this->partialLoop('partials/flickr/favourite.phtml',$this->photos);
 ?> 
-<?php echo $this->paginationControl($this->photos, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'structure/pagination.phtml'); ?>
 
 <?php else:?>
 <p>There are no favourites available at the moment</p>

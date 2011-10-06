@@ -2,8 +2,8 @@
 $this->jQuery()->javascriptCaptureStart();
 ?>
 jQuery(document).ready(function($) {
- $('a[rel*=lightbox]').lightBox() 
-})
+$('a[rel*=lightbox]').lightBox() 
+});
 <?php $this->jQuery()->javascriptCaptureEnd() ?>
 <?php 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
@@ -18,8 +18,10 @@ show creative commons licenced images.',
 
 <h2>Interesting archaeology images from the UK.</h2>
 <div>
-<?php if($this->photos):?>
+<?php
+if($this->photos):
 
+?>
 <?php 
 echo $this->partialLoop('partials/flickr/favourite.phtml',$this->photos);
 ?> 
