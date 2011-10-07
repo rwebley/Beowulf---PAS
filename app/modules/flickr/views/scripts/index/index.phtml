@@ -37,7 +37,6 @@ echo '" width="75" height="75"/></a>';
 $cachemain = Zend_Registry::get('formcache');
 echo '<h3>Most popular tags</h3>';
 
-if(!$cachemain->start('linkscloudflickrtags')) {
 
 
 $tag = array();
@@ -69,15 +68,10 @@ $tags = array('tags' => $tag,
 			);
 $cloud = new Zend_Tag_Cloud($tags);
 echo $cloud;
-$cachemain->save($cloud); 
-}
 
 ?>
 
 <h3>Our friends on flickr</h3>
-<?php 
-if(!$cachemain->start('flickrfriends')) {
-?>
 <?php foreach($this->contactslist as $c):?>
 <?php 
 $type = '.jpg';
@@ -94,7 +88,3 @@ if($c['iconfarm'] != 0) {
 <?php }?>
 <?php endforeach;?>
 
-<?php $cachemain->end(); 
-}
-
-?>

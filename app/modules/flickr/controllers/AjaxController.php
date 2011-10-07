@@ -19,9 +19,10 @@ class Flickr_AjaxController extends Pas_Controller_Action_Admin {
 		$this->_flickrkey = $this->_config->webservice->flickr->apikey;
 		$this->_secret = $this->_config->webservice->flickr->secret;
 		$this->_auth = $this->_config->webservice->flickr->auth;
+		$this->_sig = $this->_config->webservice->flickr->sig;
 		$this->_helper->layout->disableLayout();  
 		$this->_cache = Zend_Registry::get('rulercache');
-		$this->_oauth = new Pas_YqlOauth();
+		$this->_oauth = new Pas_Yql_Oauth();
 	}
 	/** retrieve the access token array for accessing yql oauth
 	 * 
@@ -54,7 +55,8 @@ class Flickr_AjaxController extends Pas_Controller_Action_Admin {
 	$recentphotos = 'http://api.flickr.com/services/rest/?method=flickr.photos.getWithGeoData&api_key=' 
 	. $this->_flickrkey . '&extras=geo%2C+url_sq&per_page=250&auth_token=' 
 	. $this->_auth . '&api_sig=' . $api_sig;
-	$q = 'select photos.photo.id,photos.photo.url_sq,photos.photo.title,photos.photo.latitude,photos.photo.longitude, photos.photo.woeid from xml where url ="http://api.flickr.com/services/rest/?method=flickr.photos.getWithGeoData&api_key=dbb87ca6390925131a4fedb34d9d8d80&extras=geo%2C+url_sq&per_page=250&auth_token=72157622564414951-412d4afcd026fd7f&api_sig=d69f9ccb4598b71c21aeef7ef4ddc93d"';
+	$q = 'select photos.photo.id,photos.photo.url_sq,photos.photo.title,photos.photo.latitude,photos.photo.longitude, photos.photo.woeid from xml where url ="http://api.flickr.com/services/rest/?method=flickr.photos.getWithGeoData&api_key=' 
+	. $this->_flickrkey .'&extras=geo%2C+url_sq&per_page=250&auth_token=' . $this->_auth .'&api_sig=' . $this->_sig . '"';
 	$ph = $this->_oauth->execute($q, $access['access_token'], $access['access_token_secret'], $access['access_token_expiry'],$access['handle'] );
 	$this->_cache->save($ph);
 	} else {

@@ -6,6 +6,7 @@
 * @subpackage ActionAdmin
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
+* @author Daniel Pett
 */
 class Flickr_IndexController extends Pas_Controller_Action_Admin {
 	
@@ -21,7 +22,7 @@ class Flickr_IndexController extends Pas_Controller_Action_Admin {
 	$this->_auth = $this->_config->webservice->flickr->auth;
 	$this->_userID = $this->_config->webservice->flickr->userid;
 	$this->_cache = Zend_Registry::get('cache');
-	$this->_oauth = new Pas_YqlOauth();
+	$this->_oauth = new Pas_Yql_Oauth();
 	}
 	
 	public function tokens() {
