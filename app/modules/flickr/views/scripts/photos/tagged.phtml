@@ -19,7 +19,7 @@ $this->MetaBase('A list of photos retrieved from the flickr api using creative c
 
 <?php if(count($this->pictures)):?>
 <?php echo $this->partialLoop('partials/flickr/imagelist.phtml',$this->pictures);?>
-<?php echo $this->paginationControl($this->pictures, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'structure/pagination.phtml'); ?>
 
 <?php else:?>
 <p>There are no photos available with that tag.</p>

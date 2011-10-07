@@ -64,14 +64,15 @@ class Pas_Db_Table_Abstract
 	 * @access public
 	 * @param array $data
 	 */
-	public function update($data, $where){
+	public function update(array $data, $where){
 	if(empty($data['updated'])){
 		$data['updated'] = $this->timeCreation();
 	}
 	if(empty($data['updatedBy'])){
 		$data['updatedBy'] = $this->userNumber();
 	}
-	return parent::update((array)$data, (array)$where);
+	 $tableSpec = ($this->_schema ? $this->_schema . '.' : '') . $this->_name;
+	return parent::update($tableSpec, $data, $where);
 	}
 	
 	public function _purgeCache(){

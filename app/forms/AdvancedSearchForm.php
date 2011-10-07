@@ -1,7 +1,8 @@
 <?php
-/**
-* Advanced search form for database
-*
+/** Advanced search form for database
+* @author     Daniel Pett
+* @version    1
+* @since      7 October 2011
 * @category   Pas
 * @package    Pas_Form
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org

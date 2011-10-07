@@ -41,13 +41,14 @@ parent::__construct($options);
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
-	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('label')
 	->setTimeout(60);
 	$this->addElement($hash);
 	
 	//Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
-	$submit->setAttribs(array('class'=> 'large'))->setAttribs(array('class'=> 'large'));
+	$submit->setAttribs(array('class'=> 'large'));
 	
 	
 	$this->addElements(array($type,$ruler_id,$submit))

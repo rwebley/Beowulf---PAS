@@ -6,6 +6,9 @@
 * @package    Pas_Form
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
+* @author     Daniel Pett
+* @version    1.1
+* @since	  7 October 2011    
 */
 class AddFloRallyForm extends Pas_Form{
 
@@ -32,21 +35,17 @@ class AddFloRallyForm extends Pas_Form{
 	$flo = new Zend_Form_Element_Select('staffID');
 	$flo->setLabel('Finds officer present: ')
 	->setRequired(true)
-	->addFilter('HtmlBody')
-	->addFilter('StringTrim')
-	->addValidator('NotEmpty')
-	->addErrorMessage('Please enter a valid interest!')
+	->addFilters(array('StringTrim','StripTags'))
+	->addValidator('Int')
 	->setDecorators($decorators)
-	->addMultiOptions(array(NULL => 'Choose attending officer','Our staff members' => $flos));
+	->addMultiOptions(array(NULL => 'Choose attending officer', 'Our staff members' => $flos));
 
 	$dateFrom = new ZendX_JQuery_Form_Element_DatePicker('dateFrom');
 	$dateFrom->setLabel('Attended from: ')
-	->setRequired(false)
+	->setRequired(true)
 	->addValidator('Date')
-	->addFilter('StripTags')
-	->addFilter('StringTrim')
+	->addFilters(array('StripTags', 'StringTrim'))
 	->addValidator('NotEmpty')
-	->addErrorMessage('Come on it\'s not that hard, enter a title!')
 	->setAttrib('size', 20)
 	->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'li'))
 	->removeDecorator('DtDdWrapper');
@@ -54,12 +53,9 @@ class AddFloRallyForm extends Pas_Form{
 
 	$dateTo = new ZendX_JQuery_Form_Element_DatePicker('dateTo');
 	$dateTo->setLabel('Attended to: ')
-	->setRequired(false)
+	->setRequired(true)
 	->addValidator('Date')
-	->addFilter('StripTags')
-	->addFilter('StringTrim')
-	->addValidator('NotEmpty')
-	->addErrorMessage('Come on it\'s not that hard, enter a title!')
+	->addFilters(array('StripTags', 'StringTrim'))
 	->setAttrib('size', 20)
 	->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'li'))
 	->removeDecorator('DtDdWrapper');
@@ -70,9 +66,6 @@ class AddFloRallyForm extends Pas_Form{
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag');
 
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
-
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 	->removeDecorator('DtDdWrapper')
@@ -80,9 +73,9 @@ class AddFloRallyForm extends Pas_Form{
 	->setTimeout(60);
 	$this->addElement($hash);
 	
-	$this->addElements(array($flo,$dateFrom,$dateTo,$submit));
+	$this->addElements(array($flo, $dateFrom, $dateTo, $submit));
 
-	$this->addDisplayGroup(array('staffID','dateFrom','dateTo'), 'details')
+	$this->addDisplayGroup(array('staffID', 'dateFrom', 'dateTo'), 'details')
 	->removeDecorator('HtmlTag');
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');

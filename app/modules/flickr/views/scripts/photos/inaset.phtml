@@ -11,7 +11,7 @@ $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.
 <?php $this->FlickrSetInfo($this->id);?>
 <?php if(count($this->pictures)):?>
 <?php echo $this->partialLoop('partials/flickr/imagelist.phtml',$this->pictures);?>
-<?php echo $this->paginationControl($this->pictures, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'structure/pagination.phtml'); ?>
 
 <?php else:?>
 <p>There are no photos available with that tag.</p>

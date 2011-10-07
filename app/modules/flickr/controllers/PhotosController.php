@@ -128,7 +128,7 @@ class Flickr_PhotosController
 	} else {
 	$flickr = $this->_cache->load($key);
 	}
-
+	Zend_Debug::dump($flickr);
 	if(!is_null($flickr->query->results)){
 	$photos = array();
 	$total = (int)$flickr->query->results->rsp->photos->total;
@@ -178,20 +178,25 @@ class Flickr_PhotosController
 	$access = $this->tokens();
 	$id = $this->_getParam('id');
 	$page = $this->_getParam('page');
-	if (!($this->_cache->test('set' . $id))) {
-	$q = 'SELECT * from flickr.photosets.photos(0,200) where photoset_id ="' . $id . '"
-	 and extras="license, date_upload, date_taken, owner_name, icon_server, original_format, 
-	 last_update, geo, tags, machine_tags, o_dims, views, media, path_alias, url_sq, url_t, 
-	 url_s, url_m, url_o" AND api_key="' . $this->_flickrkey .'"';
+	$number = 5;
+	if(!isset($page)){
+		$start = 1;
+	} else {
+		$start = $page ;
+	}
+	$key = md5 ('set' . $id . $page);
+	if (!($this->_cache->test($key))) {
+	$q = 'SELECT * from xml where url="http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=' . $this->_flickrkey . '&photoset_id=' . $id . '&extras=license%2Cdate_upload%2Cdate_taken%2Cowner_name%2C+icon_server%2C+original_format%2C+last_update%2Cgeo%2Ctags%2Cmachine_tags%2Co_dims%2Cviews%2Cmedia%2Cpath_alias%2Curl_sq%2C+url_t%2Curl_s%2Curl_m%2Curl_o&per_page='. $number . '&page=' . $start . '&format=rest"';
 	$flickr = $this->_oauth->execute( 
 	$q, $access['access_token'], $access['access_token_secret'],
 	$access['access_token_expiry'], $access['handle'] );
 	$this->_cache->save($flickr);
 	} else {
-	$flickr = $this->_cache->load('set' . $id);
+	$flickr = $this->_cache->load($key);
 	}
 	$photos = array();
-	foreach($flickr->query->results->photo as $a) {
+	$total = (int) $flickr->query->results->rsp->photoset->total;
+	foreach($flickr->query->results->rsp->photoset->photo as $a) {
 	if(isset($a->woeid)){
 		$woeid = $a->woeid;
 	} else {
@@ -224,13 +229,18 @@ class Flickr_PhotosController
 //	'username' => $a->ownername,
 	);
 	}
-	$paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($photos));
-	if(isset($page) && ($page != "")) {
-    $paginator->setCurrentPageNumber((int)$page); 
-	}
-	$paginator->setItemCountPerPage(20) 
-          ->setPageRange(10); 
-	$this->view->pictures = $paginator;
+	$pagination = array(    
+	'page'          => $page, 
+	'results' 		=> $photos,
+	'per_page'      => 5, 
+    'total_results' => $total
+	);
+	$paginator = Zend_Paginator::factory($pagination['total_results']);
+    $paginator->setCurrentPageNumber($pagination['page'])
+              ->setItemCountPerPage(5)
+              ->setPageRange(20);
+	$this->view->paginator = $paginator;
+	$this->view->pictures = $photos;
 	$this->view->id = $id;
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
@@ -270,17 +280,17 @@ class Flickr_PhotosController
 	}
 	$p = new Phlickr_Photo($this->api, $id);
 	$image = array();
-	$image['sizes'] = $p->getSizes();
-	$image['rawtags'] = $p->getRawTags();
-	$image['tags'] = $p->getTags();
-	$image['description'] = $p->getDescription();
-	$image['created'] = $p->getPostedDate();
-	$image['url'] = $p->buildUrl();
-	$image['mediumimage'] = $p->buildImgUrl('-');
-	$image['image'] = $p->buildImgUrl('s');
-	$image['title'] = $p->getTitle();
-	$image['geo'] = $p->getGeo();
-	$image['coords'] = $p->getCoords();
+	$image['sizes'] =	$p->getSizes();
+	$image['rawtags'] =	$p->getRawTags();
+	$image['tags'] =	$p->getTags();
+	$image['description'] =	$p->getDescription();
+	$image['created'] =	$p->getPostedDate();
+	$image['url'] =	$p->buildUrl();
+	$image['mediumimage']	= $p->buildImgUrl('-');
+	$image['image'] =	$p->buildImgUrl('s');
+	$image['title'] =	$p->getTitle();
+	$image['geo'] =	$p->getGeo();
+	$image['coords'] =	$p->getCoords();
 	$this->view->image = $image;
 	
 	$owner = 'select * from flickr.photos.info where  photo_id="' . $id . '" and api_key="'. $this->_flickrkey .'" ';
@@ -297,13 +307,13 @@ class Flickr_PhotosController
 	$comms = array();
 	foreach($yousay as $c) {
 	$comms[] = array(
-	'author' => $c->getAuthorName(),
-	'comment' => $c->getComment(),
-	'submitted' => $c->getCreationDate(),
-	'authorid' => $c->getAuthorId(),
-	'url' => $c->buildUrl(),
-	'permalink' => $c->getUrl(),
-	'commentID' => $c->getId()
+	'author'	=> $c->getAuthorName(),
+	'comment'	=> $c->getComment(),
+	'submitted'	=> $c->getCreationDate(),
+	'authorid'	=> $c->getAuthorId(),
+	'url'	=> $c->buildUrl(),
+	'permalink'	=> $c->getUrl(),
+	'commentID'	=> $c->getId()
 	);
 	}
 	$this->view->comments = $comms;
@@ -318,25 +328,32 @@ class Flickr_PhotosController
 	$access = $this->tokens();
 	$tags = $this->_getParam('as');
 	$page = $this->_getParam('page');
-	$tagmode = 'all';
-	$userid = $this->api->getUserId();
-	if (!($this->_cache->test('tagged' . $tags))) {
-	$q = 'SELECT * FROM  flickr.photos.search(0,50) where user_id = "' . $this->_userid . '" and tags="' . $tags . '" and tag_mode="all" and 
-	sort="interestingness-desc" and extras="license, date_upload, date_taken, owner_name, icon_server, original_format,last_update, geo, tags, machine_tags, o_dims, 
-	views, media, path_alias, url_sq, url_t,url_s, url_m, url_o" and license="1,2,3,4,5,6,7" and api_key="' . $this->flickrkey . '"';
+	$number = 10;
+	if(!isset($page)){
+		$start = 1;
+	} else {
+		$start = $page ;
+	}
+	$key = md5('tagged' . $tags . $page);
+	if (!($this->_cache->test($key))) {
+	$q = 'SELECT * FROM  xml where url="http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' . $this->_flickrkey . '&user_id=' . $this->_userid . '&tags=' . $tags 
+	. '&extras=description,license,date_upload,date_taken,owner_name,icon_server,original_format,last_update,geo,tags,machine_tag,o_dims,views,media,path_alias,url_sq,url_t,url_s,url_m,url_o&per_page=' . $number .'&page=' . $start . '";';
 	$flickr = $this->_oauth->execute($q,$access['access_token'], $access['access_token_secret'],$access['access_token_expiry'],$access['handle'] );
 	$this->_cache->save($flickr);
 	} else {
-	$flickr = $this->_cache->load('tagged' . $tags);
+	$flickr = $this->_cache->load($key);
 	}
 	$photos = array();
-	if(isset($flickr->query->results)){
-	foreach($flickr->query->results->photo as $a) {
+	if(isset($flickr->query->results->rsp->photos)){
+	$total = $flickr->query->results->rsp->photos->total;
+	
+	foreach($flickr->query->results->rsp->photos->photo as $a) {
 	if(isset($a->woeid)){
 	$woeid = $a->woeid;
 	} else {
 	$woeid = NULL;
 	}
+	//Should change this to a foreach key => value and save code.
 	$photos[] = array(
 	'id' => $a->id,
 	'title' => $a->title,
@@ -362,13 +379,18 @@ class Flickr_PhotosController
 	
 	}
 	$this->view->tagtitle = $tags;
-	$paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($photos));
-	if(isset($page) && ($page != ""))  {
-    $paginator->setCurrentPageNumber((int)$page); 
-	}
-	$paginator->setItemCountPerPage(20) 
-		->setPageRange(10); 	
-	$this->view->pictures = $paginator;
+	$pagination = array(    
+	'page'          => $page, 
+	'results' 		=> $photos,
+	'per_page'      => 5, 
+    'total_results' => (int) $total
+	);
+	$paginator = Zend_Paginator::factory($pagination['total_results']);
+    $paginator->setCurrentPageNumber($pagination['page'])
+              ->setItemCountPerPage(5)
+              ->setPageRange(20);
+	$this->view->paginator = $paginator;
+	$this->view->pictures = $photos;
 	}
 	}
 	/** Find groups of images we contribute to
@@ -380,9 +402,10 @@ class Flickr_PhotosController
 	$method = 'flickr.groups.pools.getGroups';
 	$perm = 'read';
 	$api_sig = md5($this->secret . 'api_key' . $this->flickrkey . 'auth_token' . $this->auth . 'method' . $method);
-//	$request = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'http%3A%2F%2Fapi.flickr.com%2Fservices%2Frest%2F%3Fmethod%3Dflickr.groups.pools.getGroups%26api_key%3Ddbb87ca6390925131a4fedb34d9d8d80%26auth_token%3D72157622564414951-412d4afcd026fd7f%26api_sig%3D156cb34b6efb71aed0eecaaf7c770d94'&format=json&diagnostics=false&env=http%3A%2F%2Fdatatables.org%2Falltables.env";
-	$q = "select * from xml where url='http://api.flickr.com/services/rest/?method=flickr.groups.pools.getGroups&api_key=" . $this->_flickrkey. "&auth_token=" . $this->_flickrauth . "&api_sig=" . $this->_sig . "'";
-	$ph = $this->_oauth->execute($q,$access['access_token'], $access['access_token_secret'], $access['access_token_expiry'],$access['handle'] );
+	$q = "select * from xml where url='http://api.flickr.com/services/rest/?method=flickr.groups.pools.getGroups&api_key=" 
+	. $this->_flickrkey. "&auth_token=" . $this->_flickrauth . "&api_sig=" . $this->_sig . "'";
+	$ph = $this->_oauth->execute($q,$access['access_token'], $access['access_token_secret'], 
+		$access['access_token_expiry'],$access['handle'] );
 	$this->_cache->save($ph,'groupsnew');
 	} else {
 	$ph = $this->_cache->load('groupsnew');
@@ -494,7 +517,7 @@ class Flickr_PhotosController
 	$pagination = array(    
 	'page'          => $page, 
 	'results' 		=> $photos,
-	'per_page'      => 20, 
+	'per_page'      => 5, 
     'total_results' => $total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);

@@ -39,11 +39,11 @@ $cache = Zend_Registry::get('formcache');
 
 if(!$cache->start($this->spaceremove(' ','',preg_replace('/[^a-zA-Z0-9\s]/ ', '',$term)))) 
 {
-echo '<h3 id="cl">Examples in the British Museum Collection online</h3><div id="gallerycol">';
+echo '<h3>Examples in the British Museum Collection online</h3><div id="gallerycol">';
 foreach($collections as $data) {
 echo '<div class="thumbnail" id="thumbnail">
 <a href="'.$data->url['href'].'">'.ucfirst($data->title) . '</a> - '.$data->content.'</li><br /><a href="'.$this->spaceremove('_s.jpg','_l.jpg',$data->imageurl).'" rel="lightbox"><img src="'. $data->imageurl.'" alt=""/></a></div>';
-	}
+}
 echo '</div>';
 $cache->end(); 
 }

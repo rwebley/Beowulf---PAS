@@ -18,7 +18,6 @@ class Slides extends Pas_Db_Table_Abstract {
 	
 	protected $_primary = 'imageID';
 	
-	
 	protected $_higherlevel = array('admin','flos','fa'); 
 	
 	protected $_restricted = array('public','member');
@@ -322,7 +321,7 @@ class Slides extends Pas_Db_Table_Abstract {
 		->from($this->_name, array('thumbnail'  => 'slides.imageID','created','f' => 'filename','i' => 'imageID','label'))
 		->joinLeft('finds_images','slides.secuid = finds_images.image_id', array()) 
 		->joinLeft('finds','finds.secuid = finds_images.find_id', array('objecttype','id','old_findID'))
-		->joinLeft('users','users.id = slides.createdBy', array('username'))
+		->joinLeft('users','users.id = slides.createdBy', array('username', 'imagedir'))
 		->order($this->_name.'.imageID DESC')
 		->where('finds.objecttype = ?',(string)$term)
 		->where('finds.id IS NOT NULL')

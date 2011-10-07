@@ -19,6 +19,7 @@ class Flickr_IndexController extends Pas_Controller_Action_Admin {
 	$this->_flickrkey = $this->_config->webservice->flickr->apikey;
 	$this->_secret = $this->_config->webservice->flickr->secret;
 	$this->_auth = $this->_config->webservice->flickr->auth;
+	$this->_userID = $this->_config->webservice->flickr->userid;
 	$this->_cache = Zend_Registry::get('cache');
 	$this->_oauth = new Pas_YqlOauth();
 	}
@@ -42,7 +43,6 @@ class Flickr_IndexController extends Pas_Controller_Action_Admin {
 	*/			
 	public function indexAction() {
    	$access = $this->tokens();
-	$flickrkey = $_config->webservice->flickr->apikey;
 	if (!($this->_cache->test('flickrintro'))) {
 	$q= 'SELECT * FROM flickr.photos.search WHERE tag_mode = "all" AND user_id ="' 
 	. $this->_userID . '" AND extras="geo,license,url_sq,url_m" AND api_key="' 

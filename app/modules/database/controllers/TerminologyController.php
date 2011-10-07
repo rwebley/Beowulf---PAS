@@ -471,7 +471,7 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	$objs = $objects->getObjectTermDetail($term);
 	$this->view->objectdata = $objs;
 	$images = new Slides();
-	$this->view->images = $images->getLast10ThumbnailsToObjectType($term,4);
+	$this->view->images = $images->getLast10ThumbnailsToObjectType($term, 4);
 	}	
 	/** Display completeness details
 	*/		
