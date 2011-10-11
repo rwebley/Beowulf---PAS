@@ -19,13 +19,14 @@ class Flickr_PhotosController
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->acl->allow('public',null);
 	$this->_config = Zend_Registry::get('config');
-	$this->_flickrkey = $this->_config->webservice->flickr->apikey;
+	$this->_flickr = $this->_config->webservice->flickr;
 	$this->_secret = $this->_config->webservice->flickr->secret;
 	$this->_flickrauth = $this->_config->webservice->flickr->auth;
 	$this->_sig = $this->_config->webservice->flickr->sig;
 	$this->_cache = Zend_Registry::get('cache');
 	$this->_oauth = new Pas_Yql_Oauth();
-	$this->_api = new Phlickr_Api($this->_flickrkey, $this->_secret, $this->_flickrauth);
+//	$this->_api = new Phlickr_Api($this->_flickrkey, $this->_secret, $this->_flickrauth);
+	$this->_api	= new Pas_Yql_Flickr($this->_flickr);
 	$this->_userid = $this->_config->webservice->flickr->userid;
 	}
 	
@@ -35,24 +36,6 @@ class Flickr_PhotosController
 	$this->_redirect('/flickr/');
     }
     
-    /** Retrieve the oauth tokens for use with YQL
-     */
-	public function tokens(){
-	$tokens = new OauthTokens();
-    $where = array();
-	$where[] = $tokens->getAdapter()->quoteInto('service = ?','yahooAccess'); 
-	$validToken = $tokens->fetchRow($where);
-	if(!is_null($validToken)) {
-	$access = array(
-	'access_token' => unserialize($validToken->accessToken),
-	'access_token_secret' => unserialize($validToken->tokenSecret),
-	'access_token_expiry' => $validToken->expires,
-	'handle' => unserialize($validToken->sessionHandle)
-	);
-	return $access;
-	} 
-	}	
-	
 	/** Retrieve the sets of photos we have
 	*/		
 	public function setsAction() {
@@ -93,7 +76,7 @@ class Flickr_PhotosController
 	);
 	}
 	$paginator = new Zend_Paginator(new Zend_Paginator_Adapter_Array($data));
-	//Zend_Paginator::setCache($this->_cache);	
+	Zend_Paginator::setCache($this->_cache);	
 	if(isset($page) && ($page != ""))  {
     $paginator->setCurrentPageNumber((int)$page); 
 	}
@@ -325,10 +308,9 @@ class Flickr_PhotosController
 	/** Find images tagged in a certain way.
 	*/		
 	public function taggedAction() {
-	$access = $this->tokens();
 	$tags = $this->_getParam('as');
 	$page = $this->_getParam('page');
-	$number = 10;
+	$per_page = 10;
 	if(!isset($page)){
 		$start = 1;
 	} else {
@@ -336,63 +318,38 @@ class Flickr_PhotosController
 	}
 	$key = md5('tagged' . $tags . $page);
 	if (!($this->_cache->test($key))) {
-	$q = 'SELECT * FROM  xml where url="http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' . $this->_flickrkey . '&user_id=' . $this->_userid . '&tags=' . $tags 
-	. '&extras=description,license,date_upload,date_taken,owner_name,icon_server,original_format,last_update,geo,tags,machine_tag,o_dims,views,media,path_alias,url_sq,url_t,url_s,url_m,url_o&per_page=' . $number .'&page=' . $start . '";';
-	$flickr = $this->_oauth->execute($q,$access['access_token'], $access['access_token_secret'],$access['access_token_expiry'],$access['handle'] );
+	$flickr = $this->_api->getPhotosTaggedAs( $tags, $per_page, $page);
 	$this->_cache->save($flickr);
 	} else {
 	$flickr = $this->_cache->load($key);
 	}
 	$photos = array();
-	if(isset($flickr->query->results->rsp->photos)){
-	$total = $flickr->query->results->rsp->photos->total;
-	
-	foreach($flickr->query->results->rsp->photos->photo as $a) {
-	if(isset($a->woeid)){
-	$woeid = $a->woeid;
-	} else {
-	$woeid = NULL;
+	if(!is_null($flickr)){
+	$total = $flickr->total;
+	$photos = array();
+	foreach($flickr->photo as $k => $v) {
+	$photos[$k] = $v;
 	}
-	//Should change this to a foreach key => value and save code.
-	$photos[] = array(
-	'id' => $a->id,
-	'title' => $a->title,
-	'views' => $a->views,
-	'farm' => $a->farm,
-	'secret' => $a->secret,
-	'server' => $a->server,
-	'mediumimage' => $a->url_m,
-	'image' => $a->url_sq,
-	'tags' => $a->tags,
-	'created' => $a->datetaken,
-	'lat' => $a->latitude,
-	'lon' => $a->longitude,
-	'machines' => $a->machine_tags,
-	'woeid' => $woeid,
-	'pathalias' => $a->pathalias,
-	'owner' => $a->owner,
-	'iconserver' => $a->iconserver,
-	'iconfarm' => $a->iconfarm,
-	'ownername' => $a->ownername,
-	'username' => $a->ownername,
-	);
-	
-	}
+	if(!array_key_exists('woeid',$photos)){
+	$photos['woeid'] = NULL;
+	}	
 	$this->view->tagtitle = $tags;
 	$pagination = array(    
 	'page'          => $page, 
 	'results' 		=> $photos,
-	'per_page'      => 5, 
+	'per_page'      => 10, 
     'total_results' => (int) $total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
     $paginator->setCurrentPageNumber($pagination['page'])
-              ->setItemCountPerPage(5)
-              ->setPageRange(20);
+    	->setCache($this->_cache);
+	$paginator->setPageRange(20);
 	$this->view->paginator = $paginator;
 	$this->view->pictures = $photos;
 	}
 	}
+	
+	
 	/** Find groups of images we contribute to
 	*/		
 	public function groupsAction() {
