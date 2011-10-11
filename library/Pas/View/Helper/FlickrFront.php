@@ -13,20 +13,21 @@
  */
 class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	
-	/**
-	 * @var Zend_View_Interface 
-	 */
 	protected $_cache = NULL;
 	
-	public function __construct()  { 
-	$this->_cache = Zend_Registry::get('rulercache');
+	protected $_flickrKey;
+	
+	protected $_userID;
+	
+	
+	public function __construct(  )  { 
+	$this->_cache = Zend_Registry::get('cache');
 	}
 	
 	private function getAccessKeys() {
 	$tokens = new OauthTokens();
     $where = array();
 	$where[] = $tokens->getAdapter()->quoteInto('service = ?','yahooAccess'); 
-	//$where[] = $tokens->getAdapter()->quoteInto('expires >= ?',$this->getTimeForForms()); 
 	$validToken = $tokens->fetchRow($where);
 	if(!is_null($validToken)) {
 	$access = array(
@@ -37,7 +38,7 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	);
 	return $access;
 	} else {
-	 return false;	
+	return false;	
 	}
 	}
 	
@@ -49,9 +50,10 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	$access = (object)$access;
 	if (!($this->_cache->test('flickrimagesfrontjson'))) {
 	$oauth = new Pas_Yql_Oauth();
-	$q = 'SELECT * FROM flickr.photos.search WHERE tag_mode ="all" AND user_id="10257668@N04" AND extras="geo,license,url_sq,url_m" and api_key="dbb87ca6390925131a4fedb34d9d8d80" LIMIT 10';
-    $data = $oauth->execute($q,$access->access_token, $access->access_token_secret,$access->access_token_expiry,$access->handle);
-   
+	$q = 'SELECT * FROM flickr.photos.search WHERE tag_mode ="all" AND user_id="' . $this->_userID
+	. '" AND extras="geo,license,url_sq,url_m" and api_key="' . $this->_flickrKey . '" LIMIT 8';
+    $data = $oauth->execute($q, $access->access_token, $access->access_token_secret, $access->access_token_expiry, 
+    $access->handle);
 	$this->_cache->save($data);
 	} else {
 	$data = $this->_cache->load('flickrimagesfrontjson');
@@ -71,13 +73,8 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	private function parseFlickr($data) {
 	if(!is_null($data)){	
 	$recent = array();
-	foreach($data->query->results->photo as $a) {
-	$recent[] = array( 
-	'square' => $a->url_sq,
-	'medium' => $a->url_m,
-	'license' => $a->license,
-	'id' => $a->id,
-	'title' => $a->title);
+	foreach($data->query->results->photo as $k) {
+	$recent[] = $k;
 	}
 	return $this->buildHtml($recent);
 	} else {
@@ -86,18 +83,19 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	}
 
 	public function buildHtml($recent) {
-	$html = '';
+	if (!($this->_cache->test('frontHtml'))) {
+	$html = '<h3>Our recent images</h3>';
 	$html .= '<div id="flickrbox">';
 	foreach($recent as $p){ 
 	$html .= '<a href="';
-	$html .= $p['medium'];
+	$html .= $p->url_m;
 	$html .= '" rel="lightbox" ';
 	$html .= 'title="';
-	$html .=$p['title'];
+	$html .=$p->title;
 	$html .= '"><img src="';
-	$html .=$p['square'];
+	$html .=$p->url_sq;
 	$html .= '" alt="';
-	$html .=$p['title'];
+	$html .=$p->title;
 	$html .='" width="75" height="75"/></a>';
 		}
 	$html .= '<a href="';
@@ -105,10 +103,17 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	$html .='" title="View our flickr images"><img src="';
 	$html .= $this->view->baseUrl();
 	$html .='/images/logos/flickr.png" alt="flickr\'s logo" height="39" width="140" id="badgeflickr"/></a><br /></div>';
+	$this->_cache->save($html);
+	} else {
+	$html = $this->_cache->load('frontHtml');
+	}
+	
 	return $html;
 	}
 	
-	public function flickrFront() {
+	public function flickrFront(  $flickr ) {
+	$this->_flickrKey = $flickr->apikey;
+	$this->_userID = $flickr->userid;
 	$openup = $this->getAccessKeys();
 	if(!is_null($openup)){
 		return $this->getFlickr($openup);

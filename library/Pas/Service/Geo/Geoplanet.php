@@ -102,7 +102,7 @@ class Pas_Service_Geo_Geoplanet {
     } else if(!is_null($lat) && !is_null($lon)) {
     $key2 = 'elevation'.md5($lat.$lon);
     if (!$place = $this->_cache->load($key2)) {
-    $yql = 'select * from json where url="' .self::ELEVATION_URI . 'lat=' . $lat  . '&lng=' . $lon. '";';
+    $yql = 'select * from json where url="' . self::ELEVATION_URI . 'lat=' . $lat  . '&lng=' . $lon. '";';
     $place = $this->_oauth->execute($yql,$this->_accessToken, 
     $this->_accessSecret,$this->_accessExpiry,$this->_handle);
     $this->_cache->save($place);
