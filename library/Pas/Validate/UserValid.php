@@ -108,8 +108,8 @@ class Pas_Validate_UserValid extends Zend_Validate_Abstract
 	$where = array();
     // Check that this is not the user's own identity
 	$where[] = $this->_zendDbTable->getAdapter()->quoteInto($this->_Key . ' = ?', $key);
-	$where[] = $this->_zendDbTable->getAdapter()->quoteInto($this->_emailColumn . ' = ?', $emailColumn);
-	$where[] = $this->_zendDbTable->getAdapter()->quoteInto($this->_identityColumn . ' = ?', $identityColumn);
+	$where[] = $this->_zendDbTable->getAdapter()->quoteInto($this->_emailColumn . ' = ?', $email);
+	$where[] = $this->_zendDbTable->getAdapter()->quoteInto($this->_identityColumn . ' = ?', $username);
 	$row = $this->_zendDbTable->fetchRow($where);
 	if (null !== $row) {
 	$this->_error(self::NOT_VALID);

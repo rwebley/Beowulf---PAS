@@ -131,15 +131,17 @@ class Flickr_PhotosController
 	public function detailsAction() {
 	$id = $this->_getParam('id');
 	$exif = $this->_api->getPhotoExifDetails( $id );
-	$this->view->exif = $exif;
+	Zend_Debug::dump($exif);
 	$geo = $this->_api->getGeoLocation($id);
-	$this->view->geo = $geo;
+	Zend_Debug::dump($geo);
 	$comments = $this->_api->getPhotoCommentList($id);
-	$this->view->comments = $comments;
+	Zend_Debug::dump($comments);
 	$image = $this->_api->getPhotoInfo($id);
 	$this->view->image = $image;
+	Zend_Debug::dump($image);
 	$sizes = $this->_api->getSizes($id);
 	$this->view->sizes = $sizes;
+	Zend_Debug::dump($sizes);
 	}
 	
 	/** Find images tagged in a certain way.

@@ -8,9 +8,14 @@ $('a[rel*=lightbox]').lightBox()
 <?php 
 $this->jQuery()->addJavascriptFile($this->baseUrl() . '/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
 ?>
-<?php $this->FlickrSetInfo($this->id);?>
+<?php $this->FlickrSetInfo($this->pictures->photoset->id);?>
 <?php if(count($this->pictures)):?>
-<?php echo $this->partialLoop('partials/flickr/imagelist.phtml',$this->pictures);?>
+<?php 
+$photos = array();
+foreach($this->pictures->photoset->photo as $photo){
+	$photos[] = (array)$photo;
+}
+echo $this->partialLoop('partials/flickr/imagelist.phtml',$photos);?>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'structure/pagination.phtml'); ?>
 
 <?php else:?>
