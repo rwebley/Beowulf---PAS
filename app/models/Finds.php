@@ -2949,7 +2949,8 @@ class Finds extends Pas_Db_Table_Abstract {
 		'identifier2ID', 'findofnotereason', 'findofnote',
 		'numdate1qual', 'numdate2qual','objdate1cert', 
 		'objdate2cert',	'treasure', 'treasureID',
-		'subs_action'))
+		'subs_action', 'musaccno', 'smrrefno',
+		'objdate1subperiod','objdate2subperiod' ))
 		->joinLeft(array('finderOne' => 'people'),'finderOne.secuid = finds.finderID', array('finder' => 'fullname'))
 		->joinLeft(array('finderTwo' => 'people'),'finderTwo.secuid = finds.finder2ID', array('secondfinder' => 'fullname')) 	
 		->joinLeft(array('identifier' => 'people'),'identifier.secuid = finds.identifier1ID', array('idby' => 'fullname')) 	

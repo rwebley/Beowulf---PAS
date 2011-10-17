@@ -41,7 +41,7 @@ $pieces = explode(" ", $tags);
 	{ 
 	//$url = $this->url(array('module' => 'flickr','controller' => 'photos','action' => 'tagged',
 	//'as' => $t),'default',true);
-	$url = 'http://www.flickr.com/photos/tags/'.$t;
+	$url = $this->url(array('module' => 'flickr', 'controller' => 'photos', 'action' => 'tagged','as' => $t),'default',true);
 	$separator = ' ';
 	echo '<a href="'.$url.'" title="View all tagged photos with this tag">'.$t.'</a>'.$separator;
 	}?>

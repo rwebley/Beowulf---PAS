@@ -1,17 +1,16 @@
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 jQuery(document).ready(function($) {
-
- $('a[rel*=lightbox]').lightBox() 
-    })
+$('a[rel*=lightbox]').lightBox() 
+});
 <?php $this->jQuery()->javascriptCaptureEnd() ?>
 <?php 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
-
 ?>
 
 <?php 
 $this->headTitle('All pictures tagged with '.$this->tagtitle);
-$this->MetaBase('A list of photos retrieved from the flickr api using creative commons searches on the tag ' . $this->tagtitle,
+$this->MetaBase('A list of photos retrieved from the flickr api using creative commons searches on the tag ' 
+. $this->tagtitle,
 'photos',
 'photos,flickr,api,tagged,' . $this->tagtitle);
 ?>

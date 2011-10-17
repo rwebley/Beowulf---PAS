@@ -92,7 +92,7 @@ font:90%;
 line-height: 170%;}
 #header{
 padding-top: 0.5em;
-background: #8B0000 url(../images/roof.jpg);
+background: #8B0000 url(../assets/roof.jpg);
 border-bottom: 10px solid black;
 
 }
@@ -1512,3 +1512,11 @@ text-align:center;
 .image-f{
 float:right;
 }
+
+.mapload{ 
+
+         height: 50px; 
+         width: 50px; 
+         margin-top: 300px; 
+         margin-left:300px; 
+        } 

@@ -24,13 +24,14 @@ class Flickr_AjaxController extends Pas_Controller_Action_Admin {
 	/** Display the index action for mapping flickr images
 	*/		
 	public function indexAction() {
-//	if (!($this->_cache->test('mappingflickr'))) { 
+	if (!($this->_cache->test('mappingflickr'))) { 
 	$ph = $this->_api->getPhotosGeoData( $start = 0, $limit = 200, $this->_flickr->userid);
-//	$this->_cache->save($ph);
-//	} else {
-//	$ph = $this->_cache->load('mappingflickr');
-//	}
+	$this->_cache->save($ph);
+	} else {
+	$ph = $this->_cache->load('mappingflickr');
+	}
 	$this->view->recent = $ph;
+	$this->_response->setHeader('Content-Type','application/vnd.google-earth.kml+xml');
 	}
 	
 }

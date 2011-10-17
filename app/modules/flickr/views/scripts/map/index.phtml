@@ -6,9 +6,12 @@ $this->MetaBase('A map showing our images from flickr that have geo information 
 'archaeology,woeid,map,flickr,photos,portable antiquities');
 ?>
 <h2>Our georeferenced images from flickr</h2>
-<div id="map" style="width:740px; height:700px;"></div>
+
+<div id="map" style="width:740px; height:700px;"><div id="overlay" class="mapload"><img src="/assets/loading.gif" /></div></div>
+
 <?php $this->inlineScript()->captureStart();?>
 	$(document).ready(function() {
+	 
 	var centerMap = new google.maps.LatLng(54.70235509327093, -3.2080078125);
 	var Options = {
     zoom: 6,
@@ -16,6 +19,10 @@ $this->MetaBase('A map showing our images from flickr that have geo information 
     mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 	var map = new google.maps.Map(document.getElementById("map"), Options);
+	google.maps.event.addListener(map,"idle", function(){ 
+         document.getElementById("overlay").style.visibility='hidden'; 
+         document.getElementById("overlay").style.display='none'; 
+         }); 
 	var flickr = new google.maps.KmlLayer('http://beta.finds.org.uk/flickr/ajax');
 	flickr.setMap(map);
 	});

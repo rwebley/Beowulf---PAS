@@ -32,5 +32,4 @@ foreach ($this->recent as $photo) {
 }
 
 $kmlOutput = $dom->saveXML();
-header('Content-type: application/vnd.google-earth.kml+xml');
 echo $kmlOutput;

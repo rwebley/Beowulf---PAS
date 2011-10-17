@@ -15,7 +15,7 @@ $photos = array();
 foreach($this->pictures->photoset->photo as $photo){
 	$photos[] = (array)$photo;
 }
-echo $this->partialLoop('partials/flickr/imagelist.phtml',$photos);?>
+echo $this->partialLoop('partials/flickr/set.phtml',$photos);?>
 <?php echo $this->paginationControl($this->paginator, 'Sliding', 'structure/pagination.phtml'); ?>
 
 <?php else:?>

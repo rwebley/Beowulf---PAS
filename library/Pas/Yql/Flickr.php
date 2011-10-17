@@ -187,7 +187,7 @@ class Pas_Yql_Flickr {
 	return $this->getData($yql)->query->results->photo;
 	}
 	
-	public function getPhotosTaggedAs( $tag, $per_page= 20, $page = 1){
+	public function getPhotosTaggedAs( $tag, $per_page = 20, $page = 1){
 	$args = array(
 	'method' => 'flickr.photos.search',
 	'api_key' => $this->_flickr->apikey,
@@ -201,6 +201,22 @@ class Pas_Yql_Flickr {
 	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
 	return $this->getData($yql)->query->results->rsp->photos;	
 	}
+	
+	public function getArchaeology( $tag, $per_page = 20, $page = 1, $woeid = NULL){
+	$args = array(
+	'method' => 'flickr.photos.search',
+	'api_key' => $this->_flickr->apikey,
+	'extras' => $this->_extras,
+	'tags' => $tag,
+	'tag_mode' => 'all',
+	'safe_search' => 1,
+	'page' => $page,
+	'per_page' => $per_page,
+	'woe_id' => $woeid,
+	'license' => '1,2,3,4,5,6,7');
+	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
+	return $this->getData($yql)->query->results->rsp->photos;	
+	}	
 	
 	public function getInterestingPhotos($date, $per_page = 20, $page = 1){
 	$args = array(
@@ -219,9 +235,11 @@ class Pas_Yql_Flickr {
 	$args = array(
 	'method' => 'flickr.favorites.getPublicList',
 	'api_key' => $this->_flickr->apikey,
+	'user_id' => $this->_flickr->userid,
 	'min_fave_date' => $min_fave_date,
 	'max_fave_date' => $max_fave_date,
 	'per_page' => $per_page,
+	'extras' => $this->_extras,
 	'page' => $page
 	);
 	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
@@ -242,12 +260,5 @@ class Pas_Yql_Flickr {
 	return $this->getData($yql)->query->results->rsp->photos;
 	}
 	
-	public function getAllDataForAnImage( $photoID ){
-	$queries = 
-	'select * from flickr.photos.exif where photo_id="' . $photoID . '" and api_key="' . $this->_flickr->apikey . '";';
 	
-	
-	$yql= 'select * from query.multi where queries = "' . $queries . '"';
-	return $this->getData($yql);
-	}
 }
