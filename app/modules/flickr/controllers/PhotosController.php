@@ -25,6 +25,7 @@ class Flickr_PhotosController
 	/** No direct access to photos, goes to the index controller
 	*/			
 	public function indexAction() {
+	$this->_flashMessenger->addMessage('You can only see photos at the index page');
 	$this->_redirect('/flickr/');
     }
     /** Retrieve the page number
@@ -85,7 +86,8 @@ class Flickr_PhotosController
     'total_results' => (int)$total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
-    $paginator->setCurrentPageNumber($pagination['page'])
+	$paginator->setCurrentPageNumber($pagination['page'])
+		->setCache($this->_cache)
 		->setItemCountPerPage(20)
 		->setPageRange(20);
 	$this->view->paginator = $paginator;
@@ -111,9 +113,10 @@ class Flickr_PhotosController
     'total_results' => (int)$flickr->photoset->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
-    $paginator->setCurrentPageNumber($pagination['page'])
+	$paginator->setCurrentPageNumber($pagination['page'])
 		->setItemCountPerPage(10)
-		->setPageRange(20);
+		->setCache($this->_cache);
+	$paginator->setPageRange(20);
 	$this->view->paginator = $paginator;
 	$this->view->pictures = $flickr;
 	} else {
@@ -123,8 +126,8 @@ class Flickr_PhotosController
 	/** get photos's details
 	*/		
 	public function detailsAction() {
+	if($this->_getParam('id',false)){
 	$id = $this->_getParam('id');
-	
 	$exif = $this->_api->getPhotoExifDetails( $id );
 	$this->view->exif = $exif;
 	$geo = $this->_api->getGeoLocation($id);
@@ -135,11 +138,15 @@ class Flickr_PhotosController
 	$this->view->image = $image;
 	$sizes = $this->_api->getSizes($id);
 	$this->view->sizes = $sizes;
+	} else {
+		throw new Pas_Exception_Param($this->_missingParameter, 500);
+	}
 	}
 	
 	/** Find images tagged in a certain way.
 	*/		
 	public function taggedAction() {
+	if($this->_getParam('as',false)){
 	$tags = $this->_getParam('as');
 	$page = $this->getPage();
 	$key = md5('tagged' . $tags . $page);
@@ -167,11 +174,14 @@ class Flickr_PhotosController
     'total_results' => (int) $total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
-    $paginator->setCurrentPageNumber($pagination['page'])
-    	->setCache($this->_cache);
+	$paginator->setCurrentPageNumber($pagination['page'])
+		->setCache($this->_cache);
 	$paginator->setPageRange(20);
 	$this->view->paginator = $paginator;
 	$this->view->pictures = $photos;
+	}
+	} else {
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	
@@ -192,8 +202,9 @@ class Flickr_PhotosController
     'total_results' => (int)$flickr->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
-    $paginator->setCurrentPageNumber($page)
-              ->setPageRange(20);
+	$paginator->setCurrentPageNumber($page)
+		->setPageRange(20)
+		->setCache($this->_cache);
 	$this->view->paginator = $paginator;
 	$this->view->photos = $flickr;
 	}
@@ -217,8 +228,9 @@ class Flickr_PhotosController
     'total_results' => (int)$flickr->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
-    $paginator->setCurrentPageNumber($page)
-		->setPageRange(20);
+	$paginator->setCurrentPageNumber($page)
+		->setPageRange(20)
+		->setCache($this->_cache);
 	$this->view->paginator = $paginator;
 	$this->view->photos = $flickr;
 	}

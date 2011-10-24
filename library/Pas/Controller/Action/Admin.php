@@ -45,6 +45,7 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_identity = new Pas_UserDetails();
 	$this->_geocoder = new Pas_Service_Geo_Coder($this->_config->webservice->googlemaps->apikey);
+
 	}
 	
 	public function postDispatch() {

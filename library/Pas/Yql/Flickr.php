@@ -1,4 +1,16 @@
 <?php
+/** A class for accessing the flickr api via authenticated YQL calls
+ * 
+ * @author Daniel Pett
+ * @version 1
+ * @since 18 October 2011
+ * @license GNU Public
+ * @category Pas
+ * @package Pas_Yql
+ * @uses Pas_Yql_Oauth
+ * @see http://www.flickr.com/services/api/
+ *
+ */
 class Pas_Yql_Flickr {
 	
 	protected $_cache, $_oauth, $_accessToken, $_accessSecret;
@@ -48,6 +60,7 @@ class Pas_Yql_Flickr {
 	public function getData($yql){
 	return $this->_oauth->execute($yql, $this->_accessToken, $this->_accessSecret, $this->_accessExpiry, $this->_handle);
 	}
+	
 	
 	public function getContacts( $page = 1, $limit = 60 ){
 	$args = array(
@@ -137,7 +150,7 @@ class Pas_Yql_Flickr {
 	'page' => $page,
 	'per_page' => $per_page
 	);
-	$yql = 'Select * from xml where url ="' . self::FLICKRURI . $this->buildQuery($args). '"';
+	$yql = 'Select * from xml where url ="' . self::FLICKRURI . $this->buildQuery($args) . '"';
 	return $this->getData($yql)->query->results->rsp;	
 	}
 	
@@ -155,7 +168,7 @@ class Pas_Yql_Flickr {
 	'per_page' => $per_page,
 	'page' => $page
 	);
-	$yql = 'Select * from xml where url ="' . self::FLICKRURI . $this->buildQuery($args). '"';
+	$yql = 'Select * from xml where url ="' . self::FLICKRURI . $this->buildQuery($args) . '"';
 	
 	return $this->getData($yql)->query->results->rsp;
 	}
@@ -258,6 +271,60 @@ class Pas_Yql_Flickr {
 	);
 	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
 	return $this->getData($yql)->query->results->rsp->photos;
+	}
+	
+	public function getTagsListUserPopular( $userid , $count = 10 ){
+	$args = array(
+	'method' => 'flickr.tags.getListUserPopular',
+	'api_key' => $this->_flickr->apikey,
+	'user_id' => $userid,
+	'count' => $count
+	);
+	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
+	return $this->getData($yql)->query->results->rsp->tags;
+	}
+	
+	public function getTagsListUser( $userid ){
+	$args = array(
+	'method' => 'flickr.tags.getListUser',
+	'api_key' => $this->_flickr->apikey,
+	'user_id' => $userid
+	);
+	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
+	return $this->getData($yql)->query->results->rsp->tags;
+	}
+	
+	public function getTagsListPhoto( $photo_id ){
+	$args = array(
+	'method' => 'flickr.tags.getListUser',
+	'api_key' => $this->_flickr->apikey,
+	'photo_id' => $photo_id
+	);
+	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
+	return $this->getData($yql)->query->results->rsp->photos;	
+	}
+
+	public function getTotalViews ($date = NULL){
+	$tokens = new OauthTokens();
+	$tokenes = $tokens->fetchRow($tokens->select()->where('service = ?', 'flickrAccess'));
+	$instance = unserialize($tokenes->accessToken);
+	$oauthOptions = array(
+	'requestTokenUrl' => 'http://www.flickr.com/services/oauth/request_token',
+	'accessTokenUrl' => 'http://www.flickr.com/services/oauth/access_token',
+	'userAuthorisationUrl' => 'http://www.flickr.com/services/oauth/authorize',
+	'version' => '1.0',
+	'signatureMethod' => 'HMAC-SHA1',
+	'consumerKey' => $this->_flickr->apikey,
+	'consumerSecret' => $this->_flickr->secret
+	);
+	$client = $instance->getHttpClient($oauthOptions);
+	$client->setMethod(Zend_Http_Client::POST);
+	$client->setUri(self::FLICKRURI);
+	$client->setParameterPost('method', 'flickr.stats.getTotalViews');
+	$client->setParameterPost('format', 'json');
+	$client->setParameterPost('nojsoncallback',1);
+	$response = $client->request();
+	return json_decode($response->getBody());
 	}
 	
 	

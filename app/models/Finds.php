@@ -2951,11 +2951,16 @@ class Finds extends Pas_Db_Table_Abstract {
 		'objdate2cert',	'treasure', 'treasureID',
 		'subs_action', 'musaccno', 'smrrefno',
 		'objdate1subperiod','objdate2subperiod' ))
-		->joinLeft(array('finderOne' => 'people'),'finderOne.secuid = finds.finderID', array('finder' => 'fullname'))
-		->joinLeft(array('finderTwo' => 'people'),'finderTwo.secuid = finds.finder2ID', array('secondfinder' => 'fullname')) 	
-		->joinLeft(array('identifier' => 'people'),'identifier.secuid = finds.identifier1ID', array('idby' => 'fullname')) 	
-		->joinLeft(array('identifierTwo' => 'people'),'identifierTwo.secuid = finds.identifier2ID', array('id2by' => 'fullname')) 	
-		->joinLeft(array('recorder' => 'people'),'recorder.secuid = finds.finderID', array('recordername' => 'fullname')) 	
+		->joinLeft(array('finderOne' => 'people'),'finderOne.secuid = finds.finderID', 
+		array('finder' => 'fullname'))
+		->joinLeft(array('finderTwo' => 'people'),'finderTwo.secuid = finds.finder2ID', 
+		array('secondfinder' => 'fullname')) 	
+		->joinLeft(array('identifier' => 'people'),'identifier.secuid = finds.identifier1ID', 
+		array('idby' => 'fullname')) 	
+		->joinLeft(array('identifierTwo' => 'people'),'identifierTwo.secuid = finds.identifier2ID', 
+		array('id2by' => 'fullname')) 	
+		->joinLeft(array('recorder' => 'people'),'recorder.secuid = finds.finderID', 
+		array('recordername' => 'fullname')) 	
 		->where('finds.createdBy = ?',(int)$userid)
 		->order('finds.id DESC')
 		->limit(1);
@@ -2996,11 +3001,11 @@ class Finds extends Pas_Db_Table_Abstract {
 	$select = $finds->select()
 		->from($this->_name, array('objecttype', 'broadperiod', 'id',
 		'old_findID', 'description', 'secwfstage'))
-		->joinLeft('people','finds.finderID = people.secuid',array())
-		->joinLeft('findspots','findspots.findID = finds.secuid',array('county'))
-		->joinLeft('finds_images','finds.secuid = finds_images.find_id',array()) 
-		->joinLeft('slides','slides.secuid = finds_images.image_id',array('i' => 'imageID','f' => 'filename')) 
-		->joinLeft('users','users.id = finds.createdBy',array('username','imagedir'))			
+		->joinLeft('people','finds.finderID = people.secuid', array())
+		->joinLeft('findspots','findspots.findID = finds.secuid', array('county'))
+		->joinLeft('finds_images','finds.secuid = finds_images.find_id', array()) 
+		->joinLeft('slides','slides.secuid = finds_images.image_id', array('i' => 'imageID','f' => 'filename')) 
+		->joinLeft('users','users.id = finds.createdBy', array('username','imagedir'))			
 		->where('people.dbaseID = ?' , $userid)
 		->group('finds.id');
 	if(in_array($this->getRole(),$this->_restricted)){
@@ -3031,7 +3036,6 @@ class Finds extends Pas_Db_Table_Abstract {
 		->joinLeft('findspots','finds.secuid = findspots.findID', array('county', 'declat', 'declong',
 		 'easting', 'northing'))
 		->joinLeft('coins','finds.secuid = coins.findID', array())
-//		->joinLeft('regions','findspots.regionID = regions.id',array('region'))
 		->joinLeft('finds_images','finds.secuid = finds_images.find_id', array())
 		->joinLeft('slides','slides.secuid = finds_images.image_id', array('i' => 'imageID','filename'))
 		->joinLeft('users','users.id = slides.createdBy', array('imagedir'))

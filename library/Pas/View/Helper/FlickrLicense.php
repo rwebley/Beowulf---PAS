@@ -16,11 +16,18 @@ class Pas_View_Helper_FlickrLicense extends Zend_View_Helper_Abstract {
 	
 	const VIEWLIC = 'View license restrictions';
 	
+	protected $_cache;
+	
+	public function __construct(){
+	$this->_cache = Zend_Registry::get('cache');
+	}
+	
 	/** Determine license string to display
 	 * @param int $license
 	 * @return string
 	 */
 	public function FlickrLicense($license) {
+	if (!($this->_cache->test('cclicense' . $license))) {
 	switch($license) {
 	case 0:
 	$licensetype = self::ALLRIGHTS;
@@ -52,6 +59,10 @@ class Pas_View_Helper_FlickrLicense extends Zend_View_Helper_Abstract {
 	default:
 	$licensetype = self::ALLRIGHTS;
 	break;
+	}
+	$this->_cache->save($licensetype);
+	} else {
+	$licensetype = $this->_cache->load('cclicense' . $license);
 	}
 	return $licensetype;
 	}

@@ -119,8 +119,8 @@ class Search extends Pas_Db_Table_Abstract {
 		->joinLeft('slides','slides.secuid = finds_images.image_id', array( 'i' => 'imageID', 'f' => 'filename'))
 		->joinLeft('people','finds.finderID = people.secuid', array());
 	} elseif(in_array($role,$this->_research)) {
-	$select->joinLeft('findspots','finds.secuid = findspots.findID', array('county','parish','district','gridref',
-	'fourFigure','easting','northing','map25k','map10k', 'accuracy','gridlen','address','postcode',
+	$select->joinLeft('findspots','finds.secuid = findspots.findID', array('county','parish','district', 'knownas',
+	'gridref', 'fourFigure','easting','northing','map25k','map10k', 'accuracy','gridlen','address','postcode',
 	'findspotdescription' => 'description','lat' => 'declat','lon' => 'declong'))
 		->joinLeft('gridrefsources','gridrefsources.ID = findspots.gridrefsrc', array('source' => 'term'))
 		->where('finds.secwfstage > ?', (int)2);

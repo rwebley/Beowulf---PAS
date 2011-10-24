@@ -62,4 +62,18 @@ class Admin_OauthController extends Pas_Controller_Action_Admin {
 		throw new Pas_Yql_Exception('Token creation failed');
 	}
 	}
+	
+	public function flickrAction(){
+	$flickr = new Pas_Oauth_Flickr();
+	$flickr->generate();
+	}
+	
+	public function flickraccessAction(){
+	$flickr = new Pas_Oauth_Flickr();
+	$access = $flickr->access();
+	$this->_flashMessenger->addMessage('Token created');
+	$this->_redirect('/admin/oauth/');
+	}
+	
+	
 }

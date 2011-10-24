@@ -15,8 +15,8 @@
 class Pas_View_Helper_FlickrSetInfo 
 	extends Zend_View_Helper_Abstract {
 	
-    protected $_cache = NULL;
-    protected $_oauth = NULL;
+    protected $_cache;
+    protected $_oauth;
 	protected $_accessToken;
 	protected $_accessSecret;
 	protected $_accessExpiry;

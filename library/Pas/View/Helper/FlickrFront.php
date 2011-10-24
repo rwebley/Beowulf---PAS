@@ -13,7 +13,7 @@
  */
 class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	
-	protected $_cache = NULL;
+	protected $_cache;
 	
 	protected $_flickrKey;
 	
@@ -23,7 +23,9 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	public function __construct(  )  { 
 	$this->_cache = Zend_Registry::get('cache');
 	}
-	
+	/** Get the access keys for oauth
+	 * 
+	 */
 	private function getAccessKeys() {
 	$tokens = new OauthTokens();
     $where = array();
@@ -82,8 +84,11 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	}
 	}
 
+	/** Build the html from the flickr array
+	 * 
+	 * @param array $recent
+	 */
 	public function buildHtml($recent) {
-	if (!($this->_cache->test('frontHtml'))) {
 	$html = '<h3>Our recent images</h3>';
 	$html .= '<div id="flickrbox">';
 	foreach($recent as $p){ 
@@ -103,11 +108,6 @@ class Pas_View_Helper_FlickrFront extends Zend_View_Helper_Abstract {
 	$html .='" title="View our flickr images"><img src="';
 	$html .= $this->view->baseUrl();
 	$html .='/images/logos/flickr.png" alt="flickr\'s logo" height="39" width="140" id="badgeflickr"/></a><br /></div>';
-	$this->_cache->save($html);
-	} else {
-	$html = $this->_cache->load('frontHtml');
-	}
-	
 	return $html;
 	}
 	

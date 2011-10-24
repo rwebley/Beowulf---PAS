@@ -1,7 +1,21 @@
 <?php
-class Pas_View_Helper_FlickrTags extends Zend_View_Helper_Abstract {
+/** A view helper for displaying flickr tags
+ * Could be abstracted to a flickr class
+ * @version 1
+ * @since 7 October 2011
+ * @copyright Daniel Pett
+ * @author Daniel Pett
+ * @category Pas
+ * @package Pas_View_Helper
+ * @subpackage Abstract
+ * @uses Pas_Yql_Oauth
+ */
+class Pas_View_Helper_FlickrTags
+	extends Zend_View_Helper_Abstract {
 	
 	protected $_userID;
+	
+	protected $_cache;
 	
 	protected $_flickrKey;
 	
@@ -11,6 +25,9 @@ class Pas_View_Helper_FlickrTags extends Zend_View_Helper_Abstract {
 	$this->_cache = Zend_Registry::get('cache');
 	}
 
+	/** Get access keys for oauth calls
+	 * 
+	 */
 	private function getAccessKeys() {
 	$tokens = new OauthTokens();
     $where = array();
@@ -29,6 +46,9 @@ class Pas_View_Helper_FlickrTags extends Zend_View_Helper_Abstract {
 	}
 	}
 	
+	/** Get flickr data
+	 * @param array $access
+	 */
 	protected function getFlickr($access){
 	if (!($this->_cache->test('cloud'))) {
 	$oauth = new Pas_Yql_Oauth();
@@ -47,12 +67,12 @@ class Pas_View_Helper_FlickrTags extends Zend_View_Helper_Abstract {
 	}
 	return $this->createTagCloud($tags);
 	}
-	
 
-
-
+	/** Create the html array for redisplay as a tag cloud
+	 * @param array $tags
+	 * @return string $html
+	 */
 	public function createTagCloud($tags){
-	if (!($this->_cache->test('cloudHtml'))) {
 	$tag = array();
 	foreach($tags as $tagged){
 	$tag[] = array(
@@ -81,15 +101,11 @@ class Pas_View_Helper_FlickrTags extends Zend_View_Helper_Abstract {
 	'maxFontSize' => 200,
 	'fontSizeUnit' => '%')));
 	$cloud = new Zend_Tag_Cloud($tags);
-	$this->_cache->save($cloud);
-	} else {
-	$cloud = $this->_cache->load('cloudHtml');
-	}
 	return $cloud;
 	}
 	
-	/**
-	 * 
+	/** Get tags from flickr
+	 * @param object $flickr
 	 */
 	public function flickrTags($flickr) {
 	$this->_flickrKey = $flickr->apikey;

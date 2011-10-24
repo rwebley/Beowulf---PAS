@@ -17,7 +17,7 @@ class Pas_View_Helper_Politicalhouse extends Zend_View_Helper_Abstract{
 	 */
 	protected $_cache;
 	
-	public function init() {
+	public function __construct() {
 	$this->_cache = Zend_Registry::get('cache');
 	}
 	/** Build the image
@@ -36,8 +36,9 @@ class Pas_View_Helper_Politicalhouse extends Zend_View_Helper_Abstract{
 	 * @param string $house
 	 */
 	public function politicalhouse($house) {
-	if(!is_null($house) || $house != ""){
-	switch ($house){
+	if (!($this->_cache->test('house' . $house))) {
+		if(!is_null($house) || $house != ""){
+		switch ($house){
 		case($house == '1'):
 			$houseImage = $this->buildImage($this->_commons,$house);
 		break;
@@ -47,8 +48,12 @@ class Pas_View_Helper_Politicalhouse extends Zend_View_Helper_Abstract{
 		default: 
 			$houseImage = NULL;
 		}
-	return $houseImage;
+		$this->_cache->save($houseImage);
 	} 
+	} else {
+	$houseImage = $this->_cache->load('house' . $house);
+	}
+	return $houseImage; 
 	}
 	
 }

@@ -25,7 +25,7 @@ class Flickr_AjaxController extends Pas_Controller_Action_Admin {
 	*/		
 	public function indexAction() {
 	if (!($this->_cache->test('mappingflickr'))) { 
-	$ph = $this->_api->getPhotosGeoData( $start = 0, $limit = 200, $this->_flickr->userid);
+	$ph = $this->_api->getPhotosGeoData( $start = 0, $limit = 50, $this->_flickr->userid);
 	$this->_cache->save($ph);
 	} else {
 	$ph = $this->_cache->load('mappingflickr');

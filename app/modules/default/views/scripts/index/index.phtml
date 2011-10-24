@@ -103,7 +103,7 @@ echo $this->partialLoop('partials/index/headlines.phtml',$this->news);
 
 
 <?php
-echo $this->FlickrFront();
+echo $this->FlickrFront(Zend_Registry::get('config')->webservice->flickr);
 ?>
 
 

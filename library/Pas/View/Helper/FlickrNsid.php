@@ -1,8 +1,17 @@
 <?php
-
-class Pas_View_Helper_FlickrNsid extends Zend_View_Helper_Abstract{
+/**
+ * A view helper for getting the NSID from a flickr username
+ * @category   Pas
+ * @package    Pas_View_Helper
+ * @subpackage Abstract
+ * @copyright  Copyright (c) 2011 dpett @ britishmuseum.org
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @uses Pas_Yql_Flickr
+ */
+class Pas_View_Helper_FlickrNsid
+	extends Zend_View_Helper_Abstract{
 	
-	protected $_cache = NULL;
+	protected $_cache;
 	protected $_config;
 	protected $_api;
 	
@@ -12,6 +21,10 @@ class Pas_View_Helper_FlickrNsid extends Zend_View_Helper_Abstract{
 	$this->_api = new Pas_Yql_Flickr($this->_config->webservice->flickr);
 	}
 	
+	/** Get the flickr nsid
+	 * @param string $username
+	 * @return string $flickr
+	 */
 	public function flickrNsid( $username ) {
 	if (!($this->_cache->test($username))) {
 	$flickr = $this->_api->findByUsername($username);

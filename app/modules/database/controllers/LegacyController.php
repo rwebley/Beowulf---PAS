@@ -6,13 +6,16 @@
 * @subpackage ActionAdmin
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
+* @version    1
+* @since	  25 October 2011
+* @author 	  Daniel Pett
 */
 class Database_LegacyController extends Pas_Controller_Action_Admin {
 	
 	
 	public function init() {	
-	$this->_helper->_acl->allow('member',array());
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$this->_helper->_acl->allow('public',array());
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     }
     
 	const REDIRECT = '/database/artefacts/record/id/';

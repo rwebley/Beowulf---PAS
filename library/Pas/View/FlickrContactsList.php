@@ -1,19 +1,21 @@
 <?php
-/** A view helper for displaying flickr contacts list
- * Could be abstracted to a flickr class
- * @version 1
- * @since 7 October 2011
- * @copyright Daniel Pett
- * @author Daniel Pett
- * @category Pas
- * @package Pas_View_Helper
- * @subpackage Abstract
- * @uses Pas_Yql_Oauth
+/**
+ *
+ * @author dpett
+ * @version 
  */
-class Pas_View_Helper_FlickrContactsList 
-	extends Zend_View_Helper_Abstract {
+require_once 'Zend/View/Interface.php';
+
+/**
+ * FlickrContactsList helper
+ *
+ * @uses viewHelper Pas_View_Helper
+ */
+class Pas_View_Helper_FlickrContactsList extends Zend_View_Helper_Abstract {
 	
-	protected $_cache;
+
+	
+	protected $_cache = NULL;
 	
 	protected $_flickrKey;
 	
@@ -21,16 +23,11 @@ class Pas_View_Helper_FlickrContactsList
 	
 	protected $_oauth;
 	
-	protected $_flickr;
-	
 	public function __construct(  )  { 
 	$this->_cache = Zend_Registry::get('cache');
 	$this->_oauth = new Pas_Yql_Oauth();
 	}
 	
-	/** Get the access keys for oauth
-	 * 
-	 */
 	private function getAccessKeys() {
 	$tokens = new OauthTokens();
 	$where = array();
@@ -49,32 +46,31 @@ class Pas_View_Helper_FlickrContactsList
 	}
 	}
 	
-	/** get the flickr data based on access keys
-	 * @todo abstract this to use Pas_Yql_Flickr
-	 * @param $access
-	 */
 	public function getFlickr($access){
-	$key = md5 ('flickrcontactslist');
-	if (!$friends = $this->_cache->load($key)) {
-	$contacts = $this->_flickr->getContacts(1,60);
-	$this->_cache->save($contacts);
+	if (!($this->_cache->test('friends'))) {
+	$contacts = 'select * from xml where url="http://api.flickr.com/services/rest/?method=flickr.contacts.getPublicList&per_page=60&api_key=' 
+	. $this->_flickrKey  . '&user_id=' . $this->_userID . '"';
+	$friends = $this->_oauth->execute(
+	$contacts, $access['access_token'], $access['access_token_secret'],
+	$access['access_token_expiry'], $access['handle'] );
+	$this->_cache->save($friends);
 	} else {
-	$contacts= $this->_cache->load($key);
+	$friends = $this->_cache->load('friends');
 	}
-	$total = (int)$contacts->total;
-	return $this->buildHtml($contacts, $total);
+	$contactslist = array();
+	foreach($friends->query->results->rsp->contacts->contact as $contact => $value)	{
+	$contactslist[] = 
+	$contact = $value;
+	}
+	$total = $friends->query->results->rsp->contacts->total;
+	return $this->buildHtml($contactslist, $total);
 	} 
 	
-	/** Create the html
-	 * 
-	 * @param array $contacts The contacts array
-	 * @param int $total The total number of contacts to display
-	 */
-	public function buildHtml($contacts, $total){
-	$key = md5 ('contactslist');
-	if (!$friends = $this->_cache->load($key)) {
+	public function buildHtml($contactslist, $total){
+		Zend_Debug::dump($this->_cache->load('contactsHtml'));
+	if (!($this->_cache->test('contactsHtml'))) {
 	$html = '<h3>Our flickr contacts</h3>';
-	foreach($contacts->contact as $c){
+	foreach($contactslist as $c){
 	$type = '.jpg';
 	$url = 'http://farm'. $c->iconfarm . '.static.flickr.com/' . $c->iconserver . '/buddyicons/' . $c->nsid . $type;
 	$alturl = 'http://www.flickr.com/images/buddyicon.jpg';
@@ -93,17 +89,14 @@ class Pas_View_Helper_FlickrContactsList
 	$html .= '<p>View our <a href="' . $contactsurl . '" title="View our contacts">' . $total . '</a> friends and their images &raquo;</p>';
 	$this->_cache->save($html);
 	} else {
-	$html = $this->_cache->load($key);
+	$html = $this->_cache->load('contactsHtml');
 	}
 	return $html;
 	}
 	
-	/** Get the data via flickr yql call class
-	 * 
-	 * @param object $flickr
-	 */
 	public function flickrContactsList($flickr) {
-	$this->_flickr = new Pas_Yql_Flickr($flickr);
+	$this->_flickrKey = $flickr->apikey;
+	$this->_userID = $flickr->userid;
 	$openup = $this->getAccessKeys();
 	if(!is_null($openup)){
 	return $this->getFlickr($openup);
