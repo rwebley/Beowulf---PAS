@@ -3,7 +3,9 @@ $this->headTitle('An introduction to our photos');
 $this->MetaBase('The Scheme curates a large number of images on it\'s flickr profile feed. 
 They are all produced under a Creative Commons licence, feel free to use them - except for commercial use',
 'Photos',
-'flickr,photos,archaeology,numismatics,coins,museums');?>
+'flickr,photos,archaeology,numismatics,coins,museums');
+
+?>
 
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 jQuery(document).ready(function($) {
@@ -17,9 +19,10 @@ $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.
 
 <h2>The Scheme on Flickr</h2>
 <?php 
-$config = Zend_Registry::get('config')->webservice->flickr;
-echo $this->flickrFront($config);
-echo $this->flickrTags($config);
-echo $this->flickrContactsList($config);
+$flickr = Zend_Registry::get('config')->webservice->flickr;
+echo $this->flickrFront($flickr);
+echo $this->flickrTags($flickr);
+echo $this->flickrContactsList($flickr);
+echo $this->flickrTotalViews($flickr);
 ?>
 
