@@ -281,7 +281,7 @@ class Pas_Yql_Flickr {
 	'count' => $count
 	);
 	$yql = 'SELECT * FROM  xml where url="'. self::FLICKRURI . $this->buildQuery($args) . '";';
-	return $this->getData($yql)->query->results->rsp->tags;
+	return $this->getData($yql)->query->results->rsp->who->tags;
 	}
 	
 	public function getTagsListUser( $userid ){
@@ -326,6 +326,5 @@ class Pas_Yql_Flickr {
 	$response = $client->request();
 	return json_decode($response->getBody());
 	}
-	
 	
 }

@@ -1,5 +1,8 @@
 <?php 
-$this->MetaBase('This page lists all the members of Parliament elected in 2010 election','archaeology','members,election,2010,hansard,parliament');?>
+$this->headTitle('Members of Parliament');
+$this->MetaBase('This page lists all the members of Parliament elected in 2010 election',
+'archaeology',
+'members,election,2010,hansard,parliament');?>
 <h2>A list of all Members of Parliament</h2>
 <?php if(count($this->data)):?>
 <ul>

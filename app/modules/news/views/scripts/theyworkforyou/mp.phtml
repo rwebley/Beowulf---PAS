@@ -107,7 +107,7 @@ if (GBrowserIsCompatible()) {
 		'OSM' // name should be short enough to fit in button
 	  );
 	 var map = new GMap2(document.getElementById("map"));
-	 geoXml = new GGeoXml("http://www.theyworkforyou.com/api/getBoundary?key=CzhqDaDMAgkMEcjdvuGZeRtR&name=<?php echo urlencode($this->data[0]->constituency);?>");
+	// geoXml = new GGeoXml("http://www.theyworkforyou.com/api/getBoundary?key=CzhqDaDMAgkMEcjdvuGZeRtR&name=<?php echo urlencode($this->data[0]->constituency);?>");
 	 
 		map.setUIToDefault();
 		//map.addControl(new GLargeMapControl());
@@ -115,7 +115,7 @@ if (GBrowserIsCompatible()) {
         map.setCenter(new GLatLng(<?php echo $geo['centre_lat'].',',$geo['centre_lon'];?>),11);
 		map.addMapType(osmMap);
 		map.addMapType(G_SATELLITE_3D_MAP);
-		map.addOverlay(geoXml);
+	//	map.addOverlay(geoXml);
 		
 	    map.addMapType(G_PHYSICAL_MAP);
 		map.setMapType(G_PHYSICAL_MAP);

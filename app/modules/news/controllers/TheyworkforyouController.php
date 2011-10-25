@@ -20,8 +20,7 @@ class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
 	'Belfast West','Aberdeen North', 'Aberdeen South',
 	'Berwick-upon-Tweed','Dundee East','Dundee West',
 	'Dunfermline and West Fife', 'Berwickshire, Roxburgh and Selkirk','Banff and Buchan',
-	'Caithness, Sutherland and Easter Ross','Cumbernauld, 
-	Kilsyth and Kirkintilloch East',
+	'Caithness, Sutherland and Easter Ross','Cumbernauld,Kilsyth and Kirkintilloch East',
 	'Dumfriesshire, Clydesdale and Tweeddale','Dumfries and Galloway',
 	'East Kilbride, Strathaven and Lesmahagow','East Londonderry','East Antrim',
 	'East Dunbartonshire','East Londonderry','East Lothian',
@@ -54,7 +53,9 @@ class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
 			 ->addActionContext('constituencies',array('xml','json'))
 			 ->addActionContext('index',array('xml','json'))
              ->initContext();
-         $this->_cache = Zend_Registry::get('cache');
+         $frontendOptions = array('lifetime' => 31556926, 'automatic_serialization' => true);
+		 $backendOptions = array('cache_dir' => 'app/cache/twfy');
+         $this->_cache = Zend_Cache::factory('Output','File',$frontendOptions,$backendOptions);
     }
 
 	private function get($url){
@@ -63,7 +64,6 @@ class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
     'curloptions' => array(CURLOPT_POST =>  true,
 						   CURLOPT_USERAGENT =>  $_SERVER["HTTP_USER_AGENT"],
 						   CURLOPT_FOLLOWLOCATION => true,
-						  // CURLOPT_HEADER => false,
 						   CURLOPT_RETURNTRANSFER => true,
 						   CURLOPT_LOW_SPEED_TIME => 1
 						   ),
@@ -106,16 +106,14 @@ class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
 	$page = $this->_getParam('page');
 	$term = $this->_getParam('term');
 	$search = $term ? $term : 'portable antiquities scheme'; 
-	$this->view->headTitle('Data mined from theyworkforyou website');
 	$query = '&search='.urlencode($search);
 	$output = '&output=xml';
 	$order = '&order=d';
-	$key = 'getHansard?key=CzhqDaDMAgkMEcjdvuGZeRtR';
+	$key = 'getHansard?key='.self::TWFYAPIKEY;
 	$num = '&num=100';
 	$twfy = self::TWFYURL.$key.$query.$order.$num.$output;
 	if (!($this->_cache->test('portantstqwfy'.str_replace(' ','',$term)))) {
 	$twfy = self::TWFYURL.$key.$query.$order.$num.$output;
-	//Zend_Debug::dump($twfy);
 	$arts = Zend_Json::fromXml($this->get($twfy), true);
 	$articles = json_decode($arts);
 	$this->_cache->save($articles);
@@ -186,15 +184,14 @@ class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
    	}	
 	}
 
-	public function mpAction()
-	{
+	public function mpAction() {
 	$id = $this->_getParam('id');
 	if($this->_getParam('id',false)) {
 	if (!($this->_cache->test('mpdetails'.$id))) {
 	$query = '&id='.$id;
 	$output = '&output=js';
 	$order = '&order=d';
-	$key = 'getPerson?key=CzhqDaDMAgkMEcjdvuGZeRtR';
+	$key = 'getPerson?key='. self::TWFYAPIKEY;
 	$twfy = self::TWFYURL.$key.$query;
 	$data = json_decode($this->get($twfy));
 	$this->_cache->save($data);
@@ -252,14 +249,12 @@ class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
 	} 
  	}
 	
-	public function constituenciesAction()
-	{
-	$this->view->headTitle('Parliamentary constituencies');
+	public function constituenciesAction() {
 	$page = $this->_getParam('page');
 	if (!($this->_cache->test('const'))) {
 	$query = 'getConstituencies?date=2010-05-07';
 	$output = '&output=xml';
-	$key = '&key=CzhqDaDMAgkMEcjdvuGZeRtR';
+	$key = '&key='.self::TWFYAPIKEY;
 	$twfy = self::TWFYURL.$query.$output.$key;
 	$data = Zend_Json::fromXml($this->get($twfy),true);
 	$this->_cache->save($data);
@@ -300,14 +295,12 @@ class News_TheyworkforyouController extends Pas_Controller_Action_Admin {
    	}	
 	}
 	
-	public function membersAction()
-	{
-	$this->view->headTitle('Members of Parliament');
+	public function membersAction() {
 	$page = $this->_getParam('page');
 	if (!($this->_cache->test('members'))) {
 	$query = 'getMps';
 	$output = '&output=xml';
-	$key = '&key=CzhqDaDMAgkMEcjdvuGZeRtR';
+	$key = '&key='.self::TWFYAPIKEY;
 	$twfy = self::TWFYURL.$query.$output.$key;
 	$data = Zend_Json::fromXml($this->get($twfy),true);
 	$data = json_decode($data);

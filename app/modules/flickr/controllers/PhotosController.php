@@ -151,7 +151,7 @@ class Flickr_PhotosController
 	$page = $this->getPage();
 	$key = md5('tagged' . $tags . $page);
 	if (!($this->_cache->test($key))) {
-	$flickr = $this->_api->getPhotosTaggedAs( $tags, $per_page, $page);
+	$flickr = $this->_api->getPhotosTaggedAs( $tags, 20, $page);
 	$this->_cache->save($flickr);
 	} else {
 	$flickr = $this->_cache->load($key);
@@ -161,22 +161,21 @@ class Flickr_PhotosController
 	$total = $flickr->total;
 	$photos = array();
 	foreach($flickr->photo as $k => $v) {
+		
 	$photos[$k] = $v;
 	}
-	if(!array_key_exists('woeid',$photos)){
-	$photos['woeid'] = NULL;
-	}	
+	
 	$this->view->tagtitle = $tags;
 	$pagination = array(    
 	'page'          => $page, 
 	'results' 		=> $photos,
-	'per_page'      => 10, 
+	'per_page'      => 20, 
     'total_results' => (int) $total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
-	$paginator->setCurrentPageNumber($pagination['page'])
-		->setCache($this->_cache);
+	$paginator->setCurrentPageNumber($pagination['page']) ;
 	$paginator->setPageRange(20);
+	$paginator->setItemCountPerPage(20);
 	$this->view->paginator = $paginator;
 	$this->view->pictures = $photos;
 	}
@@ -224,13 +223,13 @@ class Flickr_PhotosController
 	}
 	$pagination = array(    
 	'page'          => $page, 
-	'per_page'      => 5, 
     'total_results' => (int)$flickr->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
 	$paginator->setCurrentPageNumber($page)
 		->setPageRange(20)
 		->setCache($this->_cache);
+	$paginator->setItemCountPerPage(20);
 	$this->view->paginator = $paginator;
 	$this->view->photos = $flickr;
 	}
