@@ -14,7 +14,6 @@
 class Countries extends Pas_Db_Table_Abstract {
 
 	protected $_name = 'countries';
-	protected $_primary = 'id';
 
 	/** retrieve a key pair list of ISO countries
 	* @return array
