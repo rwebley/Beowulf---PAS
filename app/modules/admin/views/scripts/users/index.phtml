@@ -5,7 +5,7 @@ $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript');
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
-	$this->headTitle('User administration section');
+$this->headTitle('User administration section');
 ?>
 
 <h2>User administration</h2>
@@ -37,7 +37,7 @@ echo $this->Href(array('module' => 'admin','controller'=>'users', 'action'=>'add
 </tbody>
 
 
-<?= $this->paginationControl($this->paginator, 'Elastic', 'structure/pagination.phtml'); ?>
+<?php $this->paginationControl($this->paginator, 'Elastic', 'structure/pagination.phtml'); ?>
 <?php else:?>
 <p>There are no users available with those criteria.</p>
 <?php endif; ?>

@@ -64,7 +64,7 @@ class Pas_Db_Table_Abstract
 	 * @access public
 	 * @param array $data
 	 */
-	public function update(array $data, $where){
+	public function update( $data, $where){
 	if(empty($data['updated'])){
 		$data['updated'] = $this->timeCreation();
 	}
@@ -72,16 +72,16 @@ class Pas_Db_Table_Abstract
 		$data['updatedBy'] = $this->userNumber();
 	}
 	 $tableSpec = ($this->_schema ? $this->_schema . '.' : '') . $this->_name;
-	return parent::update($tableSpec, $data, $where);
+	return parent::update( $data, $where);
 	}
 	
-	public function _purgeCache(){
-    $this->_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-	}
+//	public function _purgeCache(){
+//    $this->_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+//	}
 	
 	public function delete($where) {
     parent::delete($where);
-    $this->_purgeCache();
+//    $this->_purgeCache();
 	} 
 	
 	public function fetchPairs($sql, $bind = array()) {

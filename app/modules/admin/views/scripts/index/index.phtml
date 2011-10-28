@@ -19,9 +19,11 @@ echo $string;
 
 <?php 
 echo $this->WhatYouWantToDoAdmin();
-$solr = new Apache_Solr_Service( 'localhost', '8983', '/solr' );
-if (  !$solr->ping() ) {
+$solr = new Apache_Solr_Service( 'localhost', '8983', '/solr/beowulf' );
 echo '<h3>SOLR search service</h3>';
+if (  !$solr->ping() ) {
 echo '<p>Solr service not responding.</p>';
+} else {
+	echo '<p>SOLR responding</p>';
 }
 ?>

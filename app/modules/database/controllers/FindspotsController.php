@@ -155,6 +155,8 @@ class Database_FindspotsController
       }
 	 }
 	$findspots->insert($insertData);
+	$solr = new Pas_Solr_Updater();
+	$solr->add($returnID);
 	$this->_redirect(self::REDIRECT.'record/id/'.$returnID);
 	$this->_flashMessenger->addMessage('A new findspot for has been created.');
 	} else {
@@ -315,6 +317,8 @@ class Database_FindspotsController
 	}
 	/* Zend_Debug::dump($updateData);
 	exit; */
+	$solr = new Pas_Solr_Updater();
+	$solr->add($returnID);
 	$this->_flashMessenger->addMessage('Details for the findspot updated!');
 	$this->_redirect(self::REDIRECT.'record/id/'.$returnID);
 	} else {

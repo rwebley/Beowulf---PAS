@@ -286,7 +286,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 	$form->identifier1ID->setValue($secure);
 	$form->idBy->setValue($fullname);
 	}
-	if(in_array($this->getRole(),$this->restricted)) {
+	if(in_array($this->getRole(),$this->_restricted)) {
 	$form->removeDisplayGroup('discoverers');
 	$form->removeElement('finder');
 	$form->removeElement('secondfinder');
@@ -381,6 +381,8 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		  }
 		}
 	$insert = $finds->insert($insertData);
+	$solr = new Pas_Solr_Updater();
+	$solr->add($insert);
 	$this->_redirect(self::REDIRECT . 'record/id/' . $insert);
 	$this->_flashMessenger->addMessage('Record created!');
 	} else  {
@@ -398,7 +400,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$form = new FindForm();
 		$form->submit->setLabel('Update details...');
 		$this->view->form = $form;
-		if(in_array($this->getRole(),$this->restricted)) {
+		if(in_array($this->getRole(),$this->_restricted)) {
 		$form->removeDisplayGroup('discoverers');
 		$form->removeElement('finder');
 		$form->removeElement('secondfinder');
@@ -492,6 +494,8 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$where = array();
 		$where[] = $finds->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 		$finds->update($updateData,$where);
+		$solr = new Pas_Solr_Updater();
+		$solr->add($this->_getParam('id'));
 		if (!empty($auditData)) {
 	        // look for new fields with empty/null values
 	        foreach ($auditData as $item => $value) {
@@ -608,7 +612,9 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 	$whereFindspots = array();
 	$whereFindspots[] = $this->_finds->getAdapter()->quoteInto('findID  = ?', $findID);
 	$this->_flashMessenger->addMessage('Record deleted!');
-	$findspots->delete($whereFindspots);	
+	$findspots->delete($whereFindspots);
+	$solr = new Pas_Solr_Updater();
+	$solr->delete($id);	
 	$this->_redirect(self::REDIRECT);
 	}
 	$this->_flashMessenger->addMessage('No changes made!');

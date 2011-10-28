@@ -15,7 +15,6 @@ public function __construct($options = null) {
 	//Get data to form select menu for discovery methods
 	$discs = new DiscoMethods();
 	$disc_options = $discs->getOptions();
-	
 	//Get data to form select menu for manufacture methods
 	$mans = new Manufactures();
 	$man_options = $mans->getOptions();
@@ -243,8 +242,7 @@ public function __construct($options = null) {
 	'Available periods' => $periodword_options))
 	->setDecorators($decorators)
 	->addErrorMessage('You must enter a broad period.')
-	->addValidator('InArray', false, array(array_keys($periodword_options)))
-	->addValidator('Int');
+	->addValidator('InArray', false, array(array_keys($periodword_options)));
 
 	//Period from: Assigned via dropdown
 	$objdate1subperiod = new Zend_Form_Element_Select('objdate1subperiod');

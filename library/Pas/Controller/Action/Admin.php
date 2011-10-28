@@ -36,16 +36,41 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	protected $_formErrors = 'Your form submission has some errors. Please check and resubmit.';
 	protected $_noChange = 'No changes have been implemented';
 	
-	protected $_config, $_auth, $_identity;
+	protected $_config;
+	
 	protected $_geocoder;
+	
+	/**
+	 * @return the $_config
+	 */
+	public function get_config() {
+		return $this->_config;
+	}
+
+	/**
+	 * @param $_config the $_config to set
+	 */
+	public function set_config() {
+		$this->_config = Zend_Registry::get('config');
+	}
+
+	/**
+	 * @return the $_geocoder
+	 */
+	public function get_geocoder() {
+		return $this->_geocoder;
+	}
+
+	/**
+	 * @param $_geocoder the $_geocoder to set
+	 */
+	public function set_geocoder() {
+		$this->_geocoder = new Pas_Service_Geo_Coder($this->_config->webservice->googlemaps->apikey);
+	}
 
 	public function preDispatch(){
-	$this->_config = Zend_Registry::get('config');
-	$this->_auth = Zend_Registry::get('auth');
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$this->_identity = new Pas_UserDetails();
-	$this->_geocoder = new Pas_Service_Geo_Coder($this->_config->webservice->googlemaps->apikey);
-
+		$this->set_config();
+		$this->set_geocoder();
 	}
 	
 	public function postDispatch() {
@@ -53,21 +78,20 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
     }
     
 	protected function getInstitution() {
-	return $this->_identity->getPerson()->institution;
+	return $this->_helper->getHelper('Identity')->getPerson()->institution;
 	}
 	
  	public function getIdentityForForms() {
-	return $this->_identity->getIdentityForForms();
+	return $this->_helper->getHelper('Identity')->getIdentityForForms();
 	}
 	
 	
 	public function getUsername(){
-	return $this->_identity->getPerson()->username;
+	return $this->_helper->getHelper('Identity')->getPerson()->username;
 	}
 	
-	
 	public function getRole() {
-	$role = $this->_identity->getPerson()->role;
+	$role = $this->_helper->getHelper('Identity')->getPerson()->role;
 	if(is_null($role)){
 	return 'public';
 	} else {
@@ -76,7 +100,7 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	}
 	
 	public function getAccount() {
-	return $this->_identity->getPerson();
+	return $this->_helper->getHelper('Identity')->getPerson();
 	}
 	
 	public function getTimeForForms() {
@@ -98,13 +122,14 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	}
 
 	public function FindUid() {
-	if($this->_auth->hasIdentity()) {
-	$user = $this->_auth->getIdentity();
-	$inst = $user->institution;
+	if(!is_null($this->getAccount())) {
+	$inst = $this->getAccount()->institution;
 	list($usec, $sec) = explode(" ", microtime());
 	$suffix =  strtoupper(substr(dechex($sec), 3) . dechex(round($usec * 8)));
 	$findid = $inst . '-' . $suffix;
 	return $findid;
+	} else {
+		throw new Pas_Exception_NotAuthorised('Institution missing');
 	}
 	}
 	

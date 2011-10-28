@@ -16,22 +16,19 @@ class DiscoMethods extends Pas_Db_Table_Abstract {
 	
 	protected $_name = 'discmethods';
 
-	protected $_primaryKey = 'id';
-
-	
 
 	/** Get key value pairs and cache the result for use in dropdowns for discovery methods
 	* @return array
 	*/
 	public function getOptions() {
-	if (!$options = $this->_cache->load('discmethoddd')) {
+//	if (!$options = $this->_cache->load('discmethoddd')) {
 	$select = $this->select()
 		->from($this->_name, array('id', 'method'))
-		->order('method ASC')
-		->where('valid = ?', (int)1);
+		->order('method ASC');
+//		->where('valid = ?', (int)1);
 	$options = $this->getAdapter()->fetchPairs($select);
-	$this->_cache->save($options, 'discmethoddd');
-	}
+//	$this->_cache->save($options, 'discmethoddd');
+//	}
 	return $options;
     }
     

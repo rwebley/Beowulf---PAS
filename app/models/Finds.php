@@ -3172,4 +3172,28 @@ class Finds extends Pas_Db_Table_Abstract {
 	return NULL;
 	}
 	}	
+	
+	public function getSolrData($findID) {
+	$findsdata = $this->getAdapter();
+	$select = $findsdata->select()
+		->from($this->_name, array(
+		'id',
+		'recordNumber' => 'old_findID', 
+'objectType' => 'objecttype', 
+'broadperiod', 
+'description', 
+'notes', 
+'classification', 
+'treasureID' => 'treasureID', 
+'workflow' => 'secwfstage',
+'institution'))
+		
+		->joinLeft('findspots','finds.secuid = findspots.findID', array('county'))
+		
+		->where('finds.id = ?', (int)$findID)
+		->group('finds.id')
+		->limit(1);
+	return $findsdata->fetchAll($select);
+	}
+	
 }

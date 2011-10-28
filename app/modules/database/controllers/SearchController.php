@@ -23,7 +23,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_config         = Zend_Registry::get('config');
 	$this->_akismetkey     = $config->webservice->akismetkey;
-	$this->_solr           = new Apache_Solr_Service( 'localhost', '8983', '/solr' );
+	$this->_solr           = new Apache_Solr_Service( 'localhost', '8983', '/solr/beowulf' );
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addContext('kml',array('suffix' => 'kml'))
