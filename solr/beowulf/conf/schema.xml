@@ -400,189 +400,120 @@
 
 
  <fields>
-   <!-- Valid attributes for fields:
-     name: mandatory - the name for the field
-     type: mandatory - the name of a previously defined type from the 
-       <types> section
-     indexed: true if this field should be indexed (searchable or sortable)
-     stored: true if this field should be retrievable
-     compressed: [false] if this field should be stored using gzip compression
-       (this will only apply if the field type is compressable; among
-       the standard field types, only TextField and StrField are)
-     multiValued: true if this field may contain multiple values per document
-     omitNorms: (expert) set to true to omit the norms associated with
-       this field (this disables length normalization and index-time
-       boosting for the field, and saves some memory).  Only full-text
-       fields or fields that need an index-time boost need norms.
-     termVectors: [false] set to true to store the term vector for a
-       given field.
-       When using MoreLikeThis, fields used for similarity should be
-       stored for best performance.
-     termPositions: Store position information with the term vector.  
-       This will increase storage costs.
-     termOffsets: Store offset information with the term vector. This 
-       will increase storage costs.
-     default: a value that should be used if no value is specified
-       when adding a document.
-   -->
+	<!-- Find specific fields -->
+	<field name="id" type="string" indexed="true" stored="true" required="true" />
+	<field name="old_findID" type="text" indexed="true" stored="true" />
+	<field name="broadperiod" type="text" indexed="true" stored="true" />
+	<field name="periodFrom" type="text" indexed="true" stored="true" />
+	<field name="periodTo" type="text" indexed="true" stored="true" />
+	<field name="objectType" type="string" indexed="true" stored="true" />
+	<field name="description" type="text" indexed="true" stored="true"  />
+	<field name="notes" type="text" indexed="true" stored="true" /> 
+	<field name="classification" type="string" indexed="true" stored="true"/>
+	<field name="subClassification" type="string" indexed="true" stored="true"/>
+	<field name="smrRef" type="string" indexed="true" stored="true"/>
+	<field name="otherRef" type="string" indexed="true" stored="true"/>
+	<field name="currentLocation" type="string" indexed="true" stored="true"/>
+	<field name="musaccno" type="string" indexed="true" stored="true"/>
+	<field name="workflow" type="int" indexed="true" stored="true" />
+	<field name="fromdate" type="int" indexed="true" stored="true" />
+	<field name="todate" type="int" indexed="true" stored="true" />
+	<field name="material" type="string" indexed="true" stored="true" />
+	<field name="subsequentAction" type="string" indexed="true" stored="true" />
+	<field name="rally" type="string" indexed="true" stored="true" />
+	<field name="decstyle" type="string" indexed="true" stored="true" />
+	<field name="manufacture" type="string" indexed="true" stored="true" />
+	<field name="completeness" type="string" indexed="true" stored="true" />
+	<field name="treatment" type="string" indexed="true" stored="true" />
+	<field name="preservation" type="string" indexed="true" stored="true" />
+	<field name="discovery" type="string" indexed="true" stored="true" />
+	<!--  Person specific details -->
+	<field name="finder" type="string" indexed="true" stored="true" />
+	<field name="identifier" type="string" indexed="true" stored="true" />
+	<field name="recorder" type="string" indexed="true" stored="true" />
+	<field name="updatedBy" type="string" indexed="true" stored="true" />
+	<field name="createdBy" type="string" indexed="true" stored="true" />
+	<field name="institution" type="string" indexed="true" stored="true" />
+	<!-- Coin specific fields -->
+	<field name="denomination" type="string" indexed="true" stored="true" />
+	<field name="mint" type="string" indexed="true" stored="true" />
+	<field name="obverseDescription" type="string" indexed="true" stored="true" />
+	<field name="reverseDescription" type="string" indexed="true" stored="true" />
+	<field name="obverseLegend" type="string" indexed="true" stored="true" />
+	<field name="reverseLegend" type="string" indexed="true" stored="true" />
+	<field name="culture" type="string" indexed="true" stored="true" />
+	<field name="inscription" type="string" indexed="true" stored="true" />
+	<field name="treasureID" type="string" indexed="true" stored="true" />
+	<field name="ruler" type="string" indexed="true" stored="true" />
+	<field name="tribe" type="string" indexed="true" stored="true"/> 
+	<field name="reeceperiod" type="int" indexed="true" stored="true" />
+	<field name="cciNumber" type="float" indexed="true" stored="true" />
+	<field name="mintmark" type="string" indexed="true" stored="true" />
+	<field name="allenType" type="string" indexed="true" stored="true" />
+	<field name="mackType" type="string" indexed="true" stored="true" />
+	<field name="abcType" type="string" indexed="true" stored="true" />
+	<!-- Findspot specific fields -->
+	<field name="region" type="string" indexed="true" stored="true" />
+	<field name="county" type="string" indexed="true" stored="true" />
+	<field name="district" type="string" indexed="true" stored="true" />
+	<field name="parish" type="string" indexed="true" stored="true" />
+	<field name="knownas" type="string" indexed="true" stored="true" />	
+	<field name="fourFigure" type="string" indexed="true" stored="true" />
+	<field name="gridref" type="string" indexed="true" stored="true" />
+	<field name="latitude" type="float" indexed="true" stored="true" />
+	<field name="longitude" type="float" indexed="true" stored="true" />
+	<field name="elevation" type="int" indexed="true" stored="true" />
+	<field name="woeid" type="int" indexed="true" stored="true" />
+	<!--  Image specific fields  -->
+	<field name="filename" type="string" indexed="true" stored="true" />
+	<field name="thumbnail" type="int" indexed="true" stored="true" />
+	<field name="imagedir" type="string" indexed="true" stored="true" />
 
-   <field name="id" type="string" indexed="true" stored="true" required="true" />
-   <field name="old_findID" type="text" indexed="true" stored="true" />
-   <field name="description" type="text" indexed="true" stored="true"/>
-   <field name="county" type="string" indexed="true" stored="true" />
-   <field name="district" type="string" indexed="true" stored="true" />
-   <field name="parish" type="string" indexed="true" stored="true" />
-   <field name="knownas" type="string" indexed="true" stored="true" />
-   <field name="smr_ref" type="string" indexed="true" stored="false" />
-   <field name="other_ref" type="string" indexed="true" stored="false" />
-   <field name="classification" type="string" indexed="true" stored="false" />
-   <field name="subclass" type="string" indexed="true" stored="false" />
-   <field name="curr_loc" type="string" indexed="true" stored="false" />
-   <field name="musaccno" type="string" indexed="true" stored="false" />
-   <field name="updated" type="date" indexed="true" stored="false" />
-   <field name="tribe" type="string" indexed="true" stored="false" />
-   <field name="notes" type="text" indexed="true" stored="true" /> 
-   <field name="broadperiod" type="string" indexed="true" stored="true" />
-   <field name="objectType" type="string" indexed="true" stored="true" />
-   <field name="denomination" type="string" indexed="true" stored="true" />
-   <field name="mint" type="string" indexed="true" stored="true" />
-   <field name="obverseDescription" type="text" indexed="true" stored="true" />
-   <field name="material" type="string" indexed="true" stored="true" />
-   <field name="reverseDescription" type="text" indexed="true" stored="true" />
-   <field name="obverseLegend" type="string" indexed="true" stored="true" />
-   <field name="reverseLegend" type="string" indexed="true" stored="true" />
-   <field name="createdBy" type="string" indexed="true" stored="true" />
-   <field name="culture" type="string" indexed="true" stored="true" />
-   <field name="inscription" type="string" indexed="true" stored="true" />
-   <field name="classification" type="string" indexed="true" stored="true" />
-   <field name="treasureID" type="string" indexed="true" stored="true" />
-   <field name="ruler" type="string" indexed="true" stored="true" />
-   <field name="created" type="date" indexed="true" stored="true" />
-   <field name="thumbnail" type="int" indexed="false" stored="true" />
-   <field name="imagedir" type="string" indexed="false" stored="true" />
-   <field name="workflow" type="int" indexed="false" stored="true" />
-   <field name="institution" type="string" indexed="true" stored="true" />
-   <field name="filename" type="string" indexed="false" stored="true" />
+	<!-- catchall field, containing all other searchable text fields (implemented
+		  via copyField further on in this schema  -->
+	<field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
 
-   <!-- Common metadata fields, named specifically to match up with
-     SolrCell metadata when parsing rich documents such as Word, PDF.
-     Some fields are multiValued only because Tika currently may return
-     multiple values for them.
-   <field name="title" type="text" indexed="true" stored="true" multiValued="true"/>
-   <field name="subject" type="text" indexed="true" stored="true"/>
-   <field name="description" type="text" indexed="true" stored="true"/>
-   <field name="comments" type="text" indexed="true" stored="true"/>
-   <field name="author" type="textgen" indexed="true" stored="true"/>
-   <field name="keywords" type="textgen" indexed="true" stored="true"/>
-   <field name="category" type="textgen" indexed="true" stored="true"/>
-   <field name="content_type" type="string" indexed="true" stored="true" multiValued="true"/>
-   <field name="last_modified" type="date" indexed="true" stored="true"/>
-   <field name="links" type="string" indexed="true" stored="true" multiValued="true"/>
+	<!-- catchall text field that indexes tokens both normally and in reverse for efficient
+		  leading wildcard queries. -->
+	<field name="text_rev" type="text_rev" indexed="true" stored="false" multiValued="true"/>
 
-   -->
-
-   <!-- catchall field, containing all other searchable text fields (implemented
-        via copyField further on in this schema  -->
-   <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
-
-   <!-- catchall text field that indexes tokens both normally and in reverse for efficient
-        leading wildcard queries. -->
-   <field name="text_rev" type="text_rev" indexed="true" stored="false" multiValued="true"/>
-
-   <!-- non-tokenized version of manufacturer to make it easier to sort or group
-        results by manufacturer.  copied from "manu" via copyField -->
-   <field name="manu_exact" type="string" indexed="true" stored="false"/>
-
-   <field name="payloads" type="payloads" indexed="true" stored="true"/>
-
-   <!-- Uncommenting the following will create a "timestamp" field using
-        a default value of "NOW" to indicate when each document was indexed.
-     -->
-   <!--
-   <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
-     -->
-   
-
-   <!-- Dynamic field definitions.  If a field name is not found, dynamicFields
-        will be used if the name matches any of the patterns.
-        RESTRICTION: the glob-like pattern in the name attribute must have
-        a "*" only at the start or the end.
-        EXAMPLE:  name="*_i" will match any field ending in _i (like myid_i, z_i)
-        Longer patterns will be matched first.  if equal size patterns
-        both match, the first appearing in the schema will be used. 
-   <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
-   <dynamicField name="*_s"  type="string"  indexed="true"  stored="true"/>
-   <dynamicField name="*_l"  type="long"   indexed="true"  stored="true"/>
-   <dynamicField name="*_t"  type="text"    indexed="true"  stored="true"/>
-   <dynamicField name="*_b"  type="boolean" indexed="true"  stored="true"/>
-   <dynamicField name="*_f"  type="float"  indexed="true"  stored="true"/>
-   <dynamicField name="*_d"  type="double" indexed="true"  stored="true"/>
-   <dynamicField name="*_dt" type="date"    indexed="true"  stored="true"/>
- -->
-   <!-- some trie-coded dynamic fields for faster range queries 
-   <dynamicField name="*_ti" type="tint"    indexed="true"  stored="true"/>
-   <dynamicField name="*_tl" type="tlong"   indexed="true"  stored="true"/>
-   <dynamicField name="*_tf" type="tfloat"  indexed="true"  stored="true"/>
-   <dynamicField name="*_td" type="tdouble" indexed="true"  stored="true"/>
-   <dynamicField name="*_tdt" type="tdate"  indexed="true"  stored="true"/>
-
-   <dynamicField name="*_pi"  type="pint"    indexed="true"  stored="true"/>
-
-   <dynamicField name="ignored_*" type="ignored" multiValued="true"/>
-   <dynamicField name="attr_*" type="textgen" indexed="true" stored="true" multiValued="true"/>
-
-   <dynamicField name="random_*" type="random" />-->
-
-   <!-- uncomment the following to ignore any fields that don't already match an existing 
-        field name or dynamic field, rather than reporting them as an error. 
-        alternately, change the type="ignored" to some other type e.g. "text" if you want 
-        unknown fields indexed and/or stored by default --> 
-   <!--dynamicField name="*" type="ignored" multiValued="true" /-->
-   
- </fields>
-
- <!-- Field to use to determine and enforce document uniqueness. 
-      Unless this field is marked with required="false", it will be a required field
-   -->
- <uniqueKey>recordNumber</uniqueKey>
-
- <!-- field for the QueryParser to use when an explicit fieldname is absent -->
- <defaultSearchField>description</defaultSearchField>
-
- <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
- <solrQueryParser defaultOperator="AND"/>
-
-  <!-- copyField commands copy one field to another at the time a document
-        is added to the index.  It's used either to index the same field differently,
-        or to add multiple fields to the same field for easier/faster searching.  -->
-
-   <copyField source="inscription" dest="description" />
-   <copyField source="old_findID" dest="description" />
+	<!-- Uncommenting the following will create a "timestamp" field using
+	a default value of "NOW" to indicate when each document was indexed.
+	-->
+	<field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
 	
-   <!-- Above, multiple source fields are copied to the [text] field. 
-	  Another way to map multiple source fields to the same 
-	  destination field is to use the dynamic field syntax. 
-	  copyField also supports a maxChars to copy setting.  -->
-	   
-   <!-- <copyField source="*_t" dest="text" maxChars="3000"/> -->
+	</fields>
 
-   <!-- copy name to alphaNameSort, a field designed for sorting by name -->
-   <!-- <copyField source="name" dest="alphaNameSort"/> -->
- 
+	<uniqueKey>id</uniqueKey>
 
- <!-- Similarity is the scoring routine for each document vs. a query.
-      A custom similarity may be specified here, but the default is fine
-      for most applications.  -->
- <!-- <similarity class="org.apache.lucene.search.DefaultSimilarity"/> -->
- <!-- ... OR ...
-      Specify a SimilarityFactory class name implementation
-      allowing parameters to be used.
- -->
- <!--
- <similarity class="com.example.solr.CustomSimilarityFactory">
-   <str name="paramkey">param value</str>
- </similarity>
- -->
+	<defaultSearchField>text</defaultSearchField>
 
+	<solrQueryParser defaultOperator="AND"/>
+
+	<copyField source="old_findID" dest="text" />
+	<copyField source="notes" dest="text" />
+	<copyField source="description" dest="text" />
+	<copyField source="broadperiod" dest="text" />
+	<copyField source="inscription" dest="text" />
+	<copyField source="obverseDescription" dest="text" />
+	<copyField source="reverseDescription" dest="text" />
+	<copyField source="obverseLegend" dest="text" />
+	<copyField source="reverseLegend" dest="text" />
+	<copyField source="county" dest="text" />
+	<copyField source="objectType" dest="text" />
+	<copyField source="smrRef" dest="text" />
+	<copyField source="treasureID" dest="text" />
+	<copyField source="denomination" dest="text" />
+	<copyField source="mint" dest="text" />
+	<copyField source="tribe" dest="text" />
+	<copyField source="knownas" dest="text" />
+	<copyField source="ruler" dest="text" />
+	<copyField source="classification" dest="text" />
+	<copyField source="subClassification" dest="text" />	
+	<copyField source="culture" dest="text" />
+	<copyField source="material" dest="text" />
+	<copyField source="currentLocation" dest="text" />
+	<copyField source="subsequentAction" dest="text" />
+	<copyField source="musaccno" dest="text" />
 
 </schema>

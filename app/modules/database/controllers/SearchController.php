@@ -679,9 +679,9 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	'facet.missing' => 'false'
 	);
 	
-	$allowed = array('fa','flos','admin');
+	$allowed = array('fa','flos','admin','treasure');
 	if(!in_array($this->getRole(),$allowed)) {
-	$additionalParameters['fq'] = 'secwfstage:[3 TO *]';
+	$additionalParameters['fq'] = 'workflow:[3 TO *]';
 	}
 
 	$results = $this->_solr->search($q, $start, $limit,$additionalParameters);

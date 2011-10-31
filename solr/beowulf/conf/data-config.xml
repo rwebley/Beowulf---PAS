@@ -1,0 +1,162 @@
+<dataConfig>
+	<dataSource type="JdbcDataSource"
+   driver="com.mysql.jdbc.Driver"
+   url="jdbc:mysql://localhost/antiquities"
+   user="webuser2" 
+   password="45jql11w"
+   tinyInt1isBit="false"/>
+	<document name="content">
+        <entity name="node" transformer="HTMLStripTransformer" 
+query="
+SELECT DISTINCT (
+finds.id
+) AS id, 
+finds.old_findID, 
+finds.objecttype AS objectType, 
+finds.broadperiod AS broadperiod, 
+finds.description AS description, 
+p1.term AS periodFrom,
+p2.term AS periodTo,
+finds.notes AS notes, 
+findspots.county AS county, 
+finds.classification, 
+finds.subclass As subClassification,
+finds.smr_ref AS smrRef,
+finds.other_ref AS otherRef,
+finds.curr_loc AS currentLocation,
+finds.musaccno,
+finds.treasureID AS treasureID, 
+numdate1 AS fromdate, 
+numdate2 AS todate, 
+coins.obverse_description AS obverseDescription, 
+coins.obverse_inscription AS obverseLegend, 
+coins.reverse_description AS reverseDescription, 
+coins.reverse_inscription AS reverseLegend, 
+coins.reeceID AS reeceperiod,
+users.fullname AS createdBy, 
+mat.term AS material, 
+manufactures.term AS manufacture,
+preservations.term AS preservation,
+surftreatments.term AS treatment,
+decstyles.term AS decstyle,
+decmethods.term AS decmethod,
+discmethods.method AS discovery,
+completeness.term AS completeness,
+denominations.denomination, 
+mints.mint_name AS mint, 
+cultures.term AS culture, 
+inscription, 
+
+rulers.issuer AS ruler, 
+slides.imageID AS thumbnail, 
+secwfstage AS workflow,
+slides.filename AS filename,
+users.imagedir AS imagedir,
+finds.institution,
+findspots.knownas,
+findspots.fourFigure,
+findspots.gridref,
+findspots.district,
+findspots.parish,
+findspots.woeid,
+declong AS longitude,
+declat AS latitude,
+rallies.rally_name AS rally,
+finds.created,
+ironagetribes.tribe,
+cciNumber,
+allen_type AS allenType,
+mack_type AS mackType,
+bmc_type AS bmcType,
+rudd_type AS abcType,
+va_type AS vaType,
+reverse_mintmark AS mintmark
+FROM finds
+LEFT JOIN `findspots` ON finds.secuid = findspots.findID
+LEFT JOIN `coins` ON finds.secuid = coins.findID
+LEFT JOIN `findofnotereasons` ON finds.findofnotereason = findofnotereasons.id
+LEFT JOIN `users` ON users.id = finds.createdBy
+LEFT JOIN `materials` AS `mat` ON finds.material1 = mat.id
+LEFT JOIN `decmethods` ON finds.decmethod = decmethods.id
+LEFT JOIN `decstyles` ON finds.decstyle = decstyles.id
+LEFT JOIN `manufactures` ON finds.manmethod = manufactures.id
+LEFT JOIN `surftreatments` ON finds.surftreat = surftreatments.id
+LEFT JOIN `completeness` ON finds.completeness = completeness.id
+LEFT JOIN `preservations` ON finds.preservation = preservations.id
+LEFT JOIN `periods` AS p1 ON finds.objdate1period = p1.id
+LEFT JOIN `periods` AS p2 ON finds.objdate2period = p2.id
+LEFT JOIN `cultures` ON finds.culture = cultures.id
+LEFT JOIN `discmethods` ON discmethods.id = finds.discmethod
+LEFT JOIN `denominations` ON denominations.id = coins.denomination
+LEFT JOIN `rulers` ON rulers.id = coins.ruler_id
+LEFT JOIN `reeceperiods` ON coins.reeceID = reeceperiods.id
+LEFT JOIN `mints` ON mints.id = coins.mint_ID
+LEFT JOIN `finds_images` ON finds_images.find_id = finds.secuid
+LEFT JOIN `slides` ON finds_images.image_id = slides.secuid
+LEFT JOIN workflowstages ON finds.secwfstage = workflowstages.id
+LEFT JOIN rallies ON finds.rallyID = rallies.id
+LEFT JOIN ironagetribes ON coins.tribe = ironagetribes.id
+LIMIT 500000
+" 
+>
+        <field column="id" name="id" />
+        <field column="description" name="description" stripHTML="true"/>
+	    <field column="county" name="county" />	
+		<field column="district" name="district" />
+		<field column="parish" name="parish" />
+		<field column="fourFigure" name="fourFigure" />
+		<field column="knownas" name="knownas" />
+		<field column="gridref" name="gridref" />	
+	    <field column="notes" name="notes" stripHTML="true"/>
+	    <field column="objectType" name="objectType" />
+	    <field column="broadperiod" name="broadperiod" />	
+	    <field column="denomination" name="denomination" />
+	    <field column="mint" name="mint" />
+   	    <field column="obverseDescription" name="obverseDescription" stripHTML="true"/>
+	    <field column="material" name="material" />
+	    <field column="reverseDescription" name="reverseDescription" stripHTML="true"/>
+	    <field column="obverseLegend" name="obverseLegend" />
+	    <field column="reverseLegend" name="reverseLegend" />
+	    <field column="createdBy" name="createdBy" />	
+		<field column="smrRef" name="smrRef" />		
+		<field column="otherRef" name="otherRef" />		
+	    <field column="culture" name="culture" />
+	    <field column="inscription" name="inscription" />
+	    <field column="classification" name="classification" />
+		<field column="subClassification" name="subClassification" />
+	    <field column="treasureID" name="treasureID" />
+	    <field column="ruler" name="ruler" />
+	    <field column="workflow" name="workflow" />	
+		<field column="thumbnail" name="thumbnail" />
+   	    <field column="filename" name="filename" />
+	    <field column="imagedir" name="imagedir" />
+	    <field column="institution" name="institution" />
+	    <field column="old_findID" name="old_findID" />
+		<field column="mint" name="mint" />
+		<field column="fromdate" name="fromdate" />
+		<field column="todate" name="todate" />
+		<field column="currentLocation" name="currentLocation" />
+		<field column="mintmark" name="mintmark" />
+		<field column="cciNumber" name="cciNumber" />
+		<field column="mackType" name="mackType" />
+		<field column="allentype" name="allenType" />
+		<field column="abcType" name="abcType" />
+		<field column="vaType" name="vaType" />
+		<field column="musaccno" name="musaccno" />
+		<field column="rally" name="rally" />
+		<field column="decstyle" name="decstyle" />
+		<field column="manufacture" name="manufacture" />
+		<field column="periodFrom" name="periodFrom" />
+		<field column="periodTo" name="periodto" />
+		<field column="treatment" name="treatment" />
+		<field column="preservation" name="preservation" />
+		<field column="discovery" name="discovery" />
+		<field column="reeceperiod" name="reeceperiod" />
+		<field column="latitude" name="latitude" />
+		<field column="longitude" name="longitude" />
+		<field column="elevation" name="elevation" />
+		<field column="woeid" name="woeid" />
+		<field column="created" name="created" />
+		</entity>
+    </document>
+</dataConfig>

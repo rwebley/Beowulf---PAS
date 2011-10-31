@@ -30,8 +30,10 @@
   -->
   <cores adminPath="/home/beowulf2/solr/">
     <core name="beowulf" instanceDir="beowulf">
+    <property name="dataDir" value="/home/beowulf2/solr/beowulf/data" />
     </core>
     <core name="dayofarch" instanceDir="dayofarch">
+    <property name="dataDir" value="/home/beowulf2/solr/dayofarch/data" />
     </core>
   </cores>
 </solr>

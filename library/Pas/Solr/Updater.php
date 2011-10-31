@@ -27,7 +27,7 @@ class Pas_Solr_Updater {
 				$part->setMultiValue( $key, $data );
 			}
 	} else {
-        $part->$key = $value;
+        $part->$key = strip_tags($value);
 	}
 	}
 	$documents[] = $part;

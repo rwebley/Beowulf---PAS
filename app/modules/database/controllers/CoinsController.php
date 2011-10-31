@@ -232,6 +232,8 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
       }
     }
 	$this->_coins->insert($insertData);
+	$solr = new Pas_Solr_Updater();
+	$solr->add($this->_getParam('returnID'));
 	$this->_flashMessenger->addMessage('Coin data saved for this record.');
 	$this->_redirect(self::REDIRECT.'record/id/' . $this->_getParam('returnID'));
 	} 
@@ -390,7 +392,8 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
 	$oldarray = $audit->toArray();
 	$where =  $this->_coins->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 	$update = $this->_coins->update($updateData,$where);
-	
+	$solr = new Pas_Solr_Updater();
+	$solr->add($this->_getParam('returnID'));
 	if (!empty($auditData)) {
         // look for new fields with empty/null values
         foreach ($auditData as $item => $value) {

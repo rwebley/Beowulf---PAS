@@ -3178,18 +3178,26 @@ class Finds extends Pas_Db_Table_Abstract {
 	$select = $findsdata->select()
 		->from($this->_name, array(
 		'id',
-		'recordNumber' => 'old_findID', 
+		'old_findID', 
 'objectType' => 'objecttype', 
 'broadperiod', 
 'description', 
 'notes', 
 'classification', 
+'fromdate' => 'numdate1',
+'todate' => 'numdate2',
 'treasureID' => 'treasureID', 
 'workflow' => 'secwfstage',
 'institution'))
 		
-		->joinLeft('findspots','finds.secuid = findspots.findID', array('county'))
-		
+		->joinLeft('findspots','finds.secuid = findspots.findID', array('county', 'district', 'parish', 'knownas',
+		'fourFigure','gridref','latitude' => 'declat','longitude' => 'declong','elevation','woeid'))
+		->joinLeft('coins', 'finds.secuid = coins.findID',array('obverseDescription' => 'obverse_description', 
+'obverseLegend' => 'obverse_inscription','reverseDescription' => 'reverse_description',
+'reverseLegend' => 'reverse_inscription','reeceperiod' ))
+		->joinLeft('mints','mints.id = coins.mint_ID', array ('mint' => 'mint_name'))
+		->joinLeft('denominations')
+		->joinLeft('rulers')
 		->where('finds.id = ?', (int)$findID)
 		->group('finds.id')
 		->limit(1);

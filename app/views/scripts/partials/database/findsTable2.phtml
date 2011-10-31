@@ -1,4 +1,4 @@
- <tr typeof="pas:record" about="[<?php echo $this->recordNumber;?>]">
+ <tr typeof="pas:record" about="[<?php echo $this->old_findID;?>]">
 
     <td rowspan="1">
     <?php if(isset($this->thumbnail)):?>
@@ -8,7 +8,7 @@
     <td><?php echo ucfirst(strtolower($this->objectType));?></td>
     <td><a href="<?php echo $this->url(array('module' => 'database',
  'controller' => 'artefacts','action' => 'record', 'id' => $this->id),null,true);?>">
-    <?php echo $this->recordNumber;?></a><br/><?php echo $this->workflow($this->workflow);?></td>
+    <?php echo $this->old_findID;?></a><br/><?php echo $this->workflow($this->workflow);?></td>
     <td><?php echo ucfirst(strtolower($this->broadperiod));?></td>
     <td><?php if(isset($this->county)) {echo ucwords(strtolower($this->county));} ?></td>
 	<td>
