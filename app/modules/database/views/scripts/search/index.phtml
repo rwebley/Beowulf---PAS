@@ -8,10 +8,6 @@ $this->headTitle('Perform a basic "What/Where/When" search');
 <h2>What/Where/When search</h2>
 <?php 
 $this->metaBasic();
-$cache = Zend_Registry::get('formcache');
-if(!$cache->start('basicform')) {
 echo $this->form;
-$cache->end();
-}
 
 ?>

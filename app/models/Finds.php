@@ -3173,35 +3173,100 @@ class Finds extends Pas_Db_Table_Abstract {
 	}
 	}	
 	
+	/** Retrieve record data in format for solr schema
+	* @param int $findID
+	* @return array
+	*/
 	public function getSolrData($findID) {
 	$findsdata = $this->getAdapter();
 	$select = $findsdata->select()
 		->from($this->_name, array(
 		'id',
 		'old_findID', 
-'objectType' => 'objecttype', 
-'broadperiod', 
-'description', 
-'notes', 
-'classification', 
-'fromdate' => 'numdate1',
-'todate' => 'numdate2',
-'treasureID' => 'treasureID', 
-'workflow' => 'secwfstage',
-'institution'))
-		
-		->joinLeft('findspots','finds.secuid = findspots.findID', array('county', 'district', 'parish', 'knownas',
-		'fourFigure','gridref','latitude' => 'declat','longitude' => 'declong','elevation','woeid'))
-		->joinLeft('coins', 'finds.secuid = coins.findID',array('obverseDescription' => 'obverse_description', 
-'obverseLegend' => 'obverse_inscription','reverseDescription' => 'reverse_description',
-'reverseLegend' => 'reverse_inscription','reeceperiod' ))
+		'objectType' => 'objecttype', 
+		'broadperiod', 
+		'description', 
+		'notes', 
+		'inscription',
+		'classification', 
+		'fromdate' => 'numdate1',
+		'todate' => 'numdate2',
+		'treasure',
+		'rally',
+		'treasureID' => 'treasureID', 
+		'workflow' => 'secwfstage',
+		'institution',
+		'datefound1',
+		'datefound2',
+		'subClassification' => 'subclass',
+		'smrref' => 'smr_ref',
+		'other_ref',
+		'musaccno',
+		'currentLocation' => 'curr_loc',
+		'created',
+		'updated'))
+		->joinLeft('findspots','finds.secuid = findspots.findID', array(
+		'county', 
+		'district', 
+		'parish', 
+		'knownas',
+		'fourFigure',
+		'gridref',
+		'latitude' => 'declat',
+		'longitude' => 'declong',
+		'elevation',
+		'woeid'))
+		->joinLeft('coins', 'finds.secuid = coins.findID',array(
+		'obverseDescription' => 'obverse_description', 
+		'obverseLegend' => 'obverse_inscription',
+		'reverseDescription' => 'reverse_description',
+		'reverseLegend' => 'reverse_inscription',
+		'reeceperiod' => 'reeceID',
+		'cciNumber',
+		'mintmark' => 'reverse_mintmark',
+		'allenType' => 'allen_type',
+		'mackType' => 'mack_type',
+		'abcType' => 'rudd_type',
+		'vaType' => 'va_type'
+		))
 		->joinLeft('mints','mints.id = coins.mint_ID', array ('mint' => 'mint_name'))
-		->joinLeft('denominations')
-		->joinLeft('rulers')
+		->joinLeft('denominations','coins.denomination = denominations.id', array('denomination'))
+		->joinLeft('rulers','coins.ruler_id = rulers.id',array('ruler' => 'issuer'))
+		->joinLeft('users','users.id = finds.createdBy', array('createdBy' => 'fullname'))
+		->joinLeft(array('users2' => 'users'),'users2.id = finds.updatedBy', 
+		array('updatedBy' => 'fullname'))
+		->joinLeft(array('mat' =>'materials'),'finds.material1 = mat.id', array('material' =>'term'))
+		->joinLeft(array('mat2' =>'materials'),'finds.material2 = mat2.id', array('secondaryMaterial' => 'term'))
+		->joinLeft('decmethods','finds.decmethod = decmethods.id', array('decoration' => 'term'))
+		->joinLeft('decstyles','finds.decstyle = decstyles.id', array('decstyle' => 'term'))
+		->joinLeft('manufactures','finds.manmethod = manufactures.id', array('manufacture' => 'term'))
+		->joinLeft('surftreatments','finds.surftreat = surftreatments.id', array('treatment' => 'term'))
+		->joinLeft('completeness','finds.completeness = completeness.id', array('completeness' => 'term'))
+		->joinLeft('preservations','finds.preservation = preservations.id', array('preservation' => 'term'))
+		->joinLeft('periods','finds.objdate1period = periods.id', array('periodFrom' => 'term'))
+		->joinLeft(array('p' => 'periods'),'finds.objdate2period = p.id', array('periodTo' => 'term'))
+		->joinLeft('cultures','finds.culture = cultures.id', array('culture' => 'term'))
+		->joinLeft('discmethods','discmethods.id = finds.discmethod', array('discmethod' => 'method'))
+		->joinLeft('people','finds.finderID = people.secuid', array('finder' => 'CONCAT(people.title," ",people.forename," ",people.surname)'))
+		->joinLeft(array('ident1' => 'people'),'finds.identifier1ID = ident1.secuid', 
+		array('identifier' => 'CONCAT(ident1.forename," ",ident1.surname)'))
+		->joinLeft(array('ident2' => 'people'),'finds.identifier2ID = ident2.secuid', 
+		array('secondaryIdentifier' => 'CONCAT(ident2.forename," ",ident2.surname)'))
+		->joinLeft(array('record' => 'people'),'finds.recorderID = record.secuid', 
+		array('recorder' => 'CONCAT(record.title," ",record.forename," ",record.surname)'))
+		->joinLeft('subsequentActions','finds.subs_action = subsequentActions.id', 
+		array('subsequentAction' => 'action'))
+		->joinLeft('finds_images','finds.secuid = finds_images.find_id', array())
+		->joinLeft('slides','slides.secuid = finds_images.image_id', array('filename'))
+		->joinLeft('rallies','finds.rallyID = rallies.id',array('rallyName' => 'rally_name')) 
+		->joinLeft('ironagetribes','coins.tribe = ironagetribes.id', array('tribe'))
+		->joinLeft('medievalcategories','medievalcategories.id = coins.categoryID', array('category'))
+		->joinLeft('medievaltypes','medievaltypes.id = coins.typeID', array('type'))
 		->where('finds.id = ?', (int)$findID)
 		->group('finds.id')
 		->limit(1);
 	return $findsdata->fetchAll($select);
 	}
+	
 	
 }

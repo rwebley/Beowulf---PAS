@@ -644,7 +644,7 @@ public function __construct($options = null) {
 	->setRequired(false)
 	->setAttrib('size',10)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('Date')
+	->addValidator('Datetime')
 	->setDecorators($decorators);
 
 	//Date found to
@@ -653,7 +653,7 @@ public function __construct($options = null) {
 	->setRequired(false)
 	->setAttrib('size',10)
 	->addFilters(array('StripTags','StringTrim'))
-	->addValidator('Date')
+	->addValidator('Datetime')
 	->setDecorators($decorators);
 
 	##OTHER REFERENCE NUMBERS

@@ -1,0 +1,211 @@
+<dataConfig>
+	<dataSource type="JdbcDataSource"
+   driver="com.mysql.jdbc.Driver"
+   url="jdbc:mysql://localhost/antiquities"
+   user="webuser2" 
+   password="45jql11w"
+   tinyInt1isBit="false"/>
+	<document name="content">
+        <entity name="content" transformer="HTMLStripTransformer" 
+query="
+SELECT
+CONCAT('content-',id) AS identifier,
+id,
+title,
+slug,
+excerpt,
+body,
+section,
+metaKeywords AS keywords,
+publishState,
+'sitecontent' AS type
+FROM content
+" 
+>        
+		<field column="identifier" name="identifier" />
+		<field column="id" name="id" />
+        <field column="body" name="body" stripHTML="true"/>
+	    <field column="excerpt" name="excerpt" stripHTML="true" />
+	    <field column="place" name="place" />
+	    <field column="section" name="section" />
+	    <field column="keywords" name="keywords" />
+	    <field column="created" name="created" />
+	    <field column="updated" name="updated" />
+	    <field column="slug" name="slug" /> 
+	    <field column="woeid" name="woeid" />
+	    <field column="publishState" name="publishState" />
+	    <field column="type" name="type" />
+		</entity>
+		
+<entity name="news" transformer="HTMLStripTransformer" 
+query="
+SELECT 
+CONCAT('news-',id) AS identifier,
+id,
+title,
+title AS slug,
+contents AS body,
+summary AS excerpt,
+datePublished AS created,
+keywords,
+primaryNewsLocation AS place,
+CONCAT(latitude,',',longitude) AS coordinates,
+latitude,
+longitude,
+'news' AS section,
+woeid,
+publish_state AS publishState,
+'news' AS type
+FROM news
+" 
+>        
+		<field column="identifier" name="identifier" />
+		<field column="id" name="id" />
+        <field column="body" name="body" stripHTML="true"/>
+	    <field column="excerpt" name="excerpt" stripHTML="true" />
+	    <field column="place" name="place" />
+	    <field column="coordinates" name="coordinates" />
+	    <field column="latitude" name="latitude" />
+	    <field column="longitude" name="longitude" />
+	    <field column="section" name="section" />
+	    <field column="keywords" name="keywords" />
+	    <field column="created" name="created" />
+	    <field column="updated" name="updated" />
+	    <field column="slug" name="slug" /> 
+	    <field column="woeid" name="woeid" />
+	    <field column="publishState" name="publishState" />
+	    <field column="type" name="type" />
+		</entity>
+		
+<entity name="help" transformer="HTMLStripTransformer" 
+query="
+SELECT 
+CONCAT('help-',id) AS identifier,
+id,
+title,
+excerpt,
+slug,
+body,
+section,
+metaKeywords AS keywords,
+publishState,
+'help' AS type
+FROM help
+" 
+>
+       
+		<field column="identifier" name="identifier" />
+        <field column="id" name="id" />
+        <field column="body" name="body" stripHTML="true"/>
+	    <field column="excerpt" name="excerpt" stripHTML="true" />
+	    <field column="place" name="place" />
+	    <field column="section" name="section" />
+	    <field column="keywords" name="keywords" />
+	    <field column="created" name="created" />
+	    <field column="updated" name="updated" />
+	    <field column="slug" name="slug" /> 
+	    <field column="woeid" name="woeid" />
+	    <field column="publishState" name="publishState" />
+	    <field column="type" name="type" />
+		</entity>
+<entity name="staff" transformer="HTMLStripTransformer" 
+query="
+SELECT 
+CONCAT('staff-',id) AS identifier,
+id,
+CONCAT(firstname,' ',lastname) AS title,
+CONCAT(firstname,'-',lastname) AS slug,
+CONCAT(address_1,' ',address_2,' ',town,' ',postcode) AS place,
+profile AS body,
+'profiles' AS section,
+alumni AS publishState,
+'staff' AS type,
+woeid,
+latitude,
+longitude,
+CONCAT(latitude,',',longitude) AS coordinates
+FROM staff
+WHERE alumni = '1'
+" 
+>
+		<field column="identifier" name="identifier" />
+        <field column="id" name="id" />
+        <field column="body" name="body" stripHTML="true"/>
+        <field column="title=" name="title" />
+	    <field column="section" name="section" />
+	    <field column="created" name="created" />
+	    <field column="updated" name="updated" />
+	    <field column="woeid" name="woeid" />
+	    <field column="publishState" name="publishState" />
+	    <field column="type" name="type" />
+		<field column="coordinates" name="coordinates" />
+		<field column="latitude" name="latitude" />
+		<field column="longitude" name="longitude" />
+		<field column="place" name="place" />
+		</entity>
+		
+<entity name="research" transformer="HTMLStripTransformer" 
+query="
+SELECT 
+CONCAT('research-',researchprojects.id) AS identifier,
+researchprojects.title,
+researchprojects.id,
+investigator AS slug,
+description AS body,
+'research' AS section,
+projecttypes.title AS type,
+researchprojects.created,
+researchprojects.updated
+FROM researchprojects
+LEFT JOIN projecttypes ON researchprojects.level = projecttypes.id 
+" 
+>
+		<field column="identifier" name="identifier" />
+        <field column="id" name="id" />
+        <field column="body" name="body" stripHTML="true"/>
+	    <field column="section" name="section" />
+	    <field column="created" name="created" />
+	    <field column="updated" name="updated" />
+	    <field column="type" name="type" />
+	    <field column="slug" name="slug" />
+	    <field column="title" name="title" />
+		</entity>
+		
+<entity name="events" transformer="HTMLStripTransformer" 
+query="
+SELECT 
+CONCAT('events-',events.id) AS identifier,
+eventTitle AS title,
+events.id,
+eventTitle AS slug,
+eventDescription AS body,
+'events' AS section,
+eventtypes.type AS type,
+events.created,
+events.updated,
+latitude,
+longitude,
+CONCAT(latitude,',',longitude) AS coordiantes,
+eventLocation AS place
+FROM events
+LEFT JOIN eventtypes ON events.eventType = eventtypes.id
+" 
+>
+		<field column="identifier" name="identifier" />
+        <field column="id" name="id" />
+        <field column="body" name="body" stripHTML="true"/>
+	    <field column="section" name="section" />
+	    <field column="created" name="created" />
+	    <field column="updated" name="updated" />
+	    <field column="type" name="type" />
+	    <field column="slug" name="slug" />
+	    <field column="title" name="title" />
+	    <field column="coordinates" name="coordinates" />
+	    <field column="place" name="place" />
+	    <field column="latitude" name="latitude" />
+	    <field column="longitude" name="longitude" />
+		</entity>
+		
+    </document>
+    
+</dataConfig>

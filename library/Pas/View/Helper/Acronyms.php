@@ -6,7 +6,7 @@
  * @package    Pas_View_Helper
  * @subpackage Abstract
  * @copyright  Copyright (c) 2011 dpett @ britishmuseum.org
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @license    GNU Public
  * @see Zend_View_Helper_Abstract
  */
  class Pas_View_Helper_Acronyms extends Zend_View_Helper_Abstract {

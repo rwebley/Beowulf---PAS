@@ -58,206 +58,114 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	}
 	}
       
-	const REDIRECT = 'database/search/results/';
 	
 	/** Display the basic what/where/when page.
 	*/	
 	public function indexAction() {
 	$form = new WhatWhereWhenForm();
-	$form->setMethod('get');
 	$this->view->form = $form;
-	$values = $form->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($form->isValid($data)) {
-	$params = array_filter($data);
-	unset($params['submit']);
-	unset($params['action']);
-	unset($params['controller']);
-	unset($params['module']);
-	unset($params['page']);
-	unset($params['csrf']);
-		
-	$where = array();
-	foreach($params as $key => $value){
-	if($value != NULL){
-	$where[] = $key . '/' . urlencode(strip_tags($value));
-	}
-	}
-	$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT.$query.'/');
-	}  else  {
-	$form->populate($data);
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	} else {
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
 	
+	
+	function array_cleanup( $array ) {
+    $todelete = array('submit','action','controller','module','page','csrf');
+		foreach( $array as $key => $value ) {
+    foreach($todelete as $match){
+    	if($key == $match){
+    		unset($array[$key]);
+    	}
+    } 
+    }
+    return $array;
+}
+		
 	/** Generate the advanced search page
 	*/	
 	public function advancedAction(){
-	$params = $this->_getAllParams();
 	$form = new AdvancedSearchForm(array('disableLoadDefaultDecorators' => true));
-	$form->setMethod('get');
 	$this->view->form = $form;
-	$values = $form->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($form->isValid($data)) {
-	$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-	    unset($params['csrf']);
-
-	$where = array();
-    foreach($params as $key => $value) {
-	if($value != NULL){
-    $where[] = $key . '/' . urlencode(strip_tags($value));
-		}
-     }
-	$whereString = implode('/', $where);
-	$query = $whereString;
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_redirect(self::REDIRECT . $query . '/');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
 	} else {
-	$form->populate($data);
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
 	/** Display the byzantine search form
 	*/	
 	public function byzantinenumismaticsAction() {
-	$byzantineform = new ByzantineNumismaticSearchForm();
-	$this->view->byzantineform = $byzantineform;
-	$values = $byzantineform->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($byzantineform->isValid($data)) {
-		$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-		unset($params['csrf']);
-
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
-            $where[] = $key . '/' . urlencode(strip_tags($value));
-			}
-        }
-			$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . $query . '/');
-	} 
-	else 
-	{
-	$byzantineform->populate($data);
+	$form = new ByzantineNumismaticSearchForm();
+	$this->view->byzantineform = $form;
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	} else {
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
 	/** Display the early medieval numismatics form
 	*/	
 	public function earlymednumismaticsAction() {
-	$params = $this->_getAllParams();
-	$earlymedform = new EarlyMedNumismaticSearchForm();
-	$this->view->earlymedform = $earlymedform;
-	$values = $earlymedform->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($earlymedform->isValid($data)) {
-	
-		$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-		unset($params['csrf']);
-
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
-            $where[] = $key . '/' . urlencode(strip_tags($value));
-			}
-        }
-			$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . $query.'/');
+	$form = new EarlyMedNumismaticSearchForm();
+	$this->view->earlymedform = $form;
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
 	} else {
-	$earlymedform->populate($data);
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
 	/** Display the medieval numismatics page
 	*/		
 	public function mednumismaticsAction() {
-	$earlymedform = new MedNumismaticSearchForm();
-	$this->view->earlymedform = $earlymedform;
-	$values = $earlymedform->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($earlymedform->isValid($data)) {
-	
-		$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-		unset($params['csrf']);
-
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
-            $where[] = $key . '/' . urlencode(strip_tags($value));
-			}
-        }
-			$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . $query.'/');
+	$form = new MedNumismaticSearchForm();
+	$this->view->earlymedform = $form;
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
 	} else {
-	$earlymedform->populate($data);
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
 	/** Display the post medieval numismatics pages
 	*/		
 	public function postmednumismaticsAction() {
-	$earlymedform = new PostMedNumismaticSearchForm();
-	$this->view->earlymedform = $earlymedform;
-	$values = $earlymedform->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($earlymedform->isValid($data)) {
-	
-		$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-		unset($params['csrf']);
-
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
-            $where[] = $key . '/' . urlencode(strip_tags($value));
-			}
-        }
-			$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . $query.'/');
+	$form = new PostMedNumismaticSearchForm();
+	$this->view->earlymedform = $form;
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
 	} else {
-	$earlymedform->populate($data);
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
@@ -265,64 +173,32 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	/** Display the roman numismatics pages
 	*/		
 	public function romannumismaticsAction() {
-	$formRoman = new RomanNumismaticSearchForm();
-	$this->view->formRoman = $formRoman;
-	$values = $formRoman->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($formRoman->isValid($data)) {
-		$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-		unset($params['csrf']);
-
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
-            $where[] = $key . '/' . urlencode(strip_tags($value));
-			}
-        }
-			$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . $query.'/');
+	$form = new RomanNumismaticSearchForm();
+	$this->view->formRoman = $form;
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
 	} else {
-	$formRoman->populate($data);
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
 	/** Display the iron age numismatics pages
 	*/	
 	public function ironagenumismaticsAction() {
-	$formIronAge = new IronAgeNumismaticSearchForm();
-	$this->view->formIronAge = $formIronAge;
-	$values = $formIronAge->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($formIronAge->isValid($data)) {
-		$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-		unset($params['csrf']);
-
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
-            $where[] = $key . '/' . urlencode(strip_tags($value));
-			}
-        }
-			$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . $query.'/');
+	$form = new IronAgeNumismaticSearchForm();
+	$this->view->formIronAge = $form;
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
 	} else {
-	$formIronAge->populate($data);
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
@@ -331,30 +207,14 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	public function greekromanAction() {
 	$form = new GreekRomanSearchForm();
 	$this->view->form = $form;
-	$values = $form->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($form->isValid($data)) {
-		$params = array_filter($data);
-		unset($params['submit']);
-		unset($params['action']);
-		unset($params['controller']);
-		unset($params['module']);
-		unset($params['page']);
-		unset($params['csrf']);
-
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
-            $where[] = $key . '/' . urlencode(strip_tags($value));
-			}
-        }
-			$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . $query . '/');
-	}  else {
-	$form->populate($data);
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	} else {
+	$form->populate($this->_getAllParams());
 	}
 	}
 	}
@@ -636,7 +496,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	*/		
 	public function solrAction(){
  	if (  !$this->_solr->ping() ) {
- 	echo '<h2>Solr Service borked</h2>';
+ 	echo '<h2>Search engine system error</h2>';
 	echo '<p>Solr service not responding.</p>';
 	} else {
 	$form = new SolrForm();
@@ -655,98 +515,104 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	/** Display the index page.
 	*/		
 	public function solrresultsAction(){
-	if($this->_getParam('q',false)){
-	$q = $this->_getParam('q');
+	$params = array_slice($this->_getAllParams(),3);
+	Zend_Debug::dump($params);
+	if(sizeof($params) > 0){
 	$limit = 20;
 	$page = $this->_getParam('page');
 	if(!isset($page)){
 		$start = 0;
+		
 	} else {
+		unset($params['page']);
 		$start = ($page - 1) * 20;
+	}	
+	Zend_Debug::dump($params);
+	$q = '';
+	if(array_key_exists('q',$params)){
+	$q .= $params['q'] . ' ';
+	unset($params['q']); 
 	}
-	$additionalParameters = array( 
-	'sort' => 'created desc', 
-	'facet' => 'true', 
-	'hl' => 'true',
-	'facet.field' => array(
-	'objectType',
-	'broadperiod',
-	'material',
-	'county'
-	), 
-	'facet.mincount' => '1',
-	'facet.sort' => 'true',
-	'facet.missing' => 'false'
+	if(array_key_exists('images',$params)){
+	$images = (int)1;
+	unset($params['images']);
+	}
+	$params = array_filter($params);
+	
+	foreach($params as $k => $v){
+	$q .= $k . ':"' . $v . '" ';
+	}
+	Zend_Debug::dump($q);
+	$config = array(
+    'adapteroptions' => array(
+    'host' => '127.0.0.1',
+    'port' => 8983,
+    'path' => '/solr/beowulf/',
+    )
 	);
 	
+	$select = array(
+    'query'         => $q,
+    'start'         => $start,
+    'rows'          => $limit,
+    'fields'        => array('*'),
+    'sort'          => array('created' => 'desc'),
+	'filterquery' => array(),
+    );
 	$allowed = array('fa','flos','admin','treasure');
 	if(!in_array($this->getRole(),$allowed)) {
-	$additionalParameters['fq'] = 'workflow:[3 TO *]';
+	$select['filterquery']['workflow'] = array(
+            'query' => 'workflow:[3 TO *]'
+        );
+	if(array_key_exists('parish',$params)){
+	$select['filterquery']['knownas'] = array(
+            'query' => 'knownas:["" TO *]'
+        );
 	}
+	}
+	
+	if(!is_null($images)){
+	$select['filterquery']['images'] = array(
+            'query' => 'thumbnail:[1 TO *]'
+        );
+	}
+	
+	// create a client instance
+	$client = new Solarium_Client($config);
+	// get a select query instance based on the config
+	$query = $client->createSelect($select);
+	$helper = $query->getHelper();
+	$query->createFilterQuery('geo')->setQuery($helper->geofilt(51.026584,-1.244008, 'coordinates', 5));
 
-	$results = $this->_solr->search($q, $start, $limit,$additionalParameters);
+	Zend_Debug::dump($query);
+	$facetSet = $query->getFacetSet();
 
-	$numFound = $results->response->numFound;
-	$facetPeriod = $results->facet_counts->facet_fields->broadperiod;
-	$facetObjects = $results->facet_counts->facet_fields->objectType;
-	$facetMaterials = $results->facet_counts->facet_fields->material;
-	$facetCounties = $results->facet_counts->facet_fields->county;
-	
-//	Zend_Debug::dump($facets,'FACET');
-	$facetlistPeriod = NULL;
-	foreach($facetPeriod as $k=> $v){
-	$facetlistPeriod[$k] = $v;
-	}
-	
-	$facetlistObject = NULL;
-	foreach($facetObjects as $k=> $v){
-	$facetlistObject[$k] = $v;
-	}
-	
-	$facetMaterial = NULL;
-	foreach($facetMaterials as $k=> $v){
-	$facetMaterial[$k] = $v;
-	}
-	
-	$facetCounty = NULL;
-	foreach($facetCounties as $k=> $v){
-	$facetCounty[$k] = $v;
-	}
-	if(!is_null($facetlistObject)){
-	$this->view->facetlistObject = array_slice($facetlistObject,0,15);
-	}
-	$this->view->facetlistPeriod = $facetlistPeriod;
-		if(!is_null($facetMaterial)){
-	$this->view->facetlistMaterial = array_slice($facetMaterial,0,15);
-		}
-		if(!is_null($facetCounty)){
-	$this->view->facetlistCounties = array_slice($facetCounty,0,15);
-		}
+	$facetSet->createFacetField('period')->setField('broadperiod');
+	$facetSet->createFacetField('county')->setField('county');
+	$facetSet->createFacetField('objectType')->setField('objectType');
+	$resultset = $client->select($query);
+
+	$pagination = array(    
+	'page'          => $page, 
+	'per_page'      => $limit, 
+    'total_results' => $resultset->getNumFound()
+	);
 	$data = NULL;
-	foreach($results->response->docs as $doc){
-		$fields = NULL;
+	foreach($resultset as $doc){
 	    foreach($doc as $key => $value){
-	    	
 	    	$fields[$key] = $value;
-	    	
 	    }
 	    $data[] = $fields;
 	}
-	$pagination = array(    
-	'page'          => $page, 
-	'results' => $data,
-	'per_page'      => $limit, 
-    'total_results' => $numFound
-	);
-	
-	$paginator = Zend_Paginator::factory($pagination['total_results']);
-    $paginator->setCurrentPageNumber($pagination['page'])
+
+	$paginator = Zend_Paginator::factory($resultset->getNumFound());
+    $paginator->setCurrentPageNumber($page)
               ->setItemCountPerPage($limit)
               ->setPageRange(20);
     $this->view->paginator = $paginator;
 	$this->view->results = $data;
 	} else {
-		throw new Pas_Exception_Param('No query has been entered',500);
+		throw new Pas_Exception_Param('Your search has no parameters!',500);	
 	}
 	}
 //EOS

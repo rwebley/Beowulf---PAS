@@ -1,0 +1,45 @@
+<dataConfig>
+	<dataSource type="JdbcDataSource"
+   driver="com.mysql.jdbc.Driver"
+   url="jdbc:mysql://localhost/antiquities"
+   user="webuser2" 
+   password="45jql11w"
+   tinyInt1isBit="false"/>
+	<document name="content">
+        <entity name="content" transformer="HTMLStripTransformer" 
+query="
+SELECT
+CONCAT('publications-',publications.id) AS identifier,
+publications.id,
+publications.title,
+authors,
+editors,
+in_publication AS inPublication,
+isbn,
+publication_place AS placePublished,
+publication_year AS yearPublished,
+publications.updated,
+publications.created,
+publisher,
+publicationtypes.term AS pubType
+FROM publications
+LEFT JOIN publicationtypes ON publications.publication_type = publications.id
+" 
+>        
+	<field column="id" name="id" />
+	<field column="identifier" name="identifier" />
+	<field column="title" name="title" />
+	<field column="authors" name="authors" />
+	<field column="editors" name="editors"  />
+	<field column="pubType" name="pubType" />
+	<field column="publisher" name="publisher"  />
+	<field column="placePublished" name="placePublished"  />
+	<field column="yearPublished" name="yearPublished"  />
+	<field column="isbn" name="isbn"  />
+	<field column="created" name="created"  />
+	<field column="updated" name="updated"  />
+	<field column="inPublication" name="inPublication"  />
+		</entity>
+
+    </document>
+</dataConfig>
