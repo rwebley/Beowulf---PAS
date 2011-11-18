@@ -452,8 +452,8 @@
      default: a value that should be used if no value is specified
        when adding a document.
    -->
-
-   <field name="id" type="string" indexed="true" stored="true" required="true" />
+	<field name="identifier" type="string" indexed="true" stored="true" required="true" />
+	<field name="id" type="int" indexed="true" stored="true" required="true" />
 	<field name="old_findID" type="text" indexed="true" stored="true" />
 	<field name="broadperiod" type="string" indexed="true" stored="true" />
 	<field name="periodFrom" type="string" indexed="true" stored="true" />
@@ -658,7 +658,7 @@
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
 
-<copyField source="old_findID" dest="text" />
+	<copyField source="old_findID" dest="text" />
 	<copyField source="notes" dest="text" />
 	<copyField source="description" dest="text" />
 	<copyField source="broadperiod" dest="text" />
@@ -678,7 +678,7 @@
 	<copyField source="ruler" dest="text" />
 	<copyField source="classification" dest="text" />
 	<copyField source="subClassification" dest="text" />	
-	<copyField source="culture" dest="text" />
+	<copyField source="cultureName" dest="text" />
 	<copyField source="material" dest="text" />
 	<copyField source="currentLocation" dest="text" />
 	<copyField source="subsequentAction" dest="text" />
@@ -687,6 +687,7 @@
 	<copyField source="type" dest="text" />
 	<copyField source="category" dest="text" />
 	<copyField source="district" dest="text" />
+	<copyField source="regionName" dest="text" />
 	
    <!-- Above, multiple source fields are copied to the [text] field. 
 	  Another way to map multiple source fields to the same 

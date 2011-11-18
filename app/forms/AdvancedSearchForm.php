@@ -409,7 +409,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->addMultiOptions(array(NULL => 'Choose parish after county'))
 	->setDisableTranslator(true)->setDecorators($decorators);
 
-	$regionID = new Zend_Form_Element_Select('region');
+	$regionID = new Zend_Form_Element_Select('regionID');
 	$regionID->setLabel('European region: ')
 	->setRegisterInArrayValidator(false)
 	->addValidator('Int')
