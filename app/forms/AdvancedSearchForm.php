@@ -149,7 +149,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->addErrorMessage('Please enter a valid number!')
 	->setDecorators($decorators);
 
-	$objecttype = new Zend_Form_Element_Text('objecttype');
+	$objecttype = new Zend_Form_Element_Text('objectType');
 	$objecttype->setLabel('Object type: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
@@ -206,7 +206,7 @@ class AdvancedSearchForm extends Pas_Form {
 
 
 	//Period from: Assigned via dropdown
-	$objdate1period = new Zend_Form_Element_Select('periodfrom');
+	$objdate1period = new Zend_Form_Element_Select('periodFrom');
 	$objdate1period->setLabel('Period from: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
@@ -225,7 +225,7 @@ class AdvancedSearchForm extends Pas_Form {
 
 
 	//Period to: Assigned via dropdown
-	$objdate2period = new Zend_Form_Element_Select('periodto');
+	$objdate2period = new Zend_Form_Element_Select('periodTo');
 	$objdate2period->setLabel('Period to: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
@@ -296,7 +296,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->setUncheckedValue(NULL)
 	->setDecorators($decorators);
 
-	$treasureID =  new Zend_Form_Element_Text('TID');
+	$treasureID =  new Zend_Form_Element_Text('treasureID');
 	$treasureID->setLabel('Treasure ID number: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
@@ -316,7 +316,6 @@ class AdvancedSearchForm extends Pas_Form {
 	$rallyID->setLabel('Found at this rally: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
-	->addValidator('Int')
 	->addMultiOptions(array(NULL => NULL,'Choose rally name' => $rally_options))
 	->setDisableTranslator(true)
 	->setDecorators($decoratorsRally);
@@ -410,7 +409,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->addMultiOptions(array(NULL => 'Choose parish after county'))
 	->setDisableTranslator(true)->setDecorators($decorators);
 
-	$regionID = new Zend_Form_Element_Select('regionID');
+	$regionID = new Zend_Form_Element_Select('region');
 	$regionID->setLabel('European region: ')
 	->setRegisterInArrayValidator(false)
 	->addValidator('Int')
@@ -424,7 +423,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->addFilters(array('StringTrim','StripTags'))
 	->setDecorators($decorator);
 
-	$fourFigure = new Zend_Form_Element_Text('fourfigure');
+	$fourFigure = new Zend_Form_Element_Text('fourFigure');
 	$fourFigure->setLabel('Four figure grid reference: ')
 	->addValidators(array('NotEmpty'))
 	->addFilters(array('StringTrim','StripTags'))
@@ -551,10 +550,10 @@ class AdvancedSearchForm extends Pas_Form {
 	}
 
 	$this->addDisplayGroup(array(
-	'old_findID', 'objecttype', 'description',
+	'old_findID', 'objectType', 'description',
 	'notes', 'note', 'reason',
-	'treasure', 'TID', 'rally',
-	'rallyID', 'hoard', 'hID',
+	'treasure', 'treasureID', 'rally',
+	'rallyName', 'hoard', 'hID',
 	'workflow', 'otherref', 'material',
 	'manufacture','surface'), 'details')
 	->removeDecorator('HtmlTag');
@@ -570,8 +569,8 @@ class AdvancedSearchForm extends Pas_Form {
 	$this->addElement($hash);
 	
 	$this->addDisplayGroup(array(
-	'broadperiod', 'fromsubperiod', 'periodfrom',
-	'tosubperiod', 'periodto', 'culture', 
+	'broadperiod', 'fromsubperiod', 'periodFrom',
+	'tosubperiod', 'periodTo', 'culture', 
 	'from', 'fromend', 'to',
 	'toend'), 'Temporaldetails')
 	->removeDecorator('HtmlTag');
@@ -580,8 +579,8 @@ class AdvancedSearchForm extends Pas_Form {
 	$this->Temporaldetails->setLegend('Temporal details: ');
 	
 	$this->addDisplayGroup(array(
-	'county', 'regionID', 'district',
-	'parish', 'fourfigure', 'elevation',
+	'county', 'region', 'district',
+	'parish', 'fourFigure', 'elevation',
 	'woeid'), 'Spatial')
 	->removeDecorator('HtmlTag');
 	$this->Spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));

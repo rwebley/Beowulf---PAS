@@ -537,6 +537,19 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$images = (int)1;
 	unset($params['images']);
 	}
+	
+	if(array_key_exists('radius',$params)){
+	$d = (int)$params['radius'];
+	unset($params['radius']);
+	}
+	if(array_key_exists('lat',$params)){
+	$lat = (float)$params['lat'];
+	unset($params['lat']);
+	}
+	if(array_key_exists('lon',$params)){
+	$lon = (float)$params['lon'];
+	unset($params['lon']);
+	}
 	$params = array_filter($params);
 	
 	foreach($params as $k => $v){
@@ -581,9 +594,10 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$client = new Solarium_Client($config);
 	// get a select query instance based on the config
 	$query = $client->createSelect($select);
+	if(!is_null($d) && !is_null($lon) && !is_null($lat)){
 	$helper = $query->getHelper();
-	$query->createFilterQuery('geo')->setQuery($helper->geofilt(51.026584,-1.244008, 'coordinates', 5));
-
+	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
+	}
 	Zend_Debug::dump($query);
 	$facetSet = $query->getFacetSet();
 

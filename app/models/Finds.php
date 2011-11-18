@@ -3262,6 +3262,7 @@ class Finds extends Pas_Db_Table_Abstract {
 		->joinLeft('ironagetribes','coins.tribe = ironagetribes.id', array('tribe'))
 		->joinLeft('medievalcategories','medievalcategories.id = coins.categoryID', array('category'))
 		->joinLeft('medievaltypes','medievaltypes.id = coins.typeID', array('type'))
+		->joinLeft('geographyironage','geographyironage.id = coins.geographyID', array('geography' => 'CONCAT(region,","area)'))
 		->where('finds.id = ?', (int)$findID)
 		->group('finds.id')
 		->limit(1);

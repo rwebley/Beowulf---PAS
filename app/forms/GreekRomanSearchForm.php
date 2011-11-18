@@ -299,6 +299,5 @@ public function __construct($options = null) {
 	     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'div'));
 	$this->removeDecorator('DtDdWrapper');			 
 	
-	$this->setMethod('get');
 	}
 }

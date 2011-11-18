@@ -351,7 +351,6 @@ class RomanNumismaticSearchForm extends Pas_Form
 	$this->details->setLegend('Artefact details');
 	$this->spatial->setLegend('Spatial details');
 	
-	$this->setMethod('get');
 	
 	}
 }

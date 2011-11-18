@@ -331,7 +331,6 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 	$this->addDisplayGroup(array('submit'), 'submit');
 	$this->submit->removeDecorator('DtDdWrapper');
 	$this->submit->removeDecorator('HtmlTag');
-	$this->setMethod('get');
 	
 	}
 }

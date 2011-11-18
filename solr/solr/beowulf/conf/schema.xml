@@ -45,7 +45,7 @@
     that avoids logging every request
 -->
 
-<schema name="example" version="1.3">
+<schema name="artefacts" version="1.3">
   <!-- attribute "name" is the name of this schema and is only used for display purposes.
        Applications should change this to reflect the nature of the search collection.
        version="1.2" is Solr's version number for the schema syntax and semantics.  It should
@@ -457,8 +457,8 @@
 	<field name="old_findID" type="text" indexed="true" stored="true" />
 	<field name="broadperiod" type="string" indexed="true" stored="true" />
 	<field name="periodFrom" type="string" indexed="true" stored="true" />
-	<field name="subperiodFrom" type="string" indexed="true" stored="true" />
-	<field name="periodTo" type="string" indexed="true" stored="true" />
+	<field name="subperiodFrom" type="int" indexed="true" stored="true" />
+	<field name="periodTo" type="int" indexed="true" stored="true" />
 	<field name="subperiodTo" type="string" indexed="true" stored="true" />
 	<field name="objectType" type="string" indexed="true" stored="true" />
 	<field name="description" type="text" indexed="true" stored="true"  />
@@ -484,22 +484,33 @@
 	<field name="created" type="date" indexed="true" stored="true" />
 	<field name="datefound1" type="date" indexed="true" stored="true" />
 	<field name="datefound2" type="date" indexed="true" stored="true" />
-	<field name="culture" type="string" indexed="true" stored="true" />
+	<field name="culture" type="int" indexed="true" stored="true" />
+	<field name="cultureName" type="string" indexed="true" stored="true" />
 	<field name="treasureID" type="string" indexed="true" stored="true" />
 	<field name="treasure" type="int" indexed="true" stored="true" />
 	<field name="inscription" type="string" indexed="true" stored="true" />
-	<field name="discoveryYear" type="int" indexed="true" stored="true" />
-	
+	<field name="discovered" type="int" indexed="true" stored="true" />
+	<field name="note" type="int" indexed="true" stored="true" />
+	<field name="reason" type="int" indexed="true" stored="true" />
+	<field name="fromsubperiod" type="int" indexed="true" stored="true" />
+	<field name="tosubperiod" type="int" indexed="true" stored="true" />
+	<field name="hoard" type="int" indexed="true" stored="true" />
+	<field name="hID" type="int" indexed="true" stored="true" />
+	<field name="hoardname" type="string" indexed="true" stored="true" />
 	<!--  Person specific details -->
 	<field name="finder" type="string" indexed="true" stored="true" />
+	<field name="finderID" type="string" indexed="true" stored="true" />
 	<field name="identifier" type="string" indexed="true" stored="true" />
+	<field name="identifierID" type="string" indexed="true" stored="true" />
 	<field name="recorder" type="string" indexed="true" stored="true" />
+	<field name="recorderID" type="string" indexed="true" stored="true" />
 	<field name="updatedBy" type="string" indexed="true" stored="true" />
 	<field name="createdBy" type="string" indexed="true" stored="true" />
 	<field name="institution" type="string" indexed="true" stored="true" />
 	
 	<!-- Coin specific fields -->
-	<field name="denomination" type="string" indexed="true" stored="true" />
+	<field name="denomination" type="int" indexed="true" stored="true" />
+	<field name="denomName" type="string" indexed="true" stored="true" />
 	<field name="mint" type="string" indexed="true" stored="true" />
 	<field name="obverseDescription" type="string" indexed="true" stored="true" />
 	<field name="reverseDescription" type="string" indexed="true" stored="true" />
@@ -521,7 +532,8 @@
 	<field name="dieaxis" type="int" indexed="true" stored="true" />
 	
 	<!-- Findspot specific fields -->
-	<field name="region" type="string" indexed="true" stored="true" />
+	<field name="regionID" type="int" indexed="true" stored="true" />
+	<field name="regionName" type="string" indexed="true" stored="true" />
 	<field name="county" type="string" indexed="true" stored="true" />
 	<field name="district" type="string" indexed="true" stored="true" />
 	<field name="parish" type="string" indexed="true" stored="true" />
@@ -533,6 +545,7 @@
 	<field name="elevation" type="float" indexed="true" stored="true" />
 	<field name="woeid" type="int" indexed="true" stored="true" />
 	<field name="rally" type="int" indexed="true" stored="true" />
+	<field name="rallyID" type="int" indexed="true" stored="true" />
 	<field name="rallyName" type="string" indexed="true" stored="true" />
 	<field name="coordinates" type="location" indexed="true" stored="true" />
 	<field name="geohash" type="string" indexed="true" stored="true" />

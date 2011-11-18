@@ -1,0 +1,37 @@
+<h2>Search results for site content</h2>
+
+<?php if ($this->results): ?>
+<p>You searched for: <strong><?php echo $this->escape($this->query);?></strong></p>
+<?php echo $this->form;?>
+<p><a href="/search/">Back to search</a></p>
+
+<ul>
+
+
+ <?php
+foreach($this->results as $result){
+	?>
+	<li>
+	<h5><a href="<?php echo $this->searchUrl($result);?>"><?php echo $result['title'];?></a></h5>
+	<p><?php echo $this->ellipsisstring($result['body'],300);?><br />
+	This is a result from the <strong><a href="<?php echo $this->searchUrl($result);?>"><?php echo $result['section'];?></a> section</strong> &raquo;
+	</p>
+	</li>
+	<?php
+}
+?>
+</ul>
+<?php else :?>
+<?php echo '<p>Your search has produced no results. Please refine your query. If you are expecting more results, you may have insufficient access for their workflow stage.</p>';?>
+<?php endif; ?>
+
+
+<?= $this->paginationControl($this->paginator, 'Sliding', 'structure/queryPagination.phtml'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+
+ $('a[rel*=lightbox]').lightBox() 
+    });
+<?php $this->jQuery()->javascriptCaptureEnd() ?>

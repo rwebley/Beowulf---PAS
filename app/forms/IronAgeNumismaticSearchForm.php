@@ -439,6 +439,5 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	$this->submit->removeDecorator('DtDdWrapper');
 	$this->submit->removeDecorator('HtmlTag');
 	
-	$this->setMethod('get');
 	}
 }

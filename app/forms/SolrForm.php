@@ -23,7 +23,7 @@ parent::__construct($options);
 	$this->setName('solr')->removeDecorator('HtmlTag');
 
 	$q = new Zend_Form_Element_Text('q');
-	$q->setLabel('Search the database: ')
+	$q->setLabel('Search content: ')
 		->setRequired(true)
 		->addFilters(array('StripTags','StringTrim'))
 		->setAttrib('size', 20)
@@ -52,7 +52,7 @@ parent::__construct($options);
 	$this->Search->removeDecorator('DtDdWrapper');
 	$this->Search->removeDecorator('HtmlTag');
 	$this->Search->addDecorators(array(array('HtmlTag', array('tag' => 'ul','id' => 'www'))))
-	->setLegend('Solr search engine')
+	//->setLegend('Solr search engine')
 	->addDecorator('FieldSet');
 	
 	}
