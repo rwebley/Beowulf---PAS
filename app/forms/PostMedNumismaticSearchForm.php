@@ -90,11 +90,11 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 		->addFilters(array('StripTags','StringTrim'))
 		->setDecorators($decorators)
 		->addValidator('Digits');
-	if(in_array($this->getRole(),$this->higherlevel)) {
+	if(in_array($this->getRole(),$this->_higherlevel)) {
 	$workflow->addMultiOptions(array(NULL => 'Choose Worklow stage',
 	'Available workflow stages' => array('1'=> 'Quarantine','2' => 'On review', '4' => 'Awaiting validation', '3' => 'Published')));
 	}
-	if(in_array($this->getRole(),$this->restricted)) {
+	if(in_array($this->getRole(),$this->_restricted)) {
 	$workflow->addMultiOptions(array(NULL => 'Choose Worklow stage',
 	'Available workflow stages' => array('4' => 'Awaiting validation', '3' => 'Published')));
 	}
@@ -114,7 +114,7 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
 		->setUncheckedValue(NULL)
-		->addValidators('Digits')
+		->addValidators(array('Digits'))
 		->setDecorators($decorators);
 	
 	$rallyID =  new Zend_Form_Element_Select('rallyID');
@@ -175,7 +175,7 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 		->addValidators(array('NotEmpty','ValidGridRef','Alnum'))
 		->setDecorators($decorators);
 	
-	$fourFigure = new Zend_Form_Element_Text('fourfigure');
+	$fourFigure = new Zend_Form_Element_Text('fourFigure');
 	$fourFigure->setLabel('Four figure grid reference: ')
 		->addFilters(array('StripTags','StringTrim'))
 		->addValidators(array('NotEmpty','ValidGridRef','Alnum'))
@@ -321,7 +321,7 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	
-	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourfigure'), 'spatial')->removeDecorator('HtmlTag');
+	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure'), 'spatial')->removeDecorator('HtmlTag');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->spatial->removeDecorator('DtDdWrapper');
 	

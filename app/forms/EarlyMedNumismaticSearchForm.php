@@ -42,8 +42,8 @@ public function __construct($options = null)
 	
 	$regions = new Regions();
 	$region_options = $regions->getRegionName();
-
-parent::__construct($options);
+        
+        parent::__construct($options);
 
 
 	$decorators = array(
@@ -230,23 +230,25 @@ parent::__construct($options);
 
 	$objecttype = new Zend_Form_Element_Hidden('objecttype');
 	$objecttype->setValue('coin')
-	->setAttrib('class', 'none')->removeDecorator('label')
-	              ->removeDecorator('HtmlTag')
-				  ->removeDecorator('DtDdWrapper');
+	->setAttrib('class', 'none')
+        ->removeDecorator('label')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('DtDdWrapper');
 	
 	
 	$broadperiod = new Zend_Form_Element_Hidden('broadperiod');
 	$broadperiod->setValue('Early Medieval')
-	->setAttrib('class', 'none')->removeDecorator('label')
-	              ->removeDecorator('HtmlTag')
-				  ->removeDecorator('DtDdWrapper');
+	->setAttrib('class', 'none')
+        ->removeDecorator('label')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('DtDdWrapper');
 	//Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
 	$submit->setAttrib('id', 'submitbutton')
 	->setAttrib('class', 'large')
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag')
-	->setLabel('Submit your search...');
+	->setLabel('Search...');
 	
 	$this->addElements(array(
 	$old_findID, $type, $description,

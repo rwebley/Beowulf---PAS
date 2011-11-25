@@ -149,7 +149,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->addErrorMessage('Please enter a valid number!')
 	->setDecorators($decorators);
 
-	$objecttype = new Zend_Form_Element_Text('objectType');
+	$objecttype = new Zend_Form_Element_Text('objecttype');
 	$objecttype->setLabel('Object type: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
@@ -159,7 +159,7 @@ class AdvancedSearchForm extends Pas_Form {
 	$description = new Zend_Form_Element_Text('description');
 	$description->setLabel('Object description contains: ')
 	->setRequired(false)
-	->addFilters(array('StringTrim','StripTags','HtmlBody'))
+	->addFilters(array('StringTrim','StripTags'))
 	->addErrorMessage('Please enter a valid term')
 	->setDecorators($decorator);
 	
@@ -296,7 +296,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->setUncheckedValue(NULL)
 	->setDecorators($decorators);
 
-	$treasureID =  new Zend_Form_Element_Text('treasureID');
+	$treasureID =  new Zend_Form_Element_Text('TID');
 	$treasureID->setLabel('Treasure ID number: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
@@ -335,7 +335,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->setDecorators($decoratorsHoard);
 
 
-	$other_ref = new Zend_Form_Element_Text('otherref');
+	$other_ref = new Zend_Form_Element_Text('otherRef');
 	$other_ref->setLabel('Other reference: ')
 	->setRequired(false)
 	->addFilters(array('StringTrim','StripTags'))
@@ -550,11 +550,11 @@ class AdvancedSearchForm extends Pas_Form {
 	}
 
 	$this->addDisplayGroup(array(
-	'old_findID', 'objectType', 'description',
+	'old_findID', 'objecttype', 'description',
 	'notes', 'note', 'reason',
-	'treasure', 'treasureID', 'rally',
-	'rallyName', 'hoard', 'hID',
-	'workflow', 'otherref', 'material',
+	'treasure', 'TID', 'rally',
+	'rallyID', 'hoard', 'hID',
+	'workflow', 'otherRef', 'material',
 	'manufacture','surface'), 'details')
 	->removeDecorator('HtmlTag');
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
@@ -579,7 +579,7 @@ class AdvancedSearchForm extends Pas_Form {
 	$this->Temporaldetails->setLegend('Temporal details: ');
 	
 	$this->addDisplayGroup(array(
-	'county', 'region', 'district',
+	'county', 'regionID', 'district',
 	'parish', 'fourFigure', 'elevation',
 	'woeid'), 'Spatial')
 	->removeDecorator('HtmlTag');

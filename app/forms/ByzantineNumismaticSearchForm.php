@@ -52,7 +52,7 @@ public function __construct($options = null)
        
 	$this->clearDecorators();
 	
-    $this->setName('byzantine-search');   
+        $this->setName('byzantine-search');   
 
 	$decorator =  array('SimpleInput');
 	$decoratorButton =  array('NormalDecButton');
@@ -267,9 +267,10 @@ public function __construct($options = null)
 	
 	//Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
-	$submit->setAttrib('id', 'submitbutton')->removeDecorator('label')
-	              ->removeDecorator('HtmlTag')
-				  ->removeDecorator('DtDdWrapper');
+	$submit->setAttrib('id', 'submitbutton')
+        ->removeDecorator('label')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('DtDdWrapper');
 
 	$this->addElements(array( 
 	$old_findID, $description, $workflow,
@@ -281,9 +282,12 @@ public function __construct($options = null)
 	$obversedesc, $reverseinsc, $reversedesc,
 	$objecttype, $broadperiod, $submit));
 	
-	$this->addDisplayGroup(array('denomname', 'ruler', 'mint',
-	'moneyer','axis','obinsc',
-	'obdesc','revinsc','revdesc'), 'numismatics');
+	$this->addDisplayGroup(array(
+	'category','ruler','typeID',
+	'denomination','mint','moneyer',
+	'axis','obinsc','obdesc',
+	'revinsc','revdesc'), 'numismatics')
+	->removeDecorator('HtmlTag');
 
 	$this->addDisplayGroup(array('old_findID','description','rally',
 	'rallyID','hoard','hID',
@@ -292,10 +296,9 @@ public function __construct($options = null)
 	$this->addDisplayGroup(array('county','regionID','district',
 	'parish','gridref','fourfigure'), 
 	'spatial');
-	
-	$this->numismatics->setLegend('Numismatic details')
-	->removeDecorator('DtDdWrapper')
-	->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
+        
+//	$this->numismatics->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
+//	$this->numismatics->removeDecorator('DtDdWrapper');
 
 
 	$this->details->setLegend('Artefact details')

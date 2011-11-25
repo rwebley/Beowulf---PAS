@@ -452,51 +452,65 @@
      default: a value that should be used if no value is specified
        when adding a document.
    -->
-	<field name="identifier" type="string" indexed="true" stored="true" required="true" />
+	<field name="findIdentifier" type="string" indexed="true" stored="true" required="true" />
 	<field name="id" type="int" indexed="true" stored="true" required="true" />
 	<field name="old_findID" type="text" indexed="true" stored="true" />
 	<field name="broadperiod" type="string" indexed="true" stored="true" />
-	<field name="periodFrom" type="string" indexed="true" stored="true" />
-	<field name="subperiodFrom" type="int" indexed="true" stored="true" />
+        <field name="periodFrom" type="int" indexed="true" stored="true" />
+	<field name="periodFromName" type="string" indexed="true" stored="true" />
+        <field name="fromsubperiod" type="int" indexed="true" stored="true" />
 	<field name="periodTo" type="int" indexed="true" stored="true" />
-	<field name="subperiodTo" type="string" indexed="true" stored="true" />
-	<field name="objectType" type="string" indexed="true" stored="true" />
+        <field name="periodToName" type="string" indexed="true" stored="true" />
+	<field name="tosubperiod" type="int" indexed="true" stored="true" />
+	<field name="objecttype" type="text" indexed="true" stored="true" />
 	<field name="description" type="text" indexed="true" stored="true"  />
 	<field name="notes" type="text" indexed="true" stored="true" /> 
 	<field name="classification" type="string" indexed="true" stored="true"/>
 	<field name="subClassification" type="string" indexed="true" stored="true"/>
 	<field name="smrRef" type="string" indexed="true" stored="true"/>
 	<field name="otherRef" type="string" indexed="true" stored="true"/>
-	<field name="currentLocation" type="string" indexed="true" stored="true"/>
+	<field name="currentLocation" type="text" indexed="true" stored="true"/>
 	<field name="musaccno" type="string" indexed="true" stored="true"/>
 	<field name="workflow" type="int" indexed="true" stored="true" />
 	<field name="fromdate" type="int" indexed="true" stored="true" />
 	<field name="todate" type="int" indexed="true" stored="true" />
-	<field name="material" type="string" indexed="true" stored="true" />
-	<field name="secondaryMaterial" type="string" indexed="true" stored="true" />
-	<field name="subsequentAction" type="string" indexed="true" stored="true" />
-	<field name="decstyle" type="string" indexed="true" stored="true" />
-	<field name="manufacture" type="string" indexed="true" stored="true" />
-	<field name="completeness" type="string" indexed="true" stored="true" />
-	<field name="treatment" type="string" indexed="true" stored="true" />
-	<field name="preservation" type="string" indexed="true" stored="true" />
-	<field name="discovery" type="string" indexed="true" stored="true" />
+        <field name="material" type="int" indexed="true" stored="true" />
+	<field name="materialTerm" type="string" indexed="true" stored="true" />
+	<field name="secondaryMaterial" type="int" indexed="true" stored="true" />
+        <field name="secondaryMaterialTerm" type="string" indexed="true" stored="true" />
+        <field name="subsequentAction" type="string" indexed="true" stored="true" />
+	<field name="subsequentActionTerm" type="string" indexed="true" stored="true" />
+        <field name="decstyle" type="int" indexed="true" stored="true" />
+	<field name="decstyleTerm" type="string" indexed="true" stored="true" />
+        <field name="manufacture" type="int" indexed="true" stored="true" />
+	<field name="manufactureTerm" type="string" indexed="true" stored="true" />
+        <field name="completeness" type="int" indexed="true" stored="true" />
+	<field name="completenessTerm" type="string" indexed="true" stored="true" />
+	<field name="surface" type="int" indexed="true" stored="true" />
+        <field name="treatment" type="string" indexed="true" stored="true" />
+        <field name="preservation" type="int" indexed="true" stored="true" />
+	<field name="preservationTerm" type="string" indexed="true" stored="true" />
+	<field name="discovery" type="int" indexed="true" stored="true" />
+        <field name="discoveryMethod" type="string" indexed="true" stored="true" />
 	<field name="created" type="date" indexed="true" stored="true" />
 	<field name="datefound1" type="date" indexed="true" stored="true" />
 	<field name="datefound2" type="date" indexed="true" stored="true" />
-	<field name="culture" type="int" indexed="true" stored="true" />
+	<field name="culture" type="string" indexed="true" stored="true" />
 	<field name="cultureName" type="string" indexed="true" stored="true" />
-	<field name="treasureID" type="string" indexed="true" stored="true" />
+	<field name="TID" type="string" indexed="true" stored="true" />
 	<field name="treasure" type="int" indexed="true" stored="true" />
 	<field name="inscription" type="string" indexed="true" stored="true" />
 	<field name="discovered" type="int" indexed="true" stored="true" />
 	<field name="note" type="int" indexed="true" stored="true" />
-	<field name="reason" type="int" indexed="true" stored="true" />
-	<field name="fromsubperiod" type="int" indexed="true" stored="true" />
-	<field name="tosubperiod" type="int" indexed="true" stored="true" />
+	<field name="reason" type="string" indexed="true" stored="true" />
+	
 	<field name="hoard" type="int" indexed="true" stored="true" />
 	<field name="hID" type="int" indexed="true" stored="true" />
-	<field name="hoardname" type="string" indexed="true" stored="true" />
+	<field name="hoardName" type="string" indexed="true" stored="true" />
+	<field name="rally" type="int" indexed="true" stored="true" />
+	<field name="rallyID" type="int" indexed="true" stored="true" />
+        <field name="rallyName" type="string" indexed="true" stored="true" />
+        
 	<!--  Person specific details -->
 	<field name="finder" type="string" indexed="true" stored="true" />
 	<field name="finderID" type="string" indexed="true" stored="true" />
@@ -510,27 +524,36 @@
 	
 	<!-- Coin specific fields -->
 	<field name="denomination" type="int" indexed="true" stored="true" />
-	<field name="denomName" type="string" indexed="true" stored="true" />
-	<field name="mint" type="string" indexed="true" stored="true" />
-	<field name="obverseDescription" type="string" indexed="true" stored="true" />
-	<field name="reverseDescription" type="string" indexed="true" stored="true" />
-	<field name="obverseLegend" type="string" indexed="true" stored="true" />
-	<field name="reverseLegend" type="string" indexed="true" stored="true" />
-	<field name="ruler" type="string" indexed="true" stored="true" />
-	<field name="secondaryRuler" type="string" indexed="true" stored="true" />
-	<field name="tribe" type="string" indexed="true" stored="true"/> 
-	<field name="reeceperiod" type="int" indexed="true" stored="true" />
+	<field name="denominationName" type="string" indexed="true" stored="true" />
+        <field name="mint" type="int" indexed="true" stored="true" />
+	<field name="mintName" type="string" indexed="true" stored="true" />
+	<field name="obverseDescription" type="text" indexed="true" stored="true" />
+	<field name="reverseDescription" type="text" indexed="true" stored="true" />
+	<field name="obverseLegend" type="text" indexed="true" stored="true" />
+	<field name="reverseLegend" type="text" indexed="true" stored="true" />
+        <field name="ruler" type="int" indexed="true" stored="true" />
+	<field name="rulerName" type="string" indexed="true" stored="true" />
+        <field name="ruler2" type="int" indexed="true" stored="true" />
+	<field name="secondaryRulerName" type="string" indexed="true" stored="true" />
+	<field name="tribe" type="int" indexed="true" stored="true"/> 
+        <field name="tribeName" type="string" indexed="true" stored="true" />
+	<field name="reeceID" type="int" indexed="true" stored="true" />
 	<field name="cciNumber" type="float" indexed="true" stored="true" />
 	<field name="mintmark" type="string" indexed="true" stored="true" />
 	<field name="allenType" type="string" indexed="true" stored="true" />
 	<field name="mackType" type="string" indexed="true" stored="true" />
 	<field name="abcType" type="string" indexed="true" stored="true" />
 	<field name="vaType" type="string" indexed="true" stored="true" />
-	<field name="category" type="string" indexed="true" stored="true"  />
-	<field name="type" type="string" indexed="true" stored="true" />
+	<field name="category" type="int" indexed="true" stored="true"  />
+        <field name="categoryTerm" type="string" indexed="true" stored="true" />
+        <field name="type" type="int" indexed="true" stored="true" />
+	<field name="typeTerm" type="string" indexed="true" stored="true" />
+        <field name="geographyID" type="int" indexed="true" stored="true" />
 	<field name="geography" type="string" indexed="true" stored="true" />
-	<field name="dieaxis" type="int" indexed="true" stored="true" />
-	
+	<field name="axis" type="int" indexed="true" stored="true" />
+	<field name="moneyer" type="string" indexed="true" stored="true" />
+        <field name="moneyerName" type="string" indexed="true" stored="true" />
+        
 	<!-- Findspot specific fields -->
 	<field name="regionID" type="int" indexed="true" stored="true" />
 	<field name="regionName" type="string" indexed="true" stored="true" />
@@ -538,17 +561,17 @@
 	<field name="district" type="string" indexed="true" stored="true" />
 	<field name="parish" type="string" indexed="true" stored="true" />
 	<field name="knownas" type="string" indexed="true" stored="true" />	
-	<field name="fourFigure" type="string" indexed="true" stored="true" />
+	<!-- Coordinate specific fields -->
+        
+        <field name="fourFigure" type="string" indexed="true" stored="true" />
 	<field name="gridref" type="string" indexed="true" stored="true" />
 	<field name="latitude" type="double" indexed="true" stored="true" />
 	<field name="longitude" type="double" indexed="true" stored="true" />
 	<field name="elevation" type="float" indexed="true" stored="true" />
 	<field name="woeid" type="int" indexed="true" stored="true" />
-	<field name="rally" type="int" indexed="true" stored="true" />
-	<field name="rallyID" type="int" indexed="true" stored="true" />
-	<field name="rallyName" type="string" indexed="true" stored="true" />
 	<field name="coordinates" type="location" indexed="true" stored="true" />
 	<field name="geohash" type="string" indexed="true" stored="true" />
+        
 	<!--  Image specific fields  -->
 	<field name="filename" type="string" indexed="true" stored="true" />
 	<field name="thumbnail" type="int" indexed="true" stored="true" />
@@ -556,37 +579,17 @@
 	
 	<!-- Treasure specific fields -->
 	<field name="value" type="int" indexed="true" stored="true" />
+        <field name="assignedCuratorID" type="string" indexed="true" stored="true" />
 	<field name="assignedCurator" type="string" indexed="true" stored="true" />
+        <field name="assignedCoronerID" type="string" indexed="true" stored="true" />
 	<field name="assignedCoroner" type="string" indexed="true" stored="true" />
 	<field name="currentTreasureStatus" type="string" indexed="true" stored="true" /> 
 
-   <!--
-   The following store examples are used to demonstrate the various ways one might _CHOOSE_ to
-    implement spatial.  It is highly unlikely that you would ever have ALL of these fields defined.
-    -->
-   <field name="geoloc" type="location" indexed="true" stored="true"/>
-
-   <!-- Common metadata fields, named specifically to match up with
-     SolrCell metadata when parsing rich documents such as Word, PDF.
-     Some fields are multiValued only because Tika currently may return
-     multiple values for them.
-
-   <field name="title" type="text" indexed="true" stored="true" multiValued="true"/>
-   <field name="subject" type="text" indexed="true" stored="true"/>
-   <field name="description" type="text" indexed="true" stored="true"/>
-   <field name="comments" type="text" indexed="true" stored="true"/>
-   <field name="author" type="textgen" indexed="true" stored="true"/>
-   <field name="keywords" type="textgen" indexed="true" stored="true"/>
-   <field name="category" type="textgen" indexed="true" stored="true"/>
-   <field name="content_type" type="string" indexed="true" stored="true" multiValued="true"/>
-   <field name="last_modified" type="date" indexed="true" stored="true"/>
-   <field name="links" type="string" indexed="true" stored="true" multiValued="true"/>
-   -->
 
    <!-- catchall field, containing all other searchable text fields (implemented
         via copyField further on in this schema  -->
    <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
-
+   <field name="objectType" type="string" indexed="true" stored="false" multiValued="true" />
    <!-- catchall text field that indexes tokens both normally and in reverse for efficient
         leading wildcard queries. -->
    <field name="text_rev" type="text_rev" indexed="true" stored="false" multiValued="true"/>
@@ -646,7 +649,7 @@
  <!-- Field to use to determine and enforce document uniqueness. 
       Unless this field is marked with required="false", it will be a required field
    -->
- <uniqueKey>id</uniqueKey>
+ <uniqueKey>findIdentifier</uniqueKey>
 
  <!-- field for the QueryParser to use when an explicit fieldname is absent -->
  <defaultSearchField>text</defaultSearchField>
@@ -668,26 +671,32 @@
 	<copyField source="obverseLegend" dest="text" />
 	<copyField source="reverseLegend" dest="text" />
 	<copyField source="county" dest="text" />
-	<copyField source="objectType" dest="text" />
+	<copyField source="objecttype" dest="text" />
 	<copyField source="smrRef" dest="text" />
-	<copyField source="treasureID" dest="text" />
-	<copyField source="denomination" dest="text" />
-	<copyField source="mint" dest="text" />
-	<copyField source="tribe" dest="text" />
+	<copyField source="TID" dest="text" />
+	<copyField source="denominationName" dest="text" />
+	<copyField source="mintName" dest="text" />
+	<copyField source="tribeName" dest="text" />
 	<copyField source="knownas" dest="text" />
-	<copyField source="ruler" dest="text" />
+	<copyField source="rulerName" dest="text" />
+        <copyField source="secondaryRulerName" dest="text" />
 	<copyField source="classification" dest="text" />
 	<copyField source="subClassification" dest="text" />	
 	<copyField source="cultureName" dest="text" />
 	<copyField source="material" dest="text" />
 	<copyField source="currentLocation" dest="text" />
-	<copyField source="subsequentAction" dest="text" />
+	<copyField source="subsequentActionTerm" dest="text" />
 	<copyField source="musaccno" dest="text" />
 	<copyField source="rallyName" dest="text" />
-	<copyField source="type" dest="text" />
-	<copyField source="category" dest="text" />
+	<copyField source="typeTerm" dest="text" />
+	<copyField source="categoryTerm" dest="text" />
 	<copyField source="district" dest="text" />
 	<copyField source="regionName" dest="text" />
+        <copyField source="hoardName" dest="text" />
+        <copyField source="discoveryMethod" dest="text" />
+        <copyField source="moneyerName" dest="text" />
+        <copyField source="mintmark" dest="text" />
+        <copyField source="objecttype" dest="objectType" />
 	
    <!-- Above, multiple source fields are copied to the [text] field. 
 	  Another way to map multiple source fields to the same 

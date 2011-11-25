@@ -34,7 +34,7 @@ public function __construct($options = null) {
 	$this->_copyright = 'The Portable Antiquities Scheme';
 	}	
 	
-parent::__construct($options);
+        parent::__construct($options);
 
 	$this->setAttrib('enctype', 'multipart/form-data');
 	

@@ -1,5 +1,5 @@
 <?php
-class AjaxController extends Pas_Controller_Action_AdminAjax
+class AjaxController extends Pas_Controller_Action_Ajax
 {
 	protected $_cache;
 	protected $_auth;

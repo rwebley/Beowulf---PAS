@@ -516,7 +516,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	*/		
 	public function solrresultsAction(){
 	$params = array_slice($this->_getAllParams(),3);
-	Zend_Debug::dump($params);
+//	Zend_Debug::dump($params);
 	if(sizeof($params) > 0){
 	$limit = 20;
 	$page = $this->_getParam('page');
@@ -527,7 +527,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 		unset($params['page']);
 		$start = ($page - 1) * 20;
 	}	
-	Zend_Debug::dump($params);
+//	Zend_Debug::dump($params);
 	$q = '';
 	if(array_key_exists('q',$params)){
 	$q .= $params['q'] . ' ';
@@ -555,23 +555,23 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	foreach($params as $k => $v){
 	$q .= $k . ':"' . $v . '" ';
 	}
-	Zend_Debug::dump($q);
+//	Zend_Debug::dump($q);
 	$config = array(
-    'adapteroptions' => array(
-    'host' => '127.0.0.1',
-    'port' => 8983,
-    'path' => '/solr/beowulf/',
-    )
+        'adapteroptions' => array(
+        'host' => '127.0.0.1',
+        'port' => 8983,
+        'path' => '/solr/beowulf/',
+        )
 	);
 	
 	$select = array(
-    'query'         => $q,
-    'start'         => $start,
-    'rows'          => $limit,
-    'fields'        => array('*'),
-    'sort'          => array('created' => 'desc'),
-	'filterquery' => array(),
-    );
+        'query'         => $q,
+        'start'         => $start,
+        'rows'          => $limit,
+        'fields'        => array('*'),
+        'sort'          => array('created' => 'desc'),
+        'filterquery' => array(),
+        );
 	$allowed = array('fa','flos','admin','treasure');
 	if(!in_array($this->getRole(),$allowed)) {
 	$select['filterquery']['workflow'] = array(
@@ -598,7 +598,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$helper = $query->getHelper();
 	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
 	}
-	Zend_Debug::dump($query);
+//	Zend_Debug::dump($query);
 	$facetSet = $query->getFacetSet();
 
 	$facetSet->createFacetField('period')->setField('broadperiod');

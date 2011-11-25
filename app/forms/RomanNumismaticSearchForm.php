@@ -53,6 +53,9 @@ class RomanNumismaticSearchForm extends Pas_Form
 	$reece_options = $reece->getReeces();
 	$regions = new Regions();
 	$region_options = $regions->getRegionName();
+        $moneyers = new Moneyers();
+        $money = $moneyers->getRepublicMoneyers();
+        
 	parent::__construct($options);
 	
 	
@@ -117,14 +120,14 @@ class RomanNumismaticSearchForm extends Pas_Form
 	$workflow->setLabel('Workflow stage: ')
 		->addFilters(array('StripTags', 'StringTrim'))
 		->setDecorators($decorators);
-	if(in_array($this->getRole(),$this->higherlevel)) {
+	if(in_array($this->getRole(),$this->_higherlevel)) {
 	$workflow->addMultiOptions(array(NULL => NULL ,'Available worklow stage' => array('1'=> 'Quarantine','2' => 'On review', '4' => 'Awaiting validation', '3' => 'Published')));
 	}
-	if(in_array($this->getRole(),$this->restricted)) {
+	if(in_array($this->getRole(),$this->_restricted)) {
 	$workflow->addMultiOptions(array(NULL => 'Choose a workflow stage' ,'Available worklow stage' => array('4' => 'Awaiting validation', '3' => 'Published')));
 	}
 	
-	 $config = Zend_Registry::get('config');
+	$config = Zend_Registry::get('config');
 	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
@@ -194,7 +197,7 @@ class RomanNumismaticSearchForm extends Pas_Form
 		->addFilters(array('StripTags', 'StringTrim'))
 		->setDecorators($decorators);
 	
-	$fourFigure = new Zend_Form_Element_Text('fourfigure');
+	$fourFigure = new Zend_Form_Element_Text('fourFigure');
 	$fourFigure->setLabel('Four figure grid reference: ')
 		->addValidators(array('ValidGridRef'))
 		->addFilters(array('StripTags', 'StringTrim'))
@@ -247,10 +250,11 @@ class RomanNumismaticSearchForm extends Pas_Form
 		->setDescription('This field is only applicable for Republican coins.')
 		->addFilters(array('StripTags', 'StringTrim'))
 		->setDecorators($decorators)
-		->addMultiOptions(array(NULL => 'Only available after choosing a 4th century issuer'));
+		->addMultiOptions(array(NULL => 'Only available after choosing a Republican issuer'))
+                ->addValidator('InArray', false, array(array_keys($money)));
 	
 	//Obverse inscription
-	$obverseinsc = new Zend_Form_Element_Text('obinsc');
+	$obverseinsc = new Zend_Form_Element_Text('obverseLegend');
 	$obverseinsc->setLabel('Obverse inscription contains: ')
 		->addFilters(array('StripTags', 'StringTrim'))
 		->setAttrib('size',60)
@@ -258,7 +262,7 @@ class RomanNumismaticSearchForm extends Pas_Form
 		->setDecorators($decorators);
 	
 	//Obverse description
-	$obversedesc = new Zend_Form_Element_Text('obdesc');
+	$obversedesc = new Zend_Form_Element_Text('obverseDescription');
 	$obversedesc->setLabel('Obverse description contains: ')
 		->setRequired(false)
 		->addFilters(array('StripTags', 'StringTrim'))
@@ -267,7 +271,7 @@ class RomanNumismaticSearchForm extends Pas_Form
 		->setDecorators($decorators);
 	
 	//reverse inscription
-	$reverseinsc = new Zend_Form_Element_Text('revinsc');
+	$reverseinsc = new Zend_Form_Element_Text('reverseLegend');
 	$reverseinsc->setLabel('Reverse inscription contains: ')
 		->setRequired(false)
 		->addFilters(array('StripTags', 'StringTrim'))
@@ -276,7 +280,7 @@ class RomanNumismaticSearchForm extends Pas_Form
 		->setDecorators($decorators);
 	
 	//reverse description
-	$reversedesc = new Zend_Form_Element_Text('revdesc');
+	$reversedesc = new Zend_Form_Element_Text('reverseDescription');
 	$reversedesc->setLabel('Reverse description contains: ')
 		->setRequired(false)
 		->addFilters(array('StripTags', 'StringTrim'))
@@ -331,8 +335,8 @@ class RomanNumismaticSearchForm extends Pas_Form
 	$this->addDisplayGroup(array(
 	'denomination','ruler','mint',
 	'moneyer','axis','reeceID',
-	'revtypeID','obinsc','obdesc',
-	'revinsc','revdesc'), 'numismatics')->removeDecorator('HtmlTag');
+	'revtypeID','obverseLegend','obverseDescription',
+	'reverseLegend','reverseDescription'), 'numismatics')->removeDecorator('HtmlTag');
 	$this->numismatics->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->numismatics->removeDecorator('DtDdWrapper');
 	
@@ -342,7 +346,7 @@ class RomanNumismaticSearchForm extends Pas_Form
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	
-	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourfigure'), 'spatial')->removeDecorator('HtmlTag');
+	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure'), 'spatial')->removeDecorator('HtmlTag');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->spatial->removeDecorator('DtDdWrapper');
 	

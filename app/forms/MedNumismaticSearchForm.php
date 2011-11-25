@@ -20,7 +20,7 @@ public function __construct($options = null) {
             array('HtmlTag', array('tag' => 'li')),
 		    );
 
-	$this->setName('Advanced');
+	$this->setName('medNumismaticsSearch');
 
 	$old_findID = new Zend_Form_Element_Text('old_findID');
 	$old_findID->setLabel('Find number: ')
@@ -109,7 +109,7 @@ public function __construct($options = null) {
 		->addValidators(array('NotEmpty','ValidGridRef'))
 		->setDecorators($decorators);
 	
-	$fourFigure = new Zend_Form_Element_Text('fourfigure');
+	$fourFigure = new Zend_Form_Element_Text('fourFigure');
 	$fourFigure->setLabel('Four figure grid reference: ')
 		->addValidators(array('NotEmpty','ValidGridRef'))
 		->setDecorators($decorators);
@@ -264,7 +264,7 @@ public function __construct($options = null) {
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	
-	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourfigure'), 'spatial')->removeDecorator('HtmlTag');
+	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure'), 'spatial')->removeDecorator('HtmlTag');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->spatial->removeDecorator('DtDdWrapper');
 	$this->spatial->setLegend('Spatial details: ');
