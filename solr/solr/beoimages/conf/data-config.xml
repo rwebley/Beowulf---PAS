@@ -2,8 +2,8 @@
 	<dataSource type="JdbcDataSource"
    driver="com.mysql.jdbc.Driver"
    url="jdbc:mysql://localhost/antiquities"
-   user="" 
-   password=""
+   user="webuser2" 
+   password="45jql11w"
    tinyInt1isBit="false"/>
 	<document name="content">
         <entity name="images" transformer="HTMLStripTransformer" 

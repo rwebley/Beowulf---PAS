@@ -1,23 +1,11 @@
-<?php $this->headTitle('You searched for ');
-$this->headLink()->appendAlternate($this->baseUrl().'/database/search/results/'.$this->query($this->params).'/format/rss', 'application/rss+xml', 'RSS Feed of search results');
-$this->headLink()->appendAlternate($this->baseUrl().'/database/search/results/'.$this->query($this->params).'/format/georss', 'application/atom+xml', 'geoRSS Feed of search results'); 		
-$this->headLink()->appendAlternate($this->baseUrl().'/database/search/results/'.$this->query($this->params).'/format/atom', 'application/atom+xml', 'ATOM Feed of search results'); 		
-$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
-?>
-<?php $this->jQuery()->javascriptCaptureStart() ?>
-jQuery(document).ready(function($) {
+<h2>Search results from Solr</h2>
+<?php if ($this->results): ?>
+<?php echo $this->form;?>
+<p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'search'),'default',true);?>">Back to simple search</a> 
+| <a href="<?php echo $this->url(array('module' => 'database','controller' => 'search','action' => 'advanced'),'default',true);?>">Back to advanced search</a></p>
 
- $('a[rel*=lightbox]').lightBox() 
-    });
-<?php $this->jQuery()->javascriptCaptureEnd() ?>
 
-<h2>Search results</h2>
-<?php echo $this->SearchParams($this->params);?>
 
-<?php if (count($this->results) > 0): ?>
-<p>Your search returned <span class="results"><?php echo $this->Pluralism($this->paginationControl($this->results, 'Sliding', 'structure/queryCounts.phtml')); ?> <?php echo $this->paginationControl($this->results, 'Sliding', 'structure/viewingCounts.phtml');?></span>
-<?php $this->headTitle($this->Pluralism($this->paginationControl($this->results, 'Sliding','structure/queryCounts.phtml')));?></p>
-<?php echo $this->export($this->params);?>
 <table class="stripeMe" summary="Table of your search results">
 <caption>Your search results</caption>
 <thead>
@@ -31,7 +19,8 @@ jQuery(document).ready(function($) {
   </tr>
  </thead>
  <tbody>
-<?php echo $this->partialLoop('partials/database/findsTable.phtml',$this->results);?>
+<?php 
+echo $this->partialLoop('partials/database/findsTable2.phtml',$this->results);?>
   </tbody>
 </table>
 
@@ -39,4 +28,12 @@ jQuery(document).ready(function($) {
 <?php echo '<p>Your search has produced no results. Please refine your query. If you are expecting more results, you may have insufficient access for their workflow stage.</p>';?>
 <?php endif; ?>
 
-<?= $this->paginationControl($this->results, 'Sliding', 'structure/queryPagination.phtml'); ?>
+
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'structure/queryPagination.phtml'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+?>
+<?php $this->jQuery()->javascriptCaptureStart() ?>
+jQuery(document).ready(function($) {
+$('a[rel*=lightbox]').lightBox() 
+});
+<?php $this->jQuery()->javascriptCaptureEnd() ?>

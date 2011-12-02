@@ -52,7 +52,6 @@ parent::__construct($options);
 	$this->Search->removeDecorator('DtDdWrapper');
 	$this->Search->removeDecorator('HtmlTag');
 	$this->Search->addDecorators(array(array('HtmlTag', array('tag' => 'ul','id' => 'www'))))
-	//->setLegend('Solr search engine')
 	->addDecorator('FieldSet');
 	
 	}

@@ -99,7 +99,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -115,7 +115,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -131,7 +131,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -147,7 +147,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -163,7 +163,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -180,7 +180,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -196,7 +196,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -212,7 +212,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -221,7 +221,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 
 	/** Display the results after filtering
 	*/	
-	public function resultsAction() {
+	public function resultsTwoAction() {
 	ini_set("memory_limit","256M");
 	$date = Zend_Date::now()->toString('yyyy-MM-ddHHmm');
 	$data = $this->_getAllParams();
@@ -505,7 +505,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$data = $this->_getAllParams();
 	if ($form->isValid($data)) {
 	$this->_redirect($this->view->url(array('module' => 'database',
-	'controller' => 'search','action' => 'solrresults','q' => $data['q'])));
+	'controller' => 'search','action' => 'results','q' => $data['q'])));
 	} else {
 	$form->populate($q);
 	}
@@ -514,9 +514,8 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	}
 	/** Display the index page.
 	*/		
-	public function solrresultsAction(){
+	public function resultsAction(){
 	$params = array_slice($this->_getAllParams(),3);
-	Zend_Debug::dump($params);
 	if(sizeof($params) > 0){
 	$limit = 20;
 	$page = $this->_getParam('page');
@@ -527,7 +526,6 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 		unset($params['page']);
 		$start = ($page - 1) * 20;
 	}	
-	Zend_Debug::dump($params);
 	$q = '';
 	if(array_key_exists('q',$params)){
 	$q .= $params['q'] . ' ';
@@ -537,7 +535,10 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$images = (int)1;
 	unset($params['images']);
 	}
-	
+	if(array_key_exists('format')){
+	$format = $params['format'];
+	unset($params['format']);
+	}
 	if(array_key_exists('radius',$params)){
 	$d = (int)$params['radius'];
 	unset($params['radius']);
@@ -555,12 +556,12 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	foreach($params as $k => $v){
 	$q .= $k . ':"' . $v . '" ';
 	}
-	Zend_Debug::dump($q);
 	$config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
-    'path' => '/solr/beowulf/',
+    'path' => '/solr/',
+	'core' => 'beowulf'
     )
 	);
 	
@@ -590,22 +591,18 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
         );
 	}
 	
-	// create a client instance
 	$client = new Solarium_Client($config);
-	// get a select query instance based on the config
 	$query = $client->createSelect($select);
 	if(!is_null($d) && !is_null($lon) && !is_null($lat)){
 	$helper = $query->getHelper();
 	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
 	}
-	Zend_Debug::dump($query);
-	$facetSet = $query->getFacetSet();
-
-	$facetSet->createFacetField('period')->setField('broadperiod');
-	$facetSet->createFacetField('county')->setField('county');
-	$facetSet->createFacetField('objectType')->setField('objectType');
+//	$facetSet = $query->getFacetSet();
+//
+//	$facetSet->createFacetField('period')->setField('broadperiod');
+//	$facetSet->createFacetField('county')->setField('county');
+//	$facetSet->createFacetField('objectType')->setField('objectType');
 	$resultset = $client->select($query);
-
 	$pagination = array(    
 	'page'          => $page, 
 	'per_page'      => $limit, 

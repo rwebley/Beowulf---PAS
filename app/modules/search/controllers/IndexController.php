@@ -41,7 +41,9 @@ class Search_IndexController extends Pas_Controller_Action_Admin {
 	$this->_redirect($this->view->url(array('module' => 'search',
 	'controller' => 'results','action' => 'index','q' => $data['q'])));
 	} else {
+	if(isset($q)){
 	$form->populate($q);
+	}
 	}
 	}
 	}	

@@ -3199,12 +3199,18 @@ class Finds extends Pas_Db_Table_Abstract {
 		'datefound1',
 		'datefound2',
 		'subClassification' => 'subclass',
-		'smrref' => 'smr_ref',
+		'smrRef' => 'smr_ref',
 		'other_ref',
 		'musaccno',
 		'currentLocation' => 'curr_loc',
 		'created',
-		'updated'))
+		'weight',
+		'height',
+		'secuid',
+		'diameter',
+		'thickness',
+		'width',
+		'length'))
 		->joinLeft('findspots','finds.secuid = findspots.findID', array(
 		'county', 
 		'district', 
@@ -3215,7 +3221,9 @@ class Finds extends Pas_Db_Table_Abstract {
 		'latitude' => 'declat',
 		'longitude' => 'declong',
 		'elevation',
-		'woeid'))
+		'woeid',
+		'easting',
+		'northing'))
 		->joinLeft('coins', 'finds.secuid = coins.findID',array(
 		'obverseDescription' => 'obverse_description', 
 		'obverseLegend' => 'obverse_inscription',
@@ -3262,7 +3270,7 @@ class Finds extends Pas_Db_Table_Abstract {
 		->joinLeft('ironagetribes','coins.tribe = ironagetribes.id', array('tribe'))
 		->joinLeft('medievalcategories','medievalcategories.id = coins.categoryID', array('category'))
 		->joinLeft('medievaltypes','medievaltypes.id = coins.typeID', array('type'))
-		->joinLeft('geographyironage','geographyironage.id = coins.geographyID', array('geography' => 'CONCAT(region,","area)'))
+		->joinLeft('geographyironage','geographyironage.id = coins.geographyID', array('geography' => 'CONCAT(geographyironage.region,",",area)'))
 		->where('finds.id = ?', (int)$findID)
 		->group('finds.id')
 		->limit(1);

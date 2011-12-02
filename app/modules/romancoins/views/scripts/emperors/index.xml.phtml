@@ -1,12 +1,11 @@
 <?php header('Content-Type: application/rss+xml');?>
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>';
-$siteurl = Zend_Registry::get('siteurl');
 ?>
 <response>
 <meta>
-	<html><?php echo $siteurl;?>/romancoins/emperors/</html>
-	<xml><?php echo $siteurl;?>/romancoins/emperors/format/xml/</xml>
-	<json><?php echo $siteurl;?>/romancoins/emperors/format/json</json>
+	<html><?php echo $_SERVER['SERVER_NAME']; ?>/romancoins/emperors/</html>
+	<xml><?php echo $_SERVER['SERVER_NAME']; ?>/romancoins/emperors/format/xml/</xml>
+	<json><?php echo $_SERVER['SERVER_NAME']; ?>/romancoins/emperors/format/json</json>
 </meta>
 <emperors>
 	<julioClaudians>

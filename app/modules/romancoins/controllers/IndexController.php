@@ -19,7 +19,7 @@ class RomanCoins_IndexController extends Pas_Controller_Action_Admin {
 	*/	
 	public function indexAction() {
 	$content = new Content();
-	$this->view->contents =  $content->getFrontContent('romancoins');
+	$this->view->front =  $content->getFrontContent('romancoins');
 	$images = new Slides();
 	$this->view->images = $images->getExamplesCoinsPeriod('roman',4);
 	}

@@ -29,32 +29,31 @@ class Database_IndexController extends Pas_Controller_Action_Admin {
 	$recent = new Logins();
 	$this->view->logins = $recent->todayVisitors();
 	
-	$form = new WhatWhereWhenForm();
-	$form->setMethod('get');
+	$form = new SolrForm();
+	$form->setMethod('post');
 	$this->view->form = $form;
 	$values = $form->getValues();
-	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-	$data = $this->_getAllParams();
-	if ($form->isValid($data)) {
-	$params = array_filter($data);
-	unset($params['submit']);
-	unset($params['action']);
-	unset($params['controller']);
-	unset($params['module']);
-	unset($params['page']);
-	unset($params['csrf']);
-	$where = array();
-	foreach($params as $key => $value) {
-	if($value != NULL){
-	$where[] = $key . '/' . urlencode($value);
-	}
-	}
-	$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect('/database/search/results/'.$query.'/');
+	if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+	if ($form->isValid($form->getValues())) {
+	$params = array_filter($form->getValues());
+	$params = $this->array_cleanup($params);
+	$this->_flashMessenger->addMessage('Your search is complete');
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($data);
 	}
 	}	
 	}
+	
+	function array_cleanup( $array ) {
+    $todelete = array('submit','action','controller','module','page','csrf');
+		foreach( $array as $key => $value ) {
+    foreach($todelete as $match){
+    	if($key == $match){
+    		unset($array[$key]);
+    	}
+    } 
+    }
+    return $array;
+}
 }

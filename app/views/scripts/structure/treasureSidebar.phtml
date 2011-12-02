@@ -4,7 +4,7 @@ $controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerN
 <ul id="menu1" class="menu collapsible">
 <li><a href="<?php echo $this->url(array('module' => 'treasure','controller' => 'index'),'default',true);?>" 
 title="An introduction to the Treasure Act">Introduction</a></li>
-<?php $this->treasuremenu();?>
+<?php echo $this->treasuremenu();?>
 <li <?php if($controller == 'reports') { echo 'class="expandfirst"';};?>><a href="#">Treasure Reports</a>
 <ul><?php echo $this->TreasureReportsMenu();?></ul>
 </li>

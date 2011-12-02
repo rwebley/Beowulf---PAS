@@ -1,22 +1,27 @@
 <dataConfig>
 	<dataSource type="JdbcDataSource"
    driver="com.mysql.jdbc.Driver"
+   batchSize="-1"
    url="jdbc:mysql://localhost/antiquities"
-   user="" 
-   password=""
+   user="webuser2" 
+   password="45jql11w"
    tinyInt1isBit="false"/>
 	<document name="content">
         <entity name="node" transformer="HTMLStripTransformer" 
 query="
-SELECT DISTINCT (
-finds.id
-) AS id, 
+SELECT 
+DISTINCT(finds.id) as id,
+CONCAT('finds-',finds.id) AS findIdentifier,
 finds.old_findID, 
-finds.objecttype AS objectType, 
-finds.broadperiod AS broadperiod, 
-finds.description AS description, 
-p1.term AS periodFrom,
-p2.term AS periodTo,
+finds.objecttype, 
+finds.broadperiod, 
+finds.description, 
+p1.term AS periodFromName,
+finds.objdate1period AS periodFrom,
+finds.objdate1subperiod AS fromsubperiod,
+finds.objdate1subperiod AS tosubperiod,
+p2.term AS periodToName,
+finds.objdate2period AS periodTo,
 finds.notes AS notes, 
 findspots.county AS county, 
 finds.classification, 
@@ -25,28 +30,44 @@ finds.smr_ref AS smrRef,
 finds.other_ref AS otherRef,
 finds.curr_loc AS currentLocation,
 finds.musaccno,
-finds.treasureID AS treasureID, 
+finds.treasure,
+finds.treasureID AS TID, 
+finds.subs_action as subsequentAction,
+subsequentActions.action as subsequentActionTerm,
 numdate1 AS fromdate, 
 numdate2 AS todate, 
 coins.obverse_description AS obverseDescription, 
 coins.obverse_inscription AS obverseLegend, 
 coins.reverse_description AS reverseDescription, 
 coins.reverse_inscription AS reverseLegend, 
-coins.reeceID AS reeceperiod,
+coins.reeceID AS reeceID,
 users.fullname AS createdBy, 
-mat.term AS material, 
-manufactures.term AS manufacture,
-preservations.term AS preservation,
+finds.material1 AS material,
+mat.term AS materialTerm, 
+finds.manmethod AS manufacture,
+manufactures.term AS manufactureTerm,
+finds.preservation,
+preservations.term AS preservationTerm,
+finds.surftreat AS surface,
 surftreatments.term AS treatment,
-decstyles.term AS decstyle,
+finds.decstyle,
+decstyles.term AS decstyleTerm,
 decmethods.term AS decmethod,
-discmethods.method AS discovery,
-completeness.term AS completeness,
-denominations.denomination, 
-mints.mint_name AS mint, 
-cultures.term AS culture, 
+finds.discmethod as discovery,
+discmethods.method AS discoveryMethod,
+finds.completeness,
+completeness.term AS completenessTerm,
+coins.denomination,
+denominations.denomination AS denominationName, 
+coins.mint_id AS mint,
+mints.mint_name AS mintName, 
+finds.culture,
+cultures.term AS cultureName, 
 inscription, 
-rulers.issuer AS ruler, 
+coins.ruler_id AS ruler,
+coins.ruler2_id AS ruler2,
+rulers.issuer AS rulerName, 
+r2.issuer AS secondaryRulerName,
 slides.imageID AS thumbnail, 
 secwfstage AS workflow,
 slides.filename AS filename,
@@ -60,9 +81,12 @@ findspots.parish,
 findspots.woeid,
 declong AS longitude,
 declat AS latitude,
+finds.rally,
+finds.rallyID,
 rallies.rally_name AS rallyName,
 finds.created,
-ironagetribes.tribe,
+coins.tribe,
+ironagetribes.tribe AS tribeName,
 cciNumber,
 allen_type AS allenType,
 mack_type AS mackType,
@@ -70,101 +94,177 @@ bmc_type AS bmcType,
 rudd_type AS abcType,
 va_type AS vaType,
 reverse_mintmark AS mintmark,
-medievalcategories.category AS category,
-medievaltypes.type AS type,
-EXTRACT(YEAR FROM datefound1) AS discoveryYear,
-die_axis_measurement AS dieaxis,
+coins.categoryID as category,
+medievalcategories.category AS categoryTerm,
+coins.typeID as type,
+medievaltypes.type AS typeTerm,
+EXTRACT(YEAR FROM datefound1) AS discovered,
+die_axis_measurement AS axis,
 CONCAT(declat,',',declong) AS coordinates,
-CONCAT(geographyironage.region,' ',geographyironage.area) AS geography
+CONCAT(geographyironage.region,' ',geographyironage.area) AS geography,
+coins.geographyID,
+finds.hoard,
+findspots.regionID,
+regions.region AS regionName,
+finds.hoardID as hID,
+hoards.term AS hoardName,
+coins.moneyer,
+moneyers.name AS moneyerName,
+finds.datefound1,
+finds.datefound2,
+finds.findofnote AS note,
+findofnotereasons.term as reason,
+finds.width,
+finds.height,
+finds.thickness,
+finds.weight,
+finds.diameter,
+finds.length,
+finds.secuid,
+findspots.easting,
+findspots.northing
 FROM finds
-LEFT JOIN `findspots` ON finds.secuid = findspots.findID
-LEFT JOIN `coins` ON finds.secuid = coins.findID
-LEFT JOIN `findofnotereasons` ON finds.findofnotereason = findofnotereasons.id
-LEFT JOIN `users` ON users.id = finds.createdBy
-LEFT JOIN `materials` AS `mat` ON finds.material1 = mat.id
-LEFT JOIN `decmethods` ON finds.decmethod = decmethods.id
-LEFT JOIN `decstyles` ON finds.decstyle = decstyles.id
-LEFT JOIN `manufactures` ON finds.manmethod = manufactures.id
-LEFT JOIN `surftreatments` ON finds.surftreat = surftreatments.id
-LEFT JOIN `completeness` ON finds.completeness = completeness.id
-LEFT JOIN `preservations` ON finds.preservation = preservations.id
-LEFT JOIN `periods` AS p1 ON finds.objdate1period = p1.id
-LEFT JOIN `periods` AS p2 ON finds.objdate2period = p2.id
-LEFT JOIN `cultures` ON finds.culture = cultures.id
-LEFT JOIN `discmethods` ON discmethods.id = finds.discmethod
-LEFT JOIN `denominations` ON denominations.id = coins.denomination
-LEFT JOIN `rulers` ON rulers.id = coins.ruler_id
-LEFT JOIN `reeceperiods` ON coins.reeceID = reeceperiods.id
-LEFT JOIN `mints` ON mints.id = coins.mint_ID
-LEFT JOIN `finds_images` ON finds_images.find_id = finds.secuid
-LEFT JOIN `slides` ON finds_images.image_id = slides.secuid
+LEFT JOIN findspots ON finds.secuid = findspots.findID
+LEFT JOIN coins ON finds.secuid = coins.findID
+LEFT JOIN moneyers ON coins.moneyer = moneyers.id
+LEFT JOIN findofnotereasons ON finds.findofnotereason = findofnotereasons.id
+LEFT JOIN users ON users.id = finds.createdBy
+LEFT JOIN materials AS `mat` ON finds.material1 = mat.id
+LEFT JOIN decmethods ON finds.decmethod = decmethods.id
+LEFT JOIN decstyles ON finds.decstyle = decstyles.id
+LEFT JOIN manufactures ON finds.manmethod = manufactures.id
+LEFT JOIN surftreatments ON finds.surftreat = surftreatments.id
+LEFT JOIN completeness ON finds.completeness = completeness.id
+LEFT JOIN preservations ON finds.preservation = preservations.id
+LEFT JOIN periods AS p1 ON finds.objdate1period = p1.id
+LEFT JOIN periods AS p2 ON finds.objdate2period = p2.id
+LEFT JOIN cultures ON finds.culture = cultures.id
+LEFT JOIN discmethods ON discmethods.id = finds.discmethod
+LEFT JOIN denominations ON denominations.id = coins.denomination
+LEFT JOIN rulers ON rulers.id = coins.ruler_id
+LEFT JOIN rulers AS r2 ON r2.id = coins.ruler2_id
+LEFT JOIN reeceperiods ON coins.reeceID = reeceperiods.id
+LEFT JOIN mints ON mints.id = coins.mint_id
+LEFT JOIN finds_images ON finds_images.find_id = finds.secuid
+LEFT JOIN slides ON finds_images.image_id = slides.secuid
 LEFT JOIN workflowstages ON finds.secwfstage = workflowstages.id
 LEFT JOIN rallies ON finds.rallyID = rallies.id
 LEFT JOIN ironagetribes ON coins.tribe = ironagetribes.id
 LEFT JOIN medievalcategories ON medievalcategories.id = coins.categoryID
-LEFT JOIN  medievaltypes ON medievaltypes.id = coins.typeID
+LEFT JOIN medievaltypes ON medievaltypes.id = coins.typeID
 LEFT JOIN geographyironage ON geographyironage.id = coins.geographyID
-LIMIT 500000
+LEFT JOIN hoards ON finds.hoardID = hoards.id
+LEFT JOIN subsequentActions ON finds.subs_action = subsequentActions.id
+LEFT JOIN regions ON findspots.regionID = regions.id
 " 
 >
-        <field column="id" name="id" />
-        <field column="description" name="description" stripHTML="true"/>
-	    <field column="county" name="county" />	
-		<field column="district" name="district" />
-		<field column="parish" name="parish" />
-		<field column="fourFigure" name="fourFigure" />
-		<field column="knownas" name="knownas" />
-		<field column="gridref" name="gridref" />	
-	    <field column="notes" name="notes" stripHTML="true"/>
-	    <field column="objectType" name="objectType" />
-	    <field column="broadperiod" name="broadperiod" />	
-	    <field column="denomination" name="denomination" />
-	    <field column="mint" name="mint" />
-   	    <field column="obverseDescription" name="obverseDescription" stripHTML="true"/>
-	    <field column="material" name="material" />
-	    <field column="reverseDescription" name="reverseDescription" stripHTML="true"/>
-	    <field column="obverseLegend" name="obverseLegend" />
-	    <field column="reverseLegend" name="reverseLegend" />
-	    <field column="createdBy" name="createdBy" />	
-		<field column="smrRef" name="smrRef" />		
-		<field column="otherRef" name="otherRef" />		
-	    <field column="culture" name="culture" />
-	    <field column="inscription" name="inscription" />
-	    <field column="classification" name="classification" />
-		<field column="subClassification" name="subClassification" />
-	    <field column="treasureID" name="treasureID" />
-	    <field column="ruler" name="ruler" />
-	    <field column="workflow" name="workflow" />	
-		<field column="thumbnail" name="thumbnail" />
-   	    <field column="filename" name="filename" />
-	    <field column="imagedir" name="imagedir" />
-	    <field column="institution" name="institution" />
-	    <field column="old_findID" name="old_findID" />
-		<field column="mint" name="mint" />
-		<field column="fromdate" name="fromdate" />
-		<field column="todate" name="todate" />
-		<field column="currentLocation" name="currentLocation" />
-		<field column="mintmark" name="mintmark" />
-		<field column="cciNumber" name="cciNumber" />
-		<field column="mackType" name="mackType" />
-		<field column="allentype" name="allenType" />
-		<field column="abcType" name="abcType" />
-		<field column="vaType" name="vaType" />
-		<field column="musaccno" name="musaccno" />
-		<field column="rallyName" name="rallyName" />
-		<field column="decstyle" name="decstyle" />
-		<field column="manufacture" name="manufacture" />
-		<field column="periodFrom" name="periodFrom" />
-		<field column="periodTo" name="periodto" />
-		<field column="treatment" name="treatment" />
-		<field column="preservation" name="preservation" />
-		<field column="discovery" name="discovery" />
-		<field column="reeceperiod" name="reeceperiod" />
-		<field column="latitude" name="latitude" />
-		<field column="longitude" name="longitude" />
-		<field column="elevation" name="elevation" />
-		<field column="woeid" name="woeid" />
-		<field column="created" name="created" />
-		</entity>
-    </document>
+    <field column="findIdentifier" name="findIdentifier" />
+    <field column="id" name="id" />
+    <field column="description" name="description" stripHTML="true"/>
+    <field column="county" name="county" />	
+    <field column="district" name="district" />
+    <field column="parish" name="parish" />
+    <field column="fourFigure" name="fourFigure" />
+    <field column="knownas" name="knownas" />
+    <field column="gridref" name="gridref" />
+    <field column="notes" name="notes" stripHTML="true"/>
+    <field column="objecttype" name="objecttype" />
+    <field column="broadperiod" name="broadperiod" />	
+    <field column="denomination" name="denomination" />
+    <field column="denominationName" name="denominationName" />
+    <field column="mint" name="mint" />
+    <field column="obverseDescription" name="obverseDescription" stripHTML="true"/>
+    <field column="material" name="material" />
+    <field column="materialTerm" name="materialTerm" />
+    <field column="reverseDescription" name="reverseDescription" stripHTML="true"/>
+    <field column="obverseLegend" name="obverseLegend" />
+    <field column="reverseLegend" name="reverseLegend" />
+    <field column="createdBy" name="createdBy" />	
+    <field column="smrRef" name="smrRef" />		
+    <field column="otherRef" name="otherRef" />		
+    <field column="culture" name="culture" />
+    <field column="inscription" name="inscription" />
+    <field column="classification" name="classification" />
+    <field column="subClassification" name="subClassification" />
+    <field column="TID" name="TID" />
+    <field column="ruler" name="ruler" />
+    <field column="ruler2" name="ruler2" />
+    <field column="rulerName" name="rulerName" />
+    <field column="secondaryRulerName" name="secondaryRulerName" />
+    <field column="workflow" name="workflow" />	
+    <field column="thumbnail" name="thumbnail" />
+    <field column="filename" name="filename" />
+    <field column="imagedir" name="imagedir" />
+    <field column="institution" name="institution" />
+    <field column="old_findID" name="old_findID" />
+    <field column="mint" name="mint" />
+    <field column="fromdate" name="fromdate" />
+    <field column="todate" name="todate" />
+    <field column="currentLocation" name="currentLocation" />
+    <field column="mintmark" name="mintmark" />
+    <field column="cciNumber" name="cciNumber" />
+    <field column="mackType" name="mackType" />
+    <field column="allentype" name="allenType" />
+    <field column="abcType" name="abcType" />
+    <field column="vaType" name="vaType" />
+    <field column="musaccno" name="musaccno" />
+    <field column="rally" name="rally" />
+    <field column="rallyID" name="rallyID" />
+    <field column="rallyName" name="rallyName" />
+    <field column="decstyle" name="decstyle" />
+    <field column="decstyleTerm" name="decstyleTerm" />
+    <field column="manufacture" name="manufacture" />
+    <field column="manufactureTerm" name="manufactureTerm" />
+    <field column="periodFrom" name="periodFrom" />
+    <field column="periodFromName" name="periodFromName" />
+    <field column="periodTo" name="periodTo" />
+    <field column="periodToName" name="periodToName" />
+    <field column="treatment" name="treatment" />
+    <field column="preservation" name="preservation" />
+    <field column="preservationTerm" name="preservationTerm" />
+    <field column="discovery" name="discovery" />
+    <field column="discoveryMethod" name="discoveryMethod" />
+    <field column="discovered" name="discovered" />
+    <field column="reeceID" name="reeceID" />
+    <field column="latitude" name="latitude" />
+    <field column="longitude" name="longitude" />
+    <field column="elevation" name="elevation" />
+    <field column="woeid" name="woeid" />
+    <field column="created" name="created" />
+    <field column="geography" name="geography" />
+    <field column="geographyID" name="geographyID" />
+    <field column="surface" name="surface" />
+    <field column="moneyer" name="moneyer" />
+    <field column="moneyerName" name="moneyerName" />
+    <field column="fromsubperiod" name="fromsubperiod" />
+    <field column="tosubperiod" name="tosubperiod" />
+    <field column="subsequentAction" name="subsequentAction" />
+    <field column="subsequentActionTerm" name="subsequentActionTerm" />
+    <field column="completeness" name="completeness" />
+    <field column="completenessTerm" name="completenessTerm" />
+    <field column="datefound1" name="datefound1" />
+    <field column="datefound2" name="datefound2" />
+    <field column="note" name="note" />
+    <field column="reason" name="reason" />
+    <field column="tribe" name="tribe" />
+    <field column="tribeName" name="tribeName" />
+    <field column="category" name="category" />
+    <field column="categoryTerm" name="categoryTerm" />
+    <field column="type" name="type" />
+    <field column="typeTerm" name="typeterm" />
+    <field column="axis" name="axis" />
+    <field column="regionID" name="regionID" />
+    <field column="regionName" name="regionName" />
+	<field column="width" name="width" />
+	<field column="height" name="height" />
+	<field column="diameter" name="diameter" />
+	<field column="thickness" name="thickness" />
+	<field column="length" name="length" />
+	<field column="secuid" name="secuid" />
+	<field column="weight" name="weight" />
+	<field column="easting" name="easting" />
+	<field column="northing" name="northing" />
+</entity>
+
+</document>
 </dataConfig>

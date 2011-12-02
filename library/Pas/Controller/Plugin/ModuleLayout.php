@@ -175,6 +175,10 @@ class Pas_Controller_Plugin_ModuleLayout
 		$response->insert('sidebar', $view->render('structure/bronzeageSidebar.phtml'));
 	    $view->headTitle('A guide to Bronze Age objects')->setSeparator(' - ');
 		break;
+		case $module == 'search';
+		$layouttype = 'database';
+	    $view->headTitle('Sitewide search')->setSeparator(' - ');
+		break;
 		default:
 		$layouttype = 'home';
 		break;
@@ -188,6 +192,7 @@ class Pas_Controller_Plugin_ModuleLayout
 	$response->insert('messages', $view->render('structure/messages.phtml'));
 	$response->insert('contexts',$view->render('structure/contexts.phtml'));
 	$response->insert('analytics',$view->render('structure/analytics.phtml'));
+	$response->insert('searchfacet',$view->render('structure/facetsearch.phtml'));
 	$layout = Zend_Layout::getMvcInstance();
 	if ($layout->getMvcEnabled() ) {
 	$layout->setLayoutPath('app/layouts/');

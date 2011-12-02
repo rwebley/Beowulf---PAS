@@ -184,7 +184,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->addFilters(array('StripTags', 'StringTrim'))
 	->addValidator('Alnum');
 
-	$fourFigure = new Zend_Form_Element_Text('fourfigure');
+	$fourFigure = new Zend_Form_Element_Text('fourFigure');
 	$fourFigure->setLabel('Four figure grid reference: ')
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -237,7 +237,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 
 
 	//Obverse inscription
-	$obverseinsc = new Zend_Form_Element_Text('obinsc');
+	$obverseinsc = new Zend_Form_Element_Text('obverseLegend');
 	$obverseinsc->setLabel('Obverse inscription contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -245,7 +245,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->setDecorators($decorators);
 
 	//Obverse description
-	$obversedesc = new Zend_Form_Element_Text('obdesc');
+	$obversedesc = new Zend_Form_Element_Text('obverseDescription');
 	$obversedesc->setLabel('Obverse description contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -253,7 +253,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->setDecorators($decorators);
 
 	//reverse inscription
-	$reverseinsc = new Zend_Form_Element_Text('revinsc');
+	$reverseinsc = new Zend_Form_Element_Text('reverseLegend');
 	$reverseinsc->setLabel('Reverse inscription contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -261,7 +261,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->setDecorators($decorators);
 
 	//reverse description
-	$reversedesc = new Zend_Form_Element_Text('revdesc');
+	$reversedesc = new Zend_Form_Element_Text('reverseDescription');
 	$reversedesc->setLabel('Reverse description contains: ')
 	->setRequired(false)
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -302,7 +302,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->removeDecorator('Label');
 
 	$broadperiod = new Zend_Form_Element_Hidden('broadperiod');
-	$broadperiod->setValue('Iron Age')
+	$broadperiod->setValue('IRON AGE')
 	->addValidator('Alnum',false, array('allowWhiteSpace' => true))
 	->setAttrib('class', 'none')
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -310,7 +310,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->removeDecorator('HtmlTag')
 	->removeDecorator('Label');
 
-	$mack_type = new Zend_Form_Element_Text('mack');
+	$mack_type = new Zend_Form_Element_Text('mackType');
 	$mack_type->setLabel('Mack Type: ')
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -322,19 +322,19 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->addFilters(array('StripTags', 'StringTrim'))
 	->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 
-	$allen_type = new Zend_Form_Element_Text('allen');
+	$allen_type = new Zend_Form_Element_Text('allenType');
 	$allen_type->setLabel('Allen Type: ')
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
 	->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 
-	$va_type = new Zend_Form_Element_Text('va');
+	$va_type = new Zend_Form_Element_Text('vaType');
 	$va_type->setLabel('Van Arsdell Number: ')
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
 	->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 
-	$rudd_type = new Zend_Form_Element_Text('rudd');
+	$rudd_type = new Zend_Form_Element_Text('ruddType');
 	$rudd_type->setLabel('Ancient British Coinage number: ')
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
@@ -403,10 +403,10 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	$this->addDisplayGroup(array(
 	'denomination', 'geographyID','ruler',
 	'ruler2', 'tribe', 'mint',
-	'axis', 'obinsc', 'obdesc',
-	'revinsc', 'revdesc', 'bmc',
-	'va', 'allen', 'rudd',
-	'mack', 'numChiab', 'context',
+	'axis', 'obverseLegend', 'obverseDescription',
+	'reverseLegend', 'reverseDescription', 'bmc',
+	'vaType', 'allenType', 'ruddType',
+	'mackType', 'numChiab', 'context',
 	'phase_date_1', 'phase_date_2',
 	'depositionDate'),
 	'numismatics')
@@ -427,7 +427,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	
 	$this->addDisplayGroup(array(
 	'county', 'regionID', 'district',
-	'parish', 'gridref', 'fourfigure'), 
+	'parish', 'gridref', 'fourFigure'), 
 	'spatial')
 	->removeDecorator('HtmlTag');
 	

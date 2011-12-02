@@ -18,6 +18,8 @@ class Search_ResultsController extends Pas_Controller_Action_Admin {
 	$this->_helper->_acl->allow('public',null);	
 	}
 	
+ 
+	
 	/** List of the papers available
 	 */
 	public function indexAction() {
@@ -37,9 +39,15 @@ class Search_ResultsController extends Pas_Controller_Action_Admin {
 	$q .= $params['q'] . ' ';
 	unset($params['q']); 
 	}
+
 	if(array_key_exists('images',$params)){
 	$images = (int)1;
 	unset($params['images']);
+	}
+	if(array_key_exists('facet',$params)){
+	$facetQuery = $params['facet'];
+	unset($params['facet']);
+	$this->view->facet = 'facet/'.$facetQuery;
 	}
 	$params = array_filter($params);
 	
@@ -50,7 +58,8 @@ class Search_ResultsController extends Pas_Controller_Action_Admin {
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
-    'path' => '/solr/beocontent/',
+    'path' => '/solr/',
+	'core' => 'beocontent'
     )
 	);
 	
@@ -58,24 +67,29 @@ class Search_ResultsController extends Pas_Controller_Action_Admin {
     'query'         => $q,
     'start'         => $start,
     'rows'          => $limit,
-    'fields'        => array('*','score'),
+    'fields'        => array('*'),
 	'filterquery' => array(),
-
     );
 	$client = new Solarium_Client($config);
+	$customizer = $client->getPlugin('customizerequest');
+//	$customizer->createCustomization('transform')
+//           ->setType('param')
+//           ->setName('tr')
+//           ->setValue('example.xsl');
+//	$customizer->createCustomization('format')
+//           ->setType('param')
+//           ->setName('wt')
+//           ->setValue('csv');
 	$query = $client->createSelect($select);
-	$query->addSort('score', Solarium_Query_Select::SORT_DESC);
-// add distributed search settings
-// see http://wiki.apache.org/solr/DistributedSearch#Distributed_Search_Example for setting up two solr instances
-$distributedSearch = $query->getDistributedSearch($select);
-$distributedSearch->addShard('shard1', 'localhost:8983/solr/beocontent');
-//$distributedSearch->addShard('shard2', 'localhost:8983/solr/beopeople');
-// this executes the query and returns the result
-$resultset = $client->select($query);
-//	$client = new Solarium_Client($config);
-//	$query = $client->createSelect($select);
-
+	$query->addSort('score', Solarium_Query_Select::SORT_ASC);
+	if(isset($facetQuery)){
+	$query->createFilterQuery('sectionType')->setQuery('section:' . $facetQuery);
+	}
+	$facetSet = $query->getFacetSet();
+	$facetSet->createFacetField('section')->setField('section');
 	$resultset = $client->select($query);
+//	echo $resultset->getData();
+	$this->view->sectionFacet = $resultset->getFacetSet()->getFacet('section');
 	$pagination = array(    
 	'page'          => $page, 
 	'per_page'      => $limit, 
@@ -88,6 +102,7 @@ $resultset = $client->select($query);
 	    }
 	    $data[] = $fields;
 	}
+	
 	$paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
               ->setItemCountPerPage($limit)

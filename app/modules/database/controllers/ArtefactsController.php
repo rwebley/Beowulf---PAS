@@ -382,7 +382,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		}
 	$insert = $finds->insert($insertData);
 	$solr = new Pas_Solr_Updater();
-	$solr->add($insert);
+	$solr->add($insert,'beowulf');
 	$this->_redirect(self::REDIRECT . 'record/id/' . $insert);
 	$this->_flashMessenger->addMessage('Record created!');
 	} else  {
@@ -495,7 +495,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$where[] = $finds->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 		$finds->update($updateData,$where);
 		$solr = new Pas_Solr_Updater();
-		$solr->add($this->_getParam('id'));
+		$solr->add($this->_getParam('id'),'beowulf');
 		if (!empty($auditData)) {
 	        // look for new fields with empty/null values
 	        foreach ($auditData as $item => $value) {

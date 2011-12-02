@@ -17,19 +17,14 @@ jQuery(document).ready(function($) {
 <?php $this->jQuery()->javascriptCaptureEnd(); ?>
 <?php
 $this->jQuery()->javascriptCaptureStart();?>
- $(document).ready(function() { 
-    $("#prestige").corner(); 
-  });
+$(document).ready(function() { 
+$("#prestige").corner(); 
+});
 <?php
 $this->jQuery()->javascriptCaptureEnd();?>
 <h2>Welcome to the Scheme's database</h2>
-<div id="prestige">
-<a href="http://www.finds.org.uk/database/artefacts/record/id/49791" title="The full record for the 
-Staffordshire Moorlands Patera/trulla"><img src="/images/dpett/medium/114-1479_img.jpg" alt="The Staffordshire Moorlands Patera" height="212" width="366" /></a>
-</div>
-<?php 
- echo $this->form;
-?>
+
+<?php echo $this->form; ?>
 
 <div>
 <p><span  class="object"><?php echo number_format($this->counts['0']['c']);?> records of <?php echo number_format($this->counts['0']['q']);?> artefacts</span></p>
@@ -54,10 +49,3 @@ if($auth->hasIdentity()):?>
 </p>
 <?php endif;?>
 <?php endif;?>
-<?php 
-$config = Zend_Registry::get('config');
-$key = $config->webservice->google->apikey;
-$pm = new Pas_Service_Placemaker('GB');
-$place = $pm->getSingle('London');
-Zend_Debug::dump($place);
-?>
