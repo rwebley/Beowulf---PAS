@@ -516,6 +516,10 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	*/		
 	public function resultsAction(){
 	$params = array_slice($this->_getAllParams(),3);
+<<<<<<< HEAD
+=======
+//	Zend_Debug::dump($params);
+>>>>>>> origin/master
 	if(sizeof($params) > 0){
 	$limit = 20;
 	$page = $this->_getParam('page');
@@ -526,6 +530,10 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 		unset($params['page']);
 		$start = ($page - 1) * 20;
 	}	
+<<<<<<< HEAD
+=======
+//	Zend_Debug::dump($params);
+>>>>>>> origin/master
 	$q = '';
 	if(array_key_exists('q',$params)){
 	$q .= $params['q'] . ' ';
@@ -556,6 +564,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	foreach($params as $k => $v){
 	$q .= $k . ':"' . $v . '" ';
 	}
+<<<<<<< HEAD
 	$config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
@@ -563,16 +572,25 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
     'path' => '/solr/',
 	'core' => 'beowulf'
     )
+=======
+//	Zend_Debug::dump($q);
+	$config = array(
+        'adapteroptions' => array(
+        'host' => '127.0.0.1',
+        'port' => 8983,
+        'path' => '/solr/beowulf/',
+        )
+>>>>>>> origin/master
 	);
 	
 	$select = array(
-    'query'         => $q,
-    'start'         => $start,
-    'rows'          => $limit,
-    'fields'        => array('*'),
-    'sort'          => array('created' => 'desc'),
-	'filterquery' => array(),
-    );
+        'query'         => $q,
+        'start'         => $start,
+        'rows'          => $limit,
+        'fields'        => array('*'),
+        'sort'          => array('created' => 'desc'),
+        'filterquery' => array(),
+        );
 	$allowed = array('fa','flos','admin','treasure');
 	if(!in_array($this->getRole(),$allowed)) {
 	$select['filterquery']['workflow'] = array(
@@ -597,11 +615,20 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$helper = $query->getHelper();
 	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
 	}
+<<<<<<< HEAD
 //	$facetSet = $query->getFacetSet();
 //
 //	$facetSet->createFacetField('period')->setField('broadperiod');
 //	$facetSet->createFacetField('county')->setField('county');
 //	$facetSet->createFacetField('objectType')->setField('objectType');
+=======
+//	Zend_Debug::dump($query);
+	$facetSet = $query->getFacetSet();
+
+	$facetSet->createFacetField('period')->setField('broadperiod');
+	$facetSet->createFacetField('county')->setField('county');
+	$facetSet->createFacetField('objectType')->setField('objectType');
+>>>>>>> origin/master
 	$resultset = $client->select($query);
 	$pagination = array(    
 	'page'          => $page, 

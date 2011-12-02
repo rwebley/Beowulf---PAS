@@ -456,11 +456,19 @@
 	<field name="id" type="int" indexed="true" stored="true" required="true" />
 	<field name="old_findID" type="string" indexed="true" stored="true" />
 	<field name="broadperiod" type="string" indexed="true" stored="true" />
+<<<<<<< HEAD
 	<field name="periodFrom" type="int" indexed="true" stored="true" />
 	<field name="periodFromName" type="string" indexed="true" stored="true" />
 	<field name="fromsubperiod" type="int" indexed="true" stored="true" />
 	<field name="periodTo" type="int" indexed="true" stored="true" />
 	<field name="periodToName" type="string" indexed="true" stored="true" />
+=======
+        <field name="periodFrom" type="int" indexed="true" stored="true" />
+	<field name="periodFromName" type="string" indexed="true" stored="true" />
+        <field name="fromsubperiod" type="int" indexed="true" stored="true" />
+	<field name="periodTo" type="int" indexed="true" stored="true" />
+        <field name="periodToName" type="string" indexed="true" stored="true" />
+>>>>>>> origin/master
 	<field name="tosubperiod" type="int" indexed="true" stored="true" />
 	<field name="objecttype" type="text" indexed="true" stored="true" />
 	<field name="description" type="text" indexed="true" stored="true"  />
@@ -474,6 +482,7 @@
 	<field name="workflow" type="int" indexed="true" stored="true" />
 	<field name="fromdate" type="int" indexed="true" stored="true" />
 	<field name="todate" type="int" indexed="true" stored="true" />
+<<<<<<< HEAD
 	<field name="material" type="int" indexed="true" stored="true" />
 	<field name="materialTerm" type="string" indexed="true" stored="true" />
 	<field name="secondaryMaterial" type="int" indexed="true" stored="true" />
@@ -492,6 +501,26 @@
 	<field name="preservationTerm" type="string" indexed="true" stored="true" />
 	<field name="discovery" type="int" indexed="true" stored="true" />
 	<field name="discoveryMethod" type="string" indexed="true" stored="true" />
+=======
+        <field name="material" type="int" indexed="true" stored="true" />
+	<field name="materialTerm" type="string" indexed="true" stored="true" />
+	<field name="secondaryMaterial" type="int" indexed="true" stored="true" />
+        <field name="secondaryMaterialTerm" type="string" indexed="true" stored="true" />
+        <field name="subsequentAction" type="string" indexed="true" stored="true" />
+	<field name="subsequentActionTerm" type="string" indexed="true" stored="true" />
+        <field name="decstyle" type="int" indexed="true" stored="true" />
+	<field name="decstyleTerm" type="string" indexed="true" stored="true" />
+        <field name="manufacture" type="int" indexed="true" stored="true" />
+	<field name="manufactureTerm" type="string" indexed="true" stored="true" />
+        <field name="completeness" type="int" indexed="true" stored="true" />
+	<field name="completenessTerm" type="string" indexed="true" stored="true" />
+	<field name="surface" type="int" indexed="true" stored="true" />
+        <field name="treatment" type="string" indexed="true" stored="true" />
+        <field name="preservation" type="int" indexed="true" stored="true" />
+	<field name="preservationTerm" type="string" indexed="true" stored="true" />
+	<field name="discovery" type="int" indexed="true" stored="true" />
+        <field name="discoveryMethod" type="string" indexed="true" stored="true" />
+>>>>>>> origin/master
 	<field name="created" type="date" indexed="true" stored="true" />
 	<field name="datefound1" type="date" indexed="true" stored="true" />
 	<field name="datefound2" type="date" indexed="true" stored="true" />
@@ -503,11 +532,16 @@
 	<field name="discovered" type="int" indexed="true" stored="true" />
 	<field name="note" type="int" indexed="true" stored="true" />
 	<field name="reason" type="string" indexed="true" stored="true" />
+<<<<<<< HEAD
+=======
+	
+>>>>>>> origin/master
 	<field name="hoard" type="int" indexed="true" stored="true" />
 	<field name="hID" type="int" indexed="true" stored="true" />
 	<field name="hoardName" type="string" indexed="true" stored="true" />
 	<field name="rally" type="int" indexed="true" stored="true" />
 	<field name="rallyID" type="int" indexed="true" stored="true" />
+<<<<<<< HEAD
 	<field name="rallyName" type="string" indexed="true" stored="true" />
 	<field name="secuid" type="string" indexed="true" stored="true" />
 	<field name="weight" type="double" indexed="false" stored="true" />
@@ -516,6 +550,9 @@
 	<field name="height" type="double" indexed="false" stored="true" />
 	<field name="thickness" type="double" indexed="false" stored="true" />
 	<field name="length" type="double" indexed="false" stored="true" />
+=======
+        <field name="rallyName" type="string" indexed="true" stored="true" />
+>>>>>>> origin/master
         
 	<!--  Person specific details -->
 	<field name="finder" type="string" indexed="true" stored="true" />
@@ -531,18 +568,31 @@
 	<!-- Coin specific fields -->
 	<field name="denomination" type="int" indexed="true" stored="true" />
 	<field name="denominationName" type="string" indexed="true" stored="true" />
+<<<<<<< HEAD
 	<field name="mint" type="int" indexed="true" stored="true" />
+=======
+        <field name="mint" type="int" indexed="true" stored="true" />
+>>>>>>> origin/master
 	<field name="mintName" type="string" indexed="true" stored="true" />
 	<field name="obverseDescription" type="text" indexed="true" stored="true" />
 	<field name="reverseDescription" type="text" indexed="true" stored="true" />
 	<field name="obverseLegend" type="text" indexed="true" stored="true" />
 	<field name="reverseLegend" type="text" indexed="true" stored="true" />
+<<<<<<< HEAD
 	<field name="ruler" type="int" indexed="true" stored="true" />
 	<field name="rulerName" type="string" indexed="true" stored="true" />
 	<field name="ruler2" type="int" indexed="true" stored="true" />
 	<field name="secondaryRulerName" type="string" indexed="true" stored="true" />
 	<field name="tribe" type="int" indexed="true" stored="true"/> 
 	<field name="tribeName" type="string" indexed="true" stored="true" />
+=======
+        <field name="ruler" type="int" indexed="true" stored="true" />
+	<field name="rulerName" type="string" indexed="true" stored="true" />
+        <field name="ruler2" type="int" indexed="true" stored="true" />
+	<field name="secondaryRulerName" type="string" indexed="true" stored="true" />
+	<field name="tribe" type="int" indexed="true" stored="true"/> 
+        <field name="tribeName" type="string" indexed="true" stored="true" />
+>>>>>>> origin/master
 	<field name="reeceID" type="int" indexed="true" stored="true" />
 	<field name="cciNumber" type="float" indexed="true" stored="true" />
 	<field name="mintmark" type="string" indexed="true" stored="true" />
@@ -551,6 +601,7 @@
 	<field name="abcType" type="string" indexed="true" stored="true" />
 	<field name="vaType" type="string" indexed="true" stored="true" />
 	<field name="category" type="int" indexed="true" stored="true"  />
+<<<<<<< HEAD
 	<field name="categoryTerm" type="string" indexed="true" stored="true" />
 	<field name="type" type="int" indexed="true" stored="true" />
 	<field name="typeTerm" type="string" indexed="true" stored="true" />
@@ -559,6 +610,16 @@
 	<field name="axis" type="int" indexed="true" stored="true" />
 	<field name="moneyer" type="string" indexed="true" stored="true" />
 	<field name="moneyerName" type="string" indexed="true" stored="true" />
+=======
+        <field name="categoryTerm" type="string" indexed="true" stored="true" />
+        <field name="type" type="int" indexed="true" stored="true" />
+	<field name="typeTerm" type="string" indexed="true" stored="true" />
+        <field name="geographyID" type="int" indexed="true" stored="true" />
+	<field name="geography" type="string" indexed="true" stored="true" />
+	<field name="axis" type="int" indexed="true" stored="true" />
+	<field name="moneyer" type="string" indexed="true" stored="true" />
+        <field name="moneyerName" type="string" indexed="true" stored="true" />
+>>>>>>> origin/master
         
 	<!-- Findspot specific fields -->
 	<field name="regionID" type="int" indexed="true" stored="true" />
@@ -567,10 +628,16 @@
 	<field name="district" type="string" indexed="true" stored="true" />
 	<field name="parish" type="string" indexed="true" stored="true" />
 	<field name="knownas" type="string" indexed="true" stored="true" />	
+<<<<<<< HEAD
 	
 	<!-- Coordinate specific fields -->
         
 	<field name="fourFigure" type="string" indexed="true" stored="true" />
+=======
+	<!-- Coordinate specific fields -->
+        
+        <field name="fourFigure" type="string" indexed="true" stored="true" />
+>>>>>>> origin/master
 	<field name="gridref" type="string" indexed="true" stored="true" />
 	<field name="easting" type="string" indexed="false" stored="true" />
 	<field name="northing" type="string" indexed="false" stored="true" />
@@ -688,7 +755,11 @@
 	<copyField source="tribeName" dest="text" />
 	<copyField source="knownas" dest="text" />
 	<copyField source="rulerName" dest="text" />
+<<<<<<< HEAD
 	<copyField source="secondaryRulerName" dest="text" />
+=======
+        <copyField source="secondaryRulerName" dest="text" />
+>>>>>>> origin/master
 	<copyField source="classification" dest="text" />
 	<copyField source="subClassification" dest="text" />	
 	<copyField source="cultureName" dest="text" />
@@ -701,11 +772,19 @@
 	<copyField source="categoryTerm" dest="text" />
 	<copyField source="district" dest="text" />
 	<copyField source="regionName" dest="text" />
+<<<<<<< HEAD
 	<copyField source="hoardName" dest="text" />
 	<copyField source="discoveryMethod" dest="text" />
 	<copyField source="moneyerName" dest="text" />
 	<copyField source="mintmark" dest="text" />
 	<copyField source="objecttype" dest="objectType" />
+=======
+        <copyField source="hoardName" dest="text" />
+        <copyField source="discoveryMethod" dest="text" />
+        <copyField source="moneyerName" dest="text" />
+        <copyField source="mintmark" dest="text" />
+        <copyField source="objecttype" dest="objectType" />
+>>>>>>> origin/master
 	
    <!-- Above, multiple source fields are copied to the [text] field. 
 	  Another way to map multiple source fields to the same 

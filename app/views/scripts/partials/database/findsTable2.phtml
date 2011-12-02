@@ -6,7 +6,7 @@
 	<img src="/images/thumbnails/<?php echo $this->thumbnail;?>.jpg" alt="Thumbnail image of <?php echo $this->recordNumber;?>" />
 	<?php endif;?>
 </td>
-    <td><?php echo ucfirst(strtolower($this->objectType));?></td>
+    <td><?php echo ucfirst(strtolower($this->objecttype));?></td>
     <td><a href="<?php echo $this->url(array('module' => 'database',
  'controller' => 'artefacts','action' => 'record', 'id' => $this->id),null,true);?>">
     <?php echo $this->old_findID;?></a><br/><?php echo $this->workflow($this->workflow);?></td>

@@ -113,6 +113,7 @@ moneyers.name AS moneyerName,
 finds.datefound1,
 finds.datefound2,
 finds.findofnote AS note,
+<<<<<<< HEAD
 findofnotereasons.term as reason,
 finds.width,
 finds.height,
@@ -123,6 +124,9 @@ finds.length,
 finds.secuid,
 findspots.easting,
 findspots.northing
+=======
+findofnotereasons.term as reason
+>>>>>>> origin/master
 FROM finds
 LEFT JOIN findspots ON finds.secuid = findspots.findID
 LEFT JOIN coins ON finds.secuid = coins.findID
@@ -255,6 +259,7 @@ LEFT JOIN regions ON findspots.regionID = regions.id
     <field column="axis" name="axis" />
     <field column="regionID" name="regionID" />
     <field column="regionName" name="regionName" />
+<<<<<<< HEAD
 	<field column="width" name="width" />
 	<field column="height" name="height" />
 	<field column="diameter" name="diameter" />
@@ -264,6 +269,8 @@ LEFT JOIN regions ON findspots.regionID = regions.id
 	<field column="weight" name="weight" />
 	<field column="easting" name="easting" />
 	<field column="northing" name="northing" />
+=======
+>>>>>>> origin/master
 </entity>
 
 </document>
