@@ -516,6 +516,8 @@
 	<field name="height" type="double" indexed="false" stored="true" />
 	<field name="thickness" type="double" indexed="false" stored="true" />
 	<field name="length" type="double" indexed="false" stored="true" />
+        <field name="quantity" type="int" indexed="true" stored="true" />
+        
 	<!--  Person specific details -->
 	<field name="finder" type="string" indexed="true" stored="true" />
 	<field name="finderID" type="string" indexed="true" stored="true" />
