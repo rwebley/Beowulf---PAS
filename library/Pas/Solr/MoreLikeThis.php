@@ -55,29 +55,26 @@ class Pas_Solr_MoreLikeThis {
             ->getMoreLikeThis()
             ->setFields($this->_fields)
             ->setMinimumDocumentFrequency($minDocFreq)
-            ->setMinimumTermFrequency($minTermFreq);
+            ->setMinimumTermFrequency($minTermFreq)
+            ->setCount(10);
     $resultset = $client->select($query);
-    return $this->getLikes($resultset);
+    $mlt = $resultset->getMoreLikeThis();
+    foreach($resultset as $result){
+       
+    $mltResult = $mlt->getResult($result->findIdentifier);
+    $mltArray = array();
+    if($mltResult){
+    $mltArray['maxScore'] = $mltResult->getMaximumScore();
+    $mltArray['numFound'] = $mltResult->getNumFound();
+    $mltArray['numFetched'] = count($mltResult);
+    foreach($mltResult AS $k => $v) {
+       $mltArray['results'][$k] = $v;
+    }
+    }
+    }
+    
+    return $mltArray;
     }
       
-    public function getLikes($resultSet){
-    
-    $mlt = $resultSet->getMoreLikeThis();
-    foreach($resultSet as $document){
-         $mltResult = $mlt->getResult($document->id);
-          if($mltResult){
-        $likeData['Maxscore'] = $mltResult->getMaximumScore();
-        $likeData['NumFound'] = $mltResult->getNumFound();
-        $likeData['Numfetched'] = count($mltResult);
-        foreach($mltResult AS $mltDoc) {
-        $likeData[$mltDoc->name] = $mltDoc->id;
-        }
-          }
-    }
-        return $likeData;
-       
-               
-    }
-    
 }
 

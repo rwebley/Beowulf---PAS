@@ -35,26 +35,27 @@ class Pas_View_Helper_MoreLikeThis extends Zend_View_Helper_Abstract {
     
     }
 
-    public function moreLikeThis($id){
+    public function moreLikeThis($query){
      $mlt = $this->_solr;
-     $mlt->setFields(array('objecttype','broadperiod','description'));
-     $mlt->setQuery('id:' . $id . ' thumbnail:[1 TO *]');
+     $mlt->setFields(array('objecttype','broadperiod','description','notes'));
+     $mlt->setQuery($query);
      $solrResponse =  $mlt->executeQuery();
      
     return $this->buildHtml($solrResponse);
     }
     
     private function buildHtml($solrResponse){
-        
-    $html ='<h4>' . $this->_results . ' similar objects</h4><ul>';
-    foreach($solrResponse as $document){
-        foreach($document as $doc ){
-            
-                $html .= '<li>';
-                $html .= '<img src="/images/thumbnails/'. $doc->_fields['thumbnail'] .'"/>';
-                $html .= '<li>';
-                
-        } 
+    $html ='<h4>We found some similar objects</h4><ul>';
+    foreach($solrResponse['results'] as $document){
+       if(($document->thumbnail)){ 
+                $html .= '<li style="list-style:none;display:inline;">';
+                $html .= '<a href="http://beta.finds.org.uk/database/artefacts/record/id/' . $document->id . '">';
+                $html .= '<img src="/images/thumbnails/'. $document->thumbnail .'.jpg"/>';
+                $html .= '</a>';
+                $html .= $document->old_findID . ' - ' . $document->objecttype;
+                $html .= '</li>';
+       }         
+      
        
     }
     $html .= '</ul>';

@@ -10,7 +10,7 @@
 class Flickr_PhotosController 
 	extends Pas_Controller_Action_Admin {
 	
-	protected 	$_oauth, $_config, $_userid, $_cache, $_api;
+	protected $_oauth, $_config, $_userid, $_cache, $_api;
 	/** Setup the contexts by action and the ACL.
 	*/			
 	public function init() {
@@ -27,20 +27,22 @@ class Flickr_PhotosController
 	public function indexAction() {
 	$this->_flashMessenger->addMessage('You can only see photos at the index page');
 	$this->_redirect('/flickr/');
-    }
-    /** Retrieve the page number
-     * 
-     */
-    public function getPage(){
-    $page = $this->_getParam('page');
+        }
+    
+        /** Retrieve the page number
+        * 
+        */
+        public function getPage(){
+        $page = $this->_getParam('page');
 	if(!isset($page)){
 		$start = 1;
 	} else {
 		$start = $page ;
 	}
 	return $start;	
-    }
-	/** Retrieve the sets of photos we have
+        }
+	
+        /** Retrieve the sets of photos we have
 	*/		
 	public function setsAction() {
 	$page = $this->getPage();
@@ -54,10 +56,10 @@ class Flickr_PhotosController
 	$pagination = array(    
 	'page'          => $page, 
 	'perpage'      => (int)$flickr->photosets->perpage, 
-    'total_results' => (int)$flickr->photosets->total
+        'total_results' => (int)$flickr->photosets->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
-    $paginator->setCurrentPageNumber($pagination['page'])
+        $paginator->setCurrentPageNumber($pagination['page'])
 		->setItemCountPerPage($pagination['perpage'])
 		->setCache($this->_cache);
 	$this->view->paginator = $paginator;
@@ -83,7 +85,7 @@ class Flickr_PhotosController
 	$pagination = array(    
 	'page'          => $page, 
 	'per_page'      => $perpage, 
-    'total_results' => (int)$total
+        'total_results' => (int)$total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
 	$paginator->setCurrentPageNumber($pagination['page'])
@@ -110,7 +112,7 @@ class Flickr_PhotosController
 	$pagination = array(    
 	'page'          => $page, 
 	'per_page'      => $flickr->photoset->perpage, 
-    'total_results' => (int)$flickr->photoset->total
+        'total_results' => (int)$flickr->photoset->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
 	$paginator->setCurrentPageNumber($pagination['page'])
@@ -170,7 +172,7 @@ class Flickr_PhotosController
 	'page'          => $page, 
 	'results' 		=> $photos,
 	'per_page'      => 20, 
-    'total_results' => (int) $total
+        'total_results' => (int) $total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
 	$paginator->setCurrentPageNumber($pagination['page']) ;
@@ -198,7 +200,7 @@ class Flickr_PhotosController
 	$pagination = array(    
 	'page'          => $page, 
 	'per_page'      => (int)$flickr->perpage, 
-    'total_results' => (int)$flickr->total
+        'total_results' => (int)$flickr->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
 	$paginator->setCurrentPageNumber($page)
@@ -223,7 +225,7 @@ class Flickr_PhotosController
 	}
 	$pagination = array(    
 	'page'          => $page, 
-    'total_results' => (int)$flickr->total
+        'total_results' => (int)$flickr->total
 	);
 	$paginator = Zend_Paginator::factory($pagination['total_results']);
 	$paginator->setCurrentPageNumber($page)
