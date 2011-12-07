@@ -1,11 +1,11 @@
 <div class="thumbnail" id="thumbnail-<?php echo $this->id;?>" about="thumbnail-<?php echo $this->id;?>">
 <?php 
-	$name = substr($this->f, 0, strrpos($this->f, '.')); 
+	$name = substr($this->filename, 0, strrpos($this->filename, '.')); 
 	$ext = '.jpg';
 $file = $name.$ext;
 ?>
 
-<a href="/images/<?php echo $this->username;?>/medium/<?php echo $file;?>" rel="lightbox" title="<?php echo $this->label;?>"><img  src="<?php echo $this->baseUrl().'/images/thumbnails/'.$this->thumbnail;?>.jpg"  alt="PAS record number: <?php echo $this->old_findID;?>" /></a>
+<a href="<?php echo $this->imagedir;?>medium/<?php echo $file;?>" rel="lightbox" title="<?php echo $this->label;?>"><img  src="<?php echo $this->baseUrl().'/images/thumbnails/'.$this->thumbnail;?>.jpg"  alt="PAS record number: <?php echo $this->old_findID;?>" /></a>
 <p>
 Record: <a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts',
 'action'=>'record','id' => $this->id),null,true);?>" title="PAS record number: <?php echo $this->old_findID;?>"><?php echo $this->old_findID;?></a><br />

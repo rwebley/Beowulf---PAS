@@ -8,10 +8,8 @@
 	<?php echo $this->partialLoop('partials/numismatics/rulerDenom.phtml', $this->rulers);?>
 </ul>
 
-<?php if($this->images):?>
 <h3>Latest examples recorded</h3>
 
 <div id="latest">
-	<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
+<?php echo $this->latestRecords('denomination:' . $this->id);?>
 </div>
-<?php endif;?>

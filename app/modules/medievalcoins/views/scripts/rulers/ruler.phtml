@@ -110,12 +110,10 @@ echo '</p>';
 }
 ?> 
 
-<?php if($this->images):?>
 <h3 style="clear:left;">Latest examples recorded</h3>
 <div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
+<?php echo $this->latestRecords('ruler:' . $this->id);?>
 </div>
-<?php endif;?>
 
 <div id="tabs">
 <ul>

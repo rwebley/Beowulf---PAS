@@ -488,6 +488,7 @@ padding:10px;
 float:right;
 }
 #QRtag {
+	clear:left;
 }
 
 .error {

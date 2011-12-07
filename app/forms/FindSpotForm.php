@@ -85,6 +85,7 @@ public function __construct($options = null) {
 	$district = new Zend_Form_Element_Select('district');
 	$district->setLabel('District: ')
 	->setRequired(false)
+	->setRegisterInArrayValidator(false)
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
 	->addMultiOptions(array(NULL => 'Choose district after county'));
@@ -92,6 +93,7 @@ public function __construct($options = null) {
 	$parish = new Zend_Form_Element_Select('parish');
 	$parish->setLabel('Parish: ')
 	->setRequired(false)
+	->setRegisterInArrayValidator(false)
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
 	->addMultiOptions(array(NULL => 'Choose parish after district'));
@@ -108,7 +110,7 @@ public function __construct($options = null) {
 	$gridref = new Zend_Form_Element_Text('gridref');
 	$gridref->setLabel('Grid reference: ')
 	->addValidators(array('NotEmpty','ValidGridRef'))
-	->addValidator('Alnum')
+	->addValidator('Alnum',array('allowWhiteSpace' => true))
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'));
 
@@ -247,7 +249,7 @@ public function __construct($options = null) {
 
 	$knownas = new Zend_Form_Element_Text('knownas');
 	$knownas->setLabel('Findspot to be known as: ')
-	->addValidators(array('NotEmpty','Alnum'))
+	->addValidator('Alnum', false, array('allowWhiteSpace' => true))
 	->setDecorators($decorators)
 	->setAttrib('class','privatedata')
 	->addFilters(array('StripTags', 'StringTrim'));

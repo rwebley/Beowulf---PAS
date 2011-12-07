@@ -22,7 +22,7 @@ class PostMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
     }
 	/** Internal period ID number
 	*/	
-	protected $_period = (int) 36;
+	protected $_period = 36;
 	
 	/** Index page for Post Medieval rulers
 	*/		

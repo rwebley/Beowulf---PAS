@@ -13,7 +13,6 @@ class Earlymedievalcoins_TypesController extends Pas_Controller_Action_Admin {
 	*/
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('index', array('xml','json'))
@@ -54,13 +53,9 @@ class Earlymedievalcoins_TypesController extends Pas_Controller_Action_Admin {
 	*/
 	public function typeAction() {
 	if($this->_getParam('id',false)){
-	
+	$this->view->id = $this->_getParam('id');
 	$types = new MedievalTypes();
 	$this->view->types = $types->getTypeDetails($this->_getParam('id'));
-	
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsMedTypes($this->_getParam('id'),4);
-	
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

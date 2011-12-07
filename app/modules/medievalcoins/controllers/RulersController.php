@@ -11,7 +11,6 @@ class MedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	*/	
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('index', array('xml','json'))
@@ -57,6 +56,7 @@ class MedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	public function rulerAction() {
 	if($this->_getParam('id',false)){
 	$id = (int)$this->_getParam('id');
+	$this->view->id = $id;
 	$rulers = new Rulers();
 	$this->view->rulers = $rulers->getRulerImage($id);
 	$this->view->monarchs = $rulers->getRulerProfileMed($id);
@@ -66,8 +66,6 @@ class MedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	$this->view->types = $types->getMedievalTypeToRuler($id);
 	$mints = new Mints();
 	$this->view->mints = $mints->getMedMintRuler($id);
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoins($id,4);
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter);
 	}

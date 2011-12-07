@@ -13,7 +13,6 @@ class EarlyMedievalCoins_MintsController extends Pas_Controller_Action_Admin
 	*/
 	public function init() {
  	$this->_helper->_acl->allow(null);
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('index', array('xml','json'))
@@ -37,6 +36,7 @@ class EarlyMedievalCoins_MintsController extends Pas_Controller_Action_Admin
 	if($this->_getParam('id',false)){
 		
 	$id = $this->_getParam('id');
+	$this->view->id = $id;
 	
 	$mints = new Mints();
 	$this->view->mints = $mints->getMintDetails($id);
@@ -47,8 +47,6 @@ class EarlyMedievalCoins_MintsController extends Pas_Controller_Action_Admin
 	$counts = new Finds();
 	$this->view->counts = $counts->getCountMedMint($id);
 	
-	$slides = new Slides();
-	$this->view->images = $slides->getExamplesCoinsMints($id,4);
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

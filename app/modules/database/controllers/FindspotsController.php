@@ -182,12 +182,11 @@ class Database_FindspotsController
 	$findspots = new Findspots();
 	$ngr = $form->getValue('gridref');
 	if($ngr != ""){
-	$results = new Pas_Geo_Gridcalc($ngr);
-	$fourFigure = $this->FourFigure($ngr);
-	$acc = $this->get_accuracy($ngr);
+	$geo = new Pas_Geo_Gridcalc($ngr);
+	$results = $geo->convert();
 	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
 //	$findelevation = $place->getElevation(NULL,$results['Latitude'],$results['Longitude']);
-	$findwoeid = $place->reverseGeoCode($results['Latitude'],$results['Longitude']);
+	$findwoeid = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],$results['decimalLatLon']['decimalLongitude']);
 //	$elevation = $findelevation['elevation'];
 	$woeid = $findwoeid['woeid'];
 	} else {
@@ -203,16 +202,16 @@ class Database_FindspotsController
 	'knownas' => $form->getValue('knownas'),
 	'gridref' => strtoupper(str_replace(' ','',$ngr)),
 	'gridrefsrc' => $form->getValue('gridrefsrc'),
-	'declat' => $results['Latitude'],
-	'declong' => $results['Longitude'],
-	'easting' => $results['Easting'],
-	'northing' => $results['Northing'],	  
-	'map10k' => $results['Tenk'],
-	'map25k' => $results['2pt5K'],
+	'declat' => $results['decimalLatLon']['decimalLatitude'],
+	'declong' => $results['decimalLatLon']['decimalLongitude'],
+	'easting' => $results['easting'],
+	'northing' => $results['northing'],	  
+	'map10k' => $results['10kmap'],
+	'map25k' => $results['25kmap'],
 	'landusecode' => $form->getValue('landusecode'),
 	'landusevalue' => $form->getValue('landusevalue'),
 	'landowner' => $form->getValue('landowner'),
-	'fourFigure' => $fourFigure,
+	'fourFigure' => $results['fourFigureGridRef'],
 	'gridrefcert' => $form->getValue('gridrefcert'),
 	'description' => $form->getValue('description'),
 	'comments' => $form->getValue('comments'),
@@ -220,12 +219,11 @@ class Database_FindspotsController
 	'updatedBy' => $this->getIdentityForForms(),
 	'highsensitivity' => $form->getValue('highsensitivity'),
 	'depthdiscovery' => $form->getValue('depthdiscovery'),
-	'accuracy' => $acc,
+	'accuracy' => $results['accuracy']['precision'],
 	'address' => $form->getValue('address'),
 	'postcode' => $form->getValue('postcode'),
 	'woeid' => $woeid,
 	'elevation' => $elevation
-
 	);
 	foreach ($updateData as $key => $value) {
       if (is_null($value) || $value=="") {
@@ -318,7 +316,7 @@ class Database_FindspotsController
 	/* Zend_Debug::dump($updateData);
 	exit; */
 	$solr = new Pas_Solr_Updater();
-	$solr->add($returnID);
+			$solr->add($returnID,'beowulf');
 	$this->_flashMessenger->addMessage('Details for the findspot updated!');
 	$this->_redirect(self::REDIRECT.'record/id/'.$returnID);
 	} else {

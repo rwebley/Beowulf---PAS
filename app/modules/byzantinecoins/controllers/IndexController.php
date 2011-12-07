@@ -21,9 +21,6 @@ class ByzantineCoins_IndexController extends Pas_Controller_Action_Admin  {
 	public function indexAction() {
 		$content = new Content();
 		$this->view->content =  $content->getFrontContent('byzantinecoins');
-		
-		$images = new Slides();
-		$this->view->images = $images->getExamplesCoinsPeriod('BYZANTINE',4);
 	}
 
 }

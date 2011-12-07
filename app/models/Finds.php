@@ -3181,26 +3181,35 @@ class Finds extends Pas_Db_Table_Abstract {
 	$findsdata = $this->getAdapter();
 	$select = $findsdata->select()
 		->from($this->_name, array(
+		'findIdentifier' => 'CONCAT("finds-",finds.id)',
 		'id',
 		'old_findID', 
-		'objectType' => 'objecttype', 
+		'objecttype',
 		'broadperiod', 
 		'description', 
 		'notes', 
 		'inscription',
 		'classification', 
+		'periodFrom' => 'objdate1period',
+		'periodTo' => 'objdate2period',
+		'fromsubperiod' => 'objdate1subperiod',
+		'tosubperiod' => 'objdate2subperiod',
 		'fromdate' => 'numdate1',
 		'todate' => 'numdate2',
 		'treasure',
 		'rally',
-		'treasureID' => 'treasureID', 
+		'hoard',
+		'hID' => 'hoardID',
+		'rallyID',
+		'TID' => 'treasureID', 
+		'note' => 'findofnote',
 		'workflow' => 'secwfstage',
 		'institution',
 		'datefound1',
 		'datefound2',
 		'subClassification' => 'subclass',
 		'smrRef' => 'smr_ref',
-		'other_ref',
+		'otherRef' => 'other_ref',
 		'musaccno',
 		'currentLocation' => 'curr_loc',
 		'created',
@@ -3210,8 +3219,23 @@ class Finds extends Pas_Db_Table_Abstract {
 		'diameter',
 		'thickness',
 		'width',
-		'length'))
+		'length',
+		'quantity',
+		'material' => 'material1',
+		'secondaryMaterial' => 'material2',
+		'subsequentAction' => 'subs_action',
+		'completeness',
+		'decstyle',
+		'manufacture' => 'manmethod',
+		'surface' => 'surftreat',
+		'preservation',
+		'discovery' => 'discmethod',
+		'culture',
+		'finderID',
+		'recorderID',
+		'identifierID' => 'identifier1ID'))
 		->joinLeft('findspots','finds.secuid = findspots.findID', array(
+		'regionID',
 		'county', 
 		'district', 
 		'parish', 
@@ -3223,54 +3247,68 @@ class Finds extends Pas_Db_Table_Abstract {
 		'elevation',
 		'woeid',
 		'easting',
-		'northing'))
+		'northing',
+		'coordinates' => 'CONCAT(declat,",",declong)'
+		))
 		->joinLeft('coins', 'finds.secuid = coins.findID',array(
+		'geographyID',
+		'ruler' => 'ruler_id',
+		'mint' => 'mint_id',
+		'denomination',
+		'type' => 'typeID',
+		'category' => 'categoryID',
 		'obverseDescription' => 'obverse_description', 
 		'obverseLegend' => 'obverse_inscription',
 		'reverseDescription' => 'reverse_description',
 		'reverseLegend' => 'reverse_inscription',
-		'reeceperiod' => 'reeceID',
+		'reeceID',
+		'tribe',
 		'cciNumber',
 		'mintmark' => 'reverse_mintmark',
 		'allenType' => 'allen_type',
 		'mackType' => 'mack_type',
 		'abcType' => 'rudd_type',
-		'vaType' => 'va_type'
+		'vaType' => 'va_type',
+		'moneyer',
+		'axis' => 'die_axis_measurement'
 		))
-		->joinLeft('mints','mints.id = coins.mint_ID', array ('mint' => 'mint_name'))
-		->joinLeft('denominations','coins.denomination = denominations.id', array('denomination'))
-		->joinLeft('rulers','coins.ruler_id = rulers.id',array('ruler' => 'issuer'))
-		->joinLeft('users','users.id = finds.createdBy', array('createdBy' => 'fullname'))
+		->joinLeft('mints','mints.id = coins.mint_ID', array ('mintName' => 'mint_name'))
+		->joinLeft('denominations','coins.denomination = denominations.id', array('denominationName' => 'denomination'))
+		->joinLeft('rulers','coins.ruler_id = rulers.id',array('rulerName' => 'issuer'))
+		->joinLeft('users','users.id = finds.createdBy', array('createdBy' => 'fullname','imagedir'))
 		->joinLeft(array('users2' => 'users'),'users2.id = finds.updatedBy', 
 		array('updatedBy' => 'fullname'))
-		->joinLeft(array('mat' =>'materials'),'finds.material1 = mat.id', array('material' =>'term'))
-		->joinLeft(array('mat2' =>'materials'),'finds.material2 = mat2.id', array('secondaryMaterial' => 'term'))
+		->joinLeft(array('mat' =>'materials'),'finds.material1 = mat.id', array('materialTerm' =>'term'))
+		->joinLeft(array('mat2' =>'materials'),'finds.material2 = mat2.id', array('secondaryMaterialTerm' => 'term'))
 		->joinLeft('decmethods','finds.decmethod = decmethods.id', array('decoration' => 'term'))
-		->joinLeft('decstyles','finds.decstyle = decstyles.id', array('decstyle' => 'term'))
-		->joinLeft('manufactures','finds.manmethod = manufactures.id', array('manufacture' => 'term'))
+		->joinLeft('decstyles','finds.decstyle = decstyles.id', array('decstyleTerm' => 'term'))
+		->joinLeft('manufactures','finds.manmethod = manufactures.id', array('manufactureTerm' => 'term'))
 		->joinLeft('surftreatments','finds.surftreat = surftreatments.id', array('treatment' => 'term'))
-		->joinLeft('completeness','finds.completeness = completeness.id', array('completeness' => 'term'))
-		->joinLeft('preservations','finds.preservation = preservations.id', array('preservation' => 'term'))
-		->joinLeft('periods','finds.objdate1period = periods.id', array('periodFrom' => 'term'))
-		->joinLeft(array('p' => 'periods'),'finds.objdate2period = p.id', array('periodTo' => 'term'))
-		->joinLeft('cultures','finds.culture = cultures.id', array('culture' => 'term'))
-		->joinLeft('discmethods','discmethods.id = finds.discmethod', array('discmethod' => 'method'))
+		->joinLeft('completeness','finds.completeness = completeness.id', array('completenessTerm' => 'term'))
+		->joinLeft('preservations','finds.preservation = preservations.id', array('preservationTerm' => 'term'))
+		->joinLeft('periods','finds.objdate1period = periods.id', array('periodFromName' => 'term'))
+		->joinLeft(array('p' => 'periods'),'finds.objdate2period = p.id', array('periodToName' => 'term'))
+		->joinLeft('cultures','finds.culture = cultures.id', array('culturename' => 'term'))
+		->joinLeft('discmethods','discmethods.id = finds.discmethod', array('discoveryMethod' => 'method'))
 		->joinLeft('people','finds.finderID = people.secuid', array('finder' => 'CONCAT(people.title," ",people.forename," ",people.surname)'))
 		->joinLeft(array('ident1' => 'people'),'finds.identifier1ID = ident1.secuid', 
 		array('identifier' => 'CONCAT(ident1.forename," ",ident1.surname)'))
-		->joinLeft(array('ident2' => 'people'),'finds.identifier2ID = ident2.secuid', 
-		array('secondaryIdentifier' => 'CONCAT(ident2.forename," ",ident2.surname)'))
+//		->joinLeft(array('ident2' => 'people'),'finds.identifier2ID = ident2.secuid', 
+//		array('secondaryIdentifier' => 'CONCAT(ident2.forename," ",ident2.surname)'))
 		->joinLeft(array('record' => 'people'),'finds.recorderID = record.secuid', 
 		array('recorder' => 'CONCAT(record.title," ",record.forename," ",record.surname)'))
 		->joinLeft('subsequentActions','finds.subs_action = subsequentActions.id', 
-		array('subsequentAction' => 'action'))
+		array('subsequentActionTerm' => 'action'))
 		->joinLeft('finds_images','finds.secuid = finds_images.find_id', array())
-		->joinLeft('slides','slides.secuid = finds_images.image_id', array('filename'))
+		->joinLeft('slides','slides.secuid = finds_images.image_id', array('filename','thumbnail' => 'imageID'))
 		->joinLeft('rallies','finds.rallyID = rallies.id',array('rallyName' => 'rally_name')) 
-		->joinLeft('ironagetribes','coins.tribe = ironagetribes.id', array('tribe'))
-		->joinLeft('medievalcategories','medievalcategories.id = coins.categoryID', array('category'))
-		->joinLeft('medievaltypes','medievaltypes.id = coins.typeID', array('type'))
+		->joinLeft('ironagetribes','coins.tribe = ironagetribes.id', array('tribeName' => 'tribe'))
+		->joinLeft('medievalcategories','medievalcategories.id = coins.categoryID', array('categoryTerm' => 'category'))
+		->joinLeft('medievaltypes','medievaltypes.id = coins.typeID', array('typeTerm' => 'type'))
 		->joinLeft('geographyironage','geographyironage.id = coins.geographyID', array('geography' => 'CONCAT(geographyironage.region,",",area)'))
+		->joinLeft('moneyers','coins.moneyer = moneyers.id',array('moneyerName' => 'name'))
+		->joinLeft('regions','findspots.regionID = regions.id',array('regionName' => 'region'))
+		->joinLeft('hoards','hoards.id = finds.hoardID',array('hoardName' => 'term'))
 		->where('finds.id = ?', (int)$findID)
 		->group('finds.id')
 		->limit(1);

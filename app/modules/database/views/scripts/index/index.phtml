@@ -10,16 +10,9 @@ $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.
 ?>
 <?php $this->jQuery()->javascriptCaptureStart(); ?>
 jQuery(document).ready(function($) {
- $('a[rel*=lightbox]').lightBox() 
-    }
-);
-
-<?php $this->jQuery()->javascriptCaptureEnd(); ?>
-<?php
-$this->jQuery()->javascriptCaptureStart();?>
-$(document).ready(function() { 
-$("#prestige").corner(); 
+$('a[rel*=lightbox]').lightBox() 
 });
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>
 <?php
 $this->jQuery()->javascriptCaptureEnd();?>
 <h2>Welcome to the Scheme's database</h2>
@@ -34,9 +27,8 @@ echo $c['body'];
 ?></div>
 
 <div>
-<h3>Latest records available to you</h3>
 
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml', $this->thumbs) ;?>
+<?php echo $this->latestRecords();?>
 </div>
 <?php 
 $auth = Zend_Registry::get('auth');

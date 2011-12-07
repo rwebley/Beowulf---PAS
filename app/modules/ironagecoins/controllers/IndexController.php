@@ -13,19 +13,12 @@ class IronAgeCoins_IndexController extends Pas_Controller_Action_Admin {
 	*/
 	public function init() {
  	$this->_helper->_acl->allow(null);
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     }
-    
-	/** Internal period ID number for the Iron Age
-	*/    
-	protected $_period = '16';
 
 	/** Set up data for the index page
 	*/
 	public function indexAction() {
 	$content = new Content();
 	$this->view->content =  $content->getFrontContent('ironagecoins');
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsPeriod('iron age',4);
 	}
 }

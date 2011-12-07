@@ -13,7 +13,6 @@ class EarlyMedievalCoins_DenominationsController extends Pas_Controller_Action_A
 	*/
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('index', array('xml','json'))
@@ -44,10 +43,11 @@ class EarlyMedievalCoins_DenominationsController extends Pas_Controller_Action_A
 	/** Get details of each individual denomination
 	* @param int $id denomination number 
 	*/	
-	public function denominationAction()
-	{
+	public function denominationAction() {
 	if($this->_getParam('id',false)) {
+	
 	$id = (int)$this->_getParam('id');
+	$this->view->id = $id;
 	
 	$denoms = new Denominations();
 	$this->view->denoms = $denoms->getDenom($id,(int)$this->_period);
@@ -57,9 +57,6 @@ class EarlyMedievalCoins_DenominationsController extends Pas_Controller_Action_A
 	
 	$counts = new Finds;
 	$this->view->counts = $counts->getDenominationTotals((int)$id);
-	
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsDenominations($id,4); 
 	
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter); 

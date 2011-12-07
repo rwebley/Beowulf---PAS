@@ -11,14 +11,11 @@ class MedievalCoins_IndexController extends Pas_Controller_Action_Admin {
 	*/	
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     }
 	/** Setup the index page with examples and front blurb
 	*/	
 	public function indexAction() {
 	$content = new Content();
 	$this->view->content =  $content->getFrontContent('medievalcoins');
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsPeriod('medieval',4);
 	}
 }

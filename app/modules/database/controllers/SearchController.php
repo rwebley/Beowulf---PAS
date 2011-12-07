@@ -516,10 +516,6 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	*/		
 	public function resultsAction(){
 	$params = array_slice($this->_getAllParams(),3);
-<<<<<<< HEAD
-=======
-//	Zend_Debug::dump($params);
->>>>>>> origin/master
 	if(sizeof($params) > 0){
 	$limit = 20;
 	$page = $this->_getParam('page');
@@ -530,10 +526,6 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 		unset($params['page']);
 		$start = ($page - 1) * 20;
 	}	
-<<<<<<< HEAD
-=======
-//	Zend_Debug::dump($params);
->>>>>>> origin/master
 	$q = '';
 	if(array_key_exists('q',$params)){
 	$q .= $params['q'] . ' ';
@@ -543,10 +535,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$images = (int)1;
 	unset($params['images']);
 	}
-	if(array_key_exists('format')){
-	$format = $params['format'];
-	unset($params['format']);
-	}
+	
 	if(array_key_exists('radius',$params)){
 	$d = (int)$params['radius'];
 	unset($params['radius']);
@@ -564,33 +553,22 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	foreach($params as $k => $v){
 	$q .= $k . ':"' . $v . '" ';
 	}
-<<<<<<< HEAD
 	$config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
-    'path' => '/solr/',
-	'core' => 'beowulf'
+    'path' => '/solr/beowulf/',
     )
-=======
-//	Zend_Debug::dump($q);
-	$config = array(
-        'adapteroptions' => array(
-        'host' => '127.0.0.1',
-        'port' => 8983,
-        'path' => '/solr/beowulf/',
-        )
->>>>>>> origin/master
 	);
 	
 	$select = array(
-        'query'         => $q,
-        'start'         => $start,
-        'rows'          => $limit,
-        'fields'        => array('*'),
-        'sort'          => array('created' => 'desc'),
-        'filterquery' => array(),
-        );
+    'query'         => $q,
+    'start'         => $start,
+    'rows'          => $limit,
+    'fields'        => array('*'),
+    'sort'          => array('created' => 'desc'),
+	'filterquery' => array(),
+    );
 	$allowed = array('fa','flos','admin','treasure');
 	if(!in_array($this->getRole(),$allowed)) {
 	$select['filterquery']['workflow'] = array(
@@ -609,26 +587,19 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
         );
 	}
 	
+	// create a client instance
 	$client = new Solarium_Client($config);
+	// get a select query instance based on the config
 	$query = $client->createSelect($select);
 	if(!is_null($d) && !is_null($lon) && !is_null($lat)){
 	$helper = $query->getHelper();
 	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
 	}
-<<<<<<< HEAD
 //	$facetSet = $query->getFacetSet();
 //
 //	$facetSet->createFacetField('period')->setField('broadperiod');
 //	$facetSet->createFacetField('county')->setField('county');
 //	$facetSet->createFacetField('objectType')->setField('objectType');
-=======
-//	Zend_Debug::dump($query);
-	$facetSet = $query->getFacetSet();
-
-	$facetSet->createFacetField('period')->setField('broadperiod');
-	$facetSet->createFacetField('county')->setField('county');
-	$facetSet->createFacetField('objectType')->setField('objectType');
->>>>>>> origin/master
 	$resultset = $client->select($query);
 	$pagination = array(    
 	'page'          => $page, 
@@ -642,7 +613,18 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	    }
 	    $data[] = $fields;
 	}
-
+//	$periodFacet = $resultset->getFacetSet()->getFacet('period');
+//	foreach($periodFacet as $value => $count) {
+//    echo $value . ' [' . $count . ']<br/>';
+//	}
+//	$objectFacet = $resultset->getFacetSet()->getFacet('objectType');
+//	foreach($objectFacet as $value => $count) {
+//    echo $value . ' [' . $count . ']<br/>';
+//	}
+//	$countyFacet = $resultset->getFacetSet()->getFacet('county');
+//	foreach($countyFacet as $value => $count) {
+//    echo $value . ' [' . $count . ']<br/>';
+//	}
 	$paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
               ->setItemCountPerPage($limit)

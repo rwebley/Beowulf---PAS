@@ -58,8 +58,6 @@ class Pas_Solr_Updater {
 	$update->addDocument($doc);
     $update->addCommit();
     $result = $solr->update($update);
-    Zend_Debug::dump($result->getStatus());
-    exit;
     return $solr->update($update);
 	}
 	
@@ -68,20 +66,19 @@ class Pas_Solr_Updater {
 	 * @param $id
 	 */
 	public function delete($id){
-	$this->_solr->deleteById($id);
-	$this->_commit();
-	$this->_optimize();
+	$solr = new Solarium_Client(array(
+    'adapteroptions' => array(
+    'host' => '127.0.0.1',
+    'port' => 8983,
+    'path' => '/solr/',
+	'core' => 'beowulf'
+    )));
+	$update = $solr->createUpdate();
+	$update->addDeleteById('findIdentifier-' . $id);
+	$update->addCommit();
+	$result = $solr->update($update);
 	}
 	
-	protected function _commit(){
-	$this->_solr->commit();	
-	}
-	/** Optimise the index for solr
-	 * 
-	 */
-	protected function _optimize(){
-	$this->_solr->optimize();	
-	}
 	
 	public function fromString($date_string) {
 	if (is_integer($date_string) || is_numeric($date_string)) {

@@ -8,9 +8,4 @@ jQuery(document).ready(function($) {
 $('a[rel*=lightbox]').lightBox() 
 });
 <?php $this->jQuery()->javascriptCaptureEnd(); ?>
-<?php if($this->images):?>
-<h3>Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
-<?php endif;?>
+<?php echo $this->latestRecords('objectType:coin broadperiod:"IRON AGE"');?>

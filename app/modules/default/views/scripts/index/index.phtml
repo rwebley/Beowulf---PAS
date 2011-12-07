@@ -6,9 +6,8 @@ $this->jQuery()->addJavascriptFile('/js/JQuery/jquery.nivo.slider.pack.js',$type
 ?>
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 jQuery(document).ready(function($) {
-
- $('a[rel*=lightbox]').lightBox() 
-    })
+$('a[rel*=lightbox]').lightBox() 
+});
 $(window).load(function() {
         $('#slider').nivoSlider({
         effect:'random', //Specify sets like: 'fold,fade,sliceDown'

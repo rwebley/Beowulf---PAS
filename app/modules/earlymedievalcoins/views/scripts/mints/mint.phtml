@@ -2,15 +2,8 @@
 <h3>Issuers</h3>
 <p>This mint was active under the following issuers and we have recorded <?php echo $this->partialLoop('partials/countObjects.phtml',$this->counts);?>.</p>
 
-<ul id="related">
+<ul>
 	<?php echo $this->partialLoop('partials/numismatics/medMintsRulers.phtml',$this->actives);?>
 </ul>
 
-<?php if($this->images):?>
-
-<h3>Latest examples recorded</h3>
-
-<div id="latest">
-	<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
-<?php endif;?>
+<?php echo $this->latestRecords('mint:' . $this->id);?>
