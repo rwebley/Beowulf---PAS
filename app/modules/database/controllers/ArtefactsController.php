@@ -135,6 +135,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$this->view->recordID = $this->_getParam('id');
 		$id = $this->_getParam('id');
 		$findsdata = $this->_finds->getIndividualFind($id,$this->getRole());
+               
 		if(count($findsdata)) {
 		$this->view->finds = $findsdata; 
 		} else {

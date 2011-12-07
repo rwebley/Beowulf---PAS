@@ -24,7 +24,7 @@ class Pas_View_Helper_NewPeople extends Zend_View_Helper_Abstract {
 	 * @access private
 	 * @return function buildhtml 
 	 */
-	private function newPeople() {
+	public function newPeople() {
 	$people = $this->getNew();
 	if(count($people) > 0) {
 	return $this->buildHtml($people);	
@@ -37,7 +37,7 @@ class Pas_View_Helper_NewPeople extends Zend_View_Helper_Abstract {
 	 * @access public 
 	 * @param array $people An array of people's usernames
 	 */
-	public function buildHtml($people)	{
+	private function buildHtml($people)	{
 	$html = '';
 	$html .= '<h4>Welcome to today\'s new joiners</h4>';
 	$html .= '<ul>';

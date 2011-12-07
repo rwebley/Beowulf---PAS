@@ -323,7 +323,11 @@ public function __construct($options = null)
 	$this->addDisplayGroup(array('submit'), 'submit');
 	$this->addDecorator('FormElements')
 		 ->addDecorator('Form')
+<<<<<<< HEAD
 	     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'div'));
+=======
+	     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'div'));	
+>>>>>>> Dodgy more like this
 	
 	}
 }
