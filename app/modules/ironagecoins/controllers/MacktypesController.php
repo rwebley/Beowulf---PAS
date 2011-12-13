@@ -23,12 +23,11 @@ class IronAgeCoins_MacktypesController extends Pas_Controller_Action_Admin {
     
 	/** Internal period ID number for the Iron Age
 	*/       
-	protected $_period = '16';
+	protected $_period = 16;
     
 	/** Set up the Mack type index pages
 	*/    
 	public function indexAction() {
-    $this->view->headTitle('Mack types listed');
     $types = new MackTypes();
     $macks = $types->getMackTypes($this->_getAllParams());
     $contexts = array('json','xml');
@@ -47,4 +46,10 @@ class IronAgeCoins_MacktypesController extends Pas_Controller_Action_Admin {
 	$this->view->macks = $macks;
 	}
     }
+    
+ 	public function typeAction(){
+    $types = new MackTypes();
+	$this->view->type = $types->fetchRow($types->select()->where('type = ?',urlencode($this->_getParam('id'))));
+    }
+    
 }

@@ -5,14 +5,13 @@
 <thead>
 <tr>
 <th>Type name</th>
-<th>Totals recorded</th>
 </tr>
 </thead>
 <tbody>
 <?php echo $this->partialLoop('partials/numismatics/macks.phtml',$this->macks);?>
 </tbody>
 </table>
-<?php $this->paginationControl($this->macks, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php echo $this->paginationControl($this->macks, 'Sliding', 'structure/pagination.phtml'); ?>
 
 <?php else:?>
 <p>No Mack types available</p>

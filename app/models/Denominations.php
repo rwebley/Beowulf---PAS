@@ -274,7 +274,6 @@ class Denominations extends Pas_Db_Table_Abstract {
 		->from($this->_name)
 		->joinLeft('materials',$this->_name . '.material = materials.id',array('term'))
 		->joinLeft('coins',$this->_name . '.id = coins.denomination',array())
-		->joinLeft('finds','finds.secuid = coins.findID',array('total' => 'SUM(quantity)'))
 		->where($this->_name . '.id = ?', $id)
 		->where('period = ?',$period)
 		->group($this->_primary);

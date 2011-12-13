@@ -14,11 +14,6 @@ Thickness: <?php echo $this->thickness; ?> mm<br />
 Diameter: <?php echo $this->diameter; ?> mm<br />
 Metal: <?php echo $this->term;?>
 </p>
-<?php if(isset($this->total)):?>
-<p>View <a href="<?php echo $this->url(array('module' => 'database','controller' => 'search', 'action' => 'results', 'denomination' => $this->id),null,true);?>" title="Search database for all <?php echo $this->denomination;?>">all <?php echo $this->total;?>  examples recorded</a> on our database</p>
-<?php else:?>
-<p>We haven't recorded any coins of this denomination yet.</p>
-<?php endif;?>
 <?php 
 ini_set('display_errors', '0');     # don't show any errors...
 //error_reporting(E_ALL | E_STRICT);  # ...but do log them		

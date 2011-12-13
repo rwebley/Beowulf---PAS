@@ -30,10 +30,9 @@ class IronAgeCoins_TribesController extends Pas_Controller_Action_Admin {
 	public function tribeAction() {
 	if($this->_getParam('id',false)) {
 		$id = (int)$this->_getParam('id');
+		$this->view->id = $id;
 		$tribes = new Tribes;
 		$this->view->tribes = $tribes->getTribe($id);
-		$images = new Slides();
-		$this->view->images = $images->getExamplesCoinsTribes($id,4);
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

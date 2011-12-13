@@ -9,6 +9,7 @@
 */
 class EarlyMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 
+	protected $_rulers;
 	/** Initialise the ACL and contexts
 	*/
 	public function init()  {
@@ -20,46 +21,37 @@ class EarlyMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 		->addActionContext('ruler', array('xml','json'))
 		->addActionContext('foreign', array('xml','json'))
 		->initContext();
+	$this->_rulers = new Rulers();
     }
 
 	/** Internal period number for querying the database
 	*/
-	protected $_period = '47';
+	protected $_period = 47;
    	/** Set up the index page for rulers of each period or dynastic group.
 	*/
 	public function indexAction() {
 	$names = new CategoriesCoins();
 	$this->view->names = $names->getCategoryName();
 
-	$allengland = new Rulers();
-	$this->view->allengland = $allengland->getEarlyMedievalRulers('3');
+	$this->view->allengland = $this->_rulers->getEarlyMedievalRulers('3');
 	
-	$eastanglia = new Rulers();
-	$this->view->eastanglia = $allengland->getEarlyMedievalRulers('4');
+	$this->view->eastanglia = $this->_rulers->getEarlyMedievalRulers('4');
 	
-	$mercia = new Rulers();
-	$this->view->mercia = $mercia->getEarlyMedievalRulers('5');
+	$this->view->mercia = $this->_rulers->getEarlyMedievalRulers('5');
 	
-	$wessex= new Rulers();
-	$this->view->wessex = $wessex->getEarlyMedievalRulers('6');
+	$this->view->wessex = $this->_rulers->getEarlyMedievalRulers('6');
 	
-	$canterbury = new Rulers();
-	$this->view->canterbury = $canterbury->getEarlyMedievalRulers('11');
+	$this->view->canterbury = $this->_rulers->getEarlyMedievalRulers('11');
 	
-	$kent = new Rulers();
-	$this->view->kent = $kent->getEarlyMedievalRulers('12');
+	$this->view->kent = $this->_rulers->getEarlyMedievalRulers('12');
 	
-	$viking = new Rulers();
-	$this->view->viking = $viking->getEarlyMedievalRulers('7');
+	$this->view->viking = $this->_rulers->getEarlyMedievalRulers('7');
 	
-	$northumbria = new Rulers();
-	$this->view->northumbria = $northumbria->getEarlyMedievalRulers('13');
+	$this->view->northumbria = $this->_rulers->getEarlyMedievalRulers('13');
 	
-	$earlysilver = new Rulers();
-	$this->view->earlysilver = $earlysilver->getEarlyMedievalRulers('9');
+	$this->view->earlysilver = $this->_rulers->getEarlyMedievalRulers('9');
 	
-	$earlygold = new Rulers();
-	$this->view->earlygold = $earlygold->getEarlyMedievalRulers('8');
+	$this->view->earlygold = $this->_rulers->getEarlyMedievalRulers('8');
 	}
 
 	/** Set up the individual page per ruler with examples, map and types
@@ -68,21 +60,18 @@ class EarlyMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)){
 	$id = $this->_getParam('id');
 		
-	$rulers = new Rulers();
-	$this->view->rulers = $rulers->getRulerImage($id);
-	$this->view->monarchs = $rulers->getRulerProfileMed($id);
+	$this->view->rulers = $this->_rulers->getRulerImage($id);
+	$this->view->monarchs = $this->_rulers->getRulerProfileMed($id);
 
 	$denominations = new Denominations();
 	$this->view->denominations = $denominations->getEarlyMedRulerToDenomination($id);
 	
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoins($id,4);
-	
 	$types = new MedievalTypes();
-	$this->view->types = $types->getMedievalTypeToRuler($id);
+	$this->view->types = $types->getEarlyMedievalTypeToRuler($id);
 	
 	$mints = new Mints();
 	$this->view->mints = $mints->getMedMintRuler($id);
+	
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter);
 	}
@@ -93,10 +82,9 @@ class EarlyMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	public function foreignAction() {
 	$names = new CategoriesCoins();
 	$this->view->names = $names->getCategoryName();
-	$rulers = new Rulers();
-	$this->view->francia = $rulers->getEarlyMedievalRulers('1');
-	$this->view->islamic = $rulers->getEarlyMedievalRulers('10');
-	$this->view->hiberno = $rulers->getEarlyMedievalRulers('28');
+	$this->view->francia = $this->_rulers->getEarlyMedievalRulers(1);
+	$this->view->islamic = $this->_rulers->getEarlyMedievalRulers(10);
+	$this->view->hiberno = $this->_rulers->getEarlyMedievalRulers(28);
 	}
 	
 }

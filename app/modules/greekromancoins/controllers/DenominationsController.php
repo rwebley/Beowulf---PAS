@@ -13,7 +13,6 @@ class GreekRomanCoins_DenominationsController extends Pas_Controller_Action_Admi
 	*/ 
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('index', array('xml','json'))
@@ -22,7 +21,7 @@ class GreekRomanCoins_DenominationsController extends Pas_Controller_Action_Admi
     }
 	/** Internal period number
 	*/ 
-	protected $_period = '66';
+	protected $_period = 66;
 
 	/** Set up the index display page
 	*/ 
@@ -54,9 +53,6 @@ class GreekRomanCoins_DenominationsController extends Pas_Controller_Action_Admi
 	$denoms = new Denominations();
 	$this->view->denoms = $denoms->getDenom((int)$this->_getParam('id'),(int)$this->_period);
 
-	$counts = new Finds;
-	$this->view->counts = $counts->getDenominationTotals($this->_getParam('id'));
-	
     } else {
 	throw new Pas_Exception_Param($this->_missingParameter);		
 	}

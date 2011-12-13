@@ -44,9 +44,6 @@ class EarlyMedievalCoins_MintsController extends Pas_Controller_Action_Admin
 	$actives = new Rulers();
 	$this->view->actives = $actives->getMedievalMintRulerList($id);
 	
-	$counts = new Finds();
-	$this->view->counts = $counts->getCountMedMint($id);
-	
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

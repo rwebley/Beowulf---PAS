@@ -1,1 +1,2 @@
 <?php echo $this->partialLoop('partials/numismatics/medMintDetail.phtml',$this->byzantium);?>
+<?php echo $this->latestRecords('mint:' . $this->escape($this->id));?>

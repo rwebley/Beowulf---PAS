@@ -1,15 +1,16 @@
 <?php echo $this->partialLoop('partials/numismatics/romanDenom.phtml', $this->denoms) ;?>
 
-<p><?php echo $this->partialLoop('partials/count.phtml', $this->counts) ;?></p>
-
 <h3>Issued by</h3>
 
 <ul id="related">
 	<?php echo $this->partialLoop('partials/numismatics/rulerDenom.phtml', $this->rulers);?>
 </ul>
 
-<h3>Latest examples recorded</h3>
-
-<div id="latest">
-<?php echo $this->latestRecords('denomination:' . $this->id);?>
-</div>
+<?php echo $this->latestRecords('denomination:' . $this->id);
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+$this->jQuery()->javascriptCaptureStart(); 
+?>
+jQuery(document).ready(function($) {
+$('a[rel*=lightbox]').lightBox() 
+});
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>

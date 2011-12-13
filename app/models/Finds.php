@@ -171,18 +171,6 @@ class Finds extends Pas_Db_Table_Abstract {
 		->where('romanmints.id = ?', (int)$mintID);
 	return $counts->fetchAll($select);
     }
-	/** Get a count of all the coins by mint on the database
-	* @param integer $mintID the mint's ID
-	* @return array
-	*/
-	public function getCountMedMint($mintID)  {
-	$counts = $this->getAdapter();
-	$select = $counts->select()
-		->from($this->_name, array('c' => 'SUM(quantity)'))
-		->joinLeft('coins','coins.findID = finds.secuid', array())
-		->where('coins.mint_id = ?', (int)$mintID);
-	return $counts->fetchAll($select);
-    }
 
     /** Get a count of all the coins by medieval category on the database
 	* @param integer $categoryID the category ID number

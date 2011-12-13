@@ -4,7 +4,7 @@ $controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerN
 ?>
 <tr>
 <td><a href="<?php echo $this->url(array('module' => $module,
-'controller' => $controller,'action'=>'mint', 'id'=>$this->id),null,true);?>">
+'controller' => $controller,'action'=>'mint', 'id' => $this->pasID),null,true);?>">
 <?php echo $this->escape($this->name);?></a>
 </td>
 <?php if(!is_null($this->latitude) && !is_null($this->longitude)):?>

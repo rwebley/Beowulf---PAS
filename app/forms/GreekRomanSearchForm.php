@@ -241,7 +241,7 @@ public function __construct($options = null) {
 	
 	$broadperiod = new Zend_Form_Element_Hidden('broadperiod');
 	$broadperiod->setValue('Greek and Roman Provincial')
-	->addFilters(array('StringTrim','StripTags'))
+	->addFilters(array('StringTrim','StripTags','StringToUpper'))
 	->removeDecorator('HtmlTag')
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('label');

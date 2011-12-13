@@ -303,12 +303,8 @@ echo '</p>';
 }
 }
 ?> 
-<?php if($this->images):?>
-<h3>Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
-<?php endif;?>
+<?php echo $this->latestRecords('ruler:'  .  Zend_Controller_Front::getInstance()->getRequest()->getParam('id'));?>
+
 
  <div id="tabs"  >
 

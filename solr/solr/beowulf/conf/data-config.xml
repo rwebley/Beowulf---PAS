@@ -123,7 +123,10 @@ finds.length,
 finds.quantity,
 finds.secuid,
 findspots.easting,
-findspots.northing
+findspots.northing,
+coins.revtypeID as reverse,
+revtypes.type AS reverseType,
+coins.status
 FROM finds
 LEFT JOIN findspots ON finds.secuid = findspots.findID
 LEFT JOIN coins ON finds.secuid = coins.findID
@@ -157,6 +160,7 @@ LEFT JOIN geographyironage ON geographyironage.id = coins.geographyID
 LEFT JOIN hoards ON finds.hoardID = hoards.id
 LEFT JOIN subsequentActions ON finds.subs_action = subsequentActions.id
 LEFT JOIN regions ON findspots.regionID = regions.id
+LEFT JOIN revtypes ON coins.revtypeID = revtypes.id
 " 
 >
     <field column="findIdentifier" name="findIdentifier" />
@@ -266,6 +270,9 @@ LEFT JOIN regions ON findspots.regionID = regions.id
     <field column="easting" name="easting" />
     <field column="northing" name="northing" />
     <field column="quantity" name="quantity" />
+    <field column="reverse" name="reverse" />
+    <field column="reverseType" name="reverseType" />
+    <field column="status" name="status" />
 </entity>
 
 </document>

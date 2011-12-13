@@ -37,7 +37,7 @@ class Romanmints extends Pas_Db_Table_Abstract {
 		$mints = $this->getAdapter();
 		$select = $mints->select()
             ->from($this->_name)
-			->where('id = ?', (int) $id);
+			->where('pasID = ?', (int) $id);
         return $mints->fetchAll($select);
 	}
 

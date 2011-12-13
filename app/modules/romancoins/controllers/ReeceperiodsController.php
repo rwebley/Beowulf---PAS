@@ -12,9 +12,9 @@ class RomanCoins_ReeceperiodsController extends Pas_Controller_Action_Admin {
 	*/		
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$contexts = array('xml','json');
-	$this->_helper->contextSwitch()->setAutoDisableLayout(true)
+	$this->_helper->contextSwitch()
+		->setAutoDisableLayout(true)
 		->addActionContext('index',$contexts)
 		->addActionContext('period',$contexts)
 		->initContext();
@@ -35,9 +35,7 @@ class RomanCoins_ReeceperiodsController extends Pas_Controller_Action_Admin {
 	$reeces = new Emperors();
 	$this->view->reeces = $reeces->getReeceDetail($id);
 	$reverses = new Revtypes();
-	$this->view->reverses = $reverses->getRevTypeReece($id);
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsReeces($id,4);       
+	$this->view->reverses = $reverses->getRevTypeReece($id);    
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

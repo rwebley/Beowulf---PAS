@@ -1,7 +1,2 @@
 <?php echo $this->partialLoop('partials/numismatics/mintDetail.phtml', $this->mints) ?>
-<?php if($this->images):?>
-<h3>Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
-<?php endif;?>
+<?php echo $this->latestRecords('mint:' . $this->id);?>

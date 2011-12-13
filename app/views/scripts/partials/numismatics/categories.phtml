@@ -8,7 +8,7 @@ $ctrllr = strtolower($controller);
 <li>
 <?php echo 
 '<a href="'.
-$this->url(array('module' => $module, 'controller' => $ctrllr,'action' => 'category', 'id' => $this->id, 'name' => $this->urlslug($this->term)),null,true)
+$this->url(array('module' => $module, 'controller' => $ctrllr,'action' => 'category', 'id' => $this->id),null,true)
 .'" title="View details for '
 .$this->term
 .'">'

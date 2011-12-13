@@ -8,14 +8,13 @@ $this->headTitle('Allen types listed');
 <thead>
 <tr>
 <th>Type name</th>
-<th>Totals recorded</th>
 </tr>
 </thead>
 <tbody>
 <?php echo $this->partialLoop('partials/numismatics/allen.phtml',$this->allens);?>
 </tbody>
 </table>
-<?php  $this->paginationControl($this->allens, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php echo  $this->paginationControl($this->allens, 'Sliding', 'structure/pagination.phtml'); ?>
 <?php else:?>
 <p>No Allen types available</p>
 <?php endif;?>

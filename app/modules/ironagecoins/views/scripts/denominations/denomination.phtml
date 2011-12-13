@@ -3,9 +3,4 @@
 <ul id="related">
 <?php echo $this->partialLoop('partials/numismatics/ironageregions.phtml',$this->regions);?>
 </ul>
-<?php if($this->images):?>
-<h3>Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
-<?php endif;?>
+<?php echo $this->latestRecords('denomination:' . $this->escape($this->id));?>

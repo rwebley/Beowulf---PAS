@@ -32,10 +32,9 @@ class IronAgeCoins_MintsController extends Pas_Controller_Action_Admin {
 	*/
 	public function mintAction() {
 	if($this->_getParam('id',false)){
+	$this->view->id = $this->_getParam('id');
 	$mints = new Mints;
 	$this->view->mints = $mints->getIronAgeMint((int)$this->_getParam('id'));
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsMints((int)$this->_getParam('id'),4);
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter);
 	}

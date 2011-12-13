@@ -12,7 +12,6 @@ class RomanCoins_ReverseTypesController extends Pas_Controller_Action_Admin {
 	*/		
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$contexts = array('xml','json');
 	$this->_helper->contextSwitch()->setAutoDisableLayout(true)
 		->addActionContext('index',$contexts)
@@ -29,7 +28,7 @@ class RomanCoins_ReverseTypesController extends Pas_Controller_Action_Admin {
 	}
 	/** Set up the individual reverse type
 	*/		
-	public function reversetypeAction() {
+	public function typeAction() {
 	if($this->_getParam('id',false)) {
 	$id = $this->_getParam('id');
 	$reverses = new Revtypes();
@@ -38,8 +37,6 @@ class RomanCoins_ReverseTypesController extends Pas_Controller_Action_Admin {
 	$this->view->emps = $emps->getEmperorRevTypes($id);
 	$mints = new Mints();
 	$this->view->mints = $mints->getMintReverseType($id);
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsReverseTypes($id,4);
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

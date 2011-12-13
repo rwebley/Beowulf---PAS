@@ -13,7 +13,6 @@ class EarlyMedievalCoins_CategoriesController extends Pas_Controller_Action_Admi
 	*/
 	public function init()  {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('index', array('xml','json'))
@@ -39,9 +38,6 @@ class EarlyMedievalCoins_CategoriesController extends Pas_Controller_Action_Admi
 	if($this->_getParam('id', false)) {
 		$id = (int)$this->_getParam('id');
 		
-		$counts = new Finds();
-		$this->view->counts = $counts->getCategoryTotals($id);
-		
 		$categories = new CategoriesCoins();
 		$this->view->categories = $categories->getCategory($id);
 		
@@ -52,7 +48,7 @@ class EarlyMedievalCoins_CategoriesController extends Pas_Controller_Action_Admi
 		$this->view->rulers = $rulers->getMedievalRulersToType($id);
 		
 	} else {
-		throw new Pas_Exception_Param($this->_missingParameter)
+		throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 }

@@ -1,10 +1,8 @@
 <?php 
 $this->jQuery()->addJavascriptFile('http://jquery-ui.googlecode.com/svn/tags/latest/ui/ui.tabs.js');
 echo $this->partialLoop('partials/numismatics/rulerProfile.phtml', $this->monarchs);
- ?>
-
-
-
+?>
+<?php echo $this->latestRecords('ruler:'  .  Zend_Controller_Front::getInstance()->getRequest()->getParam('id'));?>
 <?php 
 ini_set('display_errors', '0');     # don't show any errors...
 error_reporting(E_ALL | E_STRICT);  # ...but do log them		
@@ -110,10 +108,6 @@ echo '</p>';
 }
 ?> 
 
-<h3 style="clear:left;">Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->latestRecords('ruler:' . $this->id);?>
-</div>
 
 <div id="tabs">
 <ul>

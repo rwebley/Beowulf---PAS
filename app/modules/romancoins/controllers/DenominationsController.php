@@ -13,7 +13,6 @@ class RomanCoins_DenominationsController extends Pas_Controller_Action_Admin {
 	*/		
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$contexts = array('xml','json');
 	$this->_helper->contextSwitch()->setAutoDisableLayout(true)
 		->addActionContext('index',$contexts)
@@ -35,8 +34,6 @@ class RomanCoins_DenominationsController extends Pas_Controller_Action_Admin {
 	$this->view->denoms = $denoms->getDenom($id,(int)21);
 	$emps = new Emperors();
 	$this->view->emps = $emps->getDenomEmperor($id);
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsDenominations($id,4);       
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter);
 	}

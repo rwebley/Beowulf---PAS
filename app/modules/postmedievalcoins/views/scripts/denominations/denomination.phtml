@@ -1,12 +1,8 @@
 <?php echo $this->partialLoop('partials/numismatics/romanDenom.phtml', $this->denoms) ;?>
-<p><?php echo $this->partialLoop('partials/count.phtml', $this->counts) ;?></p>
+<?php if($this->rulers):?>
 <h3>Issued by</h3>
-<ul id="related">
+<ul>
 <?php echo $this->partialLoop('partials/numismatics/rulerDenom.phtml', $this->rulers);?>
 </ul>
-<?php if($this->images):?>
-<h3>Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
 <?php endif;?>
+<?php echo $this->latestRecords('denomination:'  .  Zend_Controller_Front::getInstance()->getRequest()->getParam('id'));?>

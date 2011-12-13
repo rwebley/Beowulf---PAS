@@ -36,10 +36,6 @@ class MedievalCoins_MintsController extends Pas_Controller_Action_Admin {
 	$this->view->mints = $mints->getMintDetails($id);
 	$actives = new Rulers();
 	$this->view->actives = $actives->getMedievalMintRulerList($id);
-	$counts = new Finds();
-	$this->view->counts = $counts->getCountMedMint($id);
-	$slides = new Slides();
-	$this->view->images = $slides->getExamplesCoinsMints($id,4);
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter);
 	}

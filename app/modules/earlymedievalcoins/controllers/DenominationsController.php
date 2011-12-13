@@ -55,9 +55,6 @@ class EarlyMedievalCoins_DenominationsController extends Pas_Controller_Action_A
 	$rulers = new Denominations();
 	$this->view->rulers = $rulers->getRulerDenomination((int)$id);
 	
-	$counts = new Finds;
-	$this->view->counts = $counts->getDenominationTotals((int)$id);
-	
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter); 
 	}

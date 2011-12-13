@@ -1,7 +1,9 @@
-<?php echo $this->partial('partials/numismatics/moneyer.phtml',$this->moneyer['0']);?>
-<?php if($this->images):?>
-<h3>Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
-<?php endif;?>
+<?php echo $this->partial('partials/numismatics/moneyer.phtml',$this->moneyer['0']);
+echo $this->latestRecords('moneyer:' .  Zend_Controller_Front::getInstance()->getRequest()->getParam('by'));
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+$this->jQuery()->javascriptCaptureStart(); 
+?>
+jQuery(document).ready(function($) {
+$('a[rel*=lightbox]').lightBox() 
+});
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>

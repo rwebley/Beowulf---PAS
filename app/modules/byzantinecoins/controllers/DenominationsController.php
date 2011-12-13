@@ -19,11 +19,10 @@ class ByzantineCoins_DenominationsController extends Pas_Controller_Action_Admin
              ->initContext();
     }
 
-	protected $_period = '67';
+	protected $_period = 67;
 	/** Set up index page for denominations
 	*/ 
     public function indexAction() {
-	$this->view->headTitle('Byzantine issued denominations');
 	$denominations = new Denominations();
 	$denominations = $denominations->getDenominations($this->_period,$this->_getParam('page'));
 	$contexts = array('json','xml');
@@ -47,15 +46,9 @@ class ByzantineCoins_DenominationsController extends Pas_Controller_Action_Admin
 	*/ 
     public function denominationAction()  {
    	if($this->_getParam('id',false)){
-    $id = $this->_getParam('id');
+    $this->view->id = $this->_getParam('id');
     $denoms = new Denominations();
-    $this->view->denoms = $denoms->getDenom($id,(int)$this->_period);
-    
-    $images = new Slides();
-	$this->view->images = $images->getExamplesCoinsDenominations($id,4);     
-    
-    $counts = new Finds;
-    $this->view->counts = $counts->getDenominationTotals($id);
+    $this->view->denoms = $denoms->getDenom($this->_getParam('id'),(int)$this->_period);
    	} else {
    		throw new Pas_Exception_Param($this->_missingParameter);
    	}

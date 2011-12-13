@@ -6,10 +6,11 @@
 <?php echo $this->partialLoop('partials/numismatics/iadenoms.phtml',$this->denominations);?>
 </ul>
 <?php else:?>
+
 <p>There are no denominations listed for this region.</p>
 <?php endif;?>
-
 <h3>Issuing rulers in this region</h3>
-<ul id="related">
+<ul>
 <?php echo $this->partialLoop('partials/numismatics/iarulers.phtml',$this->rulers);?>
 </ul>
+<?php echo $this->latestRecords('geographyID:' .  Zend_Controller_Front::getInstance()->getRequest()->getParam('id'));?>

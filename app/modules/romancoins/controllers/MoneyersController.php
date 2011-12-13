@@ -12,7 +12,6 @@ class Romancoins_MoneyersController extends Pas_Controller_Action_Admin {
 	*/	
 	public function init() {
 	$this->_helper->_acl->allow(NULL);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$contexts = array('xml','json');
 	$this->_helper->contextSwitch()->setAutoDisableLayout(true)
 		->addActionContext('index',$contexts)
@@ -44,8 +43,6 @@ class Romancoins_MoneyersController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('by',false)){
 	$moneyers = new Moneyers();
 	$this->view->moneyer = $moneyers->getMoneyer($this->_getParam('by'));
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsMoneyers($this->_getParam('by'),4);
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

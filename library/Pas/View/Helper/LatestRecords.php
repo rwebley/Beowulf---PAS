@@ -50,33 +50,37 @@ class Pas_View_Helper_LatestRecords extends Zend_View_Helper_Abstract{
 	$select['filterquery']['workflow'] = array(
             'query' => 'workflow:[3 TO 4]'
         );
-	$select['filterquery']['knownas'] = array(
-            'query' => 'knownas:["" TO *]'
-        );
 	}
 	$select['filterquery']['images'] = array(
             'query' => 'thumbnail:[1 TO *]'
         );
-	
+	$cachekey = md5($q . $this->getRole());
+	if (!($this->_cache->test($cachekey))) {
 	$query = $this->_solr->createSelect($select);
 	$resultset = $this->_solr->select($query);
 	$data = array();
+	$data['numberFound'] = $resultset->getNumFound();
 	foreach($resultset as $doc){
 		$fields = array();
 	    foreach($doc as $key => $value){
 	    	$fields[$key] = $value;
-	    	
 	    }
-	    $data[] = $fields;
+	    $data['images'][] = $fields;
+	}
+	$this->_cache->save($data);
+	} else {
+	$data = $this->_cache->load($cachekey);
 	}
 	return $this->buildHtml($data);
 	}
 	
+	
 	public function buildHtml($data){
-	if($data) {
-	$html = '<h3>Latest examples recorded</h3>';
+	if($data['images']) {
+	$html = '<h3>Latest examples recorded with images</h3>';
+	$html .= '<p>We have recorded ' . $data['numberFound'] . ' examples.</p>';
 	$html .= '<div id="latest">';
-	$html .= $this->view->partialLoop('partials/database/imagesPaged.phtml', $data);
+	$html .= $this->view->partialLoop('partials/database/imagesPaged.phtml', $data['images']);
 	$html .= '</div>';
 	return $html;
 	} else {

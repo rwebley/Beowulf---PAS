@@ -22,7 +22,7 @@ class IronAgeCoins_VanarsdelltypesController extends Pas_Controller_Action_Admin
 	*/    
     public function indexAction() {
     $types = new VanArsdellTypes();
-    $macks = $types->getVaTypes($this->_getAllParams());
+    $va = $types->getVaTypes($this->_getAllParams());
      $contexts = array('json','xml');
 	if(in_array($this->_helper->contextSwitch()->getCurrentContext(),$contexts)) {
 	$data = array('pageNumber' => $macks->getCurrentPageNumber(),
@@ -31,13 +31,18 @@ class IronAgeCoins_VanarsdelltypesController extends Pas_Controller_Action_Admin
 				  'totalPages' => number_format($macks->getTotalItemCount() /
 				 $macks->getCurrentItemCount(),0));
 	$this->view->data = $data;
-	$macksa = array();
-	foreach($macks as $r => $v){
-	$macksa['type'][$r] = $v;
+	$vaa = array();
+	foreach($va as $r => $v){
+	$vaa['type'][$r] = $v;
 	}
-	$this->view->macks = $macksa;
+	$this->view->va = $vaa;
 	} else {
-	$this->view->macks = $macks;
+	$this->view->va = $va;
 	}
+    }
+    
+    public function typeAction(){
+    $types = new VanArsdellTypes();
+	$this->view->type = $types->fetchRow($types->select()->where('type = ?',urlencode($this->_getParam('id'))));
     }
 }

@@ -45,8 +45,7 @@ class ByzantineCoins_RulersController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)){
 		$byzantines = new Rulers();
 		$this->view->byzantine = $byzantines->getRulerProfile((int)$this->_getParam('id'));
-		$images = new Slides();
-		$this->view->images = $images->getExamplesCoins((int)$this->_getParam('id'),4);
+		$this->view->id = $this->_getParam('id');
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

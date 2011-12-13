@@ -55,10 +55,6 @@ class MedievalCoins_DenominationsController extends Pas_Controller_Action_Admin 
 	$this->view->denoms = $denoms->getDenom($id,$this->_period);
 	$rulers = new Denominations();
 	$this->view->rulers = $rulers->getRulerDenomination($id);
-	$counts = new Finds;
-	$this->view->counts = $counts->getDenominationTotals($id);
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoinsDenominations($id,4); 
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}

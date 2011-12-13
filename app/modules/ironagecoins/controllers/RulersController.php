@@ -30,16 +30,12 @@ class IronAgeCoins_RulersController extends Pas_Controller_Action_Admin {
 	*/	
     public function rulerAction() {
     if($this->_getParam('id',false)){
-    $this->view->headTitle('Details for  ');
     $id = (int)$this->_getParam('id');
+    $this->view->id = $id;
     $rulers = new Rulers;
     $this->view->rulers = $rulers->getIronAgeRuler($id);
-    $counts = new Finds;
-    $this->view->counts = $counts->getCount($id);
     $regions = new Geography();    
     $this->view->regions = $regions->getIronAgeRegionToRuler($id);
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoins($id,4);
     } else {
     throw new Pas_Exception_Param($this->_missingParameter);
     }

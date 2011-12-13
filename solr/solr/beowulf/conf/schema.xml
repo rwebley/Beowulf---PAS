@@ -560,7 +560,9 @@
 	<field name="axis" type="int" indexed="true" stored="true" />
 	<field name="moneyer" type="string" indexed="true" stored="true" />
 	<field name="moneyerName" type="string" indexed="true" stored="true" />
-        
+    <field name="reverse" type="int" indexed="true" stored="true" />
+    <field name="reverseType" type="text" indexed="true" stored="true" />
+    <field name="status" type="int" indexed="true" stored="true" />
 	<!-- Findspot specific fields -->
 	<field name="regionID" type="int" indexed="true" stored="true" />
 	<field name="regionName" type="string" indexed="true" stored="true" />

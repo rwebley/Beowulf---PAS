@@ -40,7 +40,10 @@ class IronAgeCoins_AllentypesController extends Pas_Controller_Action_Admin {
 	} else {
 		$this->view->allens = $allens;
 	}
-    
     }
 
+    public function typeAction(){
+	$types = new AllenTypes();
+	$this->view->type = $types->fetchRow($types->select()->where('type = ?',$this->_getParam('id')));
+    }
 }

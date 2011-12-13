@@ -37,12 +37,11 @@ class IronAgeCoins_DenominationsController extends Pas_Controller_Action_Admin {
     public function denominationAction() {
     if($this->_getParam('id',false)){
     $id = $this->_getParam('id');
+    $this->view->id = $id;
     $denoms = new Denominations();
 	$this->view->denoms = $denoms->getDenom($id,$this->_period);
     $regions = new Geography();
     $this->view->regions = $regions->getIronAgeDenomGeog($id);
-    $images = new Slides();
-	$this->view->images = $images->getExamplesCoinsDenominations($id,4);
     } else {
     	throw new Pas_Exception_Param($this->_missingParameter);
     }       

@@ -12,7 +12,6 @@ class GreekRomanCoins_RulersController extends Pas_Controller_Action_Admin {
 	*/ 
 	public function init(){
  	$this->_helper->_acl->allow(null);
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 			 ->setAutoDisableLayout(true)
 			 ->addActionContext('index', array('xml','json'))
@@ -21,7 +20,7 @@ class GreekRomanCoins_RulersController extends Pas_Controller_Action_Admin {
     }
 	/** Internal period number
 	*/ 
-	protected $_period = '66';
+	protected $_period = 66;
 	/** Set up the index page
 	*/ 
     public function indexAction() {
@@ -50,8 +49,6 @@ class GreekRomanCoins_RulersController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)){
 	$greeks = new Rulers();
 	$this->view->greek= $greeks->getRulerProfile($this->_getParam('id'));
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoins($this->_getParam('id'),4);
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter);		
 	}

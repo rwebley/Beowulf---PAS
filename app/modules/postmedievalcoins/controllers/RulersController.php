@@ -12,7 +12,6 @@ class PostMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	*/	
 	public function init() {
 	$this->_helper->_acl->allow(null);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('index', array('xml','json'))
@@ -44,8 +43,6 @@ class PostMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	$this->view->types = $types->getMedievalTypeToRuler($id);
 	$mints = new Mints();
 	$this->view->mints = $mints->getMedMintRuler($id);
-	$images = new Slides();
-	$this->view->images = $images->getExamplesCoins($id,4);
 	} else {
 	throw new Pas_Exception_Param($this->_missingParameter);	
 	}
@@ -54,12 +51,12 @@ class PostMedievalCoins_RulersController extends Pas_Controller_Action_Admin {
 	*/	
 	public function foreignAction() {
 	$rulers = new Rulers();
-	$this->view->doges = $rulers->getForeign($this->_period, $country = '1');
-	$this->view->scots = $rulers->getForeign($this->_period, $country = '2');
-	$this->view->low = $rulers->getForeign($this->_period, $country = '3');
-	$this->view->imitate = $rulers->getForeign($this->_period, $country = '4');
-	$this->view->portugal = $rulers->getForeign($this->_period, $country = '5');
-	$this->view->shortlongs = $rulers->getForeign($this->_period, $country = '6');
-	$this->view->france = $rulers->getForeign($this->_period,$country = '7');
+	$this->view->doges = $rulers->getForeign($this->_period, $country = 1);
+	$this->view->scots = $rulers->getForeign($this->_period, $country = 2);
+	$this->view->low = $rulers->getForeign($this->_period, $country = 3);
+	$this->view->imitate = $rulers->getForeign($this->_period, $country = 4);
+	$this->view->portugal = $rulers->getForeign($this->_period, $country = 5);
+	$this->view->shortlongs = $rulers->getForeign($this->_period, $country = 6);
+	$this->view->france = $rulers->getForeign($this->_period,$country = 7);
 	}
 }

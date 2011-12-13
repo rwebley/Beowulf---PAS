@@ -35,8 +35,7 @@ class PostMedievalCoins_CategoriesController extends Pas_Controller_Action_Admin
 	
 	$types = new MedievalTypes();
 	$this->view->types = $types->getCoinTypeCategory($id);
-	$counts = new Finds();
-	$this->view->counts = $counts->getCategoryTotals($id);
+
 	$rulers =  new CategoriesCoins();
 	$this->view->rulers = $rulers->getMedievalRulersToType($id);
 	} else {
