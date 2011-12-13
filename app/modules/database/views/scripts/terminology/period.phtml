@@ -7,8 +7,9 @@ $this->headLink()->appendStylesheet($this->baseUrl().'/js/JQuery/facebox/facebox
 
 <?php echo $this->partialLoop('partials/database/periodDetails.phtml',$this->periods);?>
 <h3>Object types recorded for this period</h3>
-<ul id="related">
+<ul>
 <?php 
 echo $this->partialLoop('partials/database/objectbyperiod.phtml',$this->objects);?>
 </ul>
 <p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'ajax', 'action' => 'tagcloud', 'id' => $this->periods['0']['id']),null,true);?>" title="View a weighted tag cloud of object types" rel="facebox">View tag cloud of object types</a></p>
+<?php echo $this->latestRecords('broadperiod:"' . $this->periods['0']['term'] . '"');?>

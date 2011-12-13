@@ -1,2 +1,2 @@
 <?php echo $this->partial('partials/database/workflowDetail.phtml',$this->workflows['0']) ; ?>
-<p>We have <?php echo $this->partial('partials/countObjects.phtml',$this->counts['0']);?> records assigned to this workflow.</p>
+<?php echo $this->latestRecords('workflow:' .  Zend_Controller_Front::getInstance()->getRequest()->getParam('id'));?>

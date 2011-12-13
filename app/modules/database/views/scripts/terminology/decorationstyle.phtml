@@ -1,3 +1,2 @@
 <?php echo $this->partial('partials/database/decStylesDetails.phtml',$this->decs['0']);?>
-
-<p>We have recorded <?php echo $this->partial('partials/countObjects.phtml',$this->counts['0']);?> so far.</p>
+<?php echo $this->latestRecords('decstyle:' . Zend_Controller_Front::getInstance()->getRequest()->getParam('id'));?>

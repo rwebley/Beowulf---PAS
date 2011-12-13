@@ -13,7 +13,7 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	/** Setup the contexts by action and the ACL.
 	*/
 	public function init() {
-		$this->_helper->_acl->allow('public',null);
+	$this->_helper->_acl->allow('public',null);
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
         $this->_contexts = array('xml','json');
         $this->_helper->contextSwitch()
@@ -45,7 +45,7 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 			 ->addActionContext('denominations',$this->_contexts)
 			 ->addActionContext('index',$this->_contexts)
 			 ->initContext();
-    $this->_periods = new Periods();
+        $this->_periods = new Periods();
 	}
 	/** Setup the index page for listing the actions to show
 	*/
@@ -110,8 +110,7 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$methods = new DiscoMethods();
 	$this->view->methods = $methods->getDiscmethodInformation($this->_getParam('id'));
-	$numbers = new DiscoMethods();
-	$this->view->numbers = $numbers->getDiscMethodQuantity($this->_getParam('id'));
+	
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}
@@ -144,9 +143,8 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$notes = new Findofnotereasons();
 	$this->view->notes = $notes->getReasonDetails($this->_getParam('id'));
-	$this->view->counts = $notes->getReasonCountFinds($this->_getParam('id'));
 	} else {
-		throw new Pas_Exception_Param($this->_missingParameter);
+            throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display details for notes
@@ -161,9 +159,8 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$cultures = new Cultures();
 	$this->view->cultures = $cultures->getCulture($this->_getParam('id'));
-	$this->view->counts = $cultures->getCultureCountFinds($this->_getParam('id'));
 	} else {
-		throw new Pas_Exception_Param($this->_missingParameter);
+            throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display list of ascribed cultures
@@ -178,9 +175,8 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$materials = new Materials();
 	$this->view->materials = $materials->getMaterialDetails($this->_getParam('id'));
-	$this->view->counts = $materials->getMaterialCount($this->_getParam('id'));
 	} else {
-	throw new Pas_Exception_Param($this->_missingParameter);
+            throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display list of materials
@@ -195,9 +191,8 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$decs = new Decstyles();
 	$this->view->decs = $decs->getDecStyleDetails($this->_getParam('id'));
-	$this->view->counts = $decs->getDecStylesCounts($this->_getParam('id'));
 	} else {
-		throw new Pas_Exception_Param($this->_missingParameter);
+            throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display list of decoration styles
@@ -213,7 +208,7 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	$manufactures = new Manufactures();
 	$this->view->manufactures = $manufactures->getManufactureDetails($this->_getParam('id'));
 	} else {
-		throw new Pas_Exception_Param($this->_missingParameter);
+            throw new Pas_Exception_Param($this->_missingParameter);
 	}
 	}
 	/** Display list of manufacturing methods
@@ -325,7 +320,6 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$workflows = new Workflows();
 	$this->view->workflows = $workflows->getStageName($this->_getParam('id'));
-	$this->view->counts = $workflows->getStageCounts($this->_getParam('id'));
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}
