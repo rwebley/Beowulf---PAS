@@ -14,6 +14,7 @@ filename,
 keywords, 
 slides.county, 
 slides.created, 
+slides.updated,
 old_findID, 
 finds.id AS findID, 
 periods.term AS period, 
@@ -22,13 +23,16 @@ findspots.declong AS longitude,
 findspots.woeid,
 CONCAT( findspots.declat,  ',', findspots.declong ) AS coordinates,
 users.imagedir,
-users.fullname
+users.fullname,
+licenseType.acronym AS licenseAcronym,
+licenseType.flickrID as license 
 FROM slides
 LEFT JOIN periods ON slides.period = periods.id
 LEFT JOIN finds_images ON finds_images.image_id = slides.secuid
 LEFT JOIN finds ON finds_images.find_id = finds.secuid
 LEFT JOIN findspots ON finds.secuid = findspots.findID
 LEFT JOIN users ON slides.createdBy = users.id
+LEFT JOIN licenseType ON slides.ccLicense = licenseType
 " 
 >        
 		<field column="id" name="id" />
@@ -42,9 +46,12 @@ LEFT JOIN users ON slides.createdBy = users.id
 	    <field column="longitude" name="longitude" />
 	    <field column="keywords" name="keywords" />
 	    <field column="created" name="created" />
+	    <field column="updated" name="updated" />
 	    <field column="woeid" name="woeid" />
 	    <field column="fullname" name="fullname" />
 	    <field column="imagedir" name="imagedir" />
+	    <field column="license" name="license" />
+	    <field column="licenseAcronym" name="licenseArconym" />
 		</entity>
 
     </document>

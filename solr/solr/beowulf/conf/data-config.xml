@@ -113,7 +113,7 @@ moneyers.name AS moneyerName,
 finds.datefound1,
 finds.datefound2,
 finds.findofnote AS note,
-findofnotereasons.term as reason,
+findofnotereasons.term as reasonTerm,
 finds.width,
 finds.height,
 finds.thickness,
@@ -126,7 +126,8 @@ findspots.easting,
 findspots.northing,
 coins.revtypeID as reverse,
 revtypes.type AS reverseType,
-coins.status
+coins.status,
+finds.findofnotereason AS reason
 FROM finds
 LEFT JOIN findspots ON finds.secuid = findspots.findID
 LEFT JOIN coins ON finds.secuid = coins.findID
@@ -273,6 +274,7 @@ LEFT JOIN revtypes ON coins.revtypeID = revtypes.id
     <field column="reverse" name="reverse" />
     <field column="reverseType" name="reverseType" />
     <field column="status" name="status" />
+    <field column="reasonTerm" name="reasonTerm" />
 </entity>
 
 </document>

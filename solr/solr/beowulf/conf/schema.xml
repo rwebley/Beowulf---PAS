@@ -502,7 +502,8 @@
 	<field name="inscription" type="string" indexed="true" stored="true" />
 	<field name="discovered" type="int" indexed="true" stored="true" />
 	<field name="note" type="int" indexed="true" stored="true" />
-	<field name="reason" type="string" indexed="true" stored="true" />
+	<field name="reason" type="int" indexed="true" stored="true" />
+	<field name="reasonTerm" type="string" indexed="true" stored="true" />
 	<field name="hoard" type="int" indexed="true" stored="true" />
 	<field name="hID" type="int" indexed="true" stored="true" />
 	<field name="hoardName" type="string" indexed="true" stored="true" />
@@ -709,6 +710,7 @@
 	<copyField source="moneyerName" dest="text" />
 	<copyField source="mintmark" dest="text" />
 	<copyField source="objecttype" dest="objectType" />
+	<copyField source="reverseType" dest="text" />
 	
    <!-- Above, multiple source fields are copied to the [text] field. 
 	  Another way to map multiple source fields to the same 

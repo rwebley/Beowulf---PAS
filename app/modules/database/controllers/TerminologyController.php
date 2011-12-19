@@ -93,7 +93,6 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)){
 	$activities = new PrimaryActivities();
 	$this->view->activities = $activities->getActivityDetails($this->_getParam('id'));
-	$this->view->counts = $activities->getActivityPersonCounts($this->_getParam('id'));
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}
@@ -359,7 +358,6 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)){
 	$dieaxes = new Dieaxes();
 	$this->view->dieaxes = $dieaxes->getDieAxesDetails((int)$this->_getParam('id'));
-	$this->view->counts = $dieaxes->getDieCounts((int)$this->_getParam('id'));
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
 	}
