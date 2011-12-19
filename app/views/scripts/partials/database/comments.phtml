@@ -1,8 +1,7 @@
-<li><div class="commgrav"><?php
-$gravatar = new Gravatar($this->comment_author_email);
-$gravatar->size = 30;
-$gravatar->rating = "G";
-$gravatar->border = "FF0000";
-echo $gravatar;
-?></div><?php echo $this->comment_author;?> wrote @ <?php echo $this->df;?>.  <?php echo $this->comment_content;?>
+<li><div class="commgrav">
+<?php
+echo $this->gravatar($this->comment_author_email,array('imgSize' => 80, 'defaultImg' => 'monsterid', 'secure' => true),
+array('class' => 'avatar','title' => $this->comment_author . '\'s gravatar representation', 'rating' => 'G'));
+?>
+</div><?php echo $this->comment_author;?> wrote @ <?php echo $this->df;?>.  <?php echo $this->comment_content;?>
 </li>

@@ -40,12 +40,12 @@ $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
 <div id="imagefilter">
 <table><tr><?php echo $this->form;?></tr></table>
 </div>
-<?php if (count($this->paginator)): ?>
+<?php if (count($this->results)): ?>
 <div id="gallery">
-<?php echo $this->partialLoop('partials/database/myimagesList.phtml',$this->paginator);?>
+<?php echo $this->partialLoop('partials/database/myimagesList.phtml',$this->results);?>
 </div>
 <div style="clear:both;">
-<?= $this->paginationControl($this->paginator, 'Elastic', 'structure/pagination.phtml'); ?>
+<?php echo $this->paginationControl($this->paginator, 'Elastic', 'structure/pagination.phtml'); ?>
 </div>
 <?php else:?>
 <p>You have added no images to our database.</p>

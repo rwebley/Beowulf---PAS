@@ -29,7 +29,10 @@ class AdvancedSearchForm extends Pas_Form {
 
 	public function __construct($options = null) {
 
-	//Get data to form select menu for discovery methods
+	$institutions = new Institutions();
+	$inst_options = $institutions->getInsts();
+	
+		//Get data to form select menu for discovery methods
 	$discs = new DiscoMethods();
 	$disc_options = $discs->getOptions();
 	
@@ -180,6 +183,14 @@ class AdvancedSearchForm extends Pas_Form {
 	->setDisableTranslator(true)
 	->setDecorators($decoratorsNote); 
 
+		//Reason for find of note
+	$institution = new Zend_Form_Element_Select('institution');
+	$institution->setLabel('Recording institution: ')
+	->setRequired(false)
+	->addFilters(array('StringTrim','StripTags'))
+	->addMultiOptions(array(NULL => NULL,'Choose institution' => $inst_options))
+	->setDecorators($decoratorsNote); 
+	
 	$notes = new Zend_Form_Element_Text('notes');
 	$notes->setLabel('Notes: ')
 	->setRequired(false)
@@ -529,7 +540,8 @@ class AdvancedSearchForm extends Pas_Form {
 	$created, $created2, $idBy,
 	$recordby, $recorderID, $identifierID,
 	$culture, $surftreat, $submit,
-	$material1, $elevation, $woeid));
+	$material1, $elevation, $woeid,
+	$institution));
 	} else {
 	$this->addElements(array(
 	$old_findID, $objecttype, $broadperiod,
@@ -546,7 +558,7 @@ class AdvancedSearchForm extends Pas_Form {
 	$created2, $idBy, $finder,
 	$finderID, $recordby, $recorderID,
 	$identifierID, $culture, $surftreat,
-	$submit, $material1));
+	$submit, $material1,$institution));
 	}
 
 	$this->addDisplayGroup(array(
@@ -589,12 +601,14 @@ class AdvancedSearchForm extends Pas_Form {
 	
 	if(in_array($this->getRole(),$this->restricted)) {
 	$this->addDisplayGroup(array(
+	'institution',
 	'idby', 'identifierID', 'recordby',
 	'recorderID', 'createdAfter', 'createdBefore',
 	'discovered'), 'Discovery')
 	->removeDecorator('HtmlTag');
 	} else {
 	$this->addDisplayGroup(array(
+	'institution',
 	'finder', 'idby', 'identifierID',
 	'recordby', 'recorderID', 'createdAfter',
 	'createdBefore','discovered'), 'Discovery')

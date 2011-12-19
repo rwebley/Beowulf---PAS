@@ -2,6 +2,7 @@
 	<dataSource type="JdbcDataSource"
    driver="com.mysql.jdbc.Driver"
    url="jdbc:mysql://localhost/antiquities"
+   batchSize="-1"
    user="webuser2" 
    password="45jql11w"
    tinyInt1isBit="false"/>
@@ -13,11 +14,12 @@ label AS title,
 filename, 
 keywords, 
 slides.county, 
+slides.createdBy,
 slides.created, 
 slides.updated,
 old_findID, 
 finds.id AS findID, 
-periods.term AS period, 
+periods.term AS broadperiod, 
 findspots.declat AS latitude, 
 findspots.declong AS longitude, 
 findspots.woeid,
@@ -25,20 +27,20 @@ CONCAT( findspots.declat,  ',', findspots.declong ) AS coordinates,
 users.imagedir,
 users.fullname,
 licenseType.acronym AS licenseAcronym,
-licenseType.flickrID as license 
+licenseType.flickrID as license
+
 FROM slides
 LEFT JOIN periods ON slides.period = periods.id
 LEFT JOIN finds_images ON finds_images.image_id = slides.secuid
 LEFT JOIN finds ON finds_images.find_id = finds.secuid
 LEFT JOIN findspots ON finds.secuid = findspots.findID
 LEFT JOIN users ON slides.createdBy = users.id
-LEFT JOIN licenseType ON slides.ccLicense = licenseType
+LEFT JOIN licenseType ON slides.ccLicense = licenseType.id
 " 
 >        
 		<field column="id" name="id" />
 		<field column="filename" name="filename" />
 		<field column="county" name="county" />
-		<field column="period" name="period" />
 		<field column="old_findID" name="old_findID" />
 		<field column="findID" name="findID" />
 	    <field column="coordinates" name="coordinates" />
@@ -52,6 +54,8 @@ LEFT JOIN licenseType ON slides.ccLicense = licenseType
 	    <field column="imagedir" name="imagedir" />
 	    <field column="license" name="license" />
 	    <field column="licenseAcronym" name="licenseArconym" />
+	    <field column="broadperiod" name="broadperiod" />
+	    <field column="createdBy" name="createdBy" />
 		</entity>
 
     </document>

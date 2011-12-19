@@ -17,67 +17,7 @@ $this->headTitle('Advanced search the database');
 $(document).ready(function() {
 $("#createdBefore").datepicker({ maxDate: '+1y'});
 $("#createdAfter").datepicker({ maxDate: '+1y' });
-$("#rallyID").css("display","none");
-$("#hID").css("display","none");
-$("#TID").css("display","none");
-$(".hideme").css("display","none");
-$(".hiderally").css("display","none");
-$(".hidehoard").css("display","none");
-$(".hidenote").css("display","none");
-$("#reason").css("display","none");
-$("#note").click(function(){
-if ($("#note").is(":checked"))
-        {
-       $("#reason").show("fast");
-       $(".hidenote").show("fast");
-        }
-        else
-        {     
-            $("#reason").hide("fast");
-          $(".hidenote").hide("fast");
 
-        }
-      });
-$("#rally").click(function(){
-if ($("#rally").is(":checked"))
-        {
-       $("#rallyID").show("fast").css("display","inline");
-	   $(".hiderally").show("fast");
-        }
-        else
-        {     
-        $("#rallyID").hide("fast");
-		$(".hiderally").hide("fast");
-        }
-      });
-$("#treasure").click(function(){
-if ($("#treasure").is(":checked"))
-        {
-       $("#TID").show("fast");
-       $(".hideme").show("fast");
-
-        }
-        else
-        {     
-            $("#TID").hide("fast");
-            $(".hideme").hide("fast");
-
-
-        }
-      });
-$("#hoard").click(function(){
-if ($("#hoard").is(":checked"))
-        {
-       $("#hID").show("fast");
-            $(".hidehoard").show("fast");
-        }
-        else
-        {     
-            $("#hID").hide("fast");
-            $(".hidehoard").hide("fast");
-
-        }
-      });
 
 	
 });

@@ -46,39 +46,56 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	/** Display index page of images
 	*/		
 	public function indexAction() {
-	$this->view->paginator = $this->_images->getAllImages($this->_getAllParams());
-	$form = new ImageFilterForm();
-	$this->view->form = $form;
-	$form->old_findID->setValue($this->_getParam('old_findID'));
-	$form->label->setValue($this->_getParam('label'));
-	$form->broadperiod->setValue($this->_getParam('broadperiod'));
-	$form->county->setValue($this->_getParam('county'));
 	
-	if ($this->_request->isPost() && ($this->_getParam('submit') != NULL)) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-			$params = array_filter($formData);
-			unset($params['submit']);
-			unset($params['action']);
-			unset($params['controller']);
-			unset($params['module']);
-			unset($params['page']);
-			unset($params['csrf']);
-
-			$where = array();
-			foreach($params as $key => $value)
-			{
-				if($value != NULL){
-				$where[] = $key . '/' . urlencode(strip_tags($value));
-				}
-			}
-				$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT.'index/'.$query.'/');
+	$limit = 20;
+	$page = $this->_getParam('page');
+	if(!isset($page)){
+		$start = 0;
+		
 	} else {
-	$form->populate($formData);
+		unset($params['page']);
+		$start = ($page - 1) * 20;
+	}	
+	
+	$config = array(
+    'adapteroptions' => array(
+    'host' => '127.0.0.1',
+    'port' => 8983,
+    'path' => '/solr/',
+	'core' => 'beoimages'
+    ));
+	
+	$select = array(
+    'query'         => '*:*',
+    'start'         => $start,
+    'rows'          => $limit,
+    'fields'        => array('*'),
+    'sort'          => array('created' => 'desc'),
+	'filterquery' => array(),
+    );
+   
+	$client = new Solarium_Client($config);
+	// get a select query instance based on the config
+	$query = $client->createSelect($select);
+	if(!is_null($d) && !is_null($lon) && !is_null($lat)){
+	$helper = $query->getHelper();
+	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
 	}
+    $resultset = $client->select($query);
+	$data = NULL;
+	foreach($resultset as $doc){
+	    foreach($doc as $key => $value){
+	    	$fields[$key] = $value;
+	    }
+	    $data[] = $fields;
 	}
+	$paginator = Zend_Paginator::factory($resultset->getNumFound());
+    $paginator->setCurrentPageNumber($page)
+              ->setItemCountPerPage($limit)
+              ->setPageRange(20);
+    $this->view->paginator = $paginator;
+	$this->view->results = $data;
+	
 	}
 	/** Add a new image
 	*/			

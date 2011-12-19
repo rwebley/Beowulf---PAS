@@ -527,7 +527,7 @@
 	<field name="recorder" type="string" indexed="true" stored="true" />
 	<field name="recorderID" type="string" indexed="true" stored="true" />
 	<field name="updatedBy" type="string" indexed="true" stored="true" />
-	<field name="createdBy" type="string" indexed="true" stored="true" />
+	<field name="createdBy" type="int" indexed="true" stored="true" />
 	<field name="institution" type="string" indexed="true" stored="true" />
 	
 	<!-- Coin specific fields -->

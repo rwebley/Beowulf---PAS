@@ -19,14 +19,20 @@ $phMagick->convert();
 }
 ?>
 </a><br>
-<?php if($this->objecttype != NULL) {echo ucfirst(strtolower($this->objecttype)).'<br />';}?>
-<?php if($this->old_findID != NULL) { ?>
-<a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts', 'action' => 'record','id' => $this->id),null,true);?>" title="View this image's record"><?php echo $this->old_findID;?></a><br />
+<?php if(!is_null($this->objecttype)) {echo ucfirst(strtolower($this->objecttype)).'<br />';}?>
+<?php if(!is_null($this->old_findID)) { ?>
+<a href="<?php echo $this->url(array('module' => 'database','controller' => 'artefacts', 'action' => 'record','id' => $this->findID),null,true);?>" title="View this image's record"><?php echo $this->old_findID;?></a><br />
 <?php } ?>
-<?php if($this->broadperiod != NULL):?>
-<?php echo ucfirst(strtolower($this->broadperiod));?><br>
+<?php if(!is_null($this->title)):?>
+<?php echo $this->escape($this->title);?><br />
 <?php endif;?>
-<span class="download"><a href="<?php echo $this->url(array('module' => 'database','controller' => 'ajax','action' => 'download','id' => $this->thumbnail),null,true);?>" title="Download image">Download</a></span> | <a href="<?php echo $this->url(array('module' => 'database','controller' => 'images','action' => 'image','id' => $this->thumbnail),null,true);?>" title="View image and meta data">View</a><br>
+<?php if(!is_null($this->broadperiod)):?>
+<?php echo ucfirst(strtolower($this->broadperiod));?><br />
+<?php endif;?>
+
+<span class="download"><a href="<?php echo $this->url(array('module' => 'database',
+'controller' => 'ajax',
+'action' => 'download','id' => $this->id),null,true);?>" title="Download image">Download</a></span> | <a href="<?php echo $this->url(array('module' => 'database','controller' => 'images','action' => 'image','id' => $this->id),null,true);?>" title="View image and meta data">View</a><br>
 
 <?php 
 $auth = Zend_Auth::getInstance();

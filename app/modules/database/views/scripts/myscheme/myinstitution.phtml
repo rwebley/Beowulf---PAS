@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
 <?php endif;?>
 
 <div id="findsList">
-<?php if (count($this->paginator)): ?>
+<?php if (count($this->results)): ?>
 <table class="stripeMe" summary="Records recorded by my institution">
 <thead>
 <tr> 
@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
 </thead>
 <tr><td></td><?php echo $this->form;?></tr>  
 <tbody>
-<?php echo $this->partialLoop('partials/database/findsTable.phtml',$this->paginator);?>
+<?php echo $this->partialLoop('partials/database/findsTable.phtml',$this->results);?>
 </tbody>
 </table><?php endif; ?>
 </div>
