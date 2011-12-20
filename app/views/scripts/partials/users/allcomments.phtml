@@ -1,10 +1,11 @@
 
 <li id="comment-<?php echo $this->id;?>" class="hentry u-<?php echo $this->comment_author;?>">
 <span class="thumb vcard author">
-<a class="tweet-url profile-pic url" href=""><?php $gravatar = new Gravatar($this->comment_author_email);
-$gravatar->size = 50;
-$gravatar->rating = "G";
-echo $gravatar;
+<a class="tweet-url profile-pic url" href=""><?php echo $this->gravatar($this->comment_author_email,array(
+	'imgSize' => 30, 'defaultImg' => 'monsterid', 'secure' => true),
+	array('class' => 'avatar', 
+    'title' => $this->comment_author . '\'s gravatar representation',
+    'rating' => 'G'));
 ?>
 </a>
 </span>

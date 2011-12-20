@@ -8,13 +8,13 @@ $this->allowedtest($string);
 <h3>Personal data</h3>
 <div id="personal-images">
 <div id="gravatar">
-<h4>Their gravatar</h4>
+
 <?php 
-$gravatar = new Gravatar($this->email);
-$gravatar->size = 80;
-$gravatar->rating = "G";
-$gravatar->border = "FF0000";
-echo $gravatar;
+	echo $this->gravatar($this->email,array(
+	'imgSize' => 90, 'defaultImg' => 'monsterid', 'secure' => true),
+    array('class' => 'avatar', 
+    'title' => $this->fullname . '\'s gravatar representation',
+    'rating' => 'G'));
 ?>
 </div>
 
@@ -43,8 +43,13 @@ Research outline: <?php echo $this->researchOutline;?>
 ?>
 <h3>Audit data</h3>
 <p>
-Created by: <?php echo $this->creator;?><br>
+Created by: <?php if(!is_null($this->creator)):?>
+<?php echo $this->creator;?>
+<?php else:?>
+Themselves
+<?php endif;?>
+<br/>
 Last updated by: <?php echo $this->updater;?>
 </p>
 
-<p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'search','action' => 'results','createdby' => $this->id),null,true);?>" title="Search database for all their records">View all records created by <?php echo $this->fullname;?></a></p>
+<p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'search','action' => 'results','createdBy' => $this->id),null,true);?>" title="Search database for all their records">View all records created by <?php echo $this->fullname;?></a></p>

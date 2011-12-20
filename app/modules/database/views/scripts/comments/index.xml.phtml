@@ -19,10 +19,6 @@
 </find>
 <date><?php echo date( DATE_W3C,strtotime($comm['comment_date']));?></date>
 <published><?php echo date( DATE_W3C,strtotime($comm['updated']));?></published>
-<?php $gravatar = new Gravatar($comm['comment_author_email']);
-$gravatar->rating = "G";
-?>
-<gravatar><?php echo urlencode($gravatar);?></gravatar>
 </comment>
 <?php endforeach;?>
 </comments>

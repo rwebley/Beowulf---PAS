@@ -1,12 +1,12 @@
 <div class="thumbnail" id="thumbnail">
 <a href="<?php echo $this->url(array('module' => 'users','controller' => 'named','action' => 'person','as' => urlencode($this->username)),null,true);?>" title="View <?php echo $this->escape($this->username);?>'s profile on our site">
 <?php
-$gravatar = new Gravatar($this->email);
-$gravatar->size = 80;
-$gravatar->rating = "G";
-$gravatar->border = "FF0000";
-$gravatar->extra = 'alt="Gravatar for '.$this->username.'"';
-echo $gravatar->toHTML();
+echo $this->gravatar($this->email, array(
+	'imgSize' => 90, 'defaultImg' => 'monsterid', 'secure' => true),
+	array('class' => 'avatar', 
+    'title' => $this->fullname . '\'s gravatar representation',
+    'rating' => 'G'));
+
 ?>
 </a>
 <p>Username: <?php echo $this->escape($this->username);?><br />

@@ -98,7 +98,7 @@ class Pas_View_Helper_Href extends Zend_View_Helper_Url {
 	if(isset($wrapper['tag'])) {
 	$link .= '>';
 	$link .= '<a href="' . $this->view->baseUrl() . $url .'" ' . $attribs . '>' 
-	. $options['content'] . '</a><';
+	. $options['content'] . '</a></';
 	$link .= $tag . '>';
 	} else {
 	$link = '<a href="' . $this->view->baseUrl() . $url .'" ' . $attribs . '>'

@@ -8,16 +8,13 @@ echo 'Add an avatar';
 */
 }
 ?>
-<?php 
+<div>
+	<?php 
+	echo $this->gravatar($this->email,array( 'imgSize' => 80, 'defaultImg' => 'monsterid', 'secure' => true),
+	array('class' => 'avatar','title' => $this->fullname . '\'s gravatar representation', 'rating' => 'G'));
+	 ?>
+    <p >This is supplied by <a href="http://en.gravatar.com" title="Change your gravatar settings">gravatar</a>. <br />
+You can change this with them, but we only accept G rated images.</p>
+</div>
 
-$gravatar = new Gravatar($this->email);
-$gravatar->size = 80;
-$gravatar->rating = "G";
-$gravatar->border = "FF0000";
-echo '<div>'.$gravatar.'<br>
-<p >This is supplied by <a href="http://en.gravatar.com" title="Change your gravatar settings">gravatar</a>. <br>
-You can change this with them, but we only accept G rated images.</p></div>';
-
-
-?>
 </div>

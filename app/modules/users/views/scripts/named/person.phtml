@@ -1,17 +1,11 @@
 <?php echo $this->partial('partials/users/publicprofile.phtml',$this->accountdata['0']);?>
-<?php if($this->images):?>
 <?php 
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
 ?>
-<?php $this->jQuery()->javascriptCaptureStart() ?>
+<?php $this->jQuery()->javascriptCaptureStart(); ?>
 jQuery(document).ready(function($) {
+$('a[rel*=lightbox]').lightBox() 
+});
+<?php $this->jQuery()->javascriptCaptureEnd(); ?>
 
- $('a[rel*=lightbox]').lightBox() 
-    })
-<?php $this->jQuery()->javascriptCaptureEnd() ?>
-
-<h3 style="clear:left;">Latest examples recorded</h3>
-<div id="latest">
-<?php echo $this->partialLoop('partials/database/imagesPaged.phtml',$this->images);?>
-</div>
-<?php endif;?>
+<?php echo $this->latestRecords('createdBy:' . $this->accountdata['0']['pasID'']); ?>

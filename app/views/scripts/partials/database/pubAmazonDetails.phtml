@@ -9,17 +9,31 @@ $this->headMeta('Archaeology','dc.subject');
 <div about="<?php echo $this->CurUrl();?>" typeof="bibo:AcademicArticle">
 <h2>Publication details</h2>
 
-<p>
-Full title: <span property="dc:title"><?php echo $this->escape($this->title);?></span><br />
-Author or editor: <?php echo $this->escape($this->authors);?><br />
-Publication place: <?php echo $this->escape($this->publication_place);?><br />
-Publisher: <?php echo $this->escape($this->publisher);?><br />
-Published: <?php echo $this->escape($this->publication_year);?><br />
-Publication type: <?php echo $this->escape($this->t);?><br />
-ISBN number: <span property="bibo:isbn10"><?php echo $this->escape($this->ISBN);?></span></p>
-<?php $isbn = $this->ISBN;?>
-<p>This was created by: <?php echo $this->escape($this->fn);?> on the: <?php echo $this->escape($this->c);?><br />
-Record last updated by: <?php echo $this->escape($this->fn2);?> on the <?php echo $this->escape($this->u);?></p>
+<ul>
+<li>Full title: <span property="dc:title"><?php echo $this->escape($this->title);?></span></li>
+<?php if(!is_null($this->authors)):?>
+<li>Author or editor: <?php echo $this->escape($this->authors);?></li>
+<?php endif;?>
+<?php if(!is_null($this->publication_place)):?>
+<li>Publication place: <?php echo $this->escape($this->publication_place);?></li>
+<?php endif;?>
+<?php if(!is_null($this->publisher)):?>
+<li>Publisher: <?php echo $this->escape($this->publisher);?></li>
+<?php endif;?>
+<?php if(!is_null($this->publication_year)):?>
+<li>Published: <?php echo $this->escape($this->publication_year);?></li>
+<?php endif;?>
+<?php if(!is_null($this->t)):?>
+<li>Publication type: <?php echo $this->escape($this->t);?></li>
+<?php endif;?>
+<?php if(!is_null($this->ISBN)):?>
+<li>ISBN number: <span property="bibo:isbn10"><?php echo $this->escape($this->ISBN);?></li>
+<?php endif;?>
+<li>This was created by: <?php echo $this->escape($this->fn);?> on the: <?php echo $this->escape($this->c);?></li>
+<?php if(!is_null($this->u)):?>
+<li>Record last updated by: <?php echo $this->escape($this->fn2);?> on the <?php echo $this->escape($this->u);?></li>
+<?php endif;?>
+</ul>
 <?php
 $auth = Zend_Auth::getInstance();
 if($auth->hasIdentity())
@@ -44,11 +58,11 @@ $this->url(array('module' => 'database','controller'=>'publications','action'=>'
 
 $config = Zend_Registry::get('config');
 $cache = Zend_Registry::get('cache');
-$amazonKey = $config->amazon->apikey;
-$amazonSecret = $config->amazon->secretkey;
-$amazonCountry = $config->amazon->country;
+$amazonKey = $config->webservice->amazon->apikey;
+$amazonSecret = $config->webservice->amazon->secretkey;
+$amazonCountry = $config->webservice->amazon->country;
 $amazon = new Zend_Service_Amazon($amazonKey,$amazonCountry,$amazonSecret);
-$book = $amazon->itemLookup($isbn,array('ResponseGroup' => 'Large'));
+$book = $amazon->itemLookup($this->ISBN,array('AssociateTag' => 'portaantiqsch-20', 'ResponseGroup' => 'Large'));
 
 
 //Zend_Debug::dump($book);

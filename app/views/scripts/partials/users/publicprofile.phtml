@@ -1,13 +1,12 @@
 <?php $this->headTitle('User account public data for '.$this->username);?>
 <h2>Public profile for <?php echo $this->username;?></h2>
 <div id="gravatar-badge">
-<?php
-$gravatar = new Gravatar($this->email);
-$gravatar->size = 200;
-$gravatar->rating = "G";
-$gravatar->border = "FF0000";
-$gravatar->extra = 'alt="Gravatar for '.$this->username.'"';
-echo $gravatar->toHTML();
+<?php 
+	echo $this->gravatar($this->email,array(
+	'imgSize' => 30, 'defaultImg' => 'monsterid', 'secure' => true),
+	array('class' => 'avatar', 
+    'title' => $this->fullname . '\'s gravatar representation',
+    'rating' => 'G'));
 ?>
 </div>
 <div id="userDetails">

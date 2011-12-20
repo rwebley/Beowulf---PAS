@@ -557,7 +557,8 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
-    'path' => '/solr/beowulf/',
+    'path' => '/solr/',
+	'core' => 'beowulf'
     )
 	);
 	

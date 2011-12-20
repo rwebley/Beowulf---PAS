@@ -29,7 +29,9 @@ $phMagick->convert();
 <?php if(!is_null($this->broadperiod)):?>
 <?php echo ucfirst(strtolower($this->broadperiod));?><br />
 <?php endif;?>
-
+<?php if(!is_null($this->licenseAcronym)):?>
+License terms: <?php echo $this->licenseAcronym;?><br />
+<?php endif;?>
 <span class="download"><a href="<?php echo $this->url(array('module' => 'database',
 'controller' => 'ajax',
 'action' => 'download','id' => $this->id),null,true);?>" title="Download image">Download</a></span> | <a href="<?php echo $this->url(array('module' => 'database','controller' => 'images','action' => 'image','id' => $this->id),null,true);?>" title="View image and meta data">View</a><br>
