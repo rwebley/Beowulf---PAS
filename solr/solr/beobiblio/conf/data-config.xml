@@ -1,0 +1,52 @@
+<dataConfig>
+	<dataSource type="JdbcDataSource"
+   driver="com.mysql.jdbc.Driver"
+   url="jdbc:mysql://localhost/antiquities"
+   user="webuser2" 
+   password="45jql11w"
+   tinyInt1isBit="false"/>
+	<document name="content">
+        <entity name="content" transformer="HTMLStripTransformer" 
+query="
+SELECT
+CONCAT('biblio-',finds.id) AS identifier,
+finds.old_findID,
+objecttype,
+broadperiod,
+finds.id,
+findspots.county,
+publications.title,
+publications.authors,
+slides.filename AS filename,
+users.imagedir AS imagedir,
+slides.imageID AS thumbnail,
+publications.id AS pubID,
+finds.secwfstage AS workflow
+FROM bibliography
+LEFT JOIN finds ON finds.secuid = bibliography.findID
+LEFT JOIN publications ON publications.secuid = bibliography.pubID
+LEFT JOIN findspots ON finds.secuid = findspots.findID
+LEFT JOIN finds_images ON finds_images.find_id = finds.secuid
+LEFT JOIN slides ON finds_images.image_id = slides.secuid
+LEFT JOIN users ON users.id = finds.createdBy
+WHERE finds.id IS NOT NULL
+" 
+>        
+		<field column="identifier" name="identifier" />
+		<field column="id" name="id" />
+        <field column="title" name="title" />
+	    <field column="objecttype" name="objecttype" />
+	    <field column="broadperiod" name="broadperiod" />
+	    <field column="county" name="county" />
+	    <field column="old_findID" name="old_findID" />
+	    <field column="authors" name="authors" />
+	     <field column="thumbnail" name="thumbnail" />
+    <field column="filename" name="filename" />
+    <field column="imagedir" name="imagedir" />
+    <field column="pubID" name="pubID" />
+    <field column="workflow" name="workflow" />
+		</entity>
+		
+    </document>
+    
+</dataConfig>

@@ -34,6 +34,8 @@
     <core name="beoimages" instanceDir="beoimages"></core>
     <core name="beopublications" instanceDir="beopublications"></core>
     <core name="beopeople" instanceDir="beopeople"></core>
+    <core name="beotags" instanceDir="beotags"></core>
+    <core name="beobiblio" instanceDir="beobiblio"></core>
     <core name="dayofarch" instanceDir="dayofarch"></core>
     <core name="beoblogs" instanceDir="beoblogs"></core>
   </cores>

@@ -28,55 +28,6 @@ class Database_PublicationsController extends Pas_Controller_Action_Admin {
 	/** Display of publications with filtration
 	*/
 	public function indexAction() {
-//	$sort = $this->_getParam('sort') ? $this->_getParam('sort') : 'title ASC'; 
-//	$publications = new Publications();
-//	$paginator = $publications->getPublications($sort,$this->_getAllParams());
-//	if(!in_array($this->_helper->contextSwitch()->getCurrentContext(),array('xml','json','rss','atom'))){ 
-//	$form = new PublicationFilterForm();
-//	$form->title->setValue($this->_getParam('title'));
-//	$form->pubYear->setValue($this->_getParam('pubYear'));
-//	$form->place->setValue($this->_getParam('place'));
-//	$form->authorEditor->setValue($this->_getParam('authorEditor'));
-//	$this->view->form = $form;
-//	if ($this->_request->isGet() && ($this->_getParam('submit') != NULL)) {
-//	$formData = $this->_request->getParams();
-//	if ($form->isValid($formData)) {
-//	$title = $form->getValue('title');
-//	$pubDate = $form->getValue('pubDate');
-//	$params = array_filter($formData);
-//	unset($params['submit']);
-//	unset($params['action']);
-//	unset($params['controller']);
-//	unset($params['module']);
-//	unset($params['page']);
-//	unset($params['csrf']);
-//	$where = array();
-//		foreach($params as $key => $value) {
-//				if($value != NULL){
-//				$where[] = $key . '/' . urlencode(strip_tags($value));
-//				}
-//			}
-//				$whereString = implode('/', $where);
-//	$query = $whereString;
-//	$this->_redirect(self::REDIRECT.'index/'.$query.'/');		
-//	} else {
-//	$form->populate($formData);
-//	}
-//	}
-//	$this->view->paginator = $paginator;
-//	} else {
-//		$data = array('pageNumber' => $paginator->getCurrentPageNumber(),
-//				  'total' => number_format($paginator->getTotalItemCount(),0),
-//				  'itemsReturned' => $paginator->getCurrentItemCount(),
-//				  'totalPages' => number_format($paginator->getTotalItemCount()/$paginator->getItemCountPerPage(),0));
-//		$this->view->data = $data;
-//		$paginated = array();
-//		foreach ($paginator as $k => $v){
-//			$paginated[$k] = $v;
-//		}
-//		$this->view->paginator = $paginated;
-//	}
-	
 	$limit = 20;
 	$page = $this->_getParam('page');
 	if(!isset($page)){
@@ -122,6 +73,7 @@ class Database_PublicationsController extends Pas_Controller_Action_Admin {
     $this->view->paginator = $paginator;
 	$this->view->results = $data;
 	}
+	
 	/** Display details of publication
 	*/
 	public function publicationAction() {

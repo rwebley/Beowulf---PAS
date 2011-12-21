@@ -10,6 +10,42 @@ class MedNumismaticSearchForm extends Pas_Form {
 
 public function __construct($options = null) {
 
+	$primaries = new Materials();
+$primary_options = $primaries->getPrimaries();
+//Get data to form select menu for periods
+//Get Rally data
+
+$rallies = new Rallies();
+$rally_options = $rallies->getRallies();
+
+//Get Hoard data
+$hoards = new Hoards();
+$hoard_options = $hoards->getHoards();
+
+$counties = new Counties();
+$county_options = $counties->getCountyName2();
+
+$rulers = new Rulers();
+$ruler_options = $rulers->getMedievalRulers();
+
+$denominations = new Denominations();
+$denomination_options = $denominations->getOptionsMedieval();
+
+$mints = new Mints();
+$mint_options = $mints->getMedievalMints();
+
+$axis = new Dieaxes();
+$axis_options = $axis->getAxes();
+
+$cats = new CategoriesCoins();
+$cat_options = $cats->getPeriodMed();
+
+
+
+$regions = new Regions();
+$region_options = $regions->getRegionName();
+	
+	
 	parent::__construct($options);
 
 	$decorators = array(
@@ -273,7 +309,6 @@ public function __construct($options = null) {
 	
 	$this->addDisplayGroup(array('submit'), 'submit');
 				 
-	$this->setMethod('get');
 	
 	}
 }

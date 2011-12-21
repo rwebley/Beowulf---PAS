@@ -84,10 +84,13 @@ class Publications extends Pas_Db_Table_Abstract {
 	public function getPublicationDetails($id) {
 	$refs = $this->getAdapter();
 	$select = $refs->select()
-		->from($this->_name,array('id','c' => 'DATE_FORMAT(publications.created,"%D %M %Y")','u' =>'DATE_FORMAT(publications.updated,"%D %M %Y")', 'title','publisher','authors','ISBN','publication_year','publication_place'))
-		->joinLeft('publicationtypes','publications.publication_type = publicationtypes.id',array('t' => 'term'))
-		->joinLeft('users','publications.createdBy = users.id', array('fn' => 'fullname'))
-		->joinLeft(array('users2' => 'users'),'publications.updatedBy = users2.id',array('fn2' => 'fullname'))
+		->from($this->_name,array('id','created','updated', 
+		'title','publisher','authors',
+		'ISBN','publication_year','publication_place',
+		'editors','in_publication'))
+		->joinLeft('publicationtypes','publications.publication_type = publicationtypes.id',array('publicationType' => 'term'))
+		->joinLeft('users','publications.createdBy = users.id', array('createdBy' => 'fullname'))
+		->joinLeft(array('users2' => 'users'),'publications.updatedBy = users2.id',array('updatedBy' => 'fullname'))
 		->where('publications.id ='.$id);
      return  $refs->fetchAll($select);
 	}

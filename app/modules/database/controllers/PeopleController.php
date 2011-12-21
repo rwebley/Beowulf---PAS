@@ -27,7 +27,7 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
 	$config = Zend_Registry::get('config');
 	$this->view->googleapikey = $config->webservice->googlemaps->apikey;
 	$this->_peoples = new Peoples();
-	$this->_pm = new Placemaker();
+	$this->_pm = new Pas_Placemaker('gb');
 	$this->_config = Zend_Registry::get('config');
 	$this->_gmapskey = $this->_config->webservice->googlemaps->apikey;
 	$this->_geocoder = new Pas_Service_Geocoder($this->_gmapskey);
@@ -37,38 +37,49 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
 	/** Index page of all people on the database
 	*/
 	public function indexAction(){
-	$this->view->paginator = $this->_peoples->getPeopleList($this->_getAllParams());
-	$form = new PersonFilterForm();
-	$this->view->form = $form;
-	$form->fullname->setValue($this->_getParam('fullname'));
-	$form->primary_activity->setValue($this->_getParam('primary_activity'));
-	$form->organisation->setValue($this->_getParam('organisation'));
-	$form->organisationID->setValue($this->_getParam('organisationID'));
-	$form->county->setValue($this->_getParam('county'));
-	if ($this->_request->isPost() && ($this->_getParam('submit') != NULL)) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-			$params = array_filter($formData);
-			unset($params['submit']);
-			unset($params['action']);
-			unset($params['controller']);
-			unset($params['module']);
-			unset($params['page']);
-			unset($params['csrf']);
-	$where = array();
-			foreach($params as $key => $value)
-			{
-				if($value != NULL){
-				$where[] = $key . '/' . urlencode(strip_tags($value));
-				}
-			}
-				$whereString = implode('/', $where);
-	$query = $whereString;
-	$this->_redirect(self::REDIRECT . 'index/' . $query.'/');
+	$limit = 20;
+	$page = $this->_getParam('page');
+	if(!isset($page)){
+		$start = 0;
+		
 	} else {
-	$form->populate($formData);
+		unset($params['page']);
+		$start = ($page - 1) * 20;
+	}	
+	
+	$config = array(
+    'adapteroptions' => array(
+    'host' => '127.0.0.1',
+    'port' => 8983,
+    'path' => '/solr/',
+	'core' => 'beopeople'
+    ));
+	
+	$select = array(
+    'query'         => '*:*',
+    'start'         => $start,
+    'rows'          => $limit,
+    'fields'        => array('*'),
+    'sort'          => array('forename' => 'asc'),
+	'filterquery' => array(),
+    );
+   
+	$client = new Solarium_Client($config);
+	$query = $client->createSelect($select);
+    $resultset = $client->select($query);
+	$data = NULL;
+	foreach($resultset as $doc){
+	    foreach($doc as $key => $value){
+	    	$fields[$key] = $value;
+	    }
+	    $data[] = $fields;
 	}
-	}
+	$paginator = Zend_Paginator::factory($resultset->getNumFound());
+    $paginator->setCurrentPageNumber($page)
+              ->setItemCountPerPage($limit)
+              ->setPageRange(20);
+    $this->view->paginator = $paginator;
+	$this->view->results = $data;
 	}
 	/** Display details of a person
 	*/

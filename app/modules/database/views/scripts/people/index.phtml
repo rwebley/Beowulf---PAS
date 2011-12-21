@@ -6,9 +6,9 @@ $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
 ?>
 <h2>People registered with the Scheme</h2>
 
-<?php echo $this->peopletoolbox();?>
+<?php echo $this->peopleToolbox();?>
 <div id="findsList">
-<?php if (count($this->paginator)): ?>
+<?php if ($this->results): ?>
 <table class="stripeMe" summary="All people registered on our database">
 <thead>
 <tr>
@@ -23,7 +23,7 @@ $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
 <?php echo $this->form;?>
 </tr>
 <tbody>
-<?php echo $this->partialLoop('partials/database/peopleTableList.phtml',$this->paginator);?>
+<?php echo $this->partialLoop('partials/database/peopleTableList.phtml',$this->results);?>
 </tbody>
 </table>
 <?php else :?>

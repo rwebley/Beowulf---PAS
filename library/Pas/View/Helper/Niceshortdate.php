@@ -31,7 +31,7 @@ class Pas_View_Helper_NiceShortDate extends Zend_View_Helper_Abstract {
      * @param string $date_string
      * @return string $ret
      */
-	public function Niceshortdate($date_string ) {
+	public function niceShortDate($date_string ) {
         $date = $this->fromString($date_string);
         $ret = date('l jS F Y', $date);
         return $ret;

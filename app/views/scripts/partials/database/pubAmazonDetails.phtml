@@ -14,6 +14,12 @@ $this->headMeta('Archaeology','dc.subject');
 <?php if(!is_null($this->authors)):?>
 <li>Author or editor: <?php echo $this->escape($this->authors);?></li>
 <?php endif;?>
+<?php if(!is_null($this->in_publication)):?>
+<li>In publication: <?php echo $this->escape($this->in_publication);?></li>
+<?php endif;?>
+<?php if(!is_null($this->editors)):?>
+<li>Editors: <?php echo $this->escape($this->editors);?></li>
+<?php endif;?>
 <?php if(!is_null($this->publication_place)):?>
 <li>Publication place: <?php echo $this->escape($this->publication_place);?></li>
 <?php endif;?>
@@ -23,85 +29,31 @@ $this->headMeta('Archaeology','dc.subject');
 <?php if(!is_null($this->publication_year)):?>
 <li>Published: <?php echo $this->escape($this->publication_year);?></li>
 <?php endif;?>
-<?php if(!is_null($this->t)):?>
-<li>Publication type: <?php echo $this->escape($this->t);?></li>
+<?php if(!is_null($this->publicationType)):?>
+<li>Publication type: <?php echo $this->escape($this->publicationType);?></li>
 <?php endif;?>
 <?php if(!is_null($this->ISBN)):?>
 <li>ISBN number: <span property="bibo:isbn10"><?php echo $this->escape($this->ISBN);?></li>
 <?php endif;?>
-<li>This was created by: <?php echo $this->escape($this->fn);?> on the: <?php echo $this->escape($this->c);?></li>
-<?php if(!is_null($this->u)):?>
-<li>Record last updated by: <?php echo $this->escape($this->fn2);?> on the <?php echo $this->escape($this->u);?></li>
+<li>This was created by: <?php echo $this->escape($this->createdBy);?> on the: <?php echo $this->timeagoinwords($this->created);?></li>
+<?php if(!is_null($this->updated)):?>
+<li>Record last updated by: <?php echo $this->escape($this->updatedBy);?> on the <?php echo $this->timeagoinwords($this->updated);?></li>
 <?php endif;?>
 </ul>
-<?php
-$auth = Zend_Auth::getInstance();
-if($auth->hasIdentity())
-{
-$user = $auth->getIdentity();
-{
-$allowed = array('fa','admin','flos');
-if(in_array($user->role,$allowed))
-{
-echo '<p><a href="'. 
-$this->url(array('module' => 'database','controller'=>'publications','action'=>'edit', 'id'=>$this->id),null,true)
-.'" title="Edit this publication">Edit</a> | <a href="'.
-$this->url(array('module' => 'database','controller'=>'publications','action'=>'delete', 'id'=>$this->id),null,true)
-.'" title="Delete this publication">Delete</a></p>';
-}
-}
-}
-;?>
-</div>
-<?php if($this->ISBN > 0) {
 
-
-$config = Zend_Registry::get('config');
-$cache = Zend_Registry::get('cache');
-$amazonKey = $config->webservice->amazon->apikey;
-$amazonSecret = $config->webservice->amazon->secretkey;
-$amazonCountry = $config->webservice->amazon->country;
-$amazon = new Zend_Service_Amazon($amazonKey,$amazonCountry,$amazonSecret);
-$book = $amazon->itemLookup($this->ISBN,array('AssociateTag' => 'portaantiqsch-20', 'ResponseGroup' => 'Large'));
-
-
-//Zend_Debug::dump($book);
-echo '<div><p>';
-if(array_key_exists('MediumImage',$book) && ($book->MediumImage != NULL))
-{
-echo '<img src="'.$book->MediumImage->Url.'" alt="Cover image for '.$book->Title.'" height="'.$book->MediumImage->Height.'" width="'.$book->MediumImage->Width.'" class="amazonpicture" />';
-}
-
-echo '<a href="'.$book->DetailPageURL . '" title="View full details at Amazon"> ' . $book->Title. '</a> <br /> ';
-echo 'Number of pages: '. $book->NumberOfPages.'<br />';
-echo 'Total new copies available: '.$book->Offers->TotalNew . '<br />';
-echo 'Total used copies available: '.$book->Offers->TotalUsed . '<br />';
-if(array_key_exists('FormattedPrice',$book))
-	{
-echo 'Price for new copy: ' .$book->FormattedPrice.'<br />';
-	}
-echo 'Current sales rank at Amazon: ' . $book->SalesRank.'<br />';
-echo 'Binding type: ' . $book->Binding. '<br />';
-echo 'Publisher: ' . $book->Publisher. '<br />';
-echo 'Original publication date: ' . $this->niceshortdate($book->PublicationDate).'<br />';
-if(array_key_exists('Author',$book) && ($book->Author > 0))
-{
-echo 'Authors: ';
-foreach ($book->Author AS $author) {
-   echo "{$author}<br />";
-}
-}
-echo '</p>';
-
-if($book->SimilarProducts > 0){
-echo '<h3>Similar books</h3>';
-echo '<ul>';
-foreach ($book->SimilarProducts AS $sim) {
-echo "<li>{$sim->Title}</li>";
-}
-}
-echo '</ul>';
-
-echo '</div>';
+<?php 
+$links = array($this->Href(array('module' => 'database','controller'=>'publications', 'action'=>'edit', 
+'params' =>array('id' => $this->id), 'checkAcl'=>true,
+'acl'=>'Zend_Acl', 'content'=>'Edit','attribs' => array('title' => 'Edit publication'))),
+$this->Href(array('module' => 'database','controller'=>'publications', 'action'=>'delete', 
+'params' =>array('id' => $this->id), 'checkAcl'=>true,
+'acl'=>'Zend_Acl', 'content'=>'Delete','attribs' => array('title' => 'Delete publication'))));
+if($links['0'] != false){
+	echo '<p>';
+	echo implode(' | ', $links);
+	echo '</p>';
 }
 ?>
+
+</div>
+<?php echo $this->amazonDetails($this->ISBN);?>

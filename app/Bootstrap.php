@@ -68,6 +68,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	Zend_Registry::set('formcache',$this->getResource('cachemanager')->getCache('rulercache'));
 	}
 	
+	public function _initSiteur(){
+	$siteurl = Zend_Registry::get('config')->siteurl;	
+	Zend_Registry::set('siteurl',$siteurl);
+	}
+	
 	/** Initialise the response and set gzip status
 	*/ 
 	protected function _initResponse(){

@@ -27,7 +27,6 @@ public function __construct($options = null) {
 	$title->setLabel('Publication title: ')
 		->setRequired(true)
 		->addFilters(array('StripTags','StringTrim'))
-		->addValidator('Alnum',false,array('allowWhiteSpace' => true))
 		->setAttrib('size',50)
 		->addErrorMessage('Please enter a publication title.')
 		->setDecorators($decorators);
@@ -36,7 +35,6 @@ public function __construct($options = null) {
 	$authors->setLabel('Author names: ')
 		->setRequired(true)
 		->addFilters(array('StripTags','StringTrim'))
-		->addValidator('Alnum',false,array('allowWhiteSpace' => true))
 		->setAttrib('size',50)
 		->addErrorMessage('You must enter either an author\'s or an editor\'s name.')
 		->setDecorators($decorators);
@@ -44,7 +42,6 @@ public function __construct($options = null) {
 	$editors = new Zend_Form_Element_Text('editors');
 	$editors->setLabel('Editor names: ')
 		->setRequired(false)
-		->addValidator('Alnum',false,array('allowWhiteSpace' => true))
 		->addFilters(array('StripTags','StringTrim'))
 		->setAttrib('size',50)
 		->setDecorators($decorators);
@@ -96,7 +93,7 @@ public function __construct($options = null) {
 	$in_publication->setLabel('In publication: ')
 		->addFilters(array('StripTags','StringTrim'))
 		->setRequired(false)
-		->addValidator('Alnum',false,array('allowWhiteSpace' => true))
+		->setAttrib('size',50)
 		->setDecorators($decorators);
 	
 	$publication_type = new Zend_Form_Element_Select('publication_type');

@@ -2,10 +2,4 @@
 echo $this->partialLoop('partials/database/pubAmazonDetails.phtml',$this->publications);
 ?>
 
-
-<?php if($this->finds != NULL) :?>
-<h3><?php echo count($this->finds);?> finds that this book is referenced for:</h3>
-<ul id="related">
-<?php echo $this->partialLoop('partials/database/findToPub.phtml',$this->finds) ; ?>
-</ul>
-<?php endif;?>
+<?php echo $this->latestRecordsPublications('pubID:'  . Zend_Controller_Front::getInstance()->getRequest()->getParam('id'));?>
