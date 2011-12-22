@@ -69,7 +69,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$params = array_filter($form->getValues());
 	$params = $this->array_cleanup($params);
 	$this->_flashMessenger->addMessage('Your search is complete');
-	$this->_helper->Redirector->gotoSimple('solrresults','search','database',$params);
+	$this->_helper->Redirector->gotoSimple('results','search','database',$params);
 	} else {
 	$form->populate($this->_getAllParams());
 	}
@@ -219,128 +219,7 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	}
 	}
 
-	/** Display the results after filtering
-	*/	
-	public function resultsTwoAction() {
-	ini_set("memory_limit","256M");
-	$date = Zend_Date::now()->toString('yyyy-MM-ddHHmm');
-	$data = $this->_getAllParams();
-	$params = array_filter($data);
-	$contexts = array('csv','hero','kml');
-	$kml = array('kml');
-	if(!in_array($this->_helper->contextSwitch->getCurrentContext(),$contexts))	{	
-	$this->view->headTitle('Search results: ');
-	unset($params['submit']);
-	unset($params['action']);
-	unset($params['controller']);
-	unset($params['module']);
-	unset($params['csrf']);
-	unset($params['database']);
-	unset($params['record']);
-    if(isset($params['recordby']) && !isset($params['recorderID'])){
-    	$params['recorderID'] = $params['recordby'];
-    }	
-	if(count($params) == 0 || (count($params) == 1 && array_key_exists('page',$params))) {
-	$this->_flashMessenger->addMessage('You didn\'t choose anything to search on, 
-	so you might as well see all the data!');
-	$this->_redirect('/database/artefacts/');
-	}
-	$finds = new Finds();
-	$results = $finds->getSearchResultsAdvanced($params,$this->getRole());
 	
-		//unset($params['page']);
-	$stringsearch = serialize($params);
-	
-	$queries = new Searches();
-	$inserts = $queries->insertResults($stringsearch);
-	$where = array();
-    foreach($params as $key => $value) {
-	$where[] = array( $key  => urlencode($value));
-    }
-    $_json = array('json');
-    if(!in_array($this->_helper->contextSwitch->getCurrentContext(),$_json)) {
-	$this->view->results = $results;
-    } else  {
-    $data = array('pageNumber' => $results->getCurrentPageNumber(),'total' => number_format($results->getTotalItemCount(),0),
-    'itemsReturned' => $results->getCurrentItemCount(),'totalPages' => number_format($results->getTotalItemCount()/$results->getCurrentItemCount(),0));
-	$this->view->data = $data;
-	$findsjson = array();
-	foreach($results as $k => $v) {
-	$findsjson[$k] = $v;
-	}
-	$this->view->objects = array('object' => $findsjson);	
-    }
-	$this->view->params = $params;
-	
-	} else if(in_array($this->_helper->contextSwitch->getCurrentContext(),$kml)) {
-	
-	$records = new Search();
-	
-	$data = $records->getSearchResultsAdvanced($data,$this->getRole());
-	$data = $this->unique_multi_array($data,'old_findID');
-	$this->view->results = $data;
-	$this->view->documentname = "resultsKMLexport_" . $this->getIdentityForForms() . $date . ".kml";
-	} else {
-	ini_set("memory_limit","256M");
-	$records = new Search();
-	$context = $this->_helper->contextSwitch->getCurrentContext();
-	
-	switch($context) {
-	case($context == 'hero') :
-		$results = $records->goGetTheHero($data,$this->getRole());
-		$csvname = 'hero';
-	break;
-	default:
-		$results = $records->getSearchResultsAdvanced($data,$this->getRole());
-		$csvname = 'search';
-	break;
-	}
-	
-	$csv_terminated = "\n";
-    $csv_separator = ",";
-    $csv_enclosed = '"';
-    $csv_escaped = "\\";
-    $fields_cnt = count($results['0']);
-	$row_cnt = count($results);
-    $schema_insert = '';
-    for ($i = 0; $i < 1; $i++)
-    {
-	foreach($results['0'] as $key => $value)
-        {
-        $l = $csv_enclosed . str_replace($csv_enclosed, $csv_escaped . $csv_enclosed,
-            stripslashes($key)) . $csv_enclosed;
-        $schema_insert .= $l;
-        $schema_insert .= $csv_separator;
-		}
-    } // end for
- 
-    $out = trim(substr($schema_insert, 0, -1));
-    $out .= $csv_terminated;
-	
-	foreach($results as $object) {
-	
-	foreach($object as $key => $value){
-	 
-	$schema_insert = '';
-	$schema_insert .= $csv_enclosed . 
-					stripslashes(strip_tags(str_replace($csv_enclosed, $csv_escaped . $csv_enclosed, str_replace('"','',$value)))) . $csv_enclosed;	$schema_insert .= $csv_separator;
-	
-	$out .= $schema_insert;
-	
-	}
-	$out .= $csv_terminated;
-	}
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("Content-Length: " . strlen($out));
-	header("Content-type:application/vnd.ms-excel");
-    header("Content-type: text/x-csv");
-    //header("Content-type: application/csv");
-    header("Content-Disposition: attachment; filename="  .$csvname . "resultsCSVexport_" 
-    . $this->getIdentityForForms() . $date . ".csv");
-    echo $out;
-    exit;
-	}
-	}
 	/** Remove multiple values
 	 * 
 	 * @param array $array
@@ -462,7 +341,8 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$mail->addCC($senderemail,$sender);
 	$mail->setSubject('I thought you might be interested in this search on the PAS Database.');
 	$mail->send();	
-	$this->_flashMessenger->addMessage('Your email has been sent to '.$recipient.'. Thank you for sending them some of our records.');
+	$this->_flashMessenger->addMessage('Your email has been sent to '.$recipient
+	.'. Thank you for sending them some of our records.');
 	$this->_redirect('/database/search/results/'.$query);
 	}  else {
 	$form->populate($data);

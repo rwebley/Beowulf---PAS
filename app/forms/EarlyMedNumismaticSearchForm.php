@@ -6,12 +6,15 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class EarlyMedNumismaticSearchForm extends Pas_Form
-{
-public function __construct($options = null)
-{
+class EarlyMedNumismaticSearchForm extends Pas_Form {
+
+	public function __construct($options = null) {
+		
 	$primaries = new Materials();
 	$primary_options = $primaries->getPrimaries();
+		
+	$institutions = new Institutions();
+	$inst_options = $institutions->getInsts();
 	
 	$rallies = new Rallies();
 	$rally_options = $rallies->getRallies();
@@ -42,13 +45,8 @@ public function __construct($options = null)
 	
 	$regions = new Regions();
 	$region_options = $regions->getRegionName();
-<<<<<<< HEAD
 
 	parent::__construct($options);
-=======
-        
-        parent::__construct($options);
->>>>>>> origin/master
 
 
 	$decorators = array(
@@ -159,7 +157,8 @@ public function __construct($options = null)
 		->setRegisterInArrayValidator(false)
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
-		->addMultiOptions(array(NULL => NULL,'Choose denomination type' => $denomination_options))
+		->addMultiOptions(array(NULL => 'Choose denomination type',
+		'Available denominations' => $denomination_options))
 		->setDecorators($decorators);
 
 
@@ -168,7 +167,8 @@ public function __construct($options = null)
 		->setRegisterInArrayValidator(false)
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
-		->addMultiOptions(array(NULL => NULL,'Choose category' => $cat_options))
+		->addMultiOptions(array(NULL => 'Choose an Early Medieval category',
+		'Available categories' => $cat_options))
 		->setDecorators($decorators);
 
 	$type = new Zend_Form_Element_Select('typeID');
@@ -184,7 +184,8 @@ public function __construct($options = null)
 		->setRegisterInArrayValidator(false)
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
-		->addMultiOptions(array(NULL => 'Choose primary ruler' ,'Available options' => $ruler_options))
+		->addMultiOptions(array(NULL => 'Choose primary ruler',
+		'Available options' => $ruler_options))
 		->setDecorators($decorators);
 
 	//Mint
@@ -193,7 +194,8 @@ public function __construct($options = null)
 		->setRegisterInArrayValidator(false)
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
-		->addMultiOptions(array(NULL => NULL,'Choose denomination type' => $mint_options))
+		->addMultiOptions(array(NULL => 'Choose issuing mint', 
+		'Available mints' => $mint_options))
 		->setDecorators($decorators);
 
 	//Obverse inscription
@@ -234,12 +236,12 @@ public function __construct($options = null)
 		->setRegisterInArrayValidator(false)
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
-		->addMultiOptions(array(NULL => NULL,'Choose measurement' => $axis_options))
+		->addMultiOptions(array(NULL => 'Choose a die axis measurement',
+		'Available options' => $axis_options))
 		->setDecorators($decorators);
 
 	$objecttype = new Zend_Form_Element_Hidden('objecttype');
 	$objecttype->setValue('coin')
-<<<<<<< HEAD
 		->setAttrib('class', 'none')
 		->removeDecorator('label')
 		->removeDecorator('HtmlTag')
@@ -259,27 +261,13 @@ public function __construct($options = null)
 		->removeDecorator('DtDdWrapper')
 		->removeDecorator('HtmlTag')
 		->setLabel('Submit');
-=======
-	->setAttrib('class', 'none')
-        ->removeDecorator('label')
-        ->removeDecorator('HtmlTag')
-        ->removeDecorator('DtDdWrapper');
 	
-	
-	$broadperiod = new Zend_Form_Element_Hidden('broadperiod');
-	$broadperiod->setValue('Early Medieval')
-	->setAttrib('class', 'none')
-        ->removeDecorator('label')
-        ->removeDecorator('HtmlTag')
-        ->removeDecorator('DtDdWrapper');
-	//Submit button 
-	$submit = new Zend_Form_Element_Submit('submit');
-	$submit->setAttrib('id', 'submitbutton')
-	->setAttrib('class', 'large')
-	->removeDecorator('DtDdWrapper')
-	->removeDecorator('HtmlTag')
-	->setLabel('Search...');
->>>>>>> origin/master
+	$institution = new Zend_Form_Element_Select('institution');
+	$institution->setLabel('Recording institution: ')
+	->setRequired(false)
+	->addFilters(array('StringTrim','StripTags'))
+	->addMultiOptions(array(null => 'Choose an institution','Available institutions' => $inst_options))
+	->setDecorators($decorators); 	
 	
 	$this->addElements(array(
 	$old_findID, $type, $description,
@@ -290,7 +278,7 @@ public function __construct($options = null)
 	$ruler, $mint, $axis,
 	$obverseinsc, $obversedesc, $reverseinsc,
 	$reversedesc, $objecttype, $broadperiod,
-	$cat,$submit));
+	$cat, $submit, $institution));
 	
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
@@ -313,7 +301,7 @@ public function __construct($options = null)
 	$this->details->removeDecorator('DtDdWrapper');
 	
 	$this->details->setLegend('Object details: ');
-	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure'), 'spatial')
+	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure', 'institution'), 'spatial')
 	->removeDecorator('HtmlTag');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->spatial->removeDecorator('DtDdWrapper');
@@ -323,11 +311,7 @@ public function __construct($options = null)
 	$this->addDisplayGroup(array('submit'), 'submit');
 	$this->addDecorator('FormElements')
 		 ->addDecorator('Form')
-<<<<<<< HEAD
 	     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'div'));
-=======
-	     ->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'div'));	
->>>>>>> Dodgy more like this
 	
 	}
 }

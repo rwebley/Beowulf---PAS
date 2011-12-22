@@ -60,6 +60,9 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 	
 	$regions = new Regions();
 	$region_options = $regions->getRegionName();
+	
+	$institutions = new Institutions();
+	$inst_options = $institutions->getInsts();
 
 	parent::__construct($options);
 		
@@ -295,7 +298,20 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 		->removeDecorator('DtDdWrapper')
 		->setLabel('Submit your search ..')
 		->setAttrib('class', 'large');
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($this->_config->form->salt)
+		->removeDecorator('DtDdWrapper')
+		->removeDecorator('HtmlTag')->removeDecorator('label')
+		->setTimeout(4800);
+	$this->addElement($hash);
 	
+	$institution = new Zend_Form_Element_Select('institution');
+	$institution->setLabel('Recording institution: ')
+	->setRequired(false)
+	->addFilters(array('StringTrim','StripTags'))
+	->addMultiOptions(array(NULL => 'Choose an institution',
+	'Available institutions' => $inst_options))
+	->setDecorators($decorators); 
 	
 	$this->addElements(array(
 	$old_findID,$type,$description,
@@ -306,7 +322,7 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 	$ruler,$mint,$axis,
 	$obverseinsc,$obversedesc,$reverseinsc,
 	$reversedesc,$objecttype,$broadperiod,
-	$cat,$submit));
+	$cat,$submit, $hash, $institution));
 	
 	$this->addDisplayGroup(array(
 	'category','ruler','typeID',
@@ -321,7 +337,7 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	
-	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure'), 'spatial')->removeDecorator('HtmlTag');
+	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure','institution'), 'spatial')->removeDecorator('HtmlTag');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->spatial->removeDecorator('DtDdWrapper');
 	

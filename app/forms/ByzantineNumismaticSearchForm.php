@@ -5,7 +5,8 @@ class ByzantineNumismaticSearchForm extends Pas_Form
 
 public function __construct($options = null)
 {
-
+$institutions = new Institutions();
+$inst_options = $institutions->getInsts();
 //Get data to form select menu for primary and secondary material
 $primaries = new Materials();
 $primary_options = $primaries->getPrimaries();
@@ -44,10 +45,6 @@ $this->setAttrib('accept-charset', 'UTF-8');
        
 $this->clearDecorators();
 	
-<<<<<<< HEAD
-=======
-        $this->setName('byzantine-search');   
->>>>>>> origin/master
 
 $decorator =  array('SimpleInput');
 $decoratorButton =  array('NormalDecButton');
@@ -156,7 +153,8 @@ $decorators = array(
 	$regionID->setLabel('European region: ')
 		->setRegisterInArrayValidator(false)
 		->addFilters(array('StripTags','StringTrim'))
-		->addMultiOptions(array(NULL => 'Choose a region for a wide result','Choose region' => $region_options))
+		->addMultiOptions(array(NULL => 'Choose a region for a wide result',
+		'Choose region' => $region_options))
 		->setDecorators($decorators);
 
 	$gridref = new Zend_Form_Element_Text('gridref');
@@ -238,6 +236,13 @@ $decorators = array(
 		->addMultiOptions(array(NULL => NULL,'Choose measurement' => $axis_options))
 		->setDecorators($decorators);
 
+	$institution = new Zend_Form_Element_Select('institution');
+	$institution->setLabel('Recording institution: ')
+	->setRequired(false)
+	->addFilters(array('StringTrim','StripTags'))
+	->addMultiOptions(array(NULL => NULL,'Choose institution' => $inst_options))
+	->setDecorators($decorators); 	
+	
 	$objecttype = new Zend_Form_Element_Hidden('objecttype');
 	$objecttype->setValue('coin');
 	$objecttype->removeDecorator('HtmlTag')
@@ -255,16 +260,10 @@ $decorators = array(
 	//	Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
 	$submit->setAttrib('id', 'submitbutton')
-<<<<<<< HEAD
 		->removeDecorator('label')
 		->removeDecorator('HtmlTag')
 		->removeDecorator('DtDdWrapper')
 		->setAttrib('class', 'large');
-=======
-        ->removeDecorator('label')
-        ->removeDecorator('HtmlTag')
-        ->removeDecorator('DtDdWrapper');
->>>>>>> origin/master
 
 	$this->addElements(array(
 	$old_findID, $description, $workflow,
@@ -274,10 +273,10 @@ $decorators = array(
 	$gridref, $denomination, $ruler,
 	$mint, $axis, $obverseinsc,
 	$obversedesc, $reverseinsc, $reversedesc,
-	$objecttype, $broadperiod, $submit));
+	$objecttype, $broadperiod, $institution, 
+	$submit));
 	
 	$this->addDisplayGroup(array(
-<<<<<<< HEAD
 	'denomination', 'ruler', 'mint',
 	'moneyer', 'axis', 'obverseLegend',
 	'obverseDescription','reverseLegend','reverseDescription'), 
@@ -286,25 +285,15 @@ $decorators = array(
 	$this->addDisplayGroup(array(
 	'old_findID', 'description', 'rally',
 	'rallyID', 'hoard', 'hID',
-=======
-	'category','ruler','typeID',
-	'denomination','mint','moneyer',
-	'axis','obinsc','obdesc',
-	'revinsc','revdesc'), 'numismatics')
-	->removeDecorator('HtmlTag');
-
-	$this->addDisplayGroup(array('old_findID','description','rally',
-	'rallyID','hoard','hID',
->>>>>>> origin/master
 	'workflow'), 'details');
 	$this->addDisplayGroup(array(
 	'county','regionID','district',
-	'parish','gridref','fourFigure'), 'spatial');
+	'parish','gridref','fourFigure',
+	'institution'), 'spatial');
 	$this->numismatics->setLegend('Numismatic details');
 	$this->numismatics->removeDecorator('DtDdWrapper');
 	$this->numismatics->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	
-<<<<<<< HEAD
 	
 	$this->details->setLegend('Artefact details');
 	$this->details->removeDecorator('DtDdWrapper');
@@ -313,25 +302,6 @@ $decorators = array(
 	$this->spatial->setLegend('Spatial details');
 	$this->spatial->removeDecorator('DtDdWrapper');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
-=======
-	$this->addDisplayGroup(array('county','regionID','district',
-	'parish','gridref','fourfigure'), 
-	'spatial');
-        
-//	$this->numismatics->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
-//	$this->numismatics->removeDecorator('DtDdWrapper');
-
-
-	$this->details->setLegend('Artefact details')
-	->removeDecorator('DtDdWrapper')
-	->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
-
-	$this->spatial->setLegend('Spatial details') 
-	->removeDecorator('DtDdWrapper')
-	->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
->>>>>>> origin/master
-
-
 
 	$this->addDisplayGroup(array('submit'), 'submit');
 	$this->addDecorator('FormElements')

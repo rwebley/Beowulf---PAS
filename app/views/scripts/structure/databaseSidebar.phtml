@@ -14,11 +14,8 @@ if(in_array($user->role,$allowedAccess))
 ?>
 <li><a href="<?php echo $this->url(array('module' => 'database','controller' => 'myscheme', 'action' => 'myfinds'),null,true);?>" title="View all finds I have recorded">My finds</a></li>
 <li><a href="<?php echo $this->url(array('module' => 'database','controller' => 'myscheme', 'action' => 'myinstitution'),null,true);?>" title="View everything recorded at my workplace">My institution's records</a></li>
-<li<?php if($controller == 'images') { echo ' class=" expandfirst"';};?>><a href="#" title="">Images</a>
-<ul>
 <li><a href="<?php echo $this->url(array('module' => 'database','controller' => 'myscheme','action' => 'myimages'),null,true);?>">My images</a></li>
 <li><a href="<?php echo $this->url(array('module' => 'database','controller' => 'images'),null,true);?>">All images</a></li>
-</ul>
 </li>
 <?php
 }

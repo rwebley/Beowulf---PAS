@@ -11,40 +11,43 @@ class MedNumismaticSearchForm extends Pas_Form {
 public function __construct($options = null) {
 
 	$primaries = new Materials();
-$primary_options = $primaries->getPrimaries();
-//Get data to form select menu for periods
-//Get Rally data
+	$primary_options = $primaries->getPrimaries();
+	//Get data to form select menu for periods
+	//Get Rally data
 
-$rallies = new Rallies();
-$rally_options = $rallies->getRallies();
-
-//Get Hoard data
-$hoards = new Hoards();
-$hoard_options = $hoards->getHoards();
-
-$counties = new Counties();
-$county_options = $counties->getCountyName2();
-
-$rulers = new Rulers();
-$ruler_options = $rulers->getMedievalRulers();
-
-$denominations = new Denominations();
-$denomination_options = $denominations->getOptionsMedieval();
-
-$mints = new Mints();
-$mint_options = $mints->getMedievalMints();
-
-$axis = new Dieaxes();
-$axis_options = $axis->getAxes();
-
-$cats = new CategoriesCoins();
-$cat_options = $cats->getPeriodMed();
-
-
-
-$regions = new Regions();
-$region_options = $regions->getRegionName();
+	$rallies = new Rallies();
+	$rally_options = $rallies->getRallies();
 	
+	//Get Hoard data
+	$hoards = new Hoards();
+	$hoard_options = $hoards->getHoards();
+	
+	$counties = new Counties();
+	$county_options = $counties->getCountyName2();
+	
+	$rulers = new Rulers();
+	$ruler_options = $rulers->getMedievalRulers();
+	
+	$denominations = new Denominations();
+	$denomination_options = $denominations->getOptionsMedieval();
+	
+	$mints = new Mints();
+	$mint_options = $mints->getMedievalMints();
+	
+	$axis = new Dieaxes();
+	$axis_options = $axis->getAxes();
+	
+	$cats = new CategoriesCoins();
+	$cat_options = $cats->getPeriodMed();
+	
+	$regions = new Regions();
+	$region_options = $regions->getRegionName();
+	
+	$institutions = new Institutions();
+	$inst_options = $institutions->getInsts();
+	
+	$axis = new Dieaxes();
+	$axis_options = $axis->getAxes();
 	
 	parent::__construct($options);
 
@@ -158,8 +161,8 @@ $region_options = $regions->getRegionName();
 	$denomination->setLabel('Denomination: ')
 		->setRequired(false)
 		->addFilters(array('StripTags', 'StringTrim'))
-		->addMultiOptions(array(NULL => NULL, 
-		'Choose denomination type' => $denomination_options))
+		->addMultiOptions(array(NULL => 'Choose a denomination', 
+		'Available denominations' => $denomination_options))
 		->addValidator('InArray', false, array(array_keys($denomination_options)))
 		->setDecorators($decorators);
 
@@ -167,7 +170,7 @@ $region_options = $regions->getRegionName();
 	$cat->setLabel('Category: ')
 		->setRequired(false)
 		->addFilters(array('StripTags', 'StringTrim'))
-		->addMultiOptions(array(NULL => NULL,'Choose category' => $cat_options))
+		->addMultiOptions(array(NULL => 'Choose a category','Available categories' => $cat_options))
 		->addValidator('InArray', false, array(array_keys($cat_options)))
 		->setDecorators($decorators);
 
@@ -182,7 +185,7 @@ $region_options = $regions->getRegionName();
 	$ruler->setLabel('Ruler / issuer: ')
 		->setRequired(false)
 		->addFilters(array('StripTags', 'StringTrim'))
-		->addMultiOptions(array(NULL => NULL, 'Choose primary ruler' => $ruler_options))
+		->addMultiOptions(array(NULL => 'Choose a ruler', 'Available issuers' => $ruler_options))
 		->addValidator('InArray', false, array(array_keys($ruler_options)))
 		->setDecorators($decorators);
 
@@ -192,7 +195,7 @@ $region_options = $regions->getRegionName();
 		->setRequired(false)
 		->addFilter('StripTags')
 		->addFilter('StringTrim')
-		->addMultiOptions(array(NULL => NULL, 'Choose denomination type' => $mint_options))
+		->addMultiOptions(array(NULL => 'Choose a mint', 'Available mints' => $mint_options))
 		->addValidator('InArray', false, array(array_keys($mint_options)))
 		->setDecorators($decorators);
 
@@ -233,7 +236,7 @@ $region_options = $regions->getRegionName();
 	$axis->setLabel('Die axis measurement: ')
 		->setRequired(false)
 		->addFilters(array('StripTags', 'StringTrim'))
-		->addMultiOptions(array(NULL => NULL, 'Choose measurement' => $axis_options))
+		->addMultiOptions(array(NULL => 'Choose an axis', 'Available measurements' => $axis_options))
 		->addValidator('InArray', false, array(array_keys($axis_options)))
 		->setDecorators($decorators);
 
@@ -261,8 +264,23 @@ $region_options = $regions->getRegionName();
 		->removeDecorator('label')
 		->removeDecorator('HtmlTag')
 		->removeDecorator('DtDdWrapper')
-		->setLabel('Submit your search ..')
+		->setLabel('Submit')
 		->setAttrib('class', 'large');
+		
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($this->_config->form->salt)
+		->removeDecorator('DtDdWrapper')
+		->removeDecorator('HtmlTag')->removeDecorator('label')
+		->setTimeout(4800);
+	$this->addElement($hash);
+	
+	$institution = new Zend_Form_Element_Select('institution');
+	$institution->setLabel('Recording institution: ')
+	->setRequired(false)
+	->addFilters(array('StringTrim','StripTags'))
+	->addMultiOptions(array(NULL => 'Choose an institution',
+	'Available institutions' => $inst_options))
+	->setDecorators($decorators); 
 	
 	$this->addElements(array(
 	$old_findID, $type, $description,
@@ -273,16 +291,9 @@ $region_options = $regions->getRegionName();
 	$ruler,$mint,$axis,
 	$obverseinsc, $obversedesc,$reverseinsc,
 	$reversedesc, $objecttype, $broadperiod,
-	$cat, $submit));
+	$cat, $submit,$hash, $institution));
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
-	$hash = new Zend_Form_Element_Hash('csrf');
-	$hash->setValue($this->_config->form->salt)
-		->removeDecorator('DtDdWrapper')
-		->removeDecorator('HtmlTag')->removeDecorator('label')
-		->setTimeout(4800);
-	$this->addElement($hash);
+	
 	
 	$this->addDisplayGroup(array(
 	'category', 'ruler', 'typeID',
@@ -300,7 +311,7 @@ $region_options = $regions->getRegionName();
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	
-	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure'), 'spatial')->removeDecorator('HtmlTag');
+	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure', 'institution'), 'spatial')->removeDecorator('HtmlTag');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->spatial->removeDecorator('DtDdWrapper');
 	$this->spatial->setLegend('Spatial details: ');

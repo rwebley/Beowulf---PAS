@@ -183,7 +183,7 @@ class AdvancedSearchForm extends Pas_Form {
 	->setDisableTranslator(true)
 	->setDecorators($decoratorsNote); 
 
-		//Reason for find of note
+	//Institution
 	$institution = new Zend_Form_Element_Select('institution');
 	$institution->setLabel('Recording institution: ')
 	->setRequired(false)

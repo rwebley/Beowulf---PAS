@@ -62,6 +62,10 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	$tribes = new Tribes();
 	$tribe_options = $tribes->getTribes();
 	
+	
+	$institutions = new Institutions();
+	$inst_options = $institutions->getInsts();
+	
 	parent::__construct($options);
 
 	$decorators = array(
@@ -376,6 +380,13 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	->setAttrib('class', 'large')
 	->setLabel('Submit your search...');
 	
+	$institution = new Zend_Form_Element_Select('institution');
+	$institution->setLabel('Recording institution: ')
+	->setRequired(false)
+	->addFilters(array('StringTrim','StripTags'))
+	->addMultiOptions(array(NULL => NULL,'Choose institution' => $inst_options))
+	->setDecorators($decorators); 
+	
  	$config = Zend_Registry::get('config');
 	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
@@ -398,7 +409,7 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	$mack_type, $allen_type, $va_type,
 	$rudd_type, $numChiab, $context,
 	$depositionDate, $phase_date_1, $phase_date_2,
-	$submit));
+	$submit, $institution));
 	
 	$this->addDisplayGroup(array(
 	'denomination', 'geographyID','ruler',
@@ -427,7 +438,8 @@ class IronAgeNumismaticSearchForm extends Pas_Form {
 	
 	$this->addDisplayGroup(array(
 	'county', 'regionID', 'district',
-	'parish', 'gridref', 'fourFigure'), 
+	'parish', 'gridref', 'fourFigure',
+	'institution'), 
 	'spatial')
 	->removeDecorator('HtmlTag');
 	

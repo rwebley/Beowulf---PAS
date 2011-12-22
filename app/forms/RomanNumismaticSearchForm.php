@@ -31,31 +31,43 @@ class RomanNumismaticSearchForm extends Pas_Form
 	//Get data to form select menu for primary and secondary material
 	$primaries = new Materials();
 	$primary_options = $primaries->getPrimaries();
-	//Get data to form select menu for periods
+	
 	//Get Rally data
 	$rallies = new Rallies();
 	$rally_options = $rallies->getRallies();
+	
 	//Get Hoard data
 	$hoards = new Hoards();
 	$hoard_options = $hoards->getHoards();
 	
 	$counties = new Counties();
 	$county_options = $counties->getCountyName2();
+	
 	$denominations = new Denominations();
 	$denom_options = $denominations->getOptionsRoman();
+	
 	$rulers = new Rulers();
 	$ruler_options = $rulers->getRomanRulers();
+	
 	$mints = new Mints();
 	$mint_options = $mints->getRomanMints();
+	
 	$axis = new Dieaxes();
 	$axis_options = $axis->getAxes();
+	
 	$reece = new Reeces();
 	$reece_options = $reece->getReeces();
+	
 	$regions = new Regions();
 	$region_options = $regions->getRegionName();
-        $moneyers = new Moneyers();
-        $money = $moneyers->getRepublicMoneyers();
-        
+	
+	$moneyers = new Moneyers();
+	$money = $moneyers->getRepublicMoneyers();
+
+	
+	$institutions = new Institutions();
+	$inst_options = $institutions->getInsts();
+	
 	parent::__construct($options);
 	
 	
@@ -319,6 +331,13 @@ class RomanNumismaticSearchForm extends Pas_Form
 		->removeDecorator('DtDdWrapper')
 		->setLabel('Submit your search ..')
 		->setAttrib('class', 'large');
+		
+	$institution = new Zend_Form_Element_Select('institution');
+	$institution->setLabel('Recording institution: ')
+	->setRequired(false)
+	->addFilters(array('StringTrim','StripTags'))
+	->addMultiOptions(array(NULL => NULL,'Choose institution' => $inst_options))
+	->setDecorators($decorators); 
 	
 	$this->addElements(array(
 	$old_findID,$description,
@@ -330,7 +349,8 @@ class RomanNumismaticSearchForm extends Pas_Form
 	$reece,$reverse,$obverseinsc,
 	$obversedesc,$reverseinsc,
 	$reversedesc,$moneyer,$objecttype,
-	$broadperiod, $submit, $hash));
+	$broadperiod, $submit, $hash,
+	$institution));
 	
 	$this->addDisplayGroup(array(
 	'denomination','ruler','mint',
@@ -346,7 +366,8 @@ class RomanNumismaticSearchForm extends Pas_Form
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	
-	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure'), 'spatial')->removeDecorator('HtmlTag');
+	$this->addDisplayGroup(array('county','regionID','district','parish','gridref','fourFigure','institution'), 
+	'spatial')->removeDecorator('HtmlTag');
 	$this->spatial->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->spatial->removeDecorator('DtDdWrapper');
 	
