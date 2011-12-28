@@ -4,11 +4,16 @@
 <td><?php echo $this->namethem($this->fullname);?></td>
 <td><?php echo $this->timeagoinwords($this->updated);?></td>
 <td><?php echo $this->namethem($this->fn);?></td>
-<td><a href="<?php echo $this->url(array('module'=>'admin','controller' => 'terminology','action'=>'editactivity', 'id'=>$this->id),null,true);?>" title="Edit this term">Edit</a>
+<td><a href="<?php echo $this->url(array('module'=>'admin',
+    'controller' => 'terminology',
+    'action'=>'editactivity', 
+    'id'=>$this->id),null,true);?>" title="Edit this term">Edit</a>
 <?php
-$string = '<a href="'.$this->url(array('module'=>'admin','controller' => 'terminology','action'=>'deleteactivity', 'id'=>$this->id),null,true).'" title="Delete this term">Delete</a>';
+$string = '<a href="'.$this->url(array('module'=>'admin',
+    'controller' => 'terminology',
+    'action'=>'deleteactivity', 
+    'id'=>$this->id),null,true).'" title="Delete this term">Delete</a>';
 echo $this->allowedtest($string);
 ?>
-
 </td>
 </tr>
