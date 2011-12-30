@@ -29,7 +29,7 @@ if($auth->hasIdentity())
 	$this->address = NULL;
 	$this->postcode = NULL;
 	$this->findspotdescription = NULL;
-	if($this->knownas != NULL){
+	if(!is_null($this->knownas)){
 	$this->parish = NULL;
 	$this->fourFigure = NULL;
 	}

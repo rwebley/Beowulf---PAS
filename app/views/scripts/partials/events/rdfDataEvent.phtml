@@ -2,7 +2,7 @@
 echo (string) '<Vevent>';
 echo (string) '<uid>' . $this->id . '</uid>';
 echo (string) '<summary>' . $this->eventTitle. '</summary>';
-if ($this->eventDescription != NULL) {
+if (!is_null($this->eventDescription)) {
 echo (string) '<description>' . $this->eventDescription . '</description>';
 } // end if
 echo (string) '<status/>';

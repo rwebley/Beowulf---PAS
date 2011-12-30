@@ -33,7 +33,7 @@ if($len > 0):?>
 <?php echo $this->woeid;?></a> &raquo; Latitude: <?php echo $this->lat;?> Longitude: <?php echo $this->lon;?><br />
 <?php // echo $this->FlickrGeo($this->woeid,NULL,NULL);?>
 <?php endif;?>
-<?php if(($this->tags != NULL)):?>
+<?php if($this->tags):?>
 <p>Tags: <?php 
 $tags = $this->tags; 
 $pieces = explode(" ", $tags); 

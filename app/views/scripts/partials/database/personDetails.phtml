@@ -3,7 +3,7 @@
 
 <p><a href="<?php echo $this->url(array('module' => 'database','controller' => 'people','action' => 'edit', 'id'=>$this->id
 ),null,true);?>" title="Edit this person's details">Edit</a> <?php if(!$this->finds) :?>| <a href="<?php echo $this->url(array('module' => 'database','controller' => 'people','action' => 'delete', 'id'=>$this->id),null,true);?>" title="Delete this person's details">Delete</a><?php endif;?></p>
-<?php if($this->lat != NULL):?> 
+<?php if(!is_null($this->lat)):?> 
 <?php 
 $this->headScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key=ABQIAAAAasv4kXXJ0jQKvwOWfHsLjBSlEYz08iyooQyuh_EGbYeUie1elhTVaZDZHd9xfLdYKWAVz9b3bDuvKA',$type='text/javascript')->appendFile('http://gmaps-utility-library.googlecode.com/svn/trunk/mapiconmaker/1.0/src/mapiconmaker.js',$type='text/javascript');?>
 
@@ -204,7 +204,7 @@ if(isset($this->lat)):?>
 <br/>WOEID: <?php echo $this->woeid;?><br /> Latitude: <?php echo $this->lat;?><br /> Longitude: <?php echo $this->lon;?> <br /><?php echo $this->gridref($this->lat,$this->lon);?>
 <?php endif;?>
 </p>
-<?php if($this->comments != NULL):?>
+<?php if($this->comments):?>
 <h3>Comments on person</h3>
 <?php echo $this->comments;?>
 <?php endif;?>

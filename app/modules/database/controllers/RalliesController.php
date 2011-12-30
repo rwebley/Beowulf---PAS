@@ -13,7 +13,6 @@ class Database_RalliesController extends Pas_Controller_Action_Admin {
 	/** Initialise the ACL and contexts
 	*/	
 	public function init() {
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');	
 	$this->_helper->_acl->allow('public',array('index','rally','map'));
 	$this->_helper->_acl->deny('public',array('addflo','delete','deleteflo'));
 	$this->_helper->_acl->allow('flos',null);
@@ -80,8 +79,6 @@ class Database_RalliesController extends Pas_Controller_Action_Admin {
 	$this->view->rallies = $rallies;
 	$attending = new RallyXFlo();
 	$this->view->atts = $attending->getStaff($this->_getParam('id'));
-	$slides = new Slides();
-	$this->view->slides = $slides->getLast12ThumbnailsRally(4,$this->_getParam('id'));
 	} else {
 	throw new Exception('No rally exists with that id');
 	}
@@ -173,7 +170,7 @@ class Database_RalliesController extends Pas_Controller_Action_Admin {
 	$this->_flashMessenger->addMessage('Rally information updated!');
 	$this->_redirect(self::URL . 'rally/id/' . $this->_getParam('id'));
 	} else {
-	if($formData['district'] != NULL) {
+	if(!is_null($formData['district'])) {
 	$districts = new Places();
 	$district_list = $districts->getDistrictList($formData['county']);
 	$form->district->addMultiOptions(array(NULL => NULL,'Choose district' => $district_list));
@@ -194,14 +191,14 @@ class Database_RalliesController extends Pas_Controller_Action_Admin {
 	throw new Exception($this->_nothingFound);
 	}
 
-	if($rally['district'] != NULL) {
+	if(!is_null($rally['district'])) {
 	$districts = new Places();
 	$district_list = $districts->getDistrictList($rally['county']);
 	$form->district->addMultiOptions(array(NULL => NULL,'Choose district' => $district_list));
 	$parish_list = $districts->getParishList($rally['district']);
 	$form->parish->addMultiOptions(array(NULL => NULL,'Choose parish' => $parish_list));
 	}
-	if($rally['organiser'] != NULL) {
+	if(!is_null($rally['organiser'])) {
 	$organisers = new Peoples();
 	$organisers = $organisers->getName($rally['organiser']);
 	foreach($organisers as $organiser) {

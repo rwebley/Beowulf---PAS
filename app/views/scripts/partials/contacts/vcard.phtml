@@ -14,7 +14,7 @@
 </span></a><br />
 
 <strong><span class="title"><?php 
-if($this->staffroles != NULL) {
+if(!is_null($this->staffroles)) {
 echo $this->escape($this->staffroles);
 if(!is_null($this->staffregions)){
 	echo ' - ';
@@ -38,7 +38,7 @@ echo $this->escape($this->staffregions);
 </span></div>
 <span class="tel">
 <span class="type">Work</span> T: <span class="value"><?php echo $this->escape($this->telephone);?></span></span><br />
-<?php if(($this->fax != NULL)):?>
+<?php if(!is_null($this->fax)):?>
 <span class="tel"><span class="type">Fax</span>: <span class="value"><?php echo $this->escape($this->fax);?></span></span><br />
 <?php endif;?>
 E: <a rel="foaf:mbox" class="email" href="mailto:<?php echo $this->escape($this->email_one);?>" title="Send mail to <?php echo $this->escape($this->firstname);?>&nbsp;<?php echo $this->escape($this->lastname);?>"><?php echo $this->escape($this->email_one);?></a>

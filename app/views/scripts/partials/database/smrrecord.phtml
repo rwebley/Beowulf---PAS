@@ -37,7 +37,7 @@ $(document).ready(function() {
 
 if (GBrowserIsCompatible()) {
 
-	<?php if($this->woeid != NULL):?>
+	<?php if(!is_null($this->woeid)):?>
  	var locations = {};
 	var flickr_api_key = 'dbb87ca6390925131a4fedb34d9d8d80';
 	var yahoo_geoplanet_api_key = 'avT7WEDV34HLQLsINzdyv9D4QFGiJtNnPHgtE7C0dvVe7ItxzfuOkGTslkfR_iI9cUCVFKJsrzYTYQ--';

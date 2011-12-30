@@ -143,7 +143,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	throw new Zend_Exception('Log not enabled in config.ini');
 	}
 	$logger = $this->getResource('Log');
-	assert($logger != null);
+	assert(!is_null($logger));
 	Zend_Registry::set('log', $logger);
 	}
     

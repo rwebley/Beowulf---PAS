@@ -11,7 +11,7 @@
 </span><br>
 
 <strong><span class="title"><?php 
-if($this->staffroles != NULL) {
+if(!is_null($this->staffroles)) {
 echo $this->escape($this->staffroles);
 }
 else

@@ -5,7 +5,7 @@
 <?php echo $this->partialLoop('partials/numismatics/emperorList.phtml',$this->reeces);?>
 </ul>
 
-<?php if($this->reverses != NULL) :?>
+<?php if($this->reverses) :?>
 <h3>Associated reverse types</h3>
 <ul id="related">
 <?php echo $this->partialLoop('partials/numismatics/revtypelistreece.phtml',$this->reverses);?>

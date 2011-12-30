@@ -2,7 +2,7 @@
 <td><?php echo $this->name;?></td>
 <td><?php echo $this->niceshortdate($this->created);?></td>
 <td><?php echo $this->fullname;?></td>
-<td><?php if($this->updated != NULL) {echo $this->niceshortdate($this->updated);}?></td>
+<td><?php if(!is_null($this->updated)) {echo $this->niceshortdate($this->updated);}?></td>
 <td><?php echo $this->fn;?></td>
 <td><a href="<?php echo $this->url(array('module' => 'admin','controller' => 'numismatics','action' => 'editemperor','id' => $this->id),null,true);?>" title="Edit emperor biographical details">Edit</a> <?php $string = ' | <a href="'.$this->url(array('module'=> 'admin','controller' => 'numismatics','action' => 'deleteemperor','id' => $this->id),null,true).'" title="Delete emperor biographical details">Delete</a>'; echo $this->allowedtest($string);?></td>
 </tr>

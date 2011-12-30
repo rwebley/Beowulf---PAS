@@ -24,7 +24,7 @@ class Pas_View_Helper_Query extends Zend_View_Helper_Abstract {
 		$where = array();
         foreach($params as $key => $value)
         {
-			if($value != NULL){
+			if(!is_null($value)){
             $where[] = $key . '/' . urlencode($value);
 			}
         }

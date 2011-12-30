@@ -1,5 +1,6 @@
 <?php
-$this->headTitle('User account details for ' . $this->fullname . ' - ' . $this->visits . ' visits.');
+$this->headTitle('User account details for ' . $this->fullname . ' - ' 
+        . $this->visits . ' visits.');
 ?>
 
 <h2>User account details for: <?php echo $this->fullname;?></h2>
@@ -7,15 +8,15 @@ $this->headTitle('User account details for ' . $this->fullname . ' - ' . $this->
 <div id="gravatar"><?php 
 echo $this->gravatar($this->email,array(
 'imgSize' => 80, 'defaultImg' => 'monsterid', 'secure' => true),
-    array('class' => 'avatar', 
-    'title' => $this->fullname . '\'s gravatar representation',
-    'rating' => 'G'));
+array('class' => 'avatar', 'title' => $this->fullname 
+      . '\'s gravatar representation',
+      'rating' => 'G'));
 ?>
 </div>
 
 <p>
 <?php 
-if($this->institution != NULL) {
+if(!is_null($this->institution)) {
 echo 'Your recording institution is <strong>' . $this->acronyms($this->institution) 
 . '</strong>  and your username is set as <strong>' . $this->username . '</strong><br/>';
 } else { 

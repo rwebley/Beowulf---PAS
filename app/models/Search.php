@@ -147,7 +147,7 @@ class Search extends Pas_Db_Table_Abstract {
 	$typeID = $params['typeID'];
 	$select->where('coins.typeID = ?', $typeID);
 	}
-	if(isset($params['activity']) && $params['activity'] != NULL ){
+	if(isset($params['activity']) && !s_null($params['activity']) ){
 	$activity = $params['activity'];	
 	$select->where('people.primary_activity = ?',$activity);	
 	}

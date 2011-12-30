@@ -70,13 +70,13 @@ class Database_FindspotsController
 	$findspots = new Findspots();
 	$findspotdata = $findspots->getLastRecord($this->getIdentityForForms());
 	foreach($findspotdata as $findspotdataflat){	
-	if($findspotdataflat['county'] != NULL) {
+	if(!is_null($findspotdataflat['county'])) {
 	$districts = new Places();
 	$district_list = $districts->getDistrictList($findspotdataflat['county']);
 	if(count($district_list)) {
 	$form->district->addMultiOptions(array(NULL => NULL,'Choose district' => $district_list));
 	}
-	if($findspotdataflat['district'] != NULL) {
+	if(!is_null($findspotdataflat['district'])) {
 	$parish_list = $districts->getParishList($findspotdataflat['district']);
 	$form->parish->addMultiOptions(array(NULL => NULL,'Choose parish' => $parish_list));
 	}
@@ -327,21 +327,25 @@ class Database_FindspotsController
 	$where = array();
 	$where[] = $findspots->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 	$findspot = $findspots->fetchRow($where);
-	if($findspot['county'] != NULL) {
+	if(!is_null($findspot['county'])) {
 	$districts = new Places();
 	$district_list = $districts->getDistrictList($findspot['county']);
-	$form->district->addMultiOptions(array(NULL => NULL,'Choose district' => $district_list));
-	if($findspot['district'] != NULL) {
+	$form->district->addMultiOptions(array(NULL => 'Choose district',
+            'Available districts' => $district_list));
+	if(!is_null($findspot['district'])) {
 	$parish_list = $districts->getParishList($findspot['district']);
-	$form->parish->addMultiOptions(array(NULL => NULL,'Choose parish' => $parish_list));
+	$form->parish->addMultiOptions(array(NULL => 'Choose parish',
+            'Available parishes' => $parish_list));
 	}
 	}
 	$cnts = new Counties();
 	$region_list = $cnts->getRegionsList($findspot['county']);
-	$form->regionID->addMultiOptions(array(NULL => NULL,'Choose region' => $region_list));
+	$form->regionID->addMultiOptions(array(NULL => 'Choose region',
+            'Available regions' => $region_list));
 	$landcodes = new Landuses();
 	$landusecode_options = $landcodes->getLandusesChildList($findspot['landusevalue']);
-	$form->landusecode->addMultiOptions(array(NULL => NULL,'Choose code' => $landusecode_options));
+	$form->landusecode->addMultiOptions(array(NULL => 'Choose code',
+            'Available landuses' => $landusecode_options));
 	$finds = new Finds();
 	$finds = $finds->getFindtoFindspots($this->_getParam('id'));
 	
@@ -350,12 +354,10 @@ class Database_FindspotsController
 	$form->returnID->setValue($find['id']);
 	$form->findsecuid->setValue($find['secuid']);
 	}
-	if($findspot['landowner'] != NULL)
-	{
+	if(!is_null($findspot['landowner'])) {
 	$finders = new Peoples();
 	$finders = $finders->getName($findspot['landowner']);
-	foreach($finders as $finder)
-	{
+	foreach($finders as $finder) {
 	$form->landownername->setValue($finder['term']);
 	}
 	}

@@ -29,7 +29,7 @@ class Database_OrganisationsController extends Pas_Controller_Action_Admin {
 	$form->contactpersonID->setValue($this->_getParam('contactpersonID'));
 	$form->county->setValue($this->_getParam('county'));
 	
-	if ($this->_request->isPost() && ($this->_getParam('submit') != NULL)) {
+	if ($this->_request->isPost() && !is_null($this->_getParam('submit'))) {
 	$formData = $this->_request->getPost();
 	if ($form->isValid($formData)) {
 			$params = array_filter($formData);
@@ -42,7 +42,7 @@ class Database_OrganisationsController extends Pas_Controller_Action_Admin {
 			$where = array();
 			foreach($params as $key => $value)
 			{
-				if($value != NULL){
+				if(!is_null($value)){
 				$where[] = $key . '/' . urlencode(strip_tags($value));
 				}
 			}

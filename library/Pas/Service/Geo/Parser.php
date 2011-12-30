@@ -13,7 +13,7 @@
 class Pas_Service_Geo_Parser {
 	
 	public function parsePlaceFromList($place)  {
-    if($place != NULL) {
+    if(!is_null($place)) {
     $placeData = array();
    	foreach($place->place as $p) {
    	if($p->country){
@@ -83,7 +83,7 @@ class Pas_Service_Geo_Parser {
     }
     }
 	
-	public function parsePlace($place) {
+    public function parsePlace($place) {
     $place = $place->query->results->place;
     $placeData = array();
     $placeData['woeid'] = (string) $place->woeid;

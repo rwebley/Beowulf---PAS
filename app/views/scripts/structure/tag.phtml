@@ -9,7 +9,7 @@
 	$id = '3';
 	}
 	$description = ' ';
-	if($this->findspots != NULL) {
+	if($this->findspots) {
 	if(!isset($this->findspots['0']['knownas'])){
 	$description .= $this->findspots['0']['parish'];
 	}
@@ -28,7 +28,7 @@
 	$description .= ' ';
 	$description .= $this->finds['0']['broadperiod'];
 	
-	if($this->coins != NULL) {
+	if($this->coins) {
 	
 	foreach($this->coins['0'] as $c => $value) {
 	$description .= $value . ' ';

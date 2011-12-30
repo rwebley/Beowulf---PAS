@@ -22,7 +22,7 @@ $this->headScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&
 <?php
 echo '<p>'.$this->description.'</p>';
 ?>
-<?php if($this->coords['lat'] != NULL):?>
+<?php if(!is_null($this->coords['lat'])):?>
 
 <?php $this->inlineScript()->captureStart();?>
 $(document).ready(function() {
@@ -146,7 +146,7 @@ var tinyIcon = new GIcon();
 <div id="mapphoto" style="width:400px;height:300px;float:right;"></div>
 <?php endif;?>
 
-<?php if($this->tags != NULL) :?>
+<?php if($this->tags) :?>
 <h3>Tagged as</h3>
 <ul>
 <?php foreach($this->tags as $t) {

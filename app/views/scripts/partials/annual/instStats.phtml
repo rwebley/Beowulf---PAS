@@ -1,12 +1,14 @@
 <tr>
 <td>
 <?php
-if($this->institution != NULL) 
-{ 
-echo '<a href="'.$this->url(array('module' => 'database','controller' => 'statistics','action' => 'institution','institution' => $this->institution),null,false).'" title="View stats for this institution">'.$this->institution.'</a>';
-}
-else
-{
+if(!is_null($this->institution)) { 
+echo '<a href="'.$this->url(array(
+    'module' => 'database',
+    'controller' => 'statistics',
+    'action' => 'institution',
+    'institution' => $this->institution),null,false) 
+. '" title="View stats for this institution">' . $this->institution . '</a>';
+} else {
 echo 'No institition recorded';
 }
 ?>

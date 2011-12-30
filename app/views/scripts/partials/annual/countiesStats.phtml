@@ -1,12 +1,14 @@
 <tr>
 <td>
 <?php
-if($this->county != NULL) 
-{ 
-echo '<a href="'.$this->url(array('module' => 'database','controller' => 'statistics','action' => 'county','county' => $this->county),null,false).'" title="">'.ucwords(strtolower($this->escape($this->county))).'</a>';
-}
-else
-{
+if(!is_null($this->county)) { 
+echo '<a href="'.$this->url(array(
+    'module' => 'database',
+    'controller' => 'statistics',
+    'action' => 'county',
+    'county' => $this->county),null,false).'" title="">' 
+        . ucwords(strtolower($this->escape($this->county))).'</a>';
+} else {
 echo 'No county recorded';
 }
 ?>

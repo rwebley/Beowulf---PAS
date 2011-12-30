@@ -19,27 +19,29 @@ class Pas_View_Helper_SearchParams
 	public function SearchParams($params = NULL) {
 
 	$html = '';
-	if($params != NULL) {	
+	if(!is_null($params)) {	
 	$html .= '<p>You searched for: </p>'; 
 	$html .= '<ul>';
 	//Objecttype
 	if(array_key_exists('objecttype',$params)) {
-	if($params['objecttype'] != NULL) {
-	$html .= '<li>Object type: '. $this->view->escape($params['objecttype']) . '</li>';
-	$this->view->headTitle(  ' > Object type: ' . $this->view->escape($params['objecttype']));
+	if(!s_null($params['objecttype'])) {
+	$html .= '<li>Object type: ' . $this->view->escape($params['objecttype']) 
+                . '</li>';
+	$this->view->headTitle(  ' > Object type: ' . 
+                $this->view->escape($params['objecttype']));
 	}
 	}
 	
 	//	Broadperiod
 	if(array_key_exists('broadperiod',$params)) {
-	if($params['broadperiod'] != NULL) {
+	if(!is_null($params['broadperiod'])) {
 	$html .= '<li>Broadperiod: '. $this->view->escape($params['broadperiod']) . '</li>';
 	$this->view->headTitle(  ' > Broadperiod: ' . $this->view->escape($params['broadperiod']));
 	}
 	}
 	//County
 	if(array_key_exists('county',$params)) {
-	if($params['county'] != NULL) {
+	if(!is_null($params['county'])) {
 	$html .= '<li>County: '. $this->view->escape($params['county']) . '</li>';
 	$this->view->headTitle(  ' > County: ' . $this->view->escape($params['county']));
 	}
@@ -47,7 +49,7 @@ class Pas_View_Helper_SearchParams
 
 	//region
 	if(array_key_exists('regionID',$params)) {
-	if($params['regionID'] != NULL) {
+	if(!is_null($params['regionID'])) {
 	$region = $params['regionID'];
 	$regions = new Regions();
 	$regions = $regions->getRegion($region);
@@ -60,7 +62,7 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('material',$params)) {
-	if($params['material'] != NULL) {
+	if(!is_null($params['material'])) {
 	$mat = $params['material'];
 	$materials = new Materials();
 	$materials = $materials->getMaterialName($mat);
@@ -73,14 +75,14 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('parish',$params)) {
-	if($params['parish'] != NULL) {
+	if(!is_null($params['parish'])) {
 	$html .= '<li>Parish: '. $this->view->escape($params['parish']) . '</li>';
 	$this->view->headTitle(  ' > Parish: '. $this->view->escape($params['parish']));
 	}
 	}
 
 	if(array_key_exists('district',$params)) {
-	if($params['district'] != NULL) {
+	if(!is_null($params['district'])) {
 	$html .= '<li>District: '. $this->view->escape($params['district']) . '</li>';
 	$this->view->headTitle(  ' > District: '. $this->view->escape($params['district']));
 	}
@@ -98,21 +100,21 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('description',$params)) {
-	if($params['description'] != NULL) {
+	if(!is_null($params['description'])) {
 	$html .= '<li>Description contained: '. $this->view->escape($params['description']) . '</li>';
 	$this->view->headTitle(  ' > Description contained: '. $this->view->escape($params['description']));
 	}
 	}
 
 	if(array_key_exists('fourFigure',$params)) {
-	if($params['fourFigure'] != NULL) {
+	if(!is_null($params['fourFigure'])) {
 	$html .= '<li>Four figure grid reference: '. $this->view->escape($params['fourFigure']) . '</li>';
 	$this->view->headTitle(  ' > Four figure NGR: '. $this->view->escape($params['fourFigure']));
 	}
 	}
 
 	if(array_key_exists('old_findID',$params)) {
-	if($params['old_findID'] != NULL) {
+	if(!is_null($params['old_findID'])) {
 	$html .= '<li>Find reference number: '. $this->view->escape($params['old_findID']) . '</li>';
 	$this->view->headTitle(  ' > Find ID: '. $this->view->escape($params['old_findID']));
 	}
@@ -120,7 +122,7 @@ class Pas_View_Helper_SearchParams
 
 
 	if(array_key_exists('fromsubperiod',$params)) {
-	if ($params['fromsubperiod'] != NULL){
+	if (!is_null($params['fromsubperiod'])){
 	$sub = $params['fromsubperiod'];
 	if($sub == 1) { $html .= '<li>Subperiod: Early</li>';
 	$this->view->headTitle(  ' > Subperiod: Early');
@@ -137,7 +139,7 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('tosubperiod',$params)) {
-	if ($params['tosubperiod'] != NULL){
+	if (!is_null($params['tosubperiod'])){
 	$sub = $params['tosubperiod'];
 	if($sub == 1) { 
 	$html .= '<li>Subperiod: Early</li>';
@@ -153,7 +155,7 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('periodfrom',$params)) {
-	if($params['periodfrom'] != NULL) {
+	if(!is_null($params['periodfrom'])) {
 	$period = $params['periodfrom'];
 	$periods = new Periods();
 	$periods = $periods->getPeriodName($period);
@@ -167,7 +169,7 @@ class Pas_View_Helper_SearchParams
 
 	//Period to key
 	if(array_key_exists('periodto',$params)) {
-	if($params['periodto'] != NULL) {
+	if(!is_null($params['periodto'])) {
 	$period = $params['periodto'];
 	$periods = new Periods();
 	$periods = $periods->getPeriodName($period);
@@ -181,7 +183,7 @@ class Pas_View_Helper_SearchParams
 	}
 	//
 	if(array_key_exists('surface',$params)) {
-	if($params['surface'] != NULL) {
+	if(!is_null($params['surface'])) {
 	$surfaceterm = $params['surface'];
 	$surfaces = new Surftreatments();
 	$surfaces = $surfaces->getSurfaceTerm($surfaceterm);
@@ -194,7 +196,7 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('class',$params)) {
-	if($params['class'] != NULL) {
+	if(!is_null($params['class'])) {
 	$html .= '<li>Classification term like: ' . $this->view->escape($params['class']). '</li>';
 	$this->view->headTitle(  ' > Classification: '. $this->view->escape($params['class']));
 	}
@@ -202,7 +204,7 @@ class Pas_View_Helper_SearchParams
 
 	//Date from starts
 	if(array_key_exists('from',$params)) {
-	if($params['from'] != NULL) {
+	if(!is_null($params['from'])) {
 	$from = $params['from'];
 	$suffix="BC";
 	$prefix="AD";
@@ -218,7 +220,7 @@ class Pas_View_Helper_SearchParams
 
 	//Date from ends
 	if(array_key_exists('fromend',$params)) {
-	if($params['fromend'] != NULL) {
+	if(!is_null($params['fromend'])) {
 	$from = $params['fromend'];
 	$suffix="BC";
 	$prefix="AD";
@@ -239,7 +241,7 @@ class Pas_View_Helper_SearchParams
 	
 	//Year found
 	if(array_key_exists('discovered',$params)) {
-	if($params['discovered'] != NULL) {
+	if(!is_null($params['discovered'])) {
 	$html .= '<li>Year of discovery where known: ' . $this->view->escape($params['discovered']) . '</li>';
 	$this->view->headTitle(  ' > Discovery year: ' . $this->view->escape($params['discovered']));
 	}
@@ -247,7 +249,7 @@ class Pas_View_Helper_SearchParams
 	
 	//Found by
 	if(array_key_exists('finder',$params)) {
-	if($params['finder'] != NULL) {
+	if(!is_null($params['finder'])) {
 	$finder = $params['finder'];
 	$peoples = new Peoples();
 	$peoples = $peoples->getName($finder);
@@ -261,7 +263,7 @@ class Pas_View_Helper_SearchParams
 	
 	//Identified by
 	if(array_key_exists('idby',$params)) {
-	if($params['idby'] != NULL) {
+	if(!is_null($params['idby'])) {
 	$finder = $params['idby'];
 	$peoples = new Peoples();
 	$peoples = $peoples->getName($finder);
@@ -276,7 +278,7 @@ class Pas_View_Helper_SearchParams
 	//Recorded by
 	//Identified by
 	if(array_key_exists('recordby',$params)) {
-	if($params['recordby'] != NULL) {
+	if(!is_null($params['recordby'])) {
 	$finder = $params['recordby'];
 	$peoples = new Peoples();
 	$peoples = $peoples->getName($finder);
@@ -289,7 +291,7 @@ class Pas_View_Helper_SearchParams
 	}
 	//Issuer
 	if(array_key_exists('ruler',$params)) {
-	if($params['ruler'] != NULL) {
+	if(!is_null($params['ruler'])) {
 	$ruler = $params['ruler'];
 	$rulers = new Rulers();
 	$rulers = $rulers->getRulersName($ruler);
@@ -316,21 +318,21 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('TID',$params)) {
-	if ($params['TID'] != NULL){
+	if (!is_null($params['TID'])){
 	$html .= '<li>Treasure case number: ' . $this->view->escape($params['TID']);
 	$this->view->headTitle(  ' > Treasure case number: ' . $this->view->escape($params['TID']));
 	}
 	}
 
 	if(array_key_exists('created',$params)) {
-	if ($params['created'] != NULL){
+	if (!is_null($params['created'])){
 	$html .= '<li>Finds entered on: '.$this->view->escape($params['created']);
 	$this->view->headTitle(  ' > finds entered on: ' . $this->view->escape($params['created']));
 	}
 	}
 
 	if(array_key_exists('createdBefore',$params)) {
-	if ($params['createdBefore'] != NULL){
+	if (!is_null($params['createdBefore'])){
 	$html .= '<li>Finds entered on or before: '
 	. $this->view->niceShortDate($this->view->escape($params['createdBefore'])) . '</li>';
 	$this->view->headTitle(  ' > finds entered on or before: ' 
@@ -339,7 +341,7 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('createdAfter',$params)) {
-	if ($params['createdAfter'] != NULL){
+	if (!is_null($params['createdAfter'])){
 	$html .= '<li>Finds entered on or after: ' 
 	. $this->view->niceShortDate($this->view->escape($params['createdAfter'])) .'</li>';
 	$this->view->headTitle(  ' > finds entered on or after: '
@@ -355,28 +357,31 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('hID',$params)) {
-	if((int)$params['hID'] != NULL) {
+	if((int)$params['hID']) {
 	$hID = $params['hID'];
 	$hIDs = new Hoards();
 	$hIDsList = $hIDs->getHoardDetails((int)$hID);
 	$this->hids = $hIDsList;
 	foreach($this->hids as $hid) {
-	$html .= '<li>Part of the ' . $this->view->escape($hid['term']). ' hoard.</li>';
-	$this->view->headTitle(  ' > Part of the '.  $this->view->escape($hid['term']). ' hoard.');
+	$html .= '<li>Part of the ' . $this->view->escape($hid['term']) 
+                . ' hoard.</li>';
+	$this->view->headTitle(  ' > Part of the '.  $this->view->escape(
+                $hid['term']) . ' hoard.');
 	}
 	}
 	}
 	
 	if(array_key_exists('otherref',$params)) {
-	if ($params['otherref'] != NULL){
+	if (!is_null($params['otherref'])){
 	$html .= '<li>Other reference: '.$this->view->escape($params['otherref']);
-	$this->view->headTitle(  ' > Other reference: '.$this->view->escape($params['otherref']));
+	$this->view->headTitle(  ' > Other reference: ' 
+                . $this->view->escape($params['otherref']));
 	}
 	}
 
 	//Workflow
 	if(array_key_exists('workflow',$params)) {
-	if($params['workflow'] != NULL) {
+	if(!is_null($params['workflow'])) {
 	$stage = $params['workflow'];
 	$stages = new Workflows();
 	$stages = $stages->getStageName($stage);
@@ -389,7 +394,7 @@ class Pas_View_Helper_SearchParams
 	}
 
 	if(array_key_exists('manufacture',$params)) {
-	if($params['manufacture'] != NULL) {
+	if(!is_null($params['manufacture'])) {
 	$manufacture = $params['manufacture'];
 	$manufactures = new Manufactures();
 	$manufactures = $manufactures->getManufactureDetails((int)$manufacture);
@@ -402,7 +407,7 @@ class Pas_View_Helper_SearchParams
 	}
 	
 	if(array_key_exists('decoration',$params)) {
-	if($params['decoration'] != NULL) {
+	if(!is_null($params['decoration'])) {
 	$decoration = $params['decoration'];
 	$decorations = new Decmethods();
 	$decorations = $decorations->getDecorationDetails((int)$decoration);
@@ -416,7 +421,7 @@ class Pas_View_Helper_SearchParams
 
 	//Mint
 	if(array_key_exists('mint',$params)) {
-	if($params['mint'] != NULL) {
+	if(!is_null($params['mint'])) {
 	$id = $params['mint'];
 	$mints = new Mints();
 	$mints = $mints->getMintName($id);
@@ -430,7 +435,7 @@ class Pas_View_Helper_SearchParams
 	
 	//Category
 	if(array_key_exists('category',$params)) {
-	if($params['category'] != NULL) {
+	if(!is_null($params['category'])) {
 	$id = $params['category'];
 	$cats = new CategoriesCoins();
 	$cats = $cats->getCategory($id);

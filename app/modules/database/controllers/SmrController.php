@@ -47,7 +47,7 @@ class Database_SmrController extends Pas_Controller_Action_Admin {
 	$form->district->setValue($district);
 	$form->parish->setValue($parish);
 	$form->county->setValue($county);
-	if ($this->_request->isPost() && ($this->_getParam('submit') != NULL)) {
+	if ($this->_request->isPost() && !is_null($this->_getParam('submit'))) {
 	$formData = $this->_request->getPost();
 	if ($form->isValid($formData)) {
 		$params = array_filter($formData);
@@ -60,7 +60,7 @@ class Database_SmrController extends Pas_Controller_Action_Admin {
 
 		$where = array();
         foreach($params as $key => $value) {
-			if($value != NULL){
+			if(!is_null($value)){
             $where[] = $key . '/' . urlencode(strip_tags($value));
 			}
         }

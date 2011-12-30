@@ -1,8 +1,11 @@
 <?php 
-$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
-$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl()
+        .'/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
+$this->jQuery()->addJavascriptFile($this->baseUrl()
+        .'/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
 $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css');
-$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl()
+        .'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
 	$this->headTitle('All images created by me');
 ?>
 <?php $this->jQuery()->javascriptCaptureStart() ?>
@@ -13,7 +16,7 @@ jQuery(document).ready(function($) {
 <?php $this->headTitle('All finds created by ' . $this->Institution($this->inst)); ?>
 <h2>All finds and coins recorded by institution: <?php echo $this->Institution($this->inst);?></h2>
 <?php echo $this->loggedinlinks();?>
-<?php if($this->params != NULL):?>
+<?php if($this->params):?>
 <?php echo $this->SearchParams($this->params);?>
 <?php endif;?>
 

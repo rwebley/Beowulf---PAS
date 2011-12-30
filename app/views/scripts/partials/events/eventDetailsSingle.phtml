@@ -9,11 +9,29 @@ $this->headMeta('The Portable Antiquities Scheme and the British Museum','DC.Pub
 <div class="vevent">
 <h2 class="summary"><?php echo $this->eventTitle;?></h2>
 
-<p>Add to my calendar: <a href="<?php echo $this->url(array('module' => 'events','controller' => 'info', 'action' => 'index', 'id' => $this->id,'format' => 'ics'), null, true);?>" title="Download event details in ICS format">ics</a> | <a href="<?php echo $this->url(array('module' => 'events','controller' => 'info', 'action' => 'index', 'id' => $this->id,'format' => 'rdf'), null, true);?>" title="Download event details in RDF format">rdf</a> | <a href="<?php echo $this->url(array('module' => 'events','controller' => 'info', 'action' => 'index', 'id' => $this->id,'format' => 'xcs'),'info', true);?>" title="Download event details in XCS format">xcs</a></p>
+<p>Add to my calendar: <a href="<?php echo $this->url(array(
+    'module' => 'events',
+    'controller' => 'info', 
+    'action' => 'index', 
+    'id' => $this->id,'format' => 'ics'), null, true);?>" 
+    title="Download event details in ICS format">ics</a> | <a href="<?php echo 
+    $this->url(array(
+        'module' => 'events',
+        'controller' => 'info', 
+        'action' => 'index', 
+        'id' => $this->id,'format' => 'rdf'), null, true);?>" 
+        title="Download event details in RDF format">rdf</a> | <a href="
+    <?php echo $this->url(array(
+        'module' => 'events',
+        'controller' => 'info', 
+        'action' => 'index', 
+        'id' => $this->id,
+        'format' => 'xcs'),'info', true);?>" 
+        title="Download event details in XCS format">xcs</a></p>
 
 <p>Date(s): <abbr class="dtstart" title="<?php echo $this->toAtomDateStamp($this->eventStartDate);?><?php echo $this->eventStartTime;?>">
 <?php echo ucwords(strftime("%A %d %B %Y", strtotime($this->eventStartDate)));?></abbr> 
-<?php if(($this->eventEndDate != NULL) || ($this->eventEndDate == $this->eventStartDate)) :?>
+<?php if((!is_null($this->eventEndDate)) || ($this->eventEndDate === $this->eventStartDate)) :?>
  -  <abbr class="dtend" title="<?php echo $this->toAtomDateStamp($this->eventEndDate);?><?php echo $this->eventEndTime;?>"><?php echo ucwords(strftime("%A %d %B %Y", strtotime($this->eventEndDate)));?></abbr>
  <?php endif;?>
 
@@ -60,14 +78,14 @@ $(document).ready(function() {
 <div class="vcard">
 <p>Event data filed by: <span class="fn"><?php echo $this->fullname;?></span></p>
 </div>
-<?php if(($this->childrenAttend != 0 || $this->adultsAttend) != 0):?><div id="stats">
+<?php if(($this->childrenAttend > 0 || $this->adultsAttend) != 0):?><div id="stats">
 <h4>Attendance</h4>
 <ul id="related">
-<?php if($this->childrenAttend != 0) {
+<?php if($this->childrenAttend > 0) {
 echo '<li>Attended by '.$this->childrenAttend.' children. </li>';
 }
 ;?>
-<?php if($this->adultsAttend != 0) {
+<?php if($this->adultsAttend > 0) {
 echo '<li>Attended by '.$this->adultsAttend.' adults. </li>';
 }
 ;?>

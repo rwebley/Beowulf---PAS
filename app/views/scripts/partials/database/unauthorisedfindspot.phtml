@@ -3,7 +3,7 @@ $config = Zend_Registry::get('config');
 ?>
 
 <h4>Spatial data</h4> 
-<?php if(($this->gridref != NULL) && ($this->knownas == NULL)) : ?>
+<?php if(!is_null($this->gridref) && is_null($this->knownas)) : ?>
 <?php 
 $config = Zend_Registry::get('config');
 $apikey = $config->googlemaps->apikey;
@@ -19,21 +19,21 @@ $this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.
 <?php endif;?>
 
 <p>
-<?php if($this->region != NULL) :?>
+<?php if(!is_null($this->region)) :?>
 Region: <?php echo $this->escape(ucwords(strtolower($this->region)));?><br />
 <?php endif;?>
-<?php if($this->county != NULL) :?>
+<?php if(!is_null($this->county)) :?>
 County: <?php echo $this->escape(ucwords(strtolower($this->county)));?><br />
 <?php endif;?>
-<?php if($this->district != NULL) :?>
+<?php if(!is_null($this->district)) :?>
 District: <?php echo $this->escape(ucwords(strtolower($this->district)));?><br />
 <?php endif;?>
-<?php if($this->knownas != NULL) :?>
+<?php if(!is_null($this->knownas)) :?>
 <span class="knownas">To be known as: <?php echo $this->escape($this->knownas);?></span>
 <?php endif;?>
 
 <?php
-if(($this->parish != NULL) && (empty($this->knownas)))
+if(!is_null($this->parish) && (empty($this->knownas)))
 {
 $this->headMeta(substr($this->declat,0,4).';' .substr($this->declong,0,4),'geo.position');
 $this->headMeta($this->parish.','.$this->county, 'geo.placename');
@@ -79,7 +79,7 @@ $pm = new Pas_Service_Geo_Placemaker($config->webservice->ydnkeys->appid);
 	} else {
 		$woeid = NULL; 
 	}
-if($woeid != NULL):?>
+if(!is_null($woeid)):?>
  var locations = {};
 	var flickr_api_key = 'dbb87ca6390925131a4fedb34d9d8d80';
 	var yahoo_geoplanet_api_key = 'avT7WEDV34HLQLsINzdyv9D4QFGiJtNnPHgtE7C0dvVe7ItxzfuOkGTslkfR_iI9cUCVFKJsrzYTYQ--';
@@ -201,7 +201,7 @@ if (GBrowserIsCompatible()) {
 	$place = $pm->get($this->parish.' , '.$this->county.' , United Kingdom');
 		
 	$woeid = $place->woeid;
-if($woeid != NULL):?>
+if(!is_null($woeid)):?>
  var locations = {};
 	var flickr_api_key = 'dbb87ca6390925131a4fedb34d9d8d80';
 	var yahoo_geoplanet_api_key = 'avT7WEDV34HLQLsINzdyv9D4QFGiJtNnPHgtE7C0dvVe7ItxzfuOkGTslkfR_iI9cUCVFKJsrzYTYQ--';

@@ -246,7 +246,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	$dbaseID = $this->_getParam('id');
 	$form = new MonarchForm();
 	$form->submit->setLabel('Add biography to system');
-	if($dbaseID != NULL){
+	if(!is_null($dbaseID)){
 	$form->dbaseID->setValue($dbaseID);
 	}
 	$this->view->form = $form;
@@ -387,7 +387,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 	$this->view->form = $form;
 	$rulers = new Rulers();
 	$this->view->paginator = $rulers->getRulerListAdmin($this->_getAllParams()); 
-	if ($this->_request->isPost() && ($this->_getParam('submit') != NULL)) {
+	if ($this->_request->isPost() && !is_null($this->_getParam('submit'))) {
 	$formData = $this->_request->getPost();
 	if ($form->isValid($formData)) {
 		$params = array_filter($formData);
@@ -401,7 +401,7 @@ class Admin_NumismaticsController extends Pas_Controller_Action_Admin {
 		$where = array();
         foreach($params as $key => $value)
         {
-			if($value != NULL){
+			if(!is_null($value)){
             $where[] = $key . '/' . urlencode(strip_tags($value));
 			}
         }

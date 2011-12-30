@@ -2,7 +2,7 @@
 <h2><?php echo $this->escape($this->issuer);?></h2>
 
 
-<?php if ($this->filename != NULL) {
+<?php if (!is_null($this->filename)) {
 echo '<a href='.$this->url(array('controller' => 'romancoins','action' => 'zoomifyoverlay', 'id' => $this->id),null,true).' "title="View high resolution image of '. $this->issuer.'" rel="facebox"><img src="'.$this->baseUrl().'/images/rulers/resized/'.$this->escape($this->filename).'" class="portrait" alt="Obverse image of a coin of '. $this->issuer.'"></a>';
 }
 ?>

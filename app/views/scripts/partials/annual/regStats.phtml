@@ -1,9 +1,14 @@
 <tr>
 <td>
 <?php
-if($this->county != NULL) 
-{ 
-echo '<a href="'.$this->url(array('module' => 'database', 'controller' => 'statistics','action' => 'county','institution' => $this->county),null,false).'" title="View stats for '.$this->escape($this->county).'">'.$this->escape($this->county).'</a>';
+if(!is_null($this->county))  { 
+echo '<a href="' . $this->url(array(
+    'module' => 'database', 
+    'controller' => 'statistics',
+    'action' => 'county',
+    'institution' => $this->county
+        ),null,false).'" title="View stats for ' . $this->escape($this->county)
+                . '">' . $this->escape($this->county) . '</a>';
 }
 else
 {

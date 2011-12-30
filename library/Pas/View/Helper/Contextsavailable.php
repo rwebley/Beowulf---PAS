@@ -18,7 +18,7 @@ class Pas_View_Helper_Contextsavailable extends Zend_View_Helper_Abstract {
 	 * @param string $contexts
 	 */
 	public function contextsavailable($contexts) {
-	if($contexts != NULL) {
+	if(!is_null($contexts)) {
 	$module = Zend_Controller_Front::getInstance()->getRequest()->getModuleName();	
 	$controller = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();	
 	$action = Zend_Controller_Front::getInstance()->getRequest()->getActionName();	

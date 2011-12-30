@@ -20,7 +20,7 @@ class Pas_View_Helper_FindToImage extends Zend_View_Helper_Abstract {
 	public function buildHtml($imagedata){
 	$image = '';
 	foreach($imagedata as $data) {
-	if($data['i'] != NULL) { 
+	if(!is_null($data['i'])) { 
 	$file = './images/thumbnails/'.$data['i'].'.jpg';
 	if(file_exists($file)){
 	list($w, $h, $type, $attr) = getimagesize($file);

@@ -180,13 +180,15 @@ class Database_HeritageController extends Pas_Controller_Action_Admin {
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
 	$crime = $this->_crimes->getCrime($this->_getParam('id'));
-	if($crime['0']['county'] != NULL) {
+	if(!is_null($crime['0']['county'])) {
 	$districts = new Places();
 	$district_list = $districts->getDistrictList($crime['0']['county']);
-	$form->district->addMultiOptions(array(NULL => NULL,'Choose district' => $district_list));
-	if($crime['0']['district'] != NULL) {
+	$form->district->addMultiOptions(array(NULL => 'Choose district',
+            'Available districts' => $district_list));
+	if(!is_null($crime['0']['district'])) {
 	$parish_list = $districts->getParishList($crime['0']['district']);
-	$form->parish->addMultiOptions(array(NULL => NULL,'Choose parish' => $parish_list));
+	$form->parish->addMultiOptions(array(NULL => 'Choose parish',
+            'Available parishes' => $parish_list));
 	}
 	}
 	$form->populate($formData);
@@ -199,10 +201,12 @@ class Database_HeritageController extends Pas_Controller_Action_Admin {
 	if(!is_null($crime['0']['county'])) {
 	$districts = new Places();
 	$district_list = $districts->getDistrictList($crime['0']['county']);
-	$form->district->addMultiOptions(array(NULL => NULL,'Choose district' => $district_list));
-	if($crime['0']['district'] != NULL) {
+	$form->district->addMultiOptions(array(NULL => 'Choose district',
+            'Available districts' => $district_list));
+	if(!is_null($crime['0']['district'])) {
 	$parish_list = $districts->getParishList($crime['0']['district']);
-	$form->parish->addMultiOptions(array(NULL => NULL,'Choose parish' => $parish_list));
+	$form->parish->addMultiOptions(array(NULL => 'Choose parish',
+            'Available parishes' => $parish_list));
 	}
 	}
 	$form->populate($crime['0']);

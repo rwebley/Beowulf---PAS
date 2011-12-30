@@ -13,7 +13,7 @@ echo '</li>';
 echo '</ul>';
 }
 ?>
-<?php if($this->contacts['image'] != NULL) {?>
+<?php if(!is_null($this->contacts['image'])) {?>
 <?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/confirm.js',$type = 'javascript');?>
 <?php $this->jQuery()->javascriptCaptureStart();?>
 $(document).ready(function(){

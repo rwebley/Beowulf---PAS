@@ -79,8 +79,8 @@ class Admin_CommentsController extends Pas_Controller_Action_Admin {
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
 	$comments = new Comments();
-	$comment = $comments->fetchRow('comment_ID ='.$id);
-	if(count($comment) != NULL) {
+	$comment = $comments->fetchRow('comment_ID =' . $id);
+	if($comment) {
 	$form->populate($comment->toArray());
 	} else {
 		throw new Exception('No comment found with that ID');

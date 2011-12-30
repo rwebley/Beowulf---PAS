@@ -30,7 +30,7 @@ $pieces = explode(" ", $tags);
 	$separator = ' ';
 	echo '<a href="'.$url.'" title="View all tagged photos on flickrwith this tag">'.$t.'</a>'.$separator;
 	}?><br />
-<?php if($this->machine_tags != NULL):?>
+<?php if(!is_null($this->machine_tags)):?>
 Machine tags: <?php echo $this->machine_tags;?><br />
 <?php endif;?>
 Media type: <?php echo $this->media;?><br />

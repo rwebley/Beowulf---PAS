@@ -248,12 +248,11 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 		unset($params['submit']);
 		unset($params['csrf']);
 
-		$where = array();
-        foreach($params as $key => $value)
-        {
-			if($value != NULL){
+	$where = array();
+        foreach($params as $key => $value) {
+            if(!is_null($value)) {
             $where[] = $key . '/' . urlencode($value);
-			}
+            }
         }
    	$whereString = implode('/', $where);
 	$query = $whereString;

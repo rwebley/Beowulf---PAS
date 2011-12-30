@@ -100,7 +100,8 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$form->broadperiod->setValue($this->_getParam('broadperiod'));
 		$form->county->setValue($this->_getParam('county'));
 		
-		if ($this->_request->isPost() && ($this->_getParam('submit') != NULL)) {
+		if ($this->_request->isPost() && 
+                        is_null($this->_getParam('submit'))) {
 		$formData = $this->_request->getPost();
 		if ($form->isValid($formData)) {
 			$params = array_filter($formData);
@@ -114,7 +115,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 			$where = array();
 	        foreach($params as $key => $value)
 	        {
-				if($value != NULL){
+		if(!is_null($value)){
 	            $where[] = $key . '/' . urlencode(strip_tags($value));
 				}
 	        }
@@ -247,7 +248,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
 		$record['0']['address'] = NULL;
 		$record['0']['postcode'] = NULL;
 		$record['0']['findspotdescription'] = NULL;
-		if($record['0']['knownas'] != NULL){
+		if(!is_null($record['0']['knownas'])){
 		$record['0']['parish'] = NULL;
 		$record['0']['fourFigure'] = NULL;
 		}

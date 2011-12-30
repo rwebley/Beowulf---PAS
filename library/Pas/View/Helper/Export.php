@@ -22,7 +22,7 @@ class Pas_View_Helper_Export extends Zend_View_Helper_Abstract {
 	unset($params['submit']);
 	$where = array();
 	foreach($params as $key => $value){
-	if($value != NULL){
+	if(!is_null($value)){
 	$where[] = $key . '/' . urlencode($value);
 	}
 	}

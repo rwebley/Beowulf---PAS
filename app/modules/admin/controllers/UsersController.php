@@ -29,7 +29,7 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	$form->visits->setValue($this->_getParam('visits'));
 	$form->lastLogin->setValue($this->_getParam('lastLogin'));
 	$form->role->setValue($this->_getParam('role'));
-	if ($this->_request->isPost() && ($this->_getParam('submit') != NULL)) {
+	if ($this->_request->isPost() && !is_null($this->_getParam('submit'))) {
 	$formData = $this->_request->getPost();
 	if ($form->isValid($formData)) {
 	$params = array_filter($formData);
@@ -41,7 +41,7 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	unset($params['csrf']);
 	$where = array();
 	foreach($params as $key => $value) {
-	if($value != NULL){
+	if(!is_null($value)){
 	$where[] = $key . '/' . urlencode(strip_tags($value));
 	}
 	}
@@ -78,10 +78,10 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	$id = (int)$this->_getParam('id');
 	$passwordfield = $form->getValue('password');
 	$users = new Users();
-	if($passwordfield != NULL) {
+	if(!is_null($passwordfield)) {
 	$config = Zend_Registry::get('config');
 	$salt = $config->auth->salt;
-	$password = SHA1($salt.$form->getValue('password'));
+	$password = SHA1($salt . $form->getValue('password'));
 	$updateData = array(
 	'username' => $form->getValue('username'),
 	'first_name' => $form->getValue('first_name'),

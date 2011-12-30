@@ -26,8 +26,10 @@ echo $this->Href(array('module' => 'database','controller'=>'rallies', 'action'=
 ?> 
  
 <?php 
-echo $this->Href(array('module' => 'database','controller'=>'rallies', 'action'=>'delete', 'checkAcl'=>true,
-'acl'=>'Zend_Acl',  'params' =>array('id'=>$this->id), 'content'=>'Delete','attribs' => array('title' => 'Delete rally details')));
+echo $this->Href(array(
+    'module' => 'database', 'controller'=>'rallies', 'action'=>'delete', 
+    'checkAcl'=>true, 'acl'=>'Zend_Acl', 'params' =>array('id'=>$this->id), 
+    'content'=>'Delete','attribs' => array('title' => 'Delete rally details')));
 ?>
 <?php
 $auth = Zend_Auth::getInstance();
@@ -39,12 +41,15 @@ if(in_array($user->role,array('fa','flos','research', 'admin')))
 {?>
 <?php 
 
-if($this->gridref != NULL) : ?>
+if(!is_null($this->gridref)) : ?>
 <?php 
 $config = Zend_Registry::get('config');
 $apikey = $config->googlemaps->apikey;
-$this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$apikey,$type='text/javascript');  
-$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.jmap.js',$type='text/javascript'); 
+$this->inlineScript()->appendFile(
+        'http://maps.google.com/maps?file=api&amp;v=2.x&key=' 
+        . $apikey,$type='text/javascript');  
+$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.jmap.js', 
+        $type='text/javascript'); 
 ?>
 
 <?php $this->jQuery()->javascriptCaptureStart() ?>
@@ -64,8 +69,14 @@ $user = $auth->getIdentity();
 {
 if(in_array($user->role,array('fa','flos','research', 'admin')))
 {
-echo "jQuery('#map').jmap('init', {'mapType':'physical','mapCenter':[".$this->latitude.",".$this->longitude."],'mapControl':'smallzoom','mapEnableScaleControl':'true','mapShowjMapsIcon':'false', 'mapEnableType':'menumap', 'mapZoom':13, 			'mapAddTerrainType':true});";
-echo "jQuery('#map').jmap('AddMarker', {'pointLatLng': [".$this->latitude.",".$this->longitude."],'pointIcon': icon1,'pointMinZoom': 9,'pointMaxZoom': 13});";
+echo "jQuery('#map').jmap('init', {'mapType':'physical','mapCenter':[" 
+    . $this->latitude . "," . $this->longitude 
+    . "],'mapControl':'smallzoom','mapEnableScaleControl':'true',
+    'mapShowjMapsIcon':'false', 'mapEnableType':'menumap', 'mapZoom':13, 
+    'mapAddTerrainType':true});";
+echo "jQuery('#map').jmap('AddMarker', {'pointLatLng': [".$this->latitude
+    .",".$this->longitude."],'pointIcon': icon1,'pointMinZoom': 9,
+        'pointMaxZoom': 13});";
 
 }
 }
@@ -135,13 +146,29 @@ District: <?php echo $this->escape($this->district);?>
 }}}?><br />
 County: <?php echo $this->escape($this->county);?></p>
 
-<p>Created by: <?php echo $this->namethem($this->escape($this->fullname));?><br />
+<p>
+<?php if(!is_null($this->fullname)):?>    
+Created by: <?php echo $this->namethem($this->escape($this->fullname));?><br />
+<?php endif;?>
+<?php if(!is_null($this->created)):?>
 Created on: <?php echo $this->escape($this->timeagoinwords($this->created));?><br />
+<?php endif;?>
+<?php if(!is_null($this->fn)):?>
 Updated: <?php echo $this->namethem($this->escape($this->fn));?><br />
+<?php endif;?>
+<?php if(!is_null($this->updated)):?>
 Updated on: <?php echo $this->escape($this->timeagoinwords($this->updated));?>
+<?php endif;?>
 </p>
-<?php if(isset($this->finds)) :?>
-<p>View <a href="<?php echo $this->url(array('module' => 'database','controller' => 'search','action' => 'results', 'rally' => 1,'rallyID' => $this->id),null,true);?>" title="Search database for all records from <?php echo $this->rally_name;?>">all <?php echo $this->finds;?> records</a> from this rally.</p>
+<?php if($this->finds) :?>
+<p>View <a href="<?php echo $this->url(array(
+    'module' => 'database',
+    'controller' => 'search',
+    'action' => 'results', 
+    'rally' => 1,
+    'rallyID' => $this->id),
+    null,true);?>" title="Search database for all records from <?php echo $this->rally_name;?>">all 
+    <?php echo $this->finds;?> records</a> from this rally.</p>
 <?php else:?>
 <p>No records of any artefacts have been entered yet on the database.</p>
 <?php endif;?>

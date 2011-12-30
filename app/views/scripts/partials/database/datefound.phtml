@@ -1,5 +1,9 @@
-<?php if($this->datefound1 != NULL) :?>
+<?php if(!is_null($this->datefound1)) :?>
 <h4>Discovery dates</h4>
-<p>Date(s) of discovery: <span property="pas:firstDateFound" datatype="xsd:date" content="<?php echo $this->datefound1;?>"><?php echo $this->niceshortdate($this->datefound1);?></span> <?php if($this->datefound2 != NULL) { echo ' - <span property="pas:secondDateFound" datatype="xsd:date" content="' . $this->datefound2 . '">' 
+<p>Date(s) of discovery: <span property="pas:firstDateFound" datatype="xsd:date" 
+                               content="<?php echo $this->datefound1;?>">
+                               <?php echo $this->niceshortdate($this->datefound1);?></span> 
+                               <?php if(!is_null($this->datefound2)) { 
+                                   echo ' - <span property="pas:secondDateFound" datatype="xsd:date" content="' . $this->datefound2 . '">' 
 . $this->niceshortdate($this->datefound2) . '</span>'; }?></p>
 <?php endif;?>

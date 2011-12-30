@@ -71,7 +71,7 @@ class Admin_MessagesController extends Pas_Controller_Action_Admin {
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
 	$message = $this->_messages->fetchRow('id ='.$id);
-	if(count($message) != NULL) {
+	if($message) {
 	$form->populate($message->toArray());
 	} else {
 		throw new Pas_Exception_Param($this->_nothingFound);

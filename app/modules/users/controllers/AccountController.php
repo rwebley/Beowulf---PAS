@@ -272,7 +272,7 @@ class Users_AccountController extends Pas_Controller_Action_Admin {
 	$key = $params['activationKey']; 
 	$users = new Users();
 	$results = $users->activation($key,$username);
-	if ($results != NULL) {
+	if ($results) {
 	$updatesdata = array (
 	'updated' => Zend_Date::now()->toString('yyyy-MM-dd HH:mm'),
 	'valid' => '1',

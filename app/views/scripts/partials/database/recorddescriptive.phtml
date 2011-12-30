@@ -1,30 +1,30 @@
 <div property="pas:description">
 <?php 
-
-
-echo $this->ParagraphRemove($this->purify($this->description));
-
+echo $this->paragraphRemove($this->purify($this->description));
 ?>
 </div>
 <?php if(!is_null($this->notes)) :?>
-<p><strong>Notes:</strong></p> <span property="pas:notes"><?php echo $this->ParagraphRemove($this->purify($this->notes));?></span>
+<p><strong>Notes:</strong></p> <span property="pas:notes"><?php 
+echo $this->paragraphRemove($this->purify($this->notes));?></span>
 <?php endif;?>
-<?php if(($this->findofnote == 1) && ($this->reason != NULL)){
+<?php if(($this->findofnote === 1) && (!is_null($this->reason))){
 echo '<p>This is a find of note and has been designated: '. $this->reason . '</p>';
-
- } else if (($this->findofnote == 1) && ($this->reason == NULL)) { echo '<p>This has been noted as an interesting find by the recorder.</p>';
- }
- ?><p>
-<?php if($this->classification != NULL) : ?>
-<strong>Class:</strong> <span property="pas:classification"><?php echo $this->escape($this->classification);?></span></br>
+} else if (($this->findofnote == 1) && (is_null($this->reason))) { 
+echo '<p>This has been noted as an interesting find by the recorder.</p>';
+}?>
+<p>
+<?php if(!is_null($this->classification)) : ?>
+<strong>Class:</strong> <span property="pas:classification">
+    <?php echo $this->escape($this->classification);?></span></br>
 <?php endif;?>
-<?php if($this->subclass != NULL) :?>
+<?php if(!is_null($this->subclass)) :?>
 <strong>Sub class:</strong> <?php echo $this->escape($this->subclass);?><br />
 <?php endif;?>
 <?php if(!is_null($this->inscription)):?>
-<strong>Inscription:</strong> <span property="pas:inscription"><?php echo $this->inscription;?></span><br />
+<strong>Inscription:</strong> <span property="pas:inscription">
+    <?php echo $this->inscription;?></span><br />
 <?php endif;?>
-<?php if($this->reuse != NULL ) :?>
+<?php if(!is_null($this->reuse)) :?>
 <strong>Evidence of reuse:</strong> <?php echo $this->escape($this->reuse);?><br />
 <?php endif;?>
 </p>

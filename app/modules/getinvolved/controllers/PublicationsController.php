@@ -59,7 +59,7 @@ class Getinvolved_PublicationsController extends Pas_Controller_Action_Admin {
 		
 		if ($this->_request->isPost()) {
 		$formData = $this->_request->getPost();
-		if (($formData['email'] != NULL) && ($formData['maillist'] == 1)) {
+		if (!is_null($formData['email']) && ($formData['maillist'] == 1)) {
     	$form->getElement('email')->addValidator(new Zend_Validate_Db_NoRecordExists('mailinglist', 'email'))
 			->addErrorMessage('Your email address is already on our mailing list, uncheck mailing list sign up if you are just requesting more publications')->setRequired(true)  ;
 		} else {

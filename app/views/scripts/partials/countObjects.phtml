@@ -1,10 +1,7 @@
 <?php 
-if($this->c != NULL) 
-{
+if(!is_null($this->c))  {
 echo '<strong>'.$this->c.' examples</strong>';
-}
-else
-{
+} else {
 echo 'no examples so far.';
 }
 ;?>

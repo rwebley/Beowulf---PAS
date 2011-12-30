@@ -9,7 +9,7 @@ $this->headLink()->appendAlternate($this->url(array('module' => 'database','cont
 <p>Reece Period attributed: <a href="<?php echo $this->url(array('module' => 'romancoins','controller' => 'reeceperiods','action' => 'period','id'=> $this->reeceID, 'name' => $this->urlslug($this->p)),'default',true);?>" title="View scope notes for <?php echo $this->p;?>"><?php echo $this->escape($this->p);?></a></p>
 <?php endif;?>
 
-<?php if ($this->filename != NULL) {
+<?php if (!is_null($this->filename)) {
 list($w, $h) = getimagesize('./images/rulers/resized/'.$this->escape($this->filename));
 echo '<a href="'.$this->baseUrl().'/images/rulers/'.$this->escape($this->filename).'" "title="View high resolution image of '. $this->name.'" rel="lightbox"><img src="'.$this->baseUrl().'/images/rulers/resized/'.$this->escape($this->filename).'" class="portrait" alt="Obverse image of a coin of '. $this->name.'" width="'.$w.'" height="'.$h.'" /></a>';
 }
