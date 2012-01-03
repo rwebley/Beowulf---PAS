@@ -6,7 +6,7 @@
 * @license    GNU General Public License
 */
 
-class CoronerForm extends Zend_Form
+class CoronerForm extends Pas_Form
 {
 public function __construct($options = null)
 {

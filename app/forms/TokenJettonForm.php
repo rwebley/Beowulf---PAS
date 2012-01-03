@@ -6,7 +6,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class TokenJettonForm extends Zend_Form {
+class TokenJettonForm extends Pas_Form {
 
 	public function __construct($options = null) {
 	

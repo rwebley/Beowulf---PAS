@@ -35,132 +35,19 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
     $exist = $this->_coins->checkCoinData($this->_getParam('findID'));
     $broadperiod = (string)$this->_getParam('broadperiod');
    
-    switch ($broadperiod) {
-        case 'ROMAN':
-            $form = new RomanCoinForm();
-            $form->details->setLegend('Add Roman numismatic data');
-            $form->submit->setLabel('Add Roman data');
-            $this->view->headTitle('Add a Roman coin\'s details');
-            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl()
-            . '/js/JQuery/coinslinkedinit.js',$type='text/javascript');
-            break;
-        case 'IRON AGE':
-            $form = new IronAgeCoinForm();
-            $form->details->setLegend('Add Iron Age numismatic data');
-            $form->submit->setLabel('Add Iron Age data');
-            $this->view->headTitle('Add an Iron Age coin\'s details');
-            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-            . '/js/JQuery/iacoinslinkedinit.js',$type='text/javascript');
-            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-            . '/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
-            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl()
-            . '/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
-            $this->view->headLink()->appendStylesheet($this->view->baseUrl() 
-            . '/css/autocomplete.css');
-            break;
-        case 'EARLY MEDIEVAL':
-            $form = new EarlyMedievalCoinForm();
-            $form->details->setLegend('Add Early Medieval numismatic data');
-            $form->submit->setLabel('Add Early Medieval data');
-            $this->view->headTitle('Add an Early Medieval coin\'s details');
-            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-            . '/js/JQuery/coinslinkedinitearlymededit.js',$type='text/javascript');
-            break; 
-        case 'MEDIEVAL':
-            $form = new MedievalCoinForm();
-            $form->details->setLegend('Add Medieval numismatic data');
-            $form->submit->setLabel('Add Medieval data');
-            $this->view->headTitle('Add a Medieval coin\'s details');
-            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-            . '/js/JQuery/coinslinkedinitmededit.js',$type='text/javascript');
-            break; 
-        case 'POST MEDIEVAL':
-            $form = new PostMedievalCoinForm();
-            $form->details->setLegend('Add Post Medieval numismatic data');
-            $form->submit->setLabel('Add Post Medieval data');
-            $this->view->headTitle('Add a Post Medieval coin\'s details');
-            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-            . '/js/JQuery/coinslinkedinitpostmededit.js',$type='text/javascript');
-            break; 
-        case 'BYZANTINE':
-            $form = new ByzantineCoinForm();
-            $form->details->setLegend('Add Byzantine numismatic data');
-            $form->submit->setLabel('Add Byzantine data');
-            break; 
-        case 'GREEK AND ROMAN PROVINCIAL':
-            $form = new GreekAndRomanCoinForm();
-            $form->details->setLegend('Add Greek & Roman numismatic data');
-            $form->submit->setLabel('Add Greek & Roman data');
-            break; 
-
-        default:
-            throw new Exception('You cannot have a coin for that period.');
-            break;
-    }		
-
+    $form = $this->_helper->coinFormLoader($broadperiod);	
+        $this->view->form = $form;
     $last = $this->_getParam('copy');
     if($last == 'last') {
     $this->_flashMessenger->addMessage('Your last record data has been cloned');
     $coindata = $this->_coins->getLastRecord($this->getIdentityForForms());
     foreach($coindata as $coindataflat){
     $form->populate($coindataflat);
-    switch ($broadperiod) {
-
-        case 'IRON AGE':
-        if(isset($coindataflat['denomination'])) {
-        $geographies= new Geography();
-        $geography_options = $geographies->getIronAgeGeographyMenu($coindataflat['denomination']);
-        $form->geographyID->addMultiOptions(array(NULL => NULL,'Choose geographic region' => $geography_options));
-        }
-        break;
-
-        case 'ROMAN':
-        if(isset($coindataflat['ruler'])) {
-        $reverses = new Revtypes();
-        $reverse_options = $reverses->getRevTypesForm($coindataflat['ruler']);
-        if($reverse_options)
-        {
-        $form->revtypeID->addMultiOptions(array(NULL => NULL,'Choose reverse type' => $reverse_options));
-        } else {
-        $form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
-        }
-        } else {
-        $form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
-        }
-        if(isset($coindataflat['ruler']) && ($coindataflat['ruler'] == 242)){
-        $moneyers = new Moneyers();
-        $moneyer_options = $moneyers->getRepublicMoneyers();
-        $form->moneyer->addMultiOptions(array(NULL => NULL,'Choose reverse type' => $moneyer_options));
-        } else {
-        $form->moneyer->addMultiOptions(array(NULL => 'No options available'));
-        //$form->moneyer->disabled=true;
-        }	
-        break;
-
-        case 'EARLY MEDIEVAL':
-        $types = new MedievalTypes();
-        $type_options = $types->getMedievalTypeToRulerMenu($coindataflat['ruler']);
-        $form->typeID->addMultiOptions(array(NULL => 'Choose Early Medieval type',
-                'Available types' => $type_options));
-        break;
-
-        case 'MEDIEVAL':
-            $types = new MedievalTypes();
-            $type_options = $types->getMedievalTypeToRulerMenu($coindataflat['ruler']);
-            $form->typeID->addMultiOptions(array(NULL => 'Choose Medieval type',
-                    'Available types' => $type_options));
-        break;
-
-        case 'POST MEDIEVAL':
-            $types = new MedievalTypes();
-            $type_options = $types->getMedievalTypeToRulerMenu($coindataflat['ruler']);
-            $form->typeID->addMultiOptions(array(NULL => 'Choose Post Medieval type',
-                'Available types' => $type_options));
-        break;	
+    $formLoader = $this->_helper->coinFormLoaderOptions($broadperiod, $coindataflat);
+    
     }
     }
-    }
-    $this->view->form = $form;
+
     if ($this->_request->isPost()) {
     $formData = $this->_request->getPost();
     if ($form->isValid($formData)) {
@@ -199,89 +86,89 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
     . '/js/JQuery/coinslinkedselect.js',
     $type='text/javascript'); 
     switch ($broadperiod) {
-
-            case 'ROMAN':
-                    $form = new RomanCoinForm();
-                    $form->details->setLegend('Edit Roman numismatic data');
-                    $form->submit->setLabel('Save Roman data');
-                    $this->view->headTitle('Edit a Roman coin\'s details');
-                    $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-                    . '/js/JQuery/coinslinkedinit.js',$type='text/javascript');
-                    break;
-
-            case 'IRON AGE':
-                    $form = new IronAgeCoinForm();
-                    $form->details->setLegend('Edit Iron Age numismatic data');
-                    $form->submit->setLabel('Save Iron Age data');
-                    $this->view->headTitle('Edit an Iron Age coin\'s details');
-                    $this->view->jQuery()->addJavascriptFile($this->view->baseUrl()
-                    . '/js/JQuery/iacoinslinkedinit.js',$type='text/javascript');
-                    $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-                    . '/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
-                    $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-                    . '/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
-                    $this->view->headLink()->appendStylesheet($this->view->baseUrl() 
-                    . '/css/autocomplete.css');
-                    break;
-            case 'EARLY MEDIEVAL':
-                    $form = new EarlyMedievalCoinForm();
-                    $form->details->setLegend('Edit Early Medieval numismatic data');
-                    $form->submit->setLabel('Save Early Medieval data');
-                    $this->view->headTitle('Edit an Early Medieval coin\'s details');
-                    $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-                    . '/js/JQuery/coinslinkedinitearlymededit.js',$type='text/javascript');
-                    break; 
-            case 'MEDIEVAL':
-                    $form = new MedievalCoinForm();
-                    $form->details->setLegend('Edit Medieval numismatic data');
-                    $form->submit->setLabel('Save Medieval data');
-                    $this->view->headTitle('Edit a Medieval coin\'s details');
-                    $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-                    . '/js/JQuery/coinslinkedinitmededit.js',$type='text/javascript');
-                    break; 
-            case 'POST MEDIEVAL':
-                    $form = new PostMedievalCoinForm();
-                    $form->details->setLegend('Edit Post Medieval numismatic data');
-                    $form->submit->setLabel('Save Post Medieval data');
-                    $this->view->headTitle('Edit a Post Medieval coin\'s details');
-                    $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
-                    . '/js/JQuery/coinslinkedinitpostmededit.js',$type='text/javascript');
-                    break; 
-            case 'BYZANTINE':
-                    $form = new ByzantineCoinForm();
-                    $form->details->setLegend('Edit Byzantine numismatic data');
-                    $form->submit->setLabel('Save Byzantine data');
-                    $this->view->headTitle('Edit a Byzantine coin\'s details');
-                    break; 
-            case 'GREEK AND ROMAN PROVINCIAL':
-                    $form = new GreekAndRomanCoinForm();
-                    $form->details->setLegend('Edit Greek & Roman numismatic data');
-                    $form->submit->setLabel('Save Greek & Roman data');
-                    $this->view->headTitle('Edit a Greek & Roman provincial coin\'s details');
-                    break; 
-            default:
-                    throw new Exception('You cannot have a coin for that period. 
-                    Stand at the back of the class.');
-                    break;
+        case 'ROMAN':
+            $form = new RomanCoinForm();
+            $form->details->setLegend('Edit Roman numismatic data');
+            $form->submit->setLabel('Save Roman data');
+            $this->view->headTitle('Edit a Roman coin\'s details');
+            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
+            . '/js/JQuery/coinslinkedinit.js',$type='text/javascript');
+        break;
+        case 'IRON AGE':
+            $form = new IronAgeCoinForm();
+            $form->details->setLegend('Edit Iron Age numismatic data');
+            $form->submit->setLabel('Save Iron Age data');
+            $this->view->headTitle('Edit an Iron Age coin\'s details');
+            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl()
+            . '/js/JQuery/iacoinslinkedinit.js',$type='text/javascript');
+            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
+            . '/js/JQuery/jquery.autocomplete.pack.js',$type='text/javascript');
+            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
+            . '/js/JQuery/autocompleteinit.js',$type='text/javascript'); 
+            $this->view->headLink()->appendStylesheet($this->view->baseUrl() 
+            . '/css/autocomplete.css');
+        break;
+        case 'EARLY MEDIEVAL':
+            $form = new EarlyMedievalCoinForm();
+            $form->details->setLegend('Edit Early Medieval numismatic data');
+            $form->submit->setLabel('Save Early Medieval data');
+            $this->view->headTitle('Edit an Early Medieval coin\'s details');
+            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
+            . '/js/JQuery/coinslinkedinitearlymededit.js',$type='text/javascript');
+        break; 
+        case 'MEDIEVAL':
+            $form = new MedievalCoinForm();
+            $form->details->setLegend('Edit Medieval numismatic data');
+            $form->submit->setLabel('Save Medieval data');
+            $this->view->headTitle('Edit a Medieval coin\'s details');
+            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
+            . '/js/JQuery/coinslinkedinitmededit.js',$type='text/javascript');
+        break; 
+        case 'POST MEDIEVAL':
+            $form = new PostMedievalCoinForm();
+            $form->details->setLegend('Edit Post Medieval numismatic data');
+            $form->submit->setLabel('Save Post Medieval data');
+            $this->view->headTitle('Edit a Post Medieval coin\'s details');
+            $this->view->jQuery()->addJavascriptFile($this->view->baseUrl() 
+            . '/js/JQuery/coinslinkedinitpostmededit.js',$type='text/javascript');
+        break; 
+        case 'BYZANTINE':
+            $form = new ByzantineCoinForm();
+            $form->details->setLegend('Edit Byzantine numismatic data');
+            $form->submit->setLabel('Save Byzantine data');
+            $this->view->headTitle('Edit a Byzantine coin\'s details');
+        break; 
+        case 'GREEK AND ROMAN PROVINCIAL':
+            $form = new GreekAndRomanCoinForm();
+            $form->details->setLegend('Edit Greek & Roman numismatic data');
+            $form->submit->setLabel('Save Greek & Roman data');
+            $this->view->headTitle('Edit a Greek & Roman provincial coin\'s details');
+        break; 
+        default:
+            throw new Exception('You cannot have a coin for that period.');
+        break;
     }		
     $this->view->form = $form;
-    if ($this->_request->isPost()) {
-    $formData = $this->_request->getPost();
-    if ($form->isValid($formData)) {
+    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if ($form->isValid($form->getValues())) {
     $updateData = $form->getValues();
 
-    $oldData = $this->_coins->fetchRow('id='.$this->_getParam('id'))->toArray();
-    $where =  $this->_coins->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-    $update = $this->_coins->update($updateData,$where);
+    $oldData = $this->_coins->fetchRow('id=' . $this->_getParam('id'))->toArray();
+    $where =  $this->_coins->getAdapter()->quoteInto('id = ?', 
+            $this->_getParam('id'));
+    $update = $this->_coins->update($updateData, $where);
     $solr = new Pas_Solr_Updater();
     $solr->add($this->_getParam('returnID'));
-    
+
+    $this->_helper->audit($updateData, $oldData, 'CoinsAudit', 
+            $this->_getParam('id'), $this->_getParam('returnID'));
+
     $this->_flashMessenger->addMessage('Numismatic details updated.');
     $this->_redirect(self::REDIRECT . 'record/id/' . $this->_getParam('returnID'));
     } else {
     $this->_flashMessenger->addMessage('Please check your form for errors');
 
-    $form->populate($formData);
+    $form->populate($form->getValues());
     }
     } else {
     // find id is expected in $params['id']
@@ -290,58 +177,55 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
     $coin = $this->_coins->getCoinToEdit($id);
     $form->populate($coin['0']);
     switch ($broadperiod) {
-            case 'IRON AGE':
-            if(isset($coin['0']['denomination'])) {
-            $geographies= new Geography();
-            $geography_options = $geographies->getIronAgeGeographyMenu($coin['0']['denomination']);
-            $form->geographyID->addMultiOptions(array(NULL => NULL, 
-            'Choose geographic region' => $geography_options));
-            }
-            break;
+    case 'IRON AGE':
+    if(isset($coin['0']['denomination'])) {
+    $geographies= new Geography();
+    $geography_options = $geographies->getIronAgeGeographyMenu($coin['0']['denomination']);
+    $form->geographyID->addMultiOptions(array(NULL => 'Choose geographic region', 'Available regions' => $geography_options));
+    }
+    break;
+    case 'ROMAN':
+    if(isset($coin['0']['ruler'])) {
+        $reverses = new Revtypes();
+        $reverse_options = $reverses->getRevTypesForm($coin['0']['ruler']);
+        if($reverse_options)
+        {
+        $form->revtypeID->addMultiOptions(array(NULL => 'Choose reverse type', 
+            'Available reverses' => $reverse_options));
+        } else {
+        $form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
+        }
+        } else {
+        $form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
+        }
+        if(isset($coin['0']['ruler']) && ($coin['0']['ruler'] == 242)){
+        $moneyers = new Moneyers();
+        $moneyer_options = $moneyers->getRepublicMoneyers();
+        $form->moneyer->addMultiOptions(array(NULL => 'Choose a moneyer',
+        'Available moneyers' => $moneyer_options));
+        } else {
+        $form->moneyer->addMultiOptions(array(NULL => 'No options available'));
+        //$form->moneyer->disabled=true;
+        }	
+        break;
 
-            case 'ROMAN':
-            if(isset($coin['0']['ruler'])) {
-            $reverses = new Revtypes();
-            $reverse_options = $reverses->getRevTypesForm($coin['0']['ruler']);
-            if($reverse_options)
-            {
-            $form->revtypeID->addMultiOptions(array(NULL => NULL,
-            'Choose reverse type' => $reverse_options));
-            } else {
-            $form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
-            }
-            } else {
-            $form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
-            }
-            if(isset($coin['0']['ruler']) && ($coin['0']['ruler'] == 242)){
-            $moneyers = new Moneyers();
-            $moneyer_options = $moneyers->getRepublicMoneyers();
-            $form->moneyer->addMultiOptions(array(NULL => NULL,
-            'Choose reverse type' => $moneyer_options));
-            } else {
-            $form->moneyer->addMultiOptions(array(NULL => 'No options available'));
-            //$form->moneyer->disabled=true;
-            }	
-            break;
-
-            case 'EARLY MEDIEVAL':
-            if(isset($coin['0']['ruler'])) {
-            $types = new MedievalTypes();
-            $type_options = $types->getMedievalTypeToRulerMenu($coin['0']['ruler']);
-            $form->typeID->addMultiOptions(array(NULL => NULL,
-            'Choose Early Medieval type' => $type_options));
-            $form->mint_id->clearMultiOptions();
-            $form->denomination->clearMultiOptions();
-            $mints = new Mints();
-            $mints_options = $mints->getEarlyMedMintRulerPairs($coin['0']['ruler']);
-            $form->mint_id->addMultiOptions(array(NULL => NULL,
-            'Choose a valid mint' => $mints_options));
-            $denoms = new Denominations();
-            $denom_options = $denoms->getEarlyMedRulerToDenominationPairs($coin['0']['ruler']);
-            $form->denomination->addMultiOptions(array(NULL => NULL,
-            'Choose a valid denomination' => $denom_options));
-            }
-            break;
+        case 'EARLY MEDIEVAL':
+        if(isset($coin['0']['ruler'])) {
+        $types = new MedievalTypes();
+        $type_options = $types->getMedievalTypeToRulerMenu($coin['0']['ruler']);
+        $form->typeID->addMultiOptions(array(NULL => 'Choose Early Medieval type',
+            'Available types' => $type_options));
+        $form->mint_id->clearMultiOptions();
+        $form->denomination->clearMultiOptions();
+        $mints = new Mints();
+        $mints_options = $mints->getEarlyMedMintRulerPairs($coin['0']['ruler']);
+        $form->mint_id->addMultiOptions(array(NULL => 'Choose a valid mint',
+            'Available mints' => $mints_options));
+        $denoms = new Denominations();
+        $denom_options = $denoms->getEarlyMedRulerToDenominationPairs($coin['0']['ruler']);
+        $form->denomination->addMultiOptions(array(NULL => 'Choose a valid denomination', 'Available denominations' => $denom_options));
+        }
+        break;
 
             case 'MEDIEVAL':
             if(isset($coin['0']['ruler'])) {
@@ -349,13 +233,13 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
             $form->denomination->clearMultiOptions();
             $types = new MedievalTypes();
             $type_options = $types->getMedievalTypeToRulerMenu($coin['0']['ruler']);
-            $form->typeID->addMultiOptions(array(NULL => NULL,'Choose Medieval type' => $type_options));
+            $form->typeID->addMultiOptions(array(NULL => 'Choose Medieval type', 'Available types' => $type_options));
             $mints = new Mints();
             $mints_options = $mints->getEarlyMedMintRulerPairs($coin['0']['ruler']);
-            $form->mint_id->addMultiOptions(array(NULL => NULL,'Choose a valid mint' => $mints_options));
+            $form->mint_id->addMultiOptions(array(NULL => 'Choose a valid mint', 'Available mints' => $mints_options));
             $denoms = new Denominations();
             $denom_options = $denoms->getEarlyMedRulerToDenominationPairs($coin['0']['ruler']);
-            $form->denomination->addMultiOptions(array(NULL => NULL,'Choose a valid denomination' => $denom_options));
+            $form->denomination->addMultiOptions(array(NULL => 'Choose a valid denomination', 'Available denominations' => $denom_options));
             }
             break;
             case 'POST MEDIEVAL':
@@ -364,13 +248,13 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
             $form->denomination->clearMultiOptions();
             $types = new MedievalTypes();
             $type_options = $types->getMedievalTypeToRulerMenu($coin['0']['ruler']);
-            $form->typeID->addMultiOptions(array(NULL => NULL,'Choose Post Medieval type' => $type_options));
+            $form->typeID->addMultiOptions(array(NULL => 'Choose Post Medieval type', 'Available types' => $type_options));
             $denoms = new Denominations();
             $denom_options = $denoms->getEarlyMedRulerToDenominationPairs($coin['0']['ruler']);
-            $form->denomination->addMultiOptions(array(NULL => NULL,'Choose a valid denomination' => $denom_options));
+            $form->denomination->addMultiOptions(array(NULL => 'Choose a valid denomination', 'Available denominations' => $denom_options));
             $mints = new Mints();
             $mints_options = $mints->getEarlyMedMintRulerPairs($coin['0']['ruler']);
-            $form->mint_id->addMultiOptions(array(NULL => NULL,'Choose a valid mint' => $mints_options));
+            $form->mint_id->addMultiOptions(array(NULL => 'Choose a valid mint', 'Available mints' => $mints_options));
             }
             break;	
     }
@@ -380,11 +264,10 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
             throw new Pas_Exception_Param($this->_missingParameter);
     }
     }
-    /** Delete coin data
+    /** Delete coin data via primary key
     */
     public function deleteAction() {
     if($this->_getParam('id',false)){
-    $this->view->headTitle('Delete coin data');
     if ($this->_request->isPost()) {
     $id = (int)$this->_request->getPost('id');
     $returnID = (int)$this->_request->getPost('returnID');

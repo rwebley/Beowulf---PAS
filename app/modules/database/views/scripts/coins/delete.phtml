@@ -1,5 +1,7 @@
 <?php if ($this->coins) :?>
 <?php 
+
+$this->view->headTitle('Delete coin data');
 echo $this->partial('partials/database/deleteCoin.phtml',$this->coins['0']);?>
 
 <?php else: ?>

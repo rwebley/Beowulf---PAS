@@ -11,7 +11,7 @@
 * @version 		1
 * @since 		22 September 2011
 */
-class ActivateForm extends Zend_Form {
+class ActivateForm extends Pas_Form {
 
 
     public function init() {

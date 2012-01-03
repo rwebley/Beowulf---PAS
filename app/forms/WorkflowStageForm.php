@@ -1,6 +1,6 @@
 <?php
 
-class WorkflowStageForm extends Zend_Form
+class WorkflowStageForm extends Pas_Form
 {
 
 public function __construct($options = null)
