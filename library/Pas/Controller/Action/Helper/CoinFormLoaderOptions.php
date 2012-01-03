@@ -40,37 +40,38 @@ class Pas_Controller_Action_Helper_CoinFormLoaderOptions
         );
     
     public function optionsAddClone($broadperiod, $coinDataFlat){
-       
-        switch ($broadperiod) {
-        case 'IRON AGE':
+    switch ($broadperiod) {
+    case 'IRON AGE':
         if(isset($coinDataFlat['denomination'])) {
         $geographies= new Geography();
         $geography_options = $geographies->getIronAgeGeographyMenu($coinDataFlat['denomination']);
-        $this->_view->form->geographyID->addMultiOptions(array(NULL => 'Choose geographic region', 
-            'Available regions' => $geography_options));
+        $this->_view->form->geographyID->addMultiOptions(array(NULL => 
+            'Choose geographic region', 'Available regions' => $geography_options));
         }
         break;
-
-        case 'ROMAN':
+    case 'ROMAN':
         if(isset($coinDataFlat['ruler'])) {
         $reverses = new Revtypes();
         $reverse_options = $reverses->getRevTypesForm($coinDataFlat['ruler']);
-        if($reverse_options)
-        {
-        $this->_view->form->revtypeID->addMultiOptions(array(NULL => 'Choose reverse type', 
-            'Available reverses' => $reverse_options));
+        if($reverse_options) {
+        $this->_view->form->revtypeID->addMultiOptions(array(NULL => 
+            'Choose reverse type', 'Available reverses' => $reverse_options));
         } else {
-        $this->_view->form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
+        $this->_view->form->revtypeID->addMultiOptions(array(NULL => 
+            'No options available'));
         }
         } else {
-        $this->_view->form->revtypeID->addMultiOptions(array(NULL => 'No options available'));
+        $this->_view->form->revtypeID->addMultiOptions(array(NULL => 
+            'No options available'));
         }
         if(isset($coinDataFlat['ruler']) && ($coinDataFlat['ruler'] == 242)){
         $moneyers = new Moneyers();
         $moneyer_options = $moneyers->getRepublicMoneyers();
-        $this->_view->form->moneyer->addMultiOptions(array(NULL => NULL,'Choose reverse type' => $moneyer_options));
+        $this->_view->form->moneyer->addMultiOptions(array(NULL => NULL,
+            'Choose reverse type' => $moneyer_options));
         } else {
-        $this->_view->form->moneyer->addMultiOptions(array(NULL => 'No options available'));
+        $this->_view->form->moneyer->addMultiOptions(array(NULL => 
+            'No options available'));
         //$this->_view->form->moneyer->disabled=true;
         }	
         break;
@@ -78,17 +79,16 @@ class Pas_Controller_Action_Helper_CoinFormLoaderOptions
         case 'EARLY MEDIEVAL':
         $types = new MedievalTypes();
         $type_options = $types->getMedievalTypeToRulerMenu($coinDataFlat['ruler']);
-        $this->_view->form->typeID->addMultiOptions(array(NULL => 'Choose Early Medieval type',
-                'Available types' => $type_options));
+        $this->_view->form->typeID->addMultiOptions(array(NULL => 
+            'Choose Early Medieval type',
+            'Available types' => $type_options));
         break;
-
         case 'MEDIEVAL':
             $types = new MedievalTypes();
             $type_options = $types->getMedievalTypeToRulerMenu($coinDataFlat['ruler']);
             $this->_view->form->typeID->addMultiOptions(array(NULL => 'Choose Medieval type',
                     'Available types' => $type_options));
         break;
-
         case 'POST MEDIEVAL':
             $types = new MedievalTypes();
             $type_options = $types->getMedievalTypeToRulerMenu($coinDataFlat['ruler']);
@@ -96,11 +96,7 @@ class Pas_Controller_Action_Helper_CoinFormLoaderOptions
                 'Available types' => $type_options));
         break;	
     }
-    }
-    
-    
-    
-    
+    } 
     
 }
 

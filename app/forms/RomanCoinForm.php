@@ -238,14 +238,14 @@ public function __construct($options = null)
 	$obverse_inscription, $reverse_description, $reverse_inscription,
 	$die_axis_measurement, $die_axis_certainty, $mint_qualifier,
 	$ruler_qualifier, $denomination_qualifier, $status_qualifier,
-	$revTypeID_qualifier, $moneyer_qualifier, $reverse_mintmark,
+	$revTypeID_qualifier, $reverse_mintmark,
 	$submit, $hash));
 	
 	$this->addDisplayGroup(array(
 	'denomination','denomination_qualifier','ruler_id',
 	'ruler_qualifier','mint_id','mint_qualifier',
 	'reeceID','revtypeID','revTypeID_qualifier',
-	'moneyer','moneyer_qualifier','status',
+	'moneyer','status',
 	'status_qualifier','degree_of_wear','obverse_description',
 	'obverse_inscription','reverse_description','reverse_inscription',
 	'reverse_mintmark','die_axis_measurement','die_axis_certainty'

@@ -91,7 +91,7 @@ class Coins extends Pas_Db_Table_Abstract {
 	$coins = $this->getAdapter();
 	$select = $coins->select()
 		->from($this->_name, array(
-		'ruler' => 'ruler_id', 'ruler_qualifier', 'denomination',
+		'ruler_id', 'ruler_qualifier', 'denomination',
 		'denomination_qualifier', 'mint_id', 'mint_qualifier',
 		'status', 'status_qualifier', 'obverse_description',
 		'obverse_inscription', 'reverse_description', 'reverse_inscription',
@@ -117,7 +117,7 @@ class Coins extends Pas_Db_Table_Abstract {
 	$finds = $this->getAdapter();
 	$select = $finds->select()
 		->from($this->_name,array(
-		'ruler' => 'ruler_id', 'ruler_qualifier', 'denomination',
+		'ruler_id', 'ruler_qualifier', 'denomination',
 		'denomination_qualifier', 'mint_id', 'mint_qualifier', 
 		'status',	'status_qualifier',	'obverse_description',
 		'obverse_inscription', 'reverse_description', 'reverse_inscription',

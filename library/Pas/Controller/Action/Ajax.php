@@ -17,19 +17,22 @@ class Pas_Controller_Action_Ajax extends Zend_Controller_Action {
 	 * 
 	 * @var string
 	 */
-	protected $_missingParameter = 'The url is missing a parameter. Please check your entry point.';
+	protected $_missingParameter = 'The url is missing a parameter. 
+            Please check your entry point.';
 	
 	/** The error message for when nothing has been found from a db call via parameter
 	 * 
 	 * @var string
 	 */
-	protected $_nothingFound = 'We can\'t find anything with that parameter. Please check your entry url carefully.';
+	protected $_nothingFound = 'We can\'t find anything with that parameter. 
+            Please check your entry url carefully.';
 	
 	/** Form error message - is this used?
 	 * 
 	 * @var string
 	 */
-	protected $_formErrors = 'Your form submission has some errors. Please check and resubmit.';
+	protected $_formErrors = 'Your form submission has some errors. 
+            Please check and resubmit.';
 	
 	/** Message when no changes made
 	 * 

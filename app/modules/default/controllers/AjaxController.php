@@ -136,7 +136,7 @@ class AjaxController extends Pas_Controller_Action_Ajax
 	public function treasureidsAction(){
 	$treasureids = new Finds();
 	$treasureidsjson = $treasureids->getTreasureID($this->_getParam('q'));
-	echo  Zend_Json::encode($treasureidsjson);
+	echo Zend_Json::encode($treasureidsjson);
 	}
 
 	public function peopleAction()
@@ -165,7 +165,8 @@ class AjaxController extends Pas_Controller_Action_Ajax
 	}  else {
 	$response = array(array('id' => NULL, 'term' => 'No ruler specified'));	
 	}
-	echo  Zend_Json::encode($response);
+        $data = Zend_Json::encode($response);
+	echo Zend_Json::prettyPrint($data, array("indent" => " ", 'format' => 'html'));
 	}
 
 	public function rulerdenomearlymedAction(){
