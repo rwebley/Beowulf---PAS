@@ -74,8 +74,7 @@
 	$client->setMethod(Zend_Http_Client::POST);
 	$response = $client->request();
 	if ($response->isSuccessful()){
-		Zend_Debug::dump($response);
-	exit;
+	
 	$code = $this->getStatus($response);
 	$header = $response->getHeaders();
 	if($code == true && $header != 'text/html;charset=UTF-8'){

@@ -51,11 +51,11 @@ class TokenJettonForm extends Zend_Form {
 		->addValidator('Int');
 	
 	
-	$ruler= new Zend_Form_Element_Select('ruler');
+	$ruler= new Zend_Form_Element_Select('ruler_id');
 	$ruler->setLabel('Ruler: ')
 		->setRegisterInArrayValidator(false)
 		->setDecorators($decorators)
-		->addMultiOptions(array(NULL => NULL,'Choose a ruler' => $ro))
+		->addMultiOptions(array(NULL => "Choose an issuer",'Available rulers' => $ro))
 		->addValidator('InArray', false, array(array_keys($ro)));
 	
 	$ruler_qualifier = new Zend_Form_Element_Radio('ruler_qualifier');
@@ -132,8 +132,6 @@ class TokenJettonForm extends Zend_Form {
 		->addDecorator('HtmlTag', array('placement' => 'prepend','tag'=>'div','id'=>'radios'))
 		->setDecorators($decorators);
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
@@ -156,7 +154,7 @@ class TokenJettonForm extends Zend_Form {
 	$denomination_qualifier, $hash, $submit));
 	
 	$this->addDisplayGroup(array(
-	'denomination','denomination_qualifier', 'ruler',
+	'denomination','denomination_qualifier', 'ruler_id',
 	'ruler_qualifier', 'mint_id','mint_qualifier',
 	'status', 'status_qualifier', 'degree_of_wear',
 	'obverse_description', 'obverse_inscription','reverse_description',

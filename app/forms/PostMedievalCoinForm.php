@@ -66,7 +66,7 @@ parent::__construct($options);
 		->addValidator('InArray', false, array(array_keys($cat_options)))
 		->setDecorators($decorators);
 	
-	$ruler_id= new Zend_Form_Element_Select('ruler');
+	$ruler_id= new Zend_Form_Element_Select('ruler_id');
 	$ruler_id->setLabel('Ruler: ')
 		->addFilters(array('StripTags','StringTrim'))
 		->addMultiOptions(array(NULL => NULL,'Choose ruler' => $ro))
@@ -190,8 +190,6 @@ parent::__construct($options);
 	$reverse_inscription, $die_axis_measurement, $die_axis_certainty,
 	$submit, $rev_mm, $initial));
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
@@ -200,7 +198,7 @@ parent::__construct($options);
 	$this->addElement($hash);
 	
 	$this->addDisplayGroup(array(
-	'categoryID', 'ruler', 'typeID',
+	'categoryID', 'ruler_id', 'typeID',
 	'ruler_qualifier', 'denomination', 'denomination_qualifier',
 	'mint_id', 'status', 'status_qualifier',
 	'degree_of_wear', 'obverse_description', 'obverse_inscription',

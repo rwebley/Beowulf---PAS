@@ -48,9 +48,7 @@ public function __construct($options = null) {
 	->setAttrib('class', 'large')
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('HtmlTag');
-	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
+        
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')

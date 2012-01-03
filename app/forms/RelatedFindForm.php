@@ -41,8 +41,6 @@ $old_findID->setLabel('Find number: ')
 	->removeDecorator('DtDdWrapper')
 	->setAttrib('class','large');
 
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
@@ -51,18 +49,14 @@ $old_findID->setLabel('Find number: ')
 		->setTimeout(4800);
 	$this->addElement($hash);
 
-$this->addElements(array(
-$old_findID, 
-$find2ID,
-$find1ID,
-$submit));
-$this->addDisplayGroup(array('old_findID','find1ID','find2ID'), 'details')
-->removeDecorator('HtmlTag');
-$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
-$this->details->removeDecorator('DtDdWrapper');
-$this->details->removeDecorator('HtmlTag');
-$this->details->setLegend('Add a new reference');
-$this->addDisplayGroup(array('submit'),'submit');
+    $this->addElements(array($old_findID, $find2ID, $find1ID, $submit));
+    $this->addDisplayGroup(array('old_findID','find1ID','find2ID'), 'details')
+    ->removeDecorator('HtmlTag');
+    $this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
+    $this->details->removeDecorator('DtDdWrapper');
+    $this->details->removeDecorator('HtmlTag');
+    $this->details->setLegend('Add a new reference');
+    $this->addDisplayGroup(array('submit'),'submit');
 
-}
+    }
 }

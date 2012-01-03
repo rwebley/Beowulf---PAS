@@ -58,10 +58,8 @@ public function __construct($options = null) {
 
 	$this->addElements(array(
 	$title, $id, $pages,
-	$reference,	$submit));
+	$reference, $submit));
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
@@ -70,9 +68,11 @@ public function __construct($options = null) {
 		->setTimeout(4800);
 	$this->addElement($hash);
 	
-	$this->addDisplayGroup(array('publicationtitle','pubID','pages_plates','reference'), 'details')
+	$this->addDisplayGroup(array('publicationtitle','pubID','pages_plates',
+            'reference'), 'details')
 	->removeDecorator('HtmlTag');
-	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
+	$this->details->addDecorators(array('FormElements',array('HtmlTag', 
+            array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	$this->details->removeDecorator('HtmlTag');
 	$this->details->setLegend('Add a new reference');

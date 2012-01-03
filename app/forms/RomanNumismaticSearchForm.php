@@ -138,9 +138,7 @@ class RomanNumismaticSearchForm extends Pas_Form
 	if(in_array($this->getRole(),$this->_restricted)) {
 	$workflow->addMultiOptions(array(NULL => 'Choose a workflow stage' ,'Available worklow stage' => array('4' => 'Awaiting validation', '3' => 'Published')));
 	}
-	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
+        
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')

@@ -102,8 +102,6 @@ class PostMedNumismaticSearchForm extends Pas_Form {
 	'Available workflow stages' => array('4' => 'Awaiting validation', '3' => 'Published')));
 	}
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')

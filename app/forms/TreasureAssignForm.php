@@ -45,8 +45,6 @@ public function __construct($options = null)
 		->addDecorator(array('ListWrapper' => 'HtmlTag'), array('tag' => 'li'))
 		->removeDecorator('DtDdWrapper');
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')

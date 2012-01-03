@@ -31,67 +31,35 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	protected $_higherLevel = array('admin','flos','fa','treasure'); 
 	protected $_researchLevel = array('member','hero','research');
 	protected $_restricted = array('public');
- 	protected $_missingParameter = 'The url is missing a parameter. Please check your entry point.';
-	protected $_nothingFound = 'We can\'t find anything with that parameter. Please check your entry url carefully.';
-	protected $_formErrors = 'Your form submission has some errors. Please check and resubmit.';
+ 	protected $_missingParameter = 'The url is missing a parameter. 
+            Please check your entry point.';
+	protected $_nothingFound = 'We can\'t find anything with that parameter. 
+            Please check your entry url carefully.';
+	protected $_formErrors = 'Your form submission has some errors. 
+            Please check and resubmit.';
 	protected $_noChange = 'No changes have been implemented';
 	
-	protected $_config;
 	
-	protected $_geocoder;
-	
-	/**
-	 * @return the $_config
-	 */
-	public function get_config() {
-		return $this->_config;
-	}
-
-	/**
-	 * @param $_config the $_config to set
-	 */
-	public function set_config() {
-		$this->_config = Zend_Registry::get('config');
-	}
-
-	/**
-	 * @return the $_geocoder
-	 */
-	public function get_geocoder() {
-		return $this->_geocoder;
-	}
-
-	/**
-	 * @param $_geocoder the $_geocoder to set
-	 */
-	public function set_geocoder() {
-		$this->_geocoder = new Pas_Service_Geo_Coder($this->_config->webservice->googlemaps->apikey);
-	}
-
-	public function preDispatch(){
-		$this->set_config();
-		$this->set_geocoder();
-	}
 	
 	public function postDispatch() {
-	$this->view->messages = $this->_flashMessenger->getMessages();
-    }
+        //$this->view->messages = $this->_flashMessenger->getMessages();
+        }
     
 	protected function getInstitution() {
-	return $this->_helper->getHelper('Identity')->getPerson()->institution;
+	return $this->_helper->identity->getPerson()->institution;
 	}
 	
  	public function getIdentityForForms() {
-	return $this->_helper->getHelper('Identity')->getIdentityForForms();
+	return $this->_helper->identity->getIdentityForForms();
 	}
 	
 	
 	public function getUsername(){
-	return $this->_helper->getHelper('Identity')->getPerson()->username;
+	return $this->_helper->identity->getPerson()->username;
 	}
 	
 	public function getRole() {
-	$role = $this->_helper->getHelper('Identity')->getPerson()->role;
+	$role = $this->_helper->identity->getPerson()->role;
 	if(is_null($role)){
 	return 'public';
 	} else {
@@ -100,7 +68,7 @@ class Pas_Controller_Action_Admin extends Zend_Controller_Action {
 	}
 	
 	public function getAccount() {
-	return $this->_helper->getHelper('Identity')->getPerson();
+	return $this->_helper->identity->getPerson();
 	}
 	
 	public function getTimeForForms() {

@@ -9,344 +9,206 @@
 */
 class Database_PeopleController extends Pas_Controller_Action_Admin {
 
-	protected $_peoples, $pm, $_config, $_geocoder;
-	/** Setup the contexts by action and the ACL.
-	*/	
-	public function init() {
-	$this->_helper->_acl->allow('flos',NULL);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$this->_helper->contextSwitch()
-			 ->setAutoDisableLayout(true)
-			 ->addContext('csv',array('suffix' => 'csv'))
- 			 ->addContext('vcf',array('suffix' => 'vcf'))
-  			 ->addContext('rss',array('suffix' => 'rss'))
-			 ->addContext('atom',array('suffix' => 'atom'))
-			 ->addActionContext('person', array('xml','json','vcf'))
- 			 ->addActionContext('index', array('xml','json'))
-             ->initContext();
-	$config = Zend_Registry::get('config');
-	$this->view->googleapikey = $config->webservice->googlemaps->apikey;
-	$this->_peoples = new Peoples();
-	$this->_pm = new Pas_Placemaker('gb');
-	$this->_config = Zend_Registry::get('config');
-	$this->_gmapskey = $this->_config->webservice->googlemaps->apikey;
-	$this->_geocoder = new Pas_Service_Geocoder($this->_gmapskey);
-    }
-    
-	const REDIRECT = 'database/people/';
-	/** Index page of all people on the database
-	*/
-	public function indexAction(){
-	$limit = 20;
-	$page = $this->_getParam('page');
-	if(!isset($page)){
-		$start = 0;
-		
-	} else {
-		unset($params['page']);
-		$start = ($page - 1) * 20;
-	}	
-	
-	$config = array(
+    protected $_peoples, $_geocoder;
+    /** Setup the contexts by action and the ACL.
+    */	
+    public function init() {
+    $this->_helper->_acl->allow('flos',NULL);
+    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+    $this->_helper->contextSwitch()
+            ->setAutoDisableLayout(true)
+            ->addContext('csv',array('suffix' => 'csv'))
+            ->addContext('vcf',array('suffix' => 'vcf'))
+            ->addContext('rss',array('suffix' => 'rss'))
+            ->addContext('atom',array('suffix' => 'atom'))
+            ->addActionContext('person', array('xml','json','vcf'))
+            ->addActionContext('index', array('xml','json'))
+            ->initContext();
+    $config = Zend_Registry::get('config');
+    $this->view->googleapikey = $this->_helper->config->webservice->googlemaps->apikey;
+    $this->_peoples = new Peoples();
+    $this->_gmapskey = $this->_helper->config->webservice->googlemaps->apikey;
+    $this->_geocoder = new Pas_Service_Geocoder($this->_gmapskey);
+}
+
+    const REDIRECT = 'database/people/';
+    /** Index page of all people on the database
+    */
+    public function indexAction(){
+    $limit = 20;
+    $page = $this->_getParam('page');
+    if(!isset($page)){
+            $start = 0;
+
+    } else {
+            unset($params['page']);
+            $start = ($page - 1) * 20;
+    }	
+
+    $config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
     'path' => '/solr/',
-	'core' => 'beopeople'
+    'core' => 'beopeople'
     ));
-	
-	$select = array(
+
+    $select = array(
     'query'         => '*:*',
     'start'         => $start,
     'rows'          => $limit,
     'fields'        => array('*'),
     'sort'          => array('forename' => 'asc'),
-	'filterquery' => array(),
+    'filterquery' => array(),
     );
-   
-	$client = new Solarium_Client($config);
-	$query = $client->createSelect($select);
+
+    $client = new Solarium_Client($config);
+    $query = $client->createSelect($select);
     $resultset = $client->select($query);
-	$data = NULL;
-	foreach($resultset as $doc){
-	    foreach($doc as $key => $value){
-	    	$fields[$key] = $value;
-	    }
-	    $data[] = $fields;
-	}
-	$paginator = Zend_Paginator::factory($resultset->getNumFound());
+    $data = NULL;
+    foreach($resultset as $doc){
+        foreach($doc as $key => $value){
+            $fields[$key] = $value;
+        }
+        $data[] = $fields;
+    }
+    $paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
-              ->setItemCountPerPage($limit)
-              ->setPageRange(20);
+          ->setItemCountPerPage($limit)
+          ->setPageRange(20);
     $this->view->paginator = $paginator;
-	$this->view->results = $data;
-	}
-	/** Display details of a person
-	*/
- 	public function personAction(){
-	if($this->_getParam('id',false)) {
-	$this->view->peoples = $this->_peoples->getPersonDetails($this->_getParam('id'));
-	$finds = new Finds();
-	$this->view->finds = $finds->getFindsToPerson($this->_getAllParams());
-	} else {
-		throw new Exception($this->_missingParameter);
-	}
-	}
-
-	/** Add personal data
-	*/
-	public function addAction() {
-	$secuid = $this->secuid();
-	$form = new PeopleForm();
-	$form->submit->setLabel('Add a new person');
-	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData))  {
-	
-	$address = $form->getValue('address') . ',' . $form->getValue('city') . ','
-	. $form->getValue('county') . ',' . $form->getValue('postcode');
-	$coords = $this->_geocoder->getCoordinates($address);
-	if($coords){
-		$lat = $coords['lat'];
-		$long = $coords['lon']; 
-	} else {
-		$lat = NULL;
-		$lon = NULL;
-	}
-	$place = $this->_pm->get($address);
-	$woeid = $place->woeid;
-	$insertData = array(
-		'forename' => $form->getValue('forename'),
-		'surname' => $form->getValue('surname'),
-		'fullname' => $form->getValue('fullname'),
-		'title' => $form->getValue('title'),
-		'county' => $form->getValue('county'),
-		'email' => $form->getValue('email'),
-		'address' => $form->getValue('address'),
-		'town_city' => $form->getValue('town_city'),
-		'county' => $form->getValue('county'),
-		'postcode' => $form->getValue('postcode'),
-		'country' => $form->getValue('country'),
-		'hometel' => $form->getValue('hometel'),
-		'worktel' => $form->getValue('worktel'),
-		'faxno' => $form->getValue('fax'),
-		'comments' => $form->getValue('comments'),
-		'secuid' => $secuid,
-		'primary_activity' => $form->getValue('primary_activity'),
-		'dbaseID' => $form->getValue('dbaseID'),
-		'created' => $this->getTimeForForms(), 
-		'createdBy' => $this->getIdentityForForms(),
-	 	'organisationID' => $form->getValue('organisationID'),
-		'lat' => $lat,
-		'lon' => $lon,
-		'dbaseID' => $form->getValue('dbaseID'),
-		'woeid' => $woeid
-		);
-	foreach ($insertData as $key => $value) {
-      if (is_null($value) || $value=="") {
-        unset($insertData[$key]);
-      }
+    $this->view->results = $data;
     }
-	if(array_key_exists('dbaseID',$updateData)){
-	$users = new Users();
-	$userdetails = array('peopleID' => $audit['secuid'],
-						 'updated' => $updateData['updated'],
-						 'updatedBy' => $updateData['updatedBy']
-	);
-	
-	
-	$whereUsers =  $users->getAdapter()->quoteInto('id = ?', $updateData['dbaseID']);
-	
-	$updateUsers = $users->update($userdetails,$whereUsers);	
-	}
-	$insert = $this->_peoples->insert($insertData);		
-	$this->_redirect(self::REDIRECT . 'person/id/' . $insert);
-	$this->_flashMessenger->addMessage('Record created!');
-	} else {
-	$form->populate($formData);
-	}
-	}
-	}
-	/** Edit person's data
-	*/
-	public function editAction() {
-	if($this->_getParam('id',false)) {
-	$form = new PeopleForm();
-	$form->submit->setLabel('Update details on database...');
-	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-		$address = $form->getValue('address') . ',' . $form->getValue('city') . ','
-	. $form->getValue('county') . ',' . $form->getValue('postcode');
-	$coords = $this->_geocoder->getCoordinates($address);
-	if($coords){
-		$lat = $coords['lat'];
-		$long = $coords['lon']; 
-	} else {
-		$lat = NULL;
-		$lon = NULL;
-	}
-	$place = $this->_pm->get($address);
-	$woeid = $place->woeid;
-	$updateData = array(
-		'forename' => $form->getValue('forename'),
-		'surname' => $form->getValue('surname'),
-		'fullname' => $form->getValue('fullname'),
-		'title' => $form->getValue('title'),
-		'county' => $form->getValue('county'),
-		'email' => $form->getValue('email'),
-		'address' => $form->getValue('address'),
-		'town_city' => $form->getValue('town_city'),
-		'county' => $form->getValue('county'),
-		'postcode' => $form->getValue('postcode'),
-		'country' => $form->getValue('country'),
-		'hometel' => $form->getValue('hometel'),
-		'worktel' => $form->getValue('worktel'),
-		'faxno' => $form->getValue('fax'),
-		'dbaseID' => $form->getValue('dbaseID'),
-		'comments' => $form->getValue('comments'),
-		'primary_activity' => $form->getValue('primary_activity'),
-		'updated' => $this->getTimeForForms(), 
-		'updatedBy' => $this->getIdentityForForms(),
-	 	'organisationID' => $form->getValue('organisationID'),
-		'lat' => $lat,
-		'lon' => $lon,
-		'woeid' => $woeid 		
-		);
-	foreach ($updateData as $key => $value) {
-      if (is_null($value) || $value=="") {
-       $updateData[$key] = NULL;
-      }
+    /** Display details of a person
+    */
+    public function personAction(){
+    if($this->_getParam('id',false)) {
+    $this->view->peoples = $this->_peoples->getPersonDetails($this->_getParam('id'));
+    $finds = new Finds();
+    $this->view->finds = $finds->getFindsToPerson($this->_getAllParams());
+    } else {
+            throw new Exception($this->_missingParameter);
     }
-	$auditData = $updateData;
-	$audit = $this->_peoples->fetchRow('id=' . $this->_getParam('id'));
-	$oldarray = $audit->toArray();
-	if(array_key_exists('dbaseID',$updateData)){
-	$users = new Users();
-	$userdetails = array('peopleID' => $audit['secuid'],
-						 'updated' => $updateData['updated'],
-						 'updatedBy' => $updateData['updatedBy']
-	);
-	
-	
-	$whereUsers =  $users->getAdapter()->quoteInto('id = ?', $updateData['dbaseID']);
-	
-	$updateUsers = $users->update($userdetails,$whereUsers);	
-	}
-	
-	$where =  $this->_peoples->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$update = $this->_peoples->update($updateData,$where);
-	
-	if (!empty($auditData)) {
-        // look for new fields with empty/null values
-        foreach ($auditData as $item => $value) {
-            if (empty($value)) {
-                if (!array_key_exists($item, $oldarray)) {
-                    // value does not exist in $oldarray, so remove from $newarray
-                    unset ($updateData[$item]);
-                } // if
-            } else {
-                // remove slashes (escape characters) from $newarray
-                $auditData[$item] = stripslashes($auditData[$item]);
-            } // if
-        } // foreach 
-        // remove entry from $oldarray which does not exist in $newarray
-        foreach ($oldarray as $item => $value) {
-            if (!array_key_exists($item, $auditData)) {
-                unset ($oldarray[$item]);
-            } // if
-        } // foreach
-    } //
+    }
 
-	$fieldarray   = array();
-    $ix           = 0;
-	$editID = md5($this->getTimeForForms());
-    foreach ($oldarray as $field_id => $old_value) {
-        $ix++;
-		$fieldarray[$ix]['personID']     = $this->_getParam('id');
-		$fieldarray[$ix]['editID']     = $editID;
-        $fieldarray[$ix]['created']     = $this->getTimeForForms();
-		$fieldarray[$ix]['createdBy']     = $this->getIdentityForForms();
-        $fieldarray[$ix]['fieldName']     = $field_id;
-        $fieldarray[$ix]['beforeValue']    = $old_value;
-        if (isset($auditData[$field_id])) {
-            $fieldarray[$ix]['afterValue'] = $auditData[$field_id];
-            // remove matched entry from $newarray
-            unset($auditData[$field_id]);
-        } else {
-            $fieldarray[$ix]['afterValue'] = '';
-        } // if
-    } // foreach
+    /** Add personal data
+    */
+    public function addAction() {
+    $secuid = $this->secuid();
+    $form = new PeopleForm();
+    $form->submit->setLabel('Add a new person');
+    $this->view->form = $form;
+    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if ($form->isValid($form->getValues())) {
+    $updateData = $form->getValues(); 
+    $address = $form->getValue('address') . ',' . $form->getValue('city') . ','
+    . $form->getValue('county') . ',' . $form->getValue('postcode');
     
-    // process any unmatched details remaining in $newarray
-    foreach ($auditData as $field_id => $new_value) {
-        $ix++;
-		$fieldarray[$ix]['personID']     = $this->_getParam('id');
-		$fieldarray[$ix]['editID']     = $editID;
-        $fieldarray[$ix]['created']     = $this->getTimeForForms();
-		$fieldarray[$ix]['createdBy']     = $this->getIdentityForForms();
-        $fieldarray[$ix]['fieldName']     = $field_id;
-        $fieldarray[$ix]['afterValue']    = $new_value;
-		
-    } 
-	function filteraudit($fieldarray)
-	{
-	if ($fieldarray['afterValue'] != $fieldarray['beforeValue'])
-	  {
-	return true;
-	  }
-	}
-	
-	$fieldarray = array_filter($fieldarray,'filteraudit');
-	
-	foreach($fieldarray as $f){
-	foreach ($f as $key => $value) {
-      if (is_null($value) || $value=="") {
-       $f[$key] = NULL;
-      }
+    $coords = $this->_geocoder->getCoordinates($address);
+    
+    if($coords){
+        $lat = $coords['lat'];
+        $lon = $coords['lon']; 
+    } else { 
+        $lat = NULL;
+        $lon = NULL;
     }
 
-	$audit = new PeopleAudit();
-	$auditBaby = $audit->insert($f);
-	}
-	$this->_flashMessenger->addMessage('Person information updated!');
-	$this->_redirect(self::REDIRECT . 'person/id/' . $this->_getParam('id'));
-	} else {
-	$form->populate($formData);
-	}
-	} else {
-	// find id is expected in $params['id']
-	$this->_flashMessenger->addMessage('No change to information');
-	$id = (int)$this->_request->getParam('id', 0);
-	if ($id > 0) {
-	$people = $this->_peoples->fetchRow('id=' . $id);
-	$form->populate($people->toArray());
-	}
-	}
-	} else {
-	throw new Exception($this->_missingParameter);
-	}
-	}
-	/** Delete a person's data
-	*/	
-	public function deleteAction() {
-	if ($this->_request->isPost()) {
-	$id = (int)$this->_request->getPost('id');
-	$del = $this->_request->getPost('del');
-	if ($del == 'Yes' && $id > 0) {
-	$where = 'id = ' . $id;
-	$this->_peoples->delete($where);
-	$this->_flashMessenger->addMessage('Record deleted!');
-	}
-	$this->_redirect(self::REDIRECT);
-	}  else  {
-	$id = (int)$this->_request->getParam('id');
-	if ($id > 0) {
-	$this->view->people = $this->_peoples->fetchRow('id=' . $id);
-	}
-	}
-	}
+
+    $updateData['lat'] = $lat;
+    $updateData['lon'] = $lon;
+    
+    if(array_key_exists('dbaseID',$updateData)){
+    $users = new Users();
+    $userdetails = array('peopleID' => $audit['secuid']);
+    $whereUsers =  $users->getAdapter()->quoteInto('id = ?', 
+            $updateData['dbaseID']);
+    $updateUsers = $users->update($userdetails,$whereUsers);	
+    }
+    $insert = $this->_peoples->insert($insertData);		
+    $this->_redirect(self::REDIRECT . 'person/id/' . $insert);
+    $this->_flashMessenger->addMessage('Record created!');
+    } else {
+        Zend_Debug::dump($form->getValues());
+    $form->populate($_POST);
+    }
+    }
+    }
+    /** Edit person's data
+    */
+    public function editAction() {
+    if($this->_getParam('id', false)) {
+    $form = new PeopleForm();
+    $form->submit->setLabel('Update details');
+    $this->view->form = $form;
+    if($this->getRequest()->isPost() && $form->isValid($_POST)){
+    if ($form->isValid($form->getValues())) {
+    $updateData = $form->getValues(); 
+    $address = $form->getValue('address') . ',' . $form->getValue('city') . ','
+    . $form->getValue('county') . ',' . $form->getValue('postcode');
+    
+    $coords = $this->_geocoder->getCoordinates($address);
+    
+    if($coords){
+        $lat = $coords['lat'];
+        $lon = $coords['lon']; 
+    } else { 
+        $lat = NULL;
+        $lon = NULL;
+    }
+
+    $updateData['lat'] = $lat;
+    $updateData['lon'] = $lon;
+
+    $oldData = $this->_peoples->fetchRow('id=' . $this->_getParam('id'))->toArray();
+   
+    if(array_key_exists('dbaseID',$updateData)){
+    $users = new Users();
+    $userdetails = array('peopleID' => $oldData['secuid']);
+    $whereUsers =  $users->getAdapter()->quoteInto('id = ?', $updateData['dbaseID']);
+    $updateUsers = $users->update($userdetails, $whereUsers);	
+    } 
+
+    $where =  $this->_peoples->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+    $update = $this->_peoples->update($updateData, $where);
+    $this->_helper->audit($updateData, $oldData, 'PeopleAudit', 
+            $this->_getParam('id'));
+    $this->_flashMessenger->addMessage('Person information updated!');
+    $this->_redirect(self::REDIRECT . 'person/id/' . $this->_getParam('id'));
+    } else {
+    
+    $form->populate($_POST);
+
+    }
+    } else {
+      $id = (int)$this->_request->getParam('id', 0);
+    if ($id > 0) {
+    $people = $this->_peoples->fetchRow('id=' . $id)->toArray();
+    $form->populate($people);
+    }
+    }
+    } else {
+    throw new Exception($this->_missingParameter);
+    }
+    }
+    /** Delete a person's data
+    */	
+    public function deleteAction() {
+    if ($this->_request->isPost()) {
+    $id = (int)$this->_request->getPost('id');
+    $del = $this->_request->getPost('del');
+    if ($del == 'Yes' && $id > 0) {
+    $where = 'id = ' . $id;
+    $this->_peoples->delete($where);
+    $this->_flashMessenger->addMessage('Record deleted!');
+    }
+    $this->_redirect(self::REDIRECT);
+    }  else  {
+    $id = (int)$this->_request->getParam('id');
+    if ($id > 0) {
+    $this->view->people = $this->_peoples->fetchRow('id=' . $id);
+    }
+    }
+    }
 	
 }

@@ -38,8 +38,6 @@ public function __construct($options = null) {
 	->addFilters(array('StringTrim','WordChars','BasicHtml','EmptyParagraph'))
 	->addDecorator('HtmlTag',array('tag' => 'li'));
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')

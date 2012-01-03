@@ -93,8 +93,6 @@ parent::__construct($options);
 	'details')
 	->removeDecorator('HtmlTag');
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
@@ -102,7 +100,8 @@ parent::__construct($options);
 		->setTimeout(4800);
 	$this->addElement($hash);
 	
-	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
+	$this->details->addDecorators(array('FormElements',array('HtmlTag', 
+            array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	$this->details->removeDecorator('HtmlTag');
 	$this->details->setLegend('Period details: ');

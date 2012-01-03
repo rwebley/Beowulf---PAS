@@ -123,8 +123,6 @@ public function __construct($options = null) {
 	$district, $parish, $gridref, $comments,
 	$record_method,	$submit));
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')

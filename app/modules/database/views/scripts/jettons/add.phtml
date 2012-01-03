@@ -1,4 +1,13 @@
 <h2>Add jetton data</h2>
-<p>You can copy your <a href="<?php echo $this->url(array('module' => 'database','controller' => 'coins','action' => 'add','copy' => 'last'),null,false);?>" title="Autofill form fields from last record you created" id="populate" accesskey="c">last record</a></p>
+<p>You can copy your <a href="<?php echo $this->url(array(
+    'module' => 'database', 'controller' => 'coins', 'action' => 'add',
+    'copy' => 'last'),null,false);?>" title="Autofill form fields from last 
+    record you created" id="populate" accesskey="c">last record</a></p>
 
-<?php echo $this->form;?>
+<?php 
+$this->jQuery()->addJavascriptFile($this->baseUrl() 
+        . '/js/JQuery/jQueryLinkedSelect.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl() 
+        . '/js/JQuery/coinslinkedselect.js',$type='text/javascript'); 
+	
+echo $this->form;?>

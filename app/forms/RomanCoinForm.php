@@ -69,7 +69,7 @@ public function __construct($options = null)
 		->setDecorators($decorators);
 	
 	
-	$ruler= new Zend_Form_Element_Select('ruler');
+	$ruler= new Zend_Form_Element_Select('ruler_id');
 	$ruler->setLabel('Ruler: ')
 		->setDecorators($decorators)
 		->addMultiOptions(array(NULL => NULL,'Choose a ruler' => $ro))
@@ -201,8 +201,6 @@ public function __construct($options = null)
 		->addDecorator('HtmlTag', array('placement' => 'prepend','tag'=>'div','id'=>'radios'))
 		->setDecorators($decorators);
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
@@ -244,7 +242,7 @@ public function __construct($options = null)
 	$submit, $hash));
 	
 	$this->addDisplayGroup(array(
-	'denomination','denomination_qualifier','ruler',
+	'denomination','denomination_qualifier','ruler_id',
 	'ruler_qualifier','mint_id','mint_qualifier',
 	'reeceID','revtypeID','revTypeID_qualifier',
 	'moneyer','moneyer_qualifier','status',

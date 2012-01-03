@@ -23,7 +23,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	/** Setup the default timezone
 	*/ 	
 	protected function _initDate() {
-	date_default_timezone_set(Zend_Registry::get('config')->settings->application->datetime);
+	date_default_timezone_set(Zend_Registry::get('config')
+                ->settings
+                ->application
+                ->datetime);
 	}
 	
 	/** Initialise the database or throw error
@@ -149,18 +152,31 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     
 	/** Initialise the ACL objects
 	*/ 
-	protected function _initAcl(){
+	protected function _initHelpers(){
 	$acl = new Pas_Acl();
 	$aclHelper = new Pas_Controller_Action_Helper_Acl(null, array('acl'=>$acl));
 	Zend_Registry::set('acl',$acl);
 	Zend_Controller_Action_HelperBroker::addHelper($aclHelper);
-	}
 	
-	/** Initialise the send file action helper
-	*/ 	
-	protected function _initSendFile(){
 	$sendFile = new Pas_Controller_Action_Helper_SendFile();
 	Zend_Controller_Action_HelperBroker::addHelper($sendFile);
-	}
+	
+        $configObject = new Pas_Controller_Action_Helper_Config();
+	Zend_Controller_Action_HelperBroker::addHelper($configObject);   
+        
+        $geocoder = new Pas_Controller_Action_Helper_GeoCoder();
+        Zend_Controller_Action_HelperBroker::addHelper($geocoder);
+        
+        $identity = new Pas_Controller_Action_Helper_Identity();
+        Zend_Controller_Action_HelperBroker::addHelper($identity);
+//        
+//        $akismet = new Pas_Controller_Action_Helper_Akismet();
+//        Zend_Controller_Action_HelperBroker::addHelper($akismet);
+        
+        $audit = new Pas_Controller_Action_Helper_Audit();
+        Zend_Controller_Action_HelperBroker::addHelper($audit);
+        
+        }
+        
     
 }

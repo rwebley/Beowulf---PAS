@@ -51,13 +51,25 @@ class Pas_Db_Table_Abstract
 	 * @param array $data
 	 */
 	public function add($data){
+        
+        if(array_key_exists('csrf', $data)){
+            unset($data['csrf']);
+        }
 	if(empty($data['created'])){
 		$data['created'] = $this->timeCreation();
 	}
 	if(empty($data['createdBy'])){
 		$data['createdBy'] = $this->userNumber();
 	}
-	return parent::insert($data);	
+        
+        foreach($data as $k => $v) {
+
+            if ( $v == "") {
+            $data[$k] = NULL;
+            }
+        }
+
+        return parent::insert($data);	
 	}
 	
 	/** Update the data to the model
@@ -65,13 +77,25 @@ class Pas_Db_Table_Abstract
 	 * @param array $data
 	 */
 	public function update( $data, $where){
+        
+        if(array_key_exists('csrf', $data)){
+        unset($data['csrf']);
+        }
+        
 	if(empty($data['updated'])){
 		$data['updated'] = $this->timeCreation();
 	}
 	if(empty($data['updatedBy'])){
 		$data['updatedBy'] = $this->userNumber();
 	}
-	 $tableSpec = ($this->_schema ? $this->_schema . '.' : '') . $this->_name;
+        
+        foreach($data as $k => $v) {
+            if ( $v == "") {
+            $data[$k] = NULL;
+            }
+        }
+    
+	$tableSpec = ($this->_schema ? $this->_schema . '.' : '') . $this->_name;
 	return parent::update( $data, $where);
 	}
 	

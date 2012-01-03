@@ -22,13 +22,15 @@ class Comments extends Pas_Db_Table_Abstract {
 	public function getFindComments($id){
 	$comments = $this->getAdapter();
 	$select = $comments->select()
-		->from($this->_name, array('comment_id', 'df' => 'DATE_FORMAT(comment_date,"%T on the %D %M %Y")',
-		'comment_author','comment_author_url', 'comment_content', 'comment_author_email'))
-		->joinLeft('finds','finds.id = comments.comment_findID',array())
-		->where('finds.id = ?',$id)
-		->where('comments.comment_type  = ?','recordcomment')
-		->where('comments.comment_approved = ?','approved')
-		->order('comment_date ASC');
+            ->from($this->_name, array(
+                'comment_id', 'df' => 'DATE_FORMAT(comments.created,"%T on the %D %M %Y")',
+		'comment_author', 'comment_author_url', 'comment_content', 
+                'comment_author_email'))
+            ->joinLeft('finds','finds.id = comments.comment_findID',array())
+            ->where('finds.id = ?',$id)
+            ->where('comments.comment_type  = ?','recordcomment')
+            ->where('comments.comment_approved = ?','approved')
+            ->order('comments.created ASC');
 	return $comments->fetchAll($select);
     }
     
@@ -40,12 +42,15 @@ class Comments extends Pas_Db_Table_Abstract {
 	public function getCommentsNews($id) {
 	$comments = $this->getAdapter();
 	$select = $comments->select()
-		->from($this->_name, array('comment_id','df' => 'DATE_FORMAT(comment_date,"%T on the  %D %M %Y")','comment_author','comment_author_url','comment_content','comment_author_email'))
-		->joinLeft('finds','finds.id = comments.comment_findID', array())
-		->where('finds.id = ?',$id)
-		->where('comments.comment_type  = ?','newscomments')
-		->where('comments.comment_approved = ?','approved')
-		->order('comment_date ASC');
+            ->from($this->_name, array(
+                'comment_id', 'df' => 'DATE_FORMAT(comments.created,"%T on the  %D %M %Y")',
+                'comment_author','comment_author_url','comment_content',
+                'comment_author_email'))
+            ->joinLeft('finds','finds.id = comments.comment_findID', array())
+            ->where('finds.id = ?',$id)
+            ->where('comments.comment_type  = ?','newscomments')
+            ->where('comments.comment_approved = ?','approved')
+            ->order('comments.created ASC');
 	return $comments->fetchAll($select);
     }
 	
@@ -59,12 +64,12 @@ class Comments extends Pas_Db_Table_Abstract {
     public function getComments($params,$userID = NULL) {
 	$comments = $this->getAdapter();
 	$select = $comments->select()
-		->from($this->_name, array('comment_ID','df' => 'DATE_FORMAT(comment_date,"%T @ %D %M %Y")',
+		->from($this->_name, array('comment_ID','df' => 'DATE_FORMAT(comments.created,"%T @ %D %M %Y")',
 		'comment_author','comment_author_url','comment_content','comment_approved','user_ip',
 		'comment_author_email','comment_type'))
 		->joinLeft('finds','finds.id = comments.comment_findID',array('id','old_findID',
 		'broadperiod','objecttype'))
-		->order('comment_date DESC');
+		->order('comments.created DESC');
 	if(isset($params['approval']) && $params['approval'] == 'spam') {
 	$select->where('comments.comment_approved = ?',(string)'spam');
 	}
@@ -113,7 +118,7 @@ class Comments extends Pas_Db_Table_Abstract {
 	public function getCommentsOnMyRecords($userid,$page,$approval) {
 	$comments = $this->getAdapter();
 	$select = $comments->select()
-		->from($this->_name,array('comment_ID','df' => 'DATE_FORMAT(comment_date,"%T @ %D %M %Y")',
+		->from($this->_name,array('comment_ID','df' => 'DATE_FORMAT(comments.created,"%T @ %D %M %Y")',
 		'comment_author','comment_author_url','comment_content','comment_approved','user_ip',
 		'comment_author_email'))
 		->joinLeft('finds','finds.id = comments.comment_findID',array('id','old_findID','broadperiod',
@@ -147,7 +152,7 @@ class Comments extends Pas_Db_Table_Abstract {
 	public function getCommentsToFinds($page) {
 	$comments = $this->getAdapter();
 	$select = $comments->select()
-		->from($this->_name,array('comment_ID','df' => 'DATE_FORMAT(comment_date,"%T @ %D %M %Y")','comment_author','comment_author_url','comment_content','comment_approved','user_IP','comment_author_email','comment_type','updated','comment_date'))
+		->from($this->_name,array('comment_ID','df' => 'DATE_FORMAT(comments.created,"%T @ %D %M %Y")','comment_author','comment_author_url','comment_content','comment_approved','user_IP','comment_author_email','comment_type','updated','created'))
 		->joinLeft('finds','finds.id = comments.comment_findID',array('id','old_findID','broadperiod','objecttype'))
 		->joinLeft('finds_images','finds.secuid = finds_images.find_id',array())
 		->joinLeft('slides','slides.secuid = finds_images.image_id',array('i' => 'imageID','f' => 'filename')) 
@@ -155,7 +160,7 @@ class Comments extends Pas_Db_Table_Abstract {
 		->joinLeft('findspots','finds.secuid = findspots.findID',array('county'))
 		->where('comment_type = ?','recordcomment')
 		->where('comment_approved = ?',(string)'approved')
-		->order('comment_date DESC,finds.id ')
+		->order('created DESC,finds.id ')
 		->group('comment_ID');
 	$paginator = Zend_Paginator::factory($select);
 	$paginator->setItemCountPerPage(30) 

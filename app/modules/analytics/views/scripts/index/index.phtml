@@ -1,0 +1,10 @@
+<?php
+$this->headTitle('Analytics data provided via Google Analytics');
+?>
+<h2>Analytics data</h2>
+<ul>
+<?php foreach($this->result as $k):?>    
+    <li>Source: <?php echo $k['source'];?> Medium: <?php echo $k['medium'];?> 
+        Visits: <?php echo $k['visits'];?> Bounce: <?php echo $k['bounce'];?></li>    
+<?php endforeach;?>    
+</ul>

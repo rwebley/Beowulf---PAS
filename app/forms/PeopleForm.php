@@ -5,7 +5,7 @@
 * @copyright  Copyright (c) 2011 DEJ Pett dpett @ britishmuseum . org
 * @license    GNU General Public License
 */
-class PeopleForm extends Zend_Form {
+class PeopleForm extends Pas_Form {
 
 public function __construct($options = null) {
 	$users = new Users();
@@ -54,13 +54,11 @@ parent::__construct($options);
 	$forename->setLabel('Forename: ')
 		->setRequired(true)
 		->addFilters(array('StripTags','StringTrim'))
-		->addValidator('Alnum',false, array('allowWhiteSpace' => true))
 		->addErrorMessage('Please enter person\'s forename')
 		->setDecorators($decorators);
 
 	$surname = new Zend_Form_Element_Text('surname');
 	$surname->setLabel('Surname: ')
-		->addValidator('Alnum',false, array('allowWhiteSpace' => true))
 		->setRequired(true)
 		->addFilters(array('StripTags','StringTrim'))
 		->addErrorMessage('Please enter person\'s surname')
@@ -71,7 +69,6 @@ parent::__construct($options);
 		->setRequired(true)
 		->addFilters(array('StripTags','StringTrim'))
 		->addErrorMessage('Please enter person\'s fullname')
-		->addValidator('Alnum',false, array('allowWhiteSpace' => true))
 		->setDecorators($decorators);
 
 	$email = new Zend_Form_Element_Text('email');
@@ -126,13 +123,13 @@ parent::__construct($options);
 		->addValidator('StringLength', false, array(1,200))
 		->addValidator('PostCode')
 		->setDecorators($decorators)
-		->addValidator('Alpha',false, array('allowWhiteSpace' => true));
+		->addValidator('Alnum',false, array('allowWhiteSpace' => true));
 
 	$country = new Zend_Form_Element_Select('country');
 	$country->SetLabel('Country: ')
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
-		->addValidator('StringLength', false, array(1,200))
+		->addValidator('StringLength', false, array(1,4))
 		->addValidator('InArray', false, array(array_keys($countries_options)))
 		->addMultiOptions(array(NULL => 'Please choose a country of residence',
 		'Valid countries' => $countries_options))
@@ -155,7 +152,7 @@ parent::__construct($options);
 		->addValidator('StringLength', false, array(1,30))
 		->setDecorators($decorators);
 
-	$fax = new Zend_Form_Element_Text('fax');
+	$fax = new Zend_Form_Element_Text('faxno');
 	$fax->SetLabel('Fax number: ')
 		->addFilters(array('StripTags','StringTrim'))
 		->addValidator('Digits')
@@ -169,7 +166,8 @@ parent::__construct($options);
 		->setAttrib('cols',40)
 		->setAttrib('Height',400)
 		->setAttrib('ToolbarSet','Finds')
-		->addFilters(array('StringTrim', 'BasicHtml', 'EmptyParagraph', 'WordChars'));
+		->addFilters(array('StringTrim', 'BasicHtml', 'EmptyParagraph', 
+                    'WordChars'));
 
 	$organisationID = new Zend_Form_Element_Select('organisationID');
 	$organisationID->SetLabel('Organisation attached to: ')
@@ -204,8 +202,6 @@ parent::__construct($options);
 	$worktel, $fax, $comments,
 	$organisationID, $primary_activity, $submit));
 
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')
@@ -218,7 +214,7 @@ parent::__construct($options);
 	'fullname','email','address',
 	'town_city','county','postcode',
 	'country','dbaseID','hometel',
-	'worktel','fax','comments',
+	'worktel','faxno','comments',
 	'organisationID','primary_activity'), 
 	'details');
 	$this->details->setLegend('Person details: ');

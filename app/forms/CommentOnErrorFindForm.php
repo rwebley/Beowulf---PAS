@@ -35,7 +35,7 @@ parent::__construct($options);
 
 	$this->setName('comments');
 
-	$comment_author_IP = new Zend_Form_Element_Hidden('comment_author_IP');
+	$comment_author_IP = new Zend_Form_Element_Hidden('user_ip');
 	$comment_author_IP->removeDecorator('HtmlTag')
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('Label')
@@ -44,7 +44,7 @@ parent::__construct($options);
 	->addValidator('Ip')
 	->setValue($_SERVER['REMOTE_ADDR']);
 
-	$comment_agent = new Zend_Form_Element_Hidden('comment_agent');
+	$comment_agent = new Zend_Form_Element_Hidden('user_agent');
 	$comment_agent->removeDecorator('HtmlTag')
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('Label')

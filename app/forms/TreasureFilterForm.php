@@ -70,8 +70,6 @@ public function __construct($options = null) {
 		->addMultiOptions(array(NULL => NULL,'Choose county' => $county_options))
 		->addValidator('InArray', false, array(array_keys($county_options)));
 	
-	$config = Zend_Registry::get('config');
-	$_formsalt = $config->form->salt;
 	$hash = new Zend_Form_Element_Hash('csrf');
 	$hash->setValue($this->_config->form->salt)
 		->removeDecorator('DtDdWrapper')

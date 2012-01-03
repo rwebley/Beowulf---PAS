@@ -13,8 +13,7 @@ class Bronzeage_IndexController extends Pas_Controller_Action_Admin {
 	*/ 
 	public function init(){
  	$this->_helper->_acl->allow(null);
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-    }
+        }
 
 	/** Render the index pages
 	*/ 
