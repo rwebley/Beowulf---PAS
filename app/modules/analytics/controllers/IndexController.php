@@ -20,7 +20,6 @@ class Analytics_IndexController extends Pas_Controller_Action_Admin {
     
     public function init() {
  	$this->_helper->_acl->allow(null); 
-
         $this->_googleID = $this->_helper->config()->webservice->google->username;
         $this->_googlePassword = $this->_helper->config()->webservice->google->password;
         
