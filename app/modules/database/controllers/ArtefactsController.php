@@ -276,11 +276,8 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     }
     $last = $this->_getParam('copy');
     $this->view->secuid = $secuid;
-    $this->view->findID = $findID;
-    $this->view->headTitle('Add a find');
     $form = new FindForm();
     $form->submit->setLabel('Save record');
-    $form->findID->setValue('Find number: <strong>'.$findID.'</strong>');
     $form->old_findID->setValue($findID);
     $form->secuid->setValue($secuid);
     if(isset($secure)){
@@ -315,9 +312,15 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     $insertData['old_findID'] = $findID;
     $insertData['secwfstage'] = (int)2;
     $insertData['institution'] = $this->getInstitution();
-    $insert = $this->_finds->insert($insertData);
+     unset($insertData['recordername']);
+    unset($insertData['finder']);
+    unset($insertData['idBy']);
+    unset($insertData['id2by']);
+    unset($insertData['secondfinder']);
+    $insert = $this->_finds->add($insertData);
     $solr = new Pas_Solr_Updater();
     $solr->add($insert,'beowulf');
+    $this->_helper->solrUpdater->update('beowulf', $insert);
     $this->_redirect(self::REDIRECT . 'record/id/' . $insert);
     $this->_flashMessenger->addMessage('Record created!');
     } else  {
@@ -354,15 +357,18 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     unset($updateData['recordername']);
     unset($updateData['finder']);
     unset($updateData['idBy']);
-    unset($updateData['idby2']);
+    unset($updateData['id2by']);
 
+    unset($updateData['secondfinder']);
     $oldData = $this->_finds->fetchRow('id=' . $this->_getParam('id'))->toArray();
     $where = array();
     $where[] = $this->_finds->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
     $this->_finds->update($updateData, $where);
     $solr = new Pas_Solr_Updater();
     $solr->add($this->_getParam('id'),'beowulf');
-    $this->_helper->audit($updateData, $oldData, 'FindsAudit',  $this->_getParam('id'), $this->_getParam('id'));
+    $this->_helper->audit($updateData, $oldData, 'FindsAudit',  $this->_getParam('id'), 
+    	$this->_getParam('id'));
+    $this->_helper->solrUpdater->update('beowulf', $this->_getParam('id'));
     $this->_flashMessenger->addMessage('Artefact information updated and audited!');
     $this->_redirect(self::REDIRECT . 'record/id/' . $this->_getParam('id'));
     } else {
@@ -403,8 +409,8 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
             $findID);
     $this->_flashMessenger->addMessage('Record deleted!');
     $findspots->delete($whereFindspots);
-    $solr = new Pas_Solr_Updater();
-    $solr->delete($id);
+
+    $this->_helper->solrUpdater->deleteById('beowulf', $id);
     $this->_redirect(self::REDIRECT);
     }
     $this->_flashMessenger->addMessage('No changes made!');

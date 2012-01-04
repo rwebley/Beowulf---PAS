@@ -153,33 +153,37 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	/** Initialise the ACL objects
 	*/ 
 	protected function _initHelpers(){
-	$acl = new Pas_Acl();
-	$aclHelper = new Pas_Controller_Action_Helper_Acl(null, array('acl'=>$acl));
-	Zend_Registry::set('acl',$acl);
-	Zend_Controller_Action_HelperBroker::addHelper($aclHelper);
-	
-	$sendFile = new Pas_Controller_Action_Helper_SendFile();
-	Zend_Controller_Action_HelperBroker::addHelper($sendFile);
+		$acl = new Pas_Acl();
+		$aclHelper = new Pas_Controller_Action_Helper_Acl(null, array('acl' => $acl));
+		Zend_Registry::set('acl',$acl);
+		Zend_Controller_Action_HelperBroker::addHelper($aclHelper);
+		
+		$sendFile = new Pas_Controller_Action_Helper_SendFile();
+		Zend_Controller_Action_HelperBroker::addHelper($sendFile);
 	
         $configObject = new Pas_Controller_Action_Helper_Config();
-	Zend_Controller_Action_HelperBroker::addHelper($configObject);   
+		Zend_Controller_Action_HelperBroker::addHelper($configObject);   
         
         $geocoder = new Pas_Controller_Action_Helper_GeoCoder();
         Zend_Controller_Action_HelperBroker::addHelper($geocoder);
         
         $identity = new Pas_Controller_Action_Helper_Identity();
         Zend_Controller_Action_HelperBroker::addHelper($identity);
-//        
-//        $akismet = new Pas_Controller_Action_Helper_Akismet();
-//        Zend_Controller_Action_HelperBroker::addHelper($akismet);
+        
+        $akismet = new Pas_Controller_Action_Helper_Akismet();
+        Zend_Controller_Action_HelperBroker::addHelper($akismet);
         
         $audit = new Pas_Controller_Action_Helper_Audit();
         Zend_Controller_Action_HelperBroker::addHelper($audit);
         
         $coinForm = new Pas_Controller_Action_Helper_CoinFormLoader();
         Zend_Controller_Action_HelperBroker::addHelper($coinForm);
+        
         $coinFormLoader = new Pas_Controller_Action_Helper_CoinFormLoaderOptions();
         Zend_Controller_Action_HelperBroker::addHelper($coinFormLoader);
+        
+        $solr = new Pas_Controller_Action_Helper_SolrUpdater();
+        Zend_Controller_Action_HelperBroker::addHelper($solr);
         
         }
         

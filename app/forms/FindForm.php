@@ -709,9 +709,7 @@ public function __construct($options = null) {
 	$this->addElement($hash);
 
 
-	$findID = $this->addElement('rawText', 'findID');
-	$findID->removeDecorator('HtmlTag');
-	$findID->removeDecorator('DtDdWrapper'); 
+	
 
 	//Submit button 
 	$submit = new Zend_Form_Element_Submit('submit');
@@ -721,7 +719,7 @@ public function __construct($options = null) {
 				  ->removeDecorator('DtDdWrapper');
 			  
 	$this->addElements(array(
-	$findID, $secuid, $old_findID,
+	$secuid, $old_findID,
 	$objecttype, $broadperiod, $objdate1period,
 	$objdate1subperiod, $objdate2subperiod,	$objdate2period, 
 	$numdate1, $numdate2, $culture,
@@ -745,12 +743,6 @@ public function __construct($options = null) {
 	$numdate1qual, $numdate2qual));
 		
 	$this->removeDecorator('DtDdWrapper');
-	$this->addDisplayGroup(array('findID'),'ids');
-	$this->ids->setDescription('Find number: ');
-	$this->ids->removeDecorator('DtDdWrapper');
-	$this->ids->removeDecorator('FieldSet');
-	$this->ids->removeDecorator('HtmlTag');
-	
 	$this->addDisplayGroup(array('objecttype','objecttypecert','classification',
 	'subclass','description','notes',
 	'inscription','findofnote','findofnotereason',

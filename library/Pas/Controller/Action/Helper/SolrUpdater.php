@@ -13,7 +13,8 @@
 class Pas_Controller_Action_Helper_SolrUpdater 
     extends Zend_Controller_Action_Helper_Abstract {
     
-    protected $_cores = array('beowulf', 'beopeople');
+    protected $_cores = array('beowulf', 'beopeople', 'beoimages',
+    'beopublications','beobiblio');
   
     protected $_solr;
     
@@ -24,81 +25,139 @@ class Pas_Controller_Action_Helper_SolrUpdater
     }
     
     public function getSolrConfig($core){
+    if(in_array($core, $this->_cores)){
     $solrAdapter = $this->_config;
     $solrAdapter['core'] = $core;
-    $this->_solr = new Solarium_Client(array(
-    'adapteroptions' => array(
+    $solr = new Solarium_Client(array(
+    'adapteroptions' => 
     $solrAdapter
-    )));
-    return $this->_solr;
+    ));
+    return $solr;
+    } else {
+    	throw new Exception('That core does not exist', 500);	
+    }
     }
     
     public function update($core, $id){
     $data = $this->getUpdateData($core, $id);
+
+    $this->_solr = $this->getSolrConfig($core);
     $update = $this->_solr->createUpdate();
     $doc = $update->createDocument();
-    foreach($data['0'] as $k => $v){
+    foreach($data as $k => $v){
     $doc->$k = $v;
     }
     $update->addDocument($doc);
     $update->addCommit();
-    return $this->_§solr->update($update);
+    return $this->_solr->update($update);
     }
     
     public function deleteById($core,$id){
+    $this->_solr = $this->getSolrConfig($core);
     $update = $this->_solr->createUpdate();
-    $update->addDeleteById($this->_getIdentifier($core) . $id);
+    $update->addDeleteByID( $this->_getIdentifier($core) . $id);
     $update->addCommit();
-    return $this->_solr->update($update);    
+    $update->addOptimize(true, false, 5);
+    return  $this->_solr->update($update);
     }
     
     protected function _getIdentifier($core){
-        
-        
+	if(in_array($core, $this->_cores)){
+		switch($core) {
+		case 'beowulf':
+                $identifier = 'finds-';
+                break;
+            case 'beopeople':
+            	$identifier = 'people-';
+                break;
+            case 'beocontent':
+            	$identifier = 'content-';
+                break;
+            case 'beobiblio':
+            	$identifier = 'biblio-';
+                break;
+            case 'beoimages':
+            	$identifier = 'images-';
+            	break;
+            case 'beopublications':
+            	$identifier = 'publications-';
+            	break;
+            default:
+                throw new Exception('Your core does not exist',500);
+                break;	
+		}   
+		return $identifier;
+	} else {
+		throw new Exception('That core does not exist', 500);
+	}    
     }
     
     public function getUpdateData($core, $id){
-        switch($core){
+	if(in_array($core, $this->_cores)){
+    	switch($core){
             case 'beowulf':
                 $model = new Finds();
-                $data = $model->getRecordData($id);
-                
                 break;
             case 'beopeople':
+            	$model = new People();
                 break;
             case 'beocontent':
+            	$model = new Content();
                 break;
+            case 'beobiblio':
+            	$model = new Bibliography();
+                break;
+            case 'beoimages':
+            	$model = new Slides();
+            	break;
             case 'beopublications':
-                break;
+            	$model = new Publications();
+            	break;
             default:
-                throw new Exception('Your core does not exist');
+                throw new Exception('Your core does not exist',500);
                 break;
         }
-        $data = $this->cleanData($data);
-        return $data;
+        $data = $model->getSolrData($id);
+        $cleanData = $this->cleanData($data[0]);
+        return $cleanData;
+         
+	} else {
+		throw new Exception('That core does not exist',500);
+	}
     }
 
     public function cleanData($data){
-        foreach ($data['0'] as $key => $value) {
-		  if (is_null($value) || $value === "") {
-			unset($data['0'][$key]);
-		  }
+	if(array_key_exists('datefound1',$data)){
+		if(!is_null($data['datefound1'])) {
+		$df1 = $this->todatestamp($data['datefound1']);
+		$data['datefound1'] = $df1;
+		} else {
+		$data['datefound1'] = NULL;	
+		}
 	}
-	if(array_key_exists('datefound1',$data['0'])){
-		$df1 = $this->todatestamp($data['0']['datefound1']);
-		$data['0']['datefound1'] = $df1;
+	if(array_key_exists('datefound2',$data)){
+		if(!is_null($data['datefound2'])) {
+		$df2 = $this->todatestamp($data['datefound2']);
+		$data['datefound2'] = $df2;
+		} else {
+		$data['datefound2'] = NULL;	
+		}
 	}
-	if(array_key_exists('datefound2',$data['0'])){
-		$df2 = $this->todatestamp($data['0']['datefound2']);
-		$data['0']['datefound2'] = $df2;
+	if(array_key_exists('created',$data)){
+		if(!is_null($data['created'])) {		
+		$created = $this->todatestamp($data['created']);
+		$data['created'] = $created;
+		} else {
+		$data['created'] = NULL;	
+		}
 	}
-	if(array_key_exists('created',$data['0'])){
-		$created = $this->todatestamp($data['0']['created']);
-		$data['0']['created'] = $created;
-	}
-	if(array_key_exists('updated',$data['0'])){
-		$updated = $this->todatestamp($data['0']['updated']);
-		$data['0']['updated'] = $updated;
+	if(array_key_exists('updated',$data)){
+		if(!is_null($data['updated'])) {
+		$updated = $this->todatestamp($data['updated']);
+		$data['updated'] = $updated;
+		} else {
+		$data['updated'] = NULL;	
+		}
 	}
 	return $data;
 	

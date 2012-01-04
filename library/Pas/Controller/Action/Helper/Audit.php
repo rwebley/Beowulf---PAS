@@ -21,7 +21,7 @@ class Pas_Controller_Action_Helper_Audit
         return md5($this->getTimeForForms());   
     }
     
-    public function direct( $auditData, $oldData, $model, $recordID, $findID = NULL ){
+    public function direct( $auditData, $oldData, $model, $recordID, $entityID ){
 
     if (!empty($auditData)) {
         unset($auditData['csrf']);
@@ -31,7 +31,7 @@ class Pas_Controller_Action_Helper_Audit
             if (empty($value)) {
                 if (!array_key_exists($item, $oldData)) {
                     // value does not exist in $oldarray, so remove from $newarray
-                    unset ($audit§Data[$item]);
+                    unset ($auditData[$item]);
                 } // if
             } else {
                 // remove slashes (escape characters) from $newarray
@@ -52,9 +52,9 @@ class Pas_Controller_Action_Helper_Audit
     foreach ($oldData as $field_id => $old_value) {
     $ix++;
     $fieldarray[$ix]['recordID']     = $recordID;
-    if(!is_null($findID)){
-    $fieldarray[$ix]['findID']     = $findID;
-    }
+   
+    $fieldarray[$ix]['entityID']     = $entityID;
+  
     $fieldarray[$ix]['editID']     = $this->editID();
     $fieldarray[$ix]['fieldName']     = $field_id;
     $fieldarray[$ix]['beforeValue']    = $old_value;
@@ -72,9 +72,7 @@ class Pas_Controller_Action_Helper_Audit
     foreach ($auditData as $field_id => $new_value) {
     $ix++;
     $fieldarray[$ix]['recordID']     = $recordID;
-    if(!is_null($findID)){
-    $fieldarray[$ix]['findID']     = $findID;
-    }
+    $fieldarray[$ix]['entityID']     = $findID;
     $fieldarray[$ix]['editID']     = $this->editID();
     $fieldarray[$ix]['fieldName']     = $field_id;
     $fieldarray[$ix]['afterValue']    = $new_value;

@@ -2666,7 +2666,8 @@ class Finds extends Pas_Db_Table_Abstract {
 		'woeid',
 		'easting',
 		'northing',
-		'coordinates' => 'CONCAT(declat,",",declong)'
+		'coordinates' => 'CONCAT(declat,",",declong)',
+		'createdBy'
 		))
 		->joinLeft('coins', 'finds.secuid = coins.findID',array(
 		'geographyID',
@@ -2693,7 +2694,7 @@ class Finds extends Pas_Db_Table_Abstract {
 		->joinLeft('mints','mints.id = coins.mint_ID', array ('mintName' => 'mint_name'))
 		->joinLeft('denominations','coins.denomination = denominations.id', array('denominationName' => 'denomination'))
 		->joinLeft('rulers','coins.ruler_id = rulers.id',array('rulerName' => 'issuer'))
-		->joinLeft('users','users.id = finds.createdBy', array('createdBy' => 'fullname','imagedir'))
+		->joinLeft('users','users.id = finds.createdBy', array('imagedir'))
 		->joinLeft(array('users2' => 'users'),'users2.id = finds.updatedBy', 
 		array('updatedBy' => 'fullname'))
 		->joinLeft(array('mat' =>'materials'),'finds.material1 = mat.id', array('materialTerm' =>'term'))
@@ -2708,13 +2709,6 @@ class Finds extends Pas_Db_Table_Abstract {
 		->joinLeft(array('p' => 'periods'),'finds.objdate2period = p.id', array('periodToName' => 'term'))
 		->joinLeft('cultures','finds.culture = cultures.id', array('culturename' => 'term'))
 		->joinLeft('discmethods','discmethods.id = finds.discmethod', array('discoveryMethod' => 'method'))
-		->joinLeft('people','finds.finderID = people.secuid', array('finder' => 'CONCAT(people.title," ",people.forename," ",people.surname)'))
-		->joinLeft(array('ident1' => 'people'),'finds.identifier1ID = ident1.secuid', 
-		array('identifier' => 'CONCAT(ident1.forename," ",ident1.surname)'))
-//		->joinLeft(array('ident2' => 'people'),'finds.identifier2ID = ident2.secuid', 
-//		array('secondaryIdentifier' => 'CONCAT(ident2.forename," ",ident2.surname)'))
-		->joinLeft(array('record' => 'people'),'finds.recorderID = record.secuid', 
-		array('recorder' => 'CONCAT(record.title," ",record.forename," ",record.surname)'))
 		->joinLeft('subsequentActions','finds.subs_action = subsequentActions.id', 
 		array('subsequentActionTerm' => 'action'))
 		->joinLeft('finds_images','finds.secuid = finds_images.find_id', array())

@@ -2,7 +2,9 @@
 <?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/autocompleteinitPeople.js',$type='text/javascript'); ?>
 <?php $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/ui.datepicker.js',$type='text/javascript'); ?>
 <?php $this->headLink()->appendStylesheet($this->baseUrl().'/css/autocomplete.css')
-->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');?>
+->appendStylesheet($this->baseUrl().'/css/ui.datepicker.css');
+$this->headTitle('Add a find');
+?>
 
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 $(document).ready(function() {

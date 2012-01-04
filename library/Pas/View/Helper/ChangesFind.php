@@ -19,7 +19,8 @@ class Pas_View_Helper_ChangesFind
 	public function buildHtml($a) {
 	$html = '';
 	$html .= '<li><a href="';
-	$html .= $this->view->url(array('module' => 'database', 'controller' => 'ajax', 'action' => 'audit','id' => $a['editID']),NULL,true);
+	$html .= $this->view->url(array('module' => 'database', 'controller' => 'ajax', 'action' => 'audit',
+	'id' => $a['editID']),NULL,true);
 	$html .= '" rel="facebox" title="View all changes on this date">';
 	$html .= $this->view->timeagoinwords($a['created']);
 	$html .= '</a> ';

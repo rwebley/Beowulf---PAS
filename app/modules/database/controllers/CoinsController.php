@@ -50,7 +50,8 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
     $insertData  = $form->getValues();
     $insertData['findID'] = (string) $this->_getParam('findID');
     $insertData['secuid'] = (string) $this->secuid();
-    $this->_coins->insert($insertData);
+    $insert = $this->_coins->add($insertData);
+    $this->_helper->solrUpdater->update('beowulf', $this->_getParam('returnID'));
     $this->_helper->flashMessenger->addMessage('Coin data saved.');
     $this->_redirect(self::REDIRECT . 'record/id/' 
             . $this->_getParam('returnID'));
@@ -83,6 +84,8 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
  
     $this->_helper->audit($updateData, $oldData, 'CoinsAudit', 
             $this->_getParam('id'), $this->_getParam('returnID'));
+    
+    $this->_helper->solrUpdater->update('beowulf', $this->_getParam('returnID'));
     $this->_helper->flashMessenger->addMessage('Numismatic details updated.');
     $this->_redirect(self::REDIRECT . 'record/id/' . $this->_getParam('returnID'));
     } else {

@@ -12,7 +12,7 @@
 */
 class FindsAudit extends Pas_Db_Table_Abstract {
 	
-	protected $_name = 'finds_audit';
+	protected $_name = 'findsAudit';
 	
 	protected $_primary = 'id';
 
@@ -24,12 +24,12 @@ class FindsAudit extends Pas_Db_Table_Abstract {
 	public function getChanges($id) {
 		$finds = $this->getAdapter();
 		$select = $finds->select()
-						->from($this->_name,array('finds_audit.created','findID','editID'))
-						->joinLeft('users','users.id = finds_audit.createdBy',
-						array('id','fullname','username'))
-						->where('finds_audit.findID= ?',(int)$id)
-						->order('finds_audit.id DESC')
-						->group('finds_audit.created');
+			->from($this->_name,array($this->_name . '.created','recordID','editID'))
+			->joinLeft('users','users.id = ' . $this->_name . '.createdBy',
+			array('id','fullname','username'))
+			->where($this->_name  . '.recordID = ?',(int)$id)
+			->order($this->_name  . '.id DESC')
+			->group($this->_name  . '.created');
 	return  $finds->fetchAll($select);
 	}
 
@@ -41,10 +41,12 @@ class FindsAudit extends Pas_Db_Table_Abstract {
 	public function getChange($id){
 		$finds = $this->getAdapter();
 		$select = $finds->select()
-						->from($this->_name,array('finds_audit.created','afterValue','fieldName','beforeValue'))
-						->joinLeft('users','users.id = finds_audit.createdBy',array('id','fullname','username'))
-						->where('finds_audit.editID= ?',$id)
-						->order($this->_name.'.id');
+			->from($this->_name,array($this->_name . '.created',
+			'afterValue','fieldName','beforeValue'))
+			->joinLeft('users','users.id = ' . $this->_name . '.createdBy',
+			array('id','fullname','username'))
+			->where($this->_name  . '.editID = ?',$id)
+			->order($this->_name.'.id');
 	return  $finds->fetchAll($select);
 	}
 }

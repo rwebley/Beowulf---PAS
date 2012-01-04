@@ -9,7 +9,9 @@
 	<document name="content">
         <entity name="images" transformer="HTMLStripTransformer" 
 query="
-SELECT imageID AS id, 
+SELECT 
+CONCAT('images-',imageID) AS identifier,
+imageID AS id, 
 label AS title, 
 filename, 
 keywords, 
@@ -38,6 +40,7 @@ LEFT JOIN users ON slides.createdBy = users.id
 LEFT JOIN licenseType ON slides.ccLicense = licenseType.id
 " 
 >        
+		<field column="identifier" name="identifier" />
 		<field column="id" name="id" />
 		<field column="filename" name="filename" />
 		<field column="county" name="county" />

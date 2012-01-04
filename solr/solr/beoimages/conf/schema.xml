@@ -452,8 +452,8 @@
      default: a value that should be used if no value is specified
        when adding a document.
    -->
-
-    <field name="id" type="string" indexed="true" stored="true" required="true" />
+	<filed name="identifier" type="string" indexed="true" stored="true" required="true" />
+    <field name="id" type="int" indexed="true" stored="true" required="true" />
 	<field name="title" type="string" indexed="true" stored="true" />
 	<field name="keywords" type="string" indexed="true" stored="true" />
 	<field name="woeid" type="int" indexed="true" stored="true" />

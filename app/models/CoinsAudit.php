@@ -21,9 +21,9 @@ class CoinsAudit extends Pas_Db_Table_Abstract {
 	public function getChanges($id) {
 	$finds = $this->getAdapter();
 	$select = $finds->select()
-		->from($this->_name,array($this->_name . '.created','findID','editID'))
+		->from($this->_name,array($this->_name . '.created','recordID','editID'))
 		->joinLeft('users','users.id = ' . $this->_name . '.createdBy', array('id','fullname','username'))
-		->where($this->_name . '.findID= ?',(int)$id)
+		->where($this->_name . '.recordID= ?',(int)$id)
 		->order($this->_name . '.id DESC')
 		->group($this->_name . '.created');
 	return  $finds->fetchAll($select);
