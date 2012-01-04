@@ -162,22 +162,17 @@ class Pas_Controller_Action_Helper_SolrUpdater
 	return $data;
 	
     }
-    public function fromString($date_string) {
-	if (is_integer($date_string) || is_numeric($date_string)) {
-	return intval($date_string);
-	} else {
-	return strtotime($date_string);
-	}
-	}
+    
 
     /** Format the date and return as unix stamp
 	* 
 	* @param string $date_string
 	*/
-	public function todatestamp($date_string) {
-	$date = $this->fromString($date_string);
-	$ret = date('Y-m-d\TH:i:s\Z', $date);
-	return $ret;
+	public function todatestamp($date) {
+	$st = strtotime($date);
+	$date = new Zend_Date();
+	$date->set($st);
+	return str_replace('+00:00','Z',$date->get(Zend_Date::W3C));
 	}
 }
 

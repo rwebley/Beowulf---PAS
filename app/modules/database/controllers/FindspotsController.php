@@ -17,6 +17,8 @@
 class Database_FindspotsController
 	extends Pas_Controller_Action_Admin {
 
+		
+	protected $_findspots;
 	/** The Yahoo! appid variable for placemaker
 	 * 
 	 * @var string $_appid;
@@ -37,6 +39,7 @@ class Database_FindspotsController
 	$this->_helper->_acl->allow('flos',null);
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_appid = $this->_config->webservice->ydnkeys->placemakerkey;
+	$this->_findspots = new Findspots();
     }
 	
 
@@ -52,9 +55,8 @@ class Database_FindspotsController
 	 * @todo The audit function needs abstracting to make thin controller happen.
 	 */
 	public function addAction() {
-	$finds = new Findspots();
-	$finds = $finds->getFindtoFindspotsAdmin($this->_getParam('id'),$this->_getParam('secuid'));
-	if(count($finds) != 0){
+	$finds = $this->_findspots->getFindtoFindspotsAdmin($this->_getParam('id'),$this->_getParam('secuid'));
+	if(!is_null($finds)){
 	throw new Exception('A findspot already exists for this record, or that find does not exist.');
 	}
 	if($this->_getParam('id',false)){
@@ -99,68 +101,35 @@ class Database_FindspotsController
 	if($ngr != ""){
 	$conversion = new Pas_Geo_Gridcalc($form->getValue('gridref'));
 	$results = $conversion->convert();
-	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
-	
-//	$findelevation = $place->getElevation(NULL,$results['Latitude'],$results['Longitude']);
+	$place = new Pas_Service_Geo_Geoplanet($this->_helper->config->webservice->ydnkeys->placemakerkey);
 	
 	$findwoeid = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],
 		$results['decimalLatLon']['decimalLongitude']);
-//	$elevation = $findelevation['elevation'];
+		
 	$woeid = $findwoeid['woeid'];
 	} else {
 	$woeid = NULL;
-	$elevation = NULL;		
 	}
-	$findspots = new Findspots();
-	$insertData = array(
-		'secuid' => $secuid,
-		'findID' => $form->getValue('findsecuid'),
-		'old_findspotid' =>  $this->FindUid(),
-		'county' => $form->getValue('county'),
-		'district' => $form->getValue('district'),
-		'parish' => $form->getValue('parish'),
-		'knownas' => $form->getValue('knownas'),
-		'regionID' => $form->getValue('regionID'),
-		'knownas' => $form->getValue('knownas'),
-		'gridref' => $results['gridref'],
-		'gridrefsrc' => $form->getValue('gridrefsrc'),
-		'declat' => $results['decimalLatLon']['decimalLatitude'],
-		'declong' => $results['decimalLatLon']['decimalLongitude'],
-		'easting' => $results['easting'],
-		'northing' => $results['northing'],	  
-		'map10k' => $results['10kmap'],
-		'map25k' => $results['25kmap'],
-		'fourFigure' => $results['fourFigureGridRef'],
-		'gridrefcert' => $form->getValue('gridrefcert'),
-		'description' => $form->getValue('description'),
-		'comments' => $form->getValue('comments'),
-		'landusecode' => $form->getValue('landusecode'),
-		'landusevalue' => $form->getValue('landusevalue'),
-		'created' => $this->getTimeForForms(), 
-		'createdBy' => $this->getIdentityForForms(),
-		'depthdiscovery' => $form->getValue('depthdiscovery'),	
-		'landowner' => $form->getValue('landowner'),
-		'address' => $form->getValue('address'),
-		'postcode' => $form->getValue('postcode'),
-		'accuracy' => $acc,
-		'woeid' => $woeid,
-		'elevation' => $elevation
+	$updateData = $form->getValues();
+	$updateData['secuid'] = $this->secuid();
+	$updateData['old_findspotid'] = $this->FindUid();
+	$updateData['gridref'] = $results['gridref'];
+	$updateData['declat'] = $results['decimalLatLon']['decimalLatitude'];
+	$updateData['declong'] = $results['decimalLatLon']['decimalLongitude'];
+	$updateData['easting'] = $results['easting'];
+	$updateData['northing'] = $results['northing'];	  
+	$updateData['map10k'] = $results['10kmap'];
+	$updateData['map25k'] = $results['25kmap'];
+	$updateData['fourFigure'] = $results['fourFigureGridRef'];
+	$updateData['woeid'] = $woeid;
+	$updateData['accuracy'] = $results['accuracy'];
 
-		);
-		
-		$returnID = $form->getValue('returnID');
-	foreach ($insertData as $key => $value) {
-      if (is_null($value) || $value=="") {
-        unset($insertData[$key]);
-      }
-	 }
-	$findspots->insert($insertData);
-	$solr = new Pas_Solr_Updater();
-	$solr->add($returnID);
-	$this->_redirect(self::REDIRECT.'record/id/'.$returnID);
+	$findspots->add($updateData);
+	$this->_helper->solrUpdater->update('beowulf', $returnID);
+	$this->_redirect(self::REDIRECT . 'record/id/' . $returnID);
 	$this->_flashMessenger->addMessage('A new findspot for has been created.');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	} else {
@@ -186,7 +155,8 @@ class Database_FindspotsController
 	$results = $geo->convert();
 	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
 //	$findelevation = $place->getElevation(NULL,$results['Latitude'],$results['Longitude']);
-	$findwoeid = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],$results['decimalLatLon']['decimalLongitude']);
+	$findwoeid = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],
+	$results['decimalLatLon']['decimalLongitude']);
 //	$elevation = $findelevation['elevation'];
 	$woeid = $findwoeid['woeid'];
 	} else {
@@ -225,98 +195,16 @@ class Database_FindspotsController
 	'woeid' => $woeid,
 	'elevation' => $elevation
 	);
-	foreach ($updateData as $key => $value) {
-      if (is_null($value) || $value=="") {
-       $updateData[$key] = NULL;
-      }
-    }
-	$auditData = $updateData;
-	$audit = $findspots->fetchRow('id='.$this->_getParam('id'));
-	$oldarray = $audit->toArray();
+
+	$oldData = $findspots->fetchRow('id=' . $this->_getParam('id'))->toArray();
 
 	$where = array();
 	$where[] = $findspots->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 	$findspots->update($updateData,$where);
 	$returnID = $form->getValue('returnID');
-
-	if (!empty($auditData)) {
-        // look for new fields with empty/null values
-        foreach ($auditData as $item => $value) {
-            if (empty($value)) {
-                if (!array_key_exists($item, $oldarray)) {
-                    // value does not exist in $oldarray, so remove from $newarray
-                    unset ($updateData[$item]);
-                } // if
-            } else {
-                // remove slashes (escape characters) from $newarray
-                $auditData[$item] = stripslashes($auditData[$item]);
-            } // if
-        } // foreach 
-        // remove entry from $oldarray which does not exist in $newarray
-        foreach ($oldarray as $item => $value) {
-            if (!array_key_exists($item, $auditData)) {
-                unset ($oldarray[$item]);
-            } // if
-        } // foreach
-    } //
-
-	$fieldarray   = array();
-    $ix           = 0;
-	$editID = md5($this->getTimeForForms());
-    foreach ($oldarray as $field_id => $old_value) {
-        $ix++;
-        $fieldarray[$ix]['findspotID']     = $this->_getParam('id');
-		$fieldarray[$ix]['findID']     = $returnID;
-		$fieldarray[$ix]['editID']     = $editID;
-        $fieldarray[$ix]['created']     = $this->getTimeForForms();
-		$fieldarray[$ix]['createdBy']     = $this->getIdentityForForms();
-        $fieldarray[$ix]['fieldName']     = $field_id;
-        $fieldarray[$ix]['beforeValue']    = $old_value;
-        if (isset($auditData[$field_id])) {
-            $fieldarray[$ix]['afterValue'] = $auditData[$field_id];
-            // remove matched entry from $newarray
-            unset($auditData[$field_id]);
-        } else {
-            $fieldarray[$ix]['afterValue'] = '';
-        } // if
-    } // foreach
-    
-    // process any unmatched details remaining in $newarray
-    foreach ($auditData as $field_id => $new_value) {
-        $ix++;
-        $fieldarray[$ix]['findspotID']     = $this->_getParam('id');
-		$fieldarray[$ix]['findID']     = $returnID;
-		$fieldarray[$ix]['editID']     = $editID;
-        $fieldarray[$ix]['created']     = $this->getTimeForForms();
-		$fieldarray[$ix]['createdBy']     = $this->getIdentityForForms();
-        $fieldarray[$ix]['fieldName']     = $field_id;
-        $fieldarray[$ix]['afterValue']    = $new_value;
-		
-    } 
-	function filteraudit($fieldarray)
-	{
-	if ($fieldarray['afterValue'] != $fieldarray['beforeValue'])
-	  {
-	return true;
-	  }
-	}
-	
-	$fieldarray = array_filter($fieldarray,'filteraudit');
-	
-	foreach($fieldarray as $f){
-	foreach ($f as $key => $value) {
-      if (is_null($value) || $value=="") {
-       $f[$key] = NULL;
-      }
-    }
-
-	$audit = new FindSpotsAudit();
-	$auditBaby = $audit->insert($f);
-	}
-	/* Zend_Debug::dump($updateData);
-	exit; */
-	$solr = new Pas_Solr_Updater();
-			$solr->add($returnID,'beowulf');
+	$this->_helper->audit($updateData, $oldData, 'FindSpotsAudit',
+	 $this->_getParam('id'), $returnID);
+	$this->_helper->solrUpdater->update('beowulf', $returnID);
 	$this->_flashMessenger->addMessage('Details for the findspot updated!');
 	$this->_redirect(self::REDIRECT.'record/id/'.$returnID);
 	} else {

@@ -12,6 +12,13 @@
 class Pas_View_Helper_ChangesCoins 
 	extends Zend_View_Helper_Abstract {
 	
+	protected function _getRole(){
+	$role = new Pas_UserDetails();
+	return $role->getPerson()->role;
+	}
+	
+	protected $_allowed = array('treasure', 'flos', 'fa','admin');
+		
 	/** Build the html from data array
 	 * @param array $a
 	 * @return string $html
@@ -39,16 +46,20 @@ class Pas_View_Helper_ChangesCoins
 	* @return string $html
 	*/
 	public function ChangesCoins($id) {
+	if(in_array($this->_getRole(), $this->_allowed)){
 	$audit = new CoinsAudit();
 	$auditdata = $audit->getChanges($id);
 	if($auditdata) {
 	$html = '<h5>Coin data audit</h5>';
 	$html .= '<ul id="related">';
 	foreach($auditdata as $a) {
-	$this->buildHtml($a);
+	$html .= $this->buildHtml($a);
 	}
 	$html .= '</ul>';
 	return $html;
+	} else {
+		return false;
+	}
 	}
 
 }

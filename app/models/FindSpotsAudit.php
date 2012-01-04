@@ -29,7 +29,7 @@ class FindSpotsAudit extends Pas_Db_Table_Abstract {
 			->from($this->_name,array($this->_name . '.created', 'recordID', 'editID'))
 			->joinLeft('users','users.id = ' . $this->_name . '.createdBy',
 			array('id', 'fullname', 'username'))
-			->where($this->_name . '.recordID= ?',(int)$id)
+			->where($this->_name . '.entityID= ?',(int)$id)
 			->order($this->_name . '.id DESC')
 			->group($this->_name . '.created');
 	return  $finds->fetchAll($select);
@@ -45,8 +45,7 @@ class FindSpotsAudit extends Pas_Db_Table_Abstract {
 		$select = $finds->select()
 			->from($this->_name,array($this->_name . '.created', 'afterValue', 'fieldName', 'beforeValue'))
 			->joinLeft('users','users.id = '.$this->_name . '.createdBy',array('id', 'fullname', 'username'))
-			->where($this->_name . '.editID = ?', (int)$id)
-			->order($this->_name . '.' . $this->_primaryKey);
+			->where($this->_name . '.editID = ?', (int)$id);
 	return  $finds->fetchAll($select);
 	}
 

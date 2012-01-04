@@ -246,18 +246,13 @@ echo $this->form;
 ?>
 
 </div>
-<?php echo $this->partial('partials/database/recordaudit.phtml',$this->finds['0']);?>
+	<?php 
+	
+	echo $this->partial('partials/database/recordaudit.phtml',$this->finds['0']);
+	echo $this->ChangesFind($this->finds['0']['id']);
+	echo $this->ChangesFindSpot($this->finds['0']['id']);
+	echo $this->ChangesCoins($this->finds['0']['id']);
 
-<?php 
-$auth = Zend_Registry::get('auth');
-$allowed = array('admin','fa','flos');
-if($auth->hasIdentity()){
-$user = $auth->getIdentity();
-if(in_array($user->role,$allowed)){
-echo $this->ChangesFind($this->finds['0']['id']);
-echo $this->ChangesFindSpot($this->finds['0']['id']);
-echo $this->ChangesCoins($this->finds['0']['id']);
-}}
-?>
+	?>
 </div>
 </div>
