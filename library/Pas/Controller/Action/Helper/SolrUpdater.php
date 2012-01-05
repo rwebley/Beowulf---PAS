@@ -172,7 +172,7 @@ class Pas_Controller_Action_Helper_SolrUpdater
 	$st = strtotime($date);
 	$date = new Zend_Date();
 	$date->set($st);
-	return str_replace('+00:00','Z',$date->get(Zend_Date::W3C));
+	return substr($date->get(Zend_Date::W3C),0,-6) . 'Z';
 	}
 }
 
