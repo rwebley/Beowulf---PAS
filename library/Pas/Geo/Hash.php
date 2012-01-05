@@ -26,7 +26,7 @@
 * Encode and decode geohashes
 *
 */
-class Pas_Geohash
+class Pas_Geo_Hash
 {
 	private $coding = "0123456789bcdefghjkmnpqrstuvwxyz";
 	private $codingMap = array();

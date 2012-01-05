@@ -40,6 +40,9 @@ class Pas_Controller_Action_Helper_CoinFormLoaderOptions
         );
     
     public function optionsAddClone($broadperiod, $coinDataFlat){
+   	Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger')
+   		->addMessage('Your last record data has been cloned');
+    	
     switch ($broadperiod) {
     case 'IRON AGE':
         if(isset($coinDataFlat['denomination'])) {

@@ -22,6 +22,16 @@ class Findspots extends Pas_Db_Table_Abstract {
 
 	protected $_edittest = array('flos','member');
 	
+	/** The Yahoo! appid variable for placemaker
+     * 
+     * @var string $_appid;
+     */
+    protected $_appid;
+    
+    public function init(){
+    	$this->_appid = $this->_config->webservice->ydnkeys->placemakerkey;
+    }
+	
 	/** Determine role of the user
 	* @return string $role
 	*/
@@ -168,14 +178,15 @@ class Findspots extends Pas_Db_Table_Abstract {
 	public function getLastRecord($userid) {
 	$finds = $this->getAdapter();
 	$select = $finds->select()
-					->from($this->_name,array('county', 'district', 'parish',
-											  'knownas', 'regionID', 'knownas',
-											  'gridref', 'gridrefsrc', 'gridrefcert',
-											  'description', 'comments', 'landusecode',
-											  'landusevalue', 'depthdiscovery'))
-					->where('findspots.createdBy = ?', (int)$userid)
-					->order('findspots.id DESC')
-					->limit(1);
+		->from($this->_name,array(
+		'county', 'district', 'parish',
+		'knownas', 'regionID', 'knownas',
+		'gridref', 'gridrefsrc', 'gridrefcert',
+		'description', 'comments', 'landusecode',
+		'landusevalue', 'depthdiscovery'))
+		->where('findspots.createdBy = ?', (int)$userid)
+		->order('findspots.id DESC')
+		->limit(1);
 	return $finds->fetchAll($select);
 	}
 
@@ -184,13 +195,65 @@ class Findspots extends Pas_Db_Table_Abstract {
 	* @return array $data
 	*/
 	public function getMissingDistrict() {
-		$findspots = $this->getAdapter();
-		$select = $findspots->select()
-			->from($this->_name,array('id','county','parish'))
-			->where('county IS NOT NULL')
-			->where('parish IS NOT NULL')
-			->where('district IS NULL')
-			->limit(5000);
-       return $findspots->fetchAll($select);
+	$findspots = $this->getAdapter();
+	$select = $findspots->select()
+		->from($this->_name,array('id','county','parish'))
+		->where('county IS NOT NULL')
+		->where('parish IS NOT NULL')
+		->where('district IS NULL')
+		->limit(5000);
+	return $findspots->fetchAll($select);
+	}
+	
+	public function addAndProcess($data){
+	if(is_array($data)){
+	foreach($data as $k => $v) {
+	if ( $v == "") {
+	$data[$k] = NULL;
+	}
+	}
+	if(!is_null($data['gridref'])) {
+	$conversion = new Pas_Geo_Gridcalc($data['gridref']);
+	$results = $conversion->convert();
+	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
+	$geoHash = new Pas_Geo_Hash();
+	$hash = $geoHash->encode($results['decimalLatLon']['decimalLatitude'],
+		$results['decimalLatLon']['decimalLongitude']);
+	$data['declong'] = $results['decimalLatLon']['decimalLongitude'];
+	$data['declat'] = $results['decimalLatLon']['decimalLatitude'];
+	$data['easting'] = $results['easting'];
+	$data['northing'] = $results['northing'];	  
+	$data['map10k'] = $results['10kmap'];
+	$data['map25k'] = $results['25kmap'];
+	$data['fourFigure'] = $results['fourFigureGridRef'];
+	$data['accuracy'] = $results['accuracy']['precision'];
+	$data['gridlen'] = $results['gridrefLength'];
+	$data['geohash'] = $hash;
+	$findwoeid = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],
+		$results['decimalLatLon']['decimalLongitude']);	
+	}
+	$findid = new Pas_Generator_FindID();
+	$data['old_findspotid'] = $findid->generate();
+	$secuid = new Pas_Generator_SecuID();
+	$data['secuid'] = $secuid->secuid(); 
+
+	Zend_Debug::dump($data);
+	exit;
+	if(array_key_exists('landownername', $data)){
+		unset($data['landownername']);
+	}
+	if(array_key_exists('csrf', $data)){
+ 		unset($data['csrf']);
+  	}
+	if(empty($data['created'])){
+		$data['created'] = $this->timeCreation();
+	}
+	if(empty($data['createdBy'])){
+		$data['createdBy'] = $this->userNumber();
+	}
+	return parent::insert($data);		
+	} else {
+		throw new Exception('The data submitted is not an array',500);
+	}
 	}
 }

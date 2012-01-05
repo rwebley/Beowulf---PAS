@@ -185,6 +185,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $solr = new Pas_Controller_Action_Helper_SolrUpdater();
         Zend_Controller_Action_HelperBroker::addHelper($solr);
         
+        $findspot = new Pas_Controller_Action_Helper_FindspotFormOptions();
+        Zend_Controller_Action_HelperBroker::addHelper($findspot);
+        
+        $secuid = new Pas_Controller_Action_Helper_GenerateSecuID();
+        Zend_Controller_Action_HelperBroker::addHelper($secuid);
+        
+        $findID = new Pas_Controller_Action_Helper_GenerateFindID();
+        Zend_Controller_Action_HelperBroker::addHelper($findID);
         }
         
     

@@ -382,7 +382,8 @@ class Pas_Geo_Gridcalc  {
 	'accuracy'	 => array(
 	'precision' => $this->_getaccuracy() * $multiplier,
 	'precisionUnits' => $unit,
-	'string' => $this->_getaccuracy() * $multiplier . ' ' . $unit . '<sup>2</sup>'),
+	'string' => $this->_getaccuracy() * $multiplier . ' ' . $unit . '<sup>2</sup>'
+	),
 	'gridrefLength' => strlen($cleangrid) - 2,
 	'utm'		 => $this->_convertLatLonUtm($cleanLat, $cleanLon),
 	);

@@ -46,32 +46,7 @@ public function __construct($options = null) {
 
 	$this->setName('findspots');
 
-	$old_findspotid = new Zend_Form_Element_Hidden('old_findspotid');
-	$old_findspotid->removeDecorator('HtmlTag')
-	->removeDecorator('DtDdWrapper')
-	->removeDecorator('Label');
-
-	$highsensitivity = new Zend_Form_Element_Checkbox('highsensitivity');
-	$highsensitivity->setLabel('Highly sensitive findspot: ')
-	->setRequired(false)
-	->setCheckedValue(1)
-	->setUncheckedValue(NULL)
-	->addFilters(array('StripTags', 'StringTrim'))
-	->addValidator('Digits')
-	->setDecorators($decorators);
-
-	$returnID = new Zend_Form_Element_Hidden('returnID');
-	$returnID->removeDecorator('HtmlTag')
-	->removeDecorator('DtDdWrapper')
-	->removeDecorator('Label')
-	->addFilters(array('StripTags', 'StringTrim'))
-	->addValidator('Digits');
-
-	$findsecuid = new Zend_Form_Element_Hidden('findsecuid');
-	$findsecuid->removeDecorator('HtmlTag')
-	->removeDecorator('DtDdWrapper')
-	->removeDecorator('Label')
-	->addFilters(array('StripTags', 'StringTrim'));
+	
 
 	// Object specifics
 	$county = new Zend_Form_Element_Select('county');
@@ -204,7 +179,10 @@ public function __construct($options = null) {
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
 	->addValidator('NotEmpty','Digits')
-	->addMultiOptions(array(NULL => NULL,'Approximate depth' => array('10' => '0 - 10cm','20' => '10 - 20cm','30' => '20 - 30cm','40' => '30 - 40cm', '50' => '40 - 50cm','60' => 'Are you digging to find Oz?')));
+	->addMultiOptions(array(NULL => NULL,'Approximate depth' => array(
+	'10' => '0 - 10cm', '20' => '10 - 20cm', '30' => '20 - 30cm',
+	'40' => '30 - 40cm', '50' => '40 - 50cm',
+	'60' => 'Over 60 cm')));
 
 	$soiltype = new Zend_Form_Element_Select('soiltype');
 	$soiltype->setLabel('Type of soil around findspot: ')
@@ -290,6 +268,13 @@ public function __construct($options = null) {
 	->removeDecorator('DtDdWrapper')
 	->setAttrib('class','large');
 
+	$hash = new Zend_Form_Element_Hash('csrf');
+	$hash->setValue($this->_config->form->salt)
+	->removeDecorator('DtDdWrapper')
+	->removeDecorator('HtmlTag')->removeDecorator('label')
+	->setTimeout(600);
+	$this->addElement($hash);
+	
 	if($action == 'edit') {
 	$this->addElements(array(
 	$county, $district, $parish,
@@ -297,27 +282,26 @@ public function __construct($options = null) {
 	$regionID, $gridref, $fourFigure,
 	$easting, $northing, $map10k,
 	$map25k, $declong, $declat,
-	$woeid, $elevation, $highsensitivity,
-	$findsecuid, $gridrefsrc, $gridrefcert,
-	$returnID, $depthdiscovery,	$address,
+	$woeid, $elevation, $address,
+	$gridrefsrc, $gridrefcert, $depthdiscovery,	
 	$postcode, $landusevalue, $landusecode, 
-	$landownername, $landowner,	$submit));
+	$landownername, $landowner,	$submit,
+	$hash));
 	} else {
 	$this->addElements(array(
 	$county, $district, $parish,
-	$knownas, $highsensitivity,	$description,
+	$knownas, $depthdiscovery, $description,
 	$comments, $regionID, $gridref,
 	$findsecuid, $gridrefsrc, $gridrefcert,
-	$returnID, $old_findspotid, $depthdiscovery,
 	$address, $postcode, $landusevalue,
 	$landusecode, $landownername, $landowner,	
-	$submit));
+	$submit, $hash));
 	}
 	
 	
 	$this->addDisplayGroup(array(
 	'county', 'regionID', 'district',
-	'parish', 'knownas', 'highsensitivity',
+	'parish', 'knownas', 
 	'address', 'postcode', 'landownername',
 	'landowner'),
 	'details');
