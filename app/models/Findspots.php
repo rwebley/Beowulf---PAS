@@ -229,16 +229,15 @@ class Findspots extends Pas_Db_Table_Abstract {
 	$data['accuracy'] = $results['accuracy']['precision'];
 	$data['gridlen'] = $results['gridrefLength'];
 	$data['geohash'] = $hash;
-	$findwoeid = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],
+	$yahoo = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],
 		$results['decimalLatLon']['decimalLongitude']);	
+        $data['woeid'] = $yahoo['woeid'];
 	}
 	$findid = new Pas_Generator_FindID();
 	$data['old_findspotid'] = $findid->generate();
 	$secuid = new Pas_Generator_SecuID();
 	$data['secuid'] = $secuid->secuid(); 
 
-	Zend_Debug::dump($data);
-	exit;
 	if(array_key_exists('landownername', $data)){
 		unset($data['landownername']);
 	}

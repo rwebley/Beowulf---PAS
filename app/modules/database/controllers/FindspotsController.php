@@ -32,15 +32,13 @@ class Database_FindspotsController
     public function init() {
     $this->_helper->_acl->deny('public',null);
     $this->_helper->_acl->allow('member',array('index','add','delete','edit'));
-    $this->_helper->_acl->allow('flos',null);
     $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     $this->_findspots = new Findspots();
-	}
+    }
 
-
-	/** The index page with no root access
-	 * 
-	 */
+    /** The index page with no root access
+    * 
+    */
     public function indexAction() {
     $this->_flashMessenger->addMessage('You cannot access the findspots index.');
     $this->_redirect(self::REDIRECT);
@@ -63,15 +61,14 @@ class Database_FindspotsController
     if($this->_getParam('copy') === 'last') {
 	$this->_helper->findspotFormOptions();
     }
-
     if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
     $updateData = $form->getValues();
-    $updateData['findID'] = $returnID;
+    $updateData['findID'] = $this->_getParam('secuid');
     $this->_findspots->addAndProcess($updateData);
     $this->_helper->solrUpdater->update('beowulf', $returnID);
     $this->_redirect(self::REDIRECT . 'record/id/' . $returnID);
-    $this->_flashMessenger->addMessage('A new findspot for has been created.');
+    $this->_flashMessenger->addMessage('A new findspot has been created.');
     } else {
     $form->populate($form->getValues());
     }
@@ -90,12 +87,15 @@ class Database_FindspotsController
     $form->submit->setLabel('Update findspot');
     $this->view->form = $form;
 
-    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if($this->getRequest()->isPost() 
+            && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
     $updateData = $form->getValues();
-    $oldData = $this->_findspots->fetchRow('id=' . $this->_getParam('id'))->toArray();
+    $oldData = $this->_findspots->fetchRow('id=' 
+            . $this->_getParam('id'))->toArray();
     $where = array();
-    $where[] = $this->_findspots->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+    $where[] = $this->_findspots->getAdapter()->quoteInto('id = ?', 
+            $this->_getParam('id'));
     $this->_findspots->update($updateData, $where);
     $returnID = $form->getValue('returnID');
     $this->_helper->audit($updateData, $oldData, 'FindSpotsAudit',
@@ -110,10 +110,7 @@ class Database_FindspotsController
     $where[] = $this->_findspots->getAdapter()->quoteInto('id = ?', 
              $this->_getParam('id'));
     $findspot = $this->_findspots->fetchRow($where);
-	$this->_helper->findspotFormOptions();
-    $finds = new Finds();
-    $finds = $finds->getFindtoFindspots($this->_getParam('id'));
-    $this->view->finds = $finds;
+    $this->_helper->findspotFormOptions();
     $this->view->findspot = $findspot->toArray();
     $form->populate($formData);
     }
@@ -124,8 +121,7 @@ class Database_FindspotsController
     $where = array();
     $where[] = $this->_findspots->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
     $findspot = $this->_findspots->fetchRow($where);
-   	$this->_helper->findspotFormOptions();
-    $this->view->finds = $finds;
+    $this->_helper->findspotFormOptions();
     $this->view->findspot = $findspot->toArray();
     $form->populate($findspot->toArray());
     }
