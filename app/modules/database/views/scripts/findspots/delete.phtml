@@ -1,5 +1,7 @@
 <?php if ($this->findspot) :?>
 <?php 
+
+$this->headTitle("Delete Findspot");
 echo $this->partial('partials/database/deleteFindspot.phtml',$this->findspot['0']);?>
 
 <?php else: ?>
