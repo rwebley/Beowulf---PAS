@@ -9,6 +9,8 @@
 */
 class Admin_ContentController extends Pas_Controller_Action_Admin {
 	
+	protected $_content;
+	
 	protected $_cache;
 	/** Initialise the ACL and contexts
 	*/ 	
@@ -16,13 +18,12 @@ class Admin_ContentController extends Pas_Controller_Action_Admin {
 	$this->_helper->_acl->allow('fa',null);
 	$this->_helper->_acl->allow('admin',null);
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$this->_cache = Zend_Registry::get('rulercache');
+	$this->_content = new Content();
     }
 	/** Display index page
 	*/ 
 	public function indexAction() {
-		$contents = new Content();
-		$this->view->contents = $contents->getContentAdmin($this->_getParam('page'));
+		$this->view->contents = $this->_content->getContentAdmin($this->_getParam('page'));
 	}
 	/** Add contents
 	*/ 	
@@ -31,30 +32,17 @@ class Admin_ContentController extends Pas_Controller_Action_Admin {
 		$form->submit->setLabel('Add new content to system');
 		$form->author->setValue($this->getIdentityForForms());
 		$this->view->form = $form;
-		if ($this->_request->isPost()) {
-		$formData = $this->_request->getPost();
-		if ($form->isValid($formData)) {
-		$insertData = array(
-		'title' => $form->getValue('title'), 
-		'menuTitle' => $form->getValue('menuTitle'),
-		'slug' => $form->getValue('slug'), 
-		'excerpt' => $form->getValue('excerpt'),
-		'body' => $form->getValue('body'),
-		'publishState' => $form->getValue('publishState'), 
-		'section' => $form->getValue('section'), 
-		'metaKeywords' => $form->getValue('metaKeywords'), 
-		'metaDescription' => $form->getValue('metaDescription'),
-		'frontPage' => $form->getValue('frontPage'),
-		'author' => $form->getValue('author'),
-		'created' => $this->getTimeForForms(),
-		'createdBy' => $this->getIdentityForForms());
+		if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    	if ($form->isValid($form->getValues())) {
+		$insertData = $form->getValues();
 		$content = new Content();
-		$update = $content->insert($insertData);
+		$insert = $content->add($insertData);
+		$this->_helper->solrUpdater->update('beocontent', $insert);
 		$this->_flashMessenger->addMessage('Static content has been created!');
 		$this->_redirect('/admin/content');
 		} else 
 		{
-		$form->populate($formData);
+		$form->populate($form->getValues());
 		}
 		}
 		}
@@ -66,29 +54,14 @@ class Admin_ContentController extends Pas_Controller_Action_Admin {
 		$form->submit->setLabel('Submit changes');
 		$form->author->setValue($this->getIdentityForForms());
 		$this->view->form = $form;
-		if ($this->_request->isPost()) {
-		$id = $this->_getParam('id'); 
-		$formData = $this->_request->getPost();
-		if ($form->isValid($formData)) {
-		$updateData = array(
-		'title' => $form->getValue('title'), 
-		'menuTitle' => $form->getValue('menuTitle'),
-		'slug' => $form->getValue('slug'), 
-		'excerpt' => $form->getValue('excerpt'),
-		'body' => $form->getValue('body'),
-		'publishState' => $form->getValue('publishState'), 
-		'section' => $form->getValue('section'), 
-		'metaKeywords' => $form->getValue('metaKeywords'), 
-		'metaDescription' => $form->getValue('metaDescription'),
-		'frontPage' => $form->getValue('frontPage'),
-		'author' => $form->getValue('author'),
-		'updated' => $this->getTimeForForms(),
-		'updatedBy' => $this->getIdentityForForms()
-		);
-		$content = new Content();
+		if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    	if ($form->isValid($form->getValues())) {
+		$updateData = $form->getValues();
 		$where = array();
-		$where[] = $content->getAdapter()->quoteInto('id = ?', $id);
-		$content->update($updateData,$where);
+		$where[] = $this->_content->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+		$this->_content->update($updateData,$where);
+		
+		$this->_helper->solrUpdater->update('beocontent', $this->_getParam('id'));
 		$cache = Zend_Registry::get('rulercache');
 		$tag = 'content' . md5($updateData['slug']);
 		$tag2 = 'frontcontent' . $form->getValue('section');
@@ -119,9 +92,9 @@ class Admin_ContentController extends Pas_Controller_Action_Admin {
 			throw new Pas_Exception_Param($this->_missingParameter);
 		}
 		}
-	/** Delete article
-	*/ 		
-	public function deleteAction() {
+		/** Delete article
+		*/ 		
+		public function deleteAction() {
 		if ($this->_request->isPost()) {
 		$id = (int)$this->_request->getPost('id');
 		$del = $this->_request->getPost('del');
@@ -130,6 +103,8 @@ class Admin_ContentController extends Pas_Controller_Action_Admin {
 		$where = 'id = ' . $id;
 		$contents->delete($where);
 		$this->_flashMessenger->addMessage('Record deleted!');
+		
+		$this->_helper->solrUpdater->deleteById('beocontent', $id);
 		}
 		$this->_redirect('/admin/content/');
 		}  else  {

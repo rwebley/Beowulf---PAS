@@ -318,8 +318,6 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     unset($insertData['id2by']);
     unset($insertData['secondfinder']);
     $insert = $this->_finds->add($insertData);
-    $solr = new Pas_Solr_Updater();
-    $solr->add($insert,'beowulf');
     $this->_helper->solrUpdater->update('beowulf', $insert);
     $this->_redirect(self::REDIRECT . 'record/id/' . $insert);
     $this->_flashMessenger->addMessage('Record created!');
