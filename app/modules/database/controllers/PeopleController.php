@@ -24,8 +24,7 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
             ->addActionContext('person', array('xml','json','vcf'))
             ->addActionContext('index', array('xml','json'))
             ->initContext();
-    $config = Zend_Registry::get('config');
-    $this->view->googleapikey = $this->_helper->config->webservice->googlemaps->apikey;
+   
     $this->_peoples = new Peoples();
     $this->_gmapskey = $this->_helper->config->webservice->googlemaps->apikey;
     $this->_geocoder = new Pas_Service_Geocoder($this->_gmapskey);
@@ -98,7 +97,7 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     $form = new PeopleForm();
     $form->submit->setLabel('Add a new person');
     $this->view->form = $form;
-    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
     $updateData = $form->getValues(); 
     $address = $form->getValue('address') . ',' . $form->getValue('city') . ','
@@ -120,12 +119,14 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     
     if(array_key_exists('dbaseID',$updateData)){
     $users = new Users();
-    $userdetails = array('peopleID' => $audit['secuid']);
-    $whereUsers =  $users->getAdapter()->quoteInto('id = ?', 
+    $user = array('peopleID' => $audit['secuid']);
+    $where =  $users->getAdapter()->quoteInto('id = ?', 
             $updateData['dbaseID']);
-    $updateUsers = $users->update($userdetails,$whereUsers);	
+    $updateUsers = $users->update($user,$where);	
     }
-    $insert = $this->_peoples->insert($insertData);		
+    $insert = $this->_peoples->add($updateData);	
+    
+	$this->_helper->solrUpdater->update('beopeople', $insert);	
     $this->_redirect(self::REDIRECT . 'person/id/' . $insert);
     $this->_flashMessenger->addMessage('Record created!');
     } else {
@@ -141,7 +142,7 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     $form = new PeopleForm();
     $form->submit->setLabel('Update details');
     $this->view->form = $form;
-    if($this->getRequest()->isPost() && $form->isValid($_POST)){
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
     $updateData = $form->getValues(); 
     $address = $form->getValue('address') . ',' . $form->getValue('city') . ','
@@ -168,16 +169,18 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     $whereUsers =  $users->getAdapter()->quoteInto('id = ?', $updateData['dbaseID']);
     $updateUsers = $users->update($userdetails, $whereUsers);	
     } 
-
     $where =  $this->_peoples->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+    //Updated the people db table
     $update = $this->_peoples->update($updateData, $where);
+    //Update the solr instance
+	$this->_helper->solrUpdater->update('beopeople', $this->_getParam('id'));
+	//Update the audit log
     $this->_helper->audit($updateData, $oldData, 'PeopleAudit', 
-            $this->_getParam('id'));
+            $this->_getParam('id'), $this->_getParam('id'));
     $this->_flashMessenger->addMessage('Person information updated!');
     $this->_redirect(self::REDIRECT . 'person/id/' . $this->_getParam('id'));
     } else {
-    
-    $form->populate($_POST);
+    $form->populate($this->_request->getPost());
 
     }
     } else {
@@ -200,6 +203,7 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     if ($del == 'Yes' && $id > 0) {
     $where = 'id = ' . $id;
     $this->_peoples->delete($where);
+	$this->_helper->solrUpdater->deleteById('beopeople', $id);
     $this->_flashMessenger->addMessage('Record deleted!');
     }
     $this->_redirect(self::REDIRECT);

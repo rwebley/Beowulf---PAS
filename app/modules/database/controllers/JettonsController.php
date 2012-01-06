@@ -15,7 +15,6 @@ class Database_JettonsController extends Pas_Controller_Action_Admin {
     public function init()  {	
     $this->_helper->_acl->allow('member',array('add','edit','delete'));
     $this->_helper->_acl->allow('flos',null);
-    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     $this->_coins = new Coins();
     }
     const REDIRECT = '/database/artefacts/';
@@ -67,7 +66,8 @@ class Database_JettonsController extends Pas_Controller_Action_Admin {
     $insertData = $form->getValues();
     $insertData['secuid'] = $this->secuid();
     $insertData['findID'] = $this->_getParam('findID');
-    $this->_coins->insert($insertData);
+    $insert = $this->_coins->insert($insertData);
+	$this->_helper->solrUpdater->update('beowulf', $this->_getParam('returnID'));
     $this->_flashMessenger->addMessage('Jetton data saved for this record.');
     $this->_redirect(self::REDIRECT . 'record/id/' . $this->_getParam('returnID'));
     }  else {
@@ -121,7 +121,8 @@ class Database_JettonsController extends Pas_Controller_Action_Admin {
     $this->_flashMessenger->addMessage('Numismatic details updated.');
 
     $this->_redirect(self::REDIRECT . 'record/id/' . $this->_getParam('returnID'));
-
+    
+    $this->_helper->solrUpdater->update('beowulf', $this->_getParam('returnID'));
 
     } else {
     $this->_flashMessenger->addMessage('Please check your form for errors');
@@ -152,6 +153,7 @@ class Database_JettonsController extends Pas_Controller_Action_Admin {
     $where = 'id = ' . $id;
     $this->_coins->delete($where);
     $this->_flashMessenger->addMessage('Numismatic data deleted!');
+    $this->_helper->solrUpdater->update('beowulf', $returnID);
     $this->_redirect(self::REDIRECT.'record/id/' . $returnID);
     }
     } else {

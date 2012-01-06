@@ -86,7 +86,6 @@ class Database_FindspotsController
     $form = new FindSpotForm();
     $form->submit->setLabel('Update findspot');
     $this->view->form = $form;
-
     if($this->getRequest()->isPost() 
             && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
@@ -96,13 +95,14 @@ class Database_FindspotsController
     $where = array();
     $where[] = $this->_findspots->getAdapter()->quoteInto('id = ?', 
             $this->_getParam('id'));
-    $this->_findspots->update($updateData, $where);
-    $returnID = $form->getValue('returnID');
-    $this->_helper->audit($updateData, $oldData, 'FindSpotsAudit',
+    $insertData = $this->_findspots->updateAndProcess($updateData);
+    $update = $this->_findspots->update($insertData, $where);
+    $returnID = (int)$this->_findspots->getFindNumber($this->_getParam('id'));
+    $this->_helper->audit($insertData, $oldData, 'FindSpotsAudit',
     $this->_getParam('id'), $returnID);
     $this->_helper->solrUpdater->update('beowulf', $returnID);
     $this->_flashMessenger->addMessage('Findspot updated!');
-    $this->_redirect(self::REDIRECT.'record/id/'.$returnID);
+    $this->_redirect(self::REDIRECT . 'record/id/' . $returnID);
     } else {
     $id = (int)$this->_request->getParam('id', 0);
     if ($id > 0) {
@@ -111,7 +111,6 @@ class Database_FindspotsController
              $this->_getParam('id'));
     $findspot = $this->_findspots->fetchRow($where);
     $this->_helper->findspotFormOptions();
-    $this->view->findspot = $findspot->toArray();
     $form->populate($formData);
     }
     }
@@ -143,6 +142,7 @@ class Database_FindspotsController
     if ($del == 'Yes' && $id > 0) {
     $this->_findspots = new Findspots();
     $where = 'id = ' . $id;
+	$this->_helper->solrUpdater->update('beowulf', $findID);
     $this->_flashMessenger->addMessage('Findspot deleted.');
     }
     $this->_redirect(self::REDIRECT . 'record/id/' . $findID);

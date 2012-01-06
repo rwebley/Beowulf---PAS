@@ -107,6 +107,24 @@ class Publications extends Pas_Db_Table_Abstract {
 		->orWhere('publications.authors LIKE ?','%' . $q . '%') 
 		->limit('10');
      return  $refs->fetchAll($select);
-}
-
+	}
+	
+	/** Get publication data for solr updates
+	 * 
+	 */
+	public function getSolrData($id){
+	$refs = $this->getAdapter();
+	$select = $refs->select()
+		->from($this->_name,array(
+			'identifier' => 'CONCAT("publications-",publications.id)','publications.id',
+			'title', 'authors','editors',
+			'inPublication' => 'in_publication','isbn',
+			'placePublished' => 'publication_place','yearPublished' => 'publication_year',
+			'created','updated','publisher'
+			 ))
+		->joinLeft('publicationtypes',$this->_name . '.publication_type = publicationtypes.id',
+		array('pubType' => 'term'))
+		->where('publications.id = ?',(int)$id);
+	return	$refs->fetchAll($select);	
+	}
 }

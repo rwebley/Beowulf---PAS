@@ -126,7 +126,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     $form->broadperiod->setValue($this->_getParam('broadperiod'));
     $form->county->setValue($this->_getParam('county'));
 
-    if($this->getRequest()->isPost() && $form->isValid($_POST)){
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
     $params = array_filter($form->getValues());
     $params = $this->array_cleanup($params);
@@ -206,7 +206,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     $form = new CommentFindForm();
     $form->submit->setLabel('Add a new comment');
     $this->view->form = $form;
-    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) 	 {
     if ($form->isValid($form->getValues())) {
     $data = $form->getValues();
     if ($this->getHelper->getAkismet()->isSpam($data)) {
@@ -305,7 +305,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     }
     }
     }
-    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) 	 {
     if ($form->isValid($form->getValues())) {
     $insertData = $form->getValues();
     $insertData['secuid'] = $secuid;
@@ -346,7 +346,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     $form->recordername->setAttrib('disabled', true);
     $form->removeElement('id2by');
     }
-    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) 	 {
     if ($form->isValid($form->getValues())) {
     $updateData = $form->getValues();
     $updateData = array_filter($updateData);
@@ -374,7 +374,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     } else {
     $find = $this->_finds->fetchRow('id=' . $this->_getParam('id'));
     $this->view->find = $this->_finds->fetchRow('id='.$this->_getParam('id'));
-    $form->populate($_POST);
+    $form->populate($this->_request->getPost());
     }
     } else {
     $id = (int)$this->_request->getParam('id', 0);
@@ -432,7 +432,7 @@ class Database_ArtefactsController extends Pas_Controller_Action_Admin {
     $finds = $this->_finds->getRelevantAdviserFind($this->_getParam('id',0));
     $this->view->form = $form;
     $this->view->finds = $finds;
-    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) 	 {
     if ($form->isValid($form->getValues())) {
     $data = $form->getValues();
     if ($this->_helper->getAkismet->isSpam($data)) {

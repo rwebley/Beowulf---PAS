@@ -24,7 +24,7 @@ class PeopleAudit extends Pas_Db_Table_Abstract {
 	public function getChanges($personID) {
 		$finds = $this->getAdapter();
 		$select = $finds->select()
-			->from($this->_name,array($this->_name . '.created','findID','editID'))
+			->from($this->_name,array($this->_name . '.created','recordID','editID'))
 			->joinLeft('users','users.id = ' . $this->_name . '.createdBy',
 			array('id','fullname','username'))
 			->where($this->_name . '.secuid= ?',(int)$personID)

@@ -70,6 +70,19 @@ class Findspots extends Pas_Db_Table_Abstract {
        return $data = $findspotdata->fetchAll($select);
 	}
 
+	/** 
+	 * 
+	 */
+	public function getFindNumber($id){
+		$findspotdata = $this->getAdapter();
+		$select = $findspotdata->select()
+			->from($this->_name,array())
+			->joinLeft('finds', 'finds.secuid = findspots.findID',array('id'))
+			->where('findspots.id = ?', (int)$id)
+			->limit('1');
+       $data = $findspotdata->fetchAll($select);
+       return $data[0]['id'];
+	}
 	/** Retrieval of findspot row for display (not all columns)
 	* @param integer $id 
 	* @return array $data
@@ -205,6 +218,10 @@ class Findspots extends Pas_Db_Table_Abstract {
 	return $findspots->fetchAll($select);
 	}
 	
+	/** Function for adding and processing the findspot data
+	 * @access public
+	 * @param array $data
+	 */
 	public function addAndProcess($data){
 	if(is_array($data)){
 	foreach($data as $k => $v) {
@@ -213,6 +230,63 @@ class Findspots extends Pas_Db_Table_Abstract {
 	}
 	}
 	if(!is_null($data['gridref'])) {
+	$data = $this->_processFindspot($data);
+	}
+	$findid = new Pas_Generator_FindID();
+	$data['old_findspotid'] = $findid->generate();
+	$secuid = new Pas_Generator_SecuID();
+	$data['secuid'] = $secuid->secuid(); 
+	if(array_key_exists('landownername', $data)){
+		unset($data['landownername']);
+	}
+	if(array_key_exists('csrf', $data)){
+ 		unset($data['csrf']);
+  	}
+	if(empty($data['created'])){
+		$data['created'] = $this->timeCreation();
+	}
+	if(empty($data['createdBy'])){
+		$data['createdBy'] = $this->userNumber();
+	
+	return parent::insert($data);		
+	} else {
+		throw new Exception('The data submitted is not an array',500);
+	}
+	}
+	}
+	
+	/** Function for updating findspots with processing of geodata
+	 * @access public
+	 * @param array $data
+	 * @param array $where
+	 */
+	public function updateAndProcess($data){
+	if(is_array($data)){
+	foreach($data as $k => $v) {
+	if ( $v == "") {
+	$data[$k] = NULL;
+	}
+	}
+	if(!is_null($data['gridref'])) {
+	$data = $this->_processFindspot($data);
+	}   
+	}
+	if(array_key_exists('csrf', $data)){
+	unset($data['csrf']);
+	}
+	if(array_key_exists('landownername', $data)){
+	unset($data['landownername']);
+	}   
+
+	return $data;
+	}
+	
+	/** Function for processing findspot
+	 * 
+	 * @param array $data
+	 */
+	protected function _processFindspot($data){
+	if(is_array($data)) {
 	$conversion = new Pas_Geo_Gridcalc($data['gridref']);
 	$results = $conversion->convert();
 	$place = new Pas_Service_Geo_Geoplanet($this->_appid);
@@ -232,27 +306,9 @@ class Findspots extends Pas_Db_Table_Abstract {
 	$yahoo = $place->reverseGeoCode($results['decimalLatLon']['decimalLatitude'],
 		$results['decimalLatLon']['decimalLongitude']);	
         $data['woeid'] = $yahoo['woeid'];
-	}
-	$findid = new Pas_Generator_FindID();
-	$data['old_findspotid'] = $findid->generate();
-	$secuid = new Pas_Generator_SecuID();
-	$data['secuid'] = $secuid->secuid(); 
-
-	if(array_key_exists('landownername', $data)){
-		unset($data['landownername']);
-	}
-	if(array_key_exists('csrf', $data)){
- 		unset($data['csrf']);
-  	}
-	if(empty($data['created'])){
-		$data['created'] = $this->timeCreation();
-	}
-	if(empty($data['createdBy'])){
-		$data['createdBy'] = $this->userNumber();
-	}
-	return parent::insert($data);		
+    return $data;
 	} else {
-		throw new Exception('The data submitted is not an array',500);
+	return $data;
 	}
 	}
 }

@@ -23,7 +23,8 @@ lat AS latitude,
 lon AS longitude,
 primaryactivities.term AS activity,
 people.created,
-people.updated
+people.updated,
+woeid
 FROM people
 LEFT JOIN primaryactivities ON people.primary_activity = primaryactivities.id
 " 

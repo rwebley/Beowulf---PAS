@@ -45,7 +45,7 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
             $coindataflat);
     }
     }
-    if($this->getRequest()->isPost() && $form->isValid($_POST)){
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
     $insertData  = $form->getValues();
     $insertData['findID'] = (string) $this->_getParam('findID');
@@ -74,17 +74,18 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
     $broadperiod = (string)$this->_getParam('broadperiod');
     $form = $this->_helper->coinFormLoader($broadperiod);
     $this->view->form = $form;
-    if($this->getRequest()->isPost() && $form->isValid($_POST)) 	 {
+    if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) 	 {
     if ($form->isValid($form->getValues())) {
     $updateData = $form->getValues();
     $oldData = $this->_coins->fetchRow('id=' . $this->_getParam('id'))->toArray();
     $where =  $this->_coins->getAdapter()->quoteInto('id = ?', 
             $this->_getParam('id'));
+	//Update the coins table
     $update = $this->_coins->update($updateData, $where);
- 
+    //Audit the changes
     $this->_helper->audit($updateData, $oldData, 'CoinsAudit', 
             $this->_getParam('id'), $this->_getParam('returnID'));
-    
+    //Update solr index
     $this->_helper->solrUpdater->update('beowulf', $this->_getParam('returnID'));
     $this->_helper->flashMessenger->addMessage('Numismatic details updated.');
     $this->_redirect(self::REDIRECT . 'record/id/' . $this->_getParam('returnID'));
@@ -211,11 +212,11 @@ class Database_CoinsController extends Pas_Controller_Action_Admin {
     if ($del == 'Yes' && $id > 0) {
     $coins = new CoinXClass();
     $where = $coins->getAdapter()->quoteInto('id = ?', $id);
+    $this->_helper->solrUpdater->update('beowulf', $returnID);
     $this->_helper->flashMessenger->addMessage('Record deleted!');
     $coins->delete($where);	
     $this->_redirect(self::REDIRECT . 'record/id/' . $returnID);
     }
-    $this->_helper->flashMessenger->addMessage('No changes made!');
     $this->_redirect('database/artefacts/record/id/' . $returnID);
     } else {
     $id = (int)$this->_request->getParam('id');

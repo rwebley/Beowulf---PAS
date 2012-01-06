@@ -15,12 +15,13 @@ class Database_PublicationsController extends Pas_Controller_Action_Admin {
 	$this->_helper->_acl->allow('public',array('index','publication'));
 	$this->_helper->_acl->deny('public',array('add','edit','delete'));
 	$this->_helper->_acl->allow('flos',NULL);
-	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
 	$this->_helper->contextSwitch()
 		->setAutoDisableLayout(true)
 		->addActionContext('publication', array('xml','json'))
 		->addActionContext('index', array('xml','json'))
 		->initContext();
+	
+    $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     }
     
 	const REDIRECT = 'database/publications/';
@@ -90,79 +91,40 @@ class Database_PublicationsController extends Pas_Controller_Action_Admin {
 	*/
 	public function addAction() {
 	$form = new PublicationForm();
-	$form->submit->setLabel('Add new');
+	$form->submit->setLabel('Submit new');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$insertData = array();
-	$insertData['secuid'] = $this->secuid();
-	$insertData['title'] = $form->getValue('title');
-	$insertData['authors'] = $form->getValue('authors');
-	$insertData['vol_no'] = $form->getValue('vol_no');
-	$insertData['edition'] = $form->getValue('edition');
-	$insertData['publisher'] = $form->getValue('publisher');
-	$insertData['publication_place'] = $form->getValue('publication_place');
-	$insertData['publication_year'] = $form->getValue('publication_year');
-	$insertData['publication_type'] = $form->getValue('publication_type');
-	$insertData['in_publication'] = $form->getValue('in_publication');
-	$insertData['editors'] = $form->getValue('editors');
-	$insertData['edition'] = $form->getValue('edition');
-	$insertData['ISBN'] = $form->getValue('ISBN');
-	$insertData['created'] = $this->getTimeForForms();
-	$insertData['createdBy'] = $this->getIdentityForForms();
-	foreach ($insertData as $key => $value) {
-      if (is_null($value) || $value=="") {
-        unset($insertData[$key]);
-      }
-	 }
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
+	$insertData = $form->getValues();
 	$publications = new Publications();
-	$insert = $publications->insert($insertData);
-
+	$insert = $publications->add($insertData);
+	$this->_helper->solrUpdater->update('beopublications', $insert);
 	$this->_redirect(self::REDIRECT . 'publication/id/' . $insert);
 	$this->_flashMessenger->addMessage('A new reference work has been created on the system!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
+	
 	/** Edit publication details
 	*/
 	public function editAction() {
 	$form = new PublicationForm();
-	$form->submit->setLabel('Update details');
+	$form->submit->setLabel('Update publication');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$updateData = array();	
-	$updateData['title'] = $form->getValue('title');
-	$updateData['authors'] = $form->getValue('authors');
-	$updateData['vol_no'] = $form->getValue('vol_no');
-	$updateData['edition'] = $form->getValue('edition');
-	$updateData['publisher'] = $form->getValue('publisher');
-	$updateData['publication_place'] = $form->getValue('publication_place');
-	$updateData['publication_year'] = $form->getValue('publication_year');
-	$updateData['publication_type'] = $form->getValue('publication_type');
-	$updateData['in_publication'] = $form->getValue('in_publication');
-	$updateData['editors'] = $form->getValue('editors');
-	$updateData['edition'] = $form->getValue('edition');
-	$updateData['ISBN'] = $form->getValue('ISBN');
-	$updateData['updated'] = $this->getTimeForForms();
-	$updateData['updatedBy'] = $this->getIdentityForForms();
-	foreach ($updateData as $key => $value) {
-      if (is_null($value) || $value=="") {
-        unset($updateData[$key]);
-      }
-	 }
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
+    $updateData = $form->getValues();
 	$where = array();
 	$publications = new Publications();
 	$where =  $publications->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 	$update = $publications->update($updateData,$where);
+	$this->_helper->solrUpdater->update('beopublications', $this->_getParam('id'));
 	$this->_flashMessenger->addMessage('Details for "' . $form->getValue('title') . '" updated!');
 	$this->_redirect(self::REDIRECT . 'publication/id/' . $this->_getParam('id'));
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -186,6 +148,7 @@ class Database_PublicationsController extends Pas_Controller_Action_Admin {
 	$where =  $publications->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 	$this->_flashMessenger->addMessage('Record deleted!');
 	$publications->delete($where);
+	$this->_helper->solrUpdater->deleteById('beopublications', $id);
 	}
 	$this->_redirect(self::REDIRECT);
 	} else {

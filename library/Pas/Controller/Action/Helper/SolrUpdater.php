@@ -99,7 +99,7 @@ class Pas_Controller_Action_Helper_SolrUpdater
                 $model = new Finds();
                 break;
             case 'beopeople':
-            	$model = new People();
+            	$model = new Peoples();
                 break;
             case 'beocontent':
             	$model = new Content();
@@ -118,6 +118,8 @@ class Pas_Controller_Action_Helper_SolrUpdater
                 break;
         }
         $data = $model->getSolrData($id);
+//        Zend_Debug::dump($data);
+//        exit;
         $cleanData = $this->cleanData($data[0]);
         return $cleanData;
          

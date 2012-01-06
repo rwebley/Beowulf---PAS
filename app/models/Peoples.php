@@ -199,4 +199,25 @@ class Peoples extends Pas_Db_Table_Abstract {
 	}
     return $data;
 	}
+	
+	/** Get people data for solr updates
+	 * 
+	 */
+	public function getSolrData($id){
+	$persons = $this->getAdapter();
+	$select = $persons->select()
+		->from($this->_name,array(
+			'identifier' => 'CONCAT("people-",people.id)','people.id',
+			'fullname', 'surname','forename',
+			'longitude' => 'lon','latitude' => 'lat',
+			'email','created','updated',
+			'coordinates' => 'CONCAT(lat,",",lon)', 
+			'place' => 'CONCAT(address," ",town_city," ",county)'
+			 ))
+		->joinLeft('primaryactivities',$this->_name . '.primary_activity = primaryactivities.id',
+		array('activity' => 'term'))
+		->where('people.id = ?',(int)$id);
+	return	$persons->fetchAll($select);	
+	}
+	
 }
