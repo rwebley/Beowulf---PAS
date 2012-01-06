@@ -599,6 +599,29 @@ class Slides extends Pas_Db_Table_Abstract {
 	$this->_cache->save($data, md5($username));
 	}
 	return $data;
-}
+	}
+	
+	public function getSolrData($id){
+	$slides = $this->getAdapter();
+	$select = $slides->select()
+		->from($this->_name,array(
+			'identifier' => 'CONCAT("images-",imageID)','id' => 'imageID',
+			'title' => 'label', 'filename','keywords','createdBy','updated',
+			'created'))
+		->joinLeft('periods',$this->_name . '.period = periods.id',
+		array('broadperiod' => 'term'))
+		->joinLeft('finds_images','finds_images.image_id = slides.secuid',array())
+		->joinLeft('finds','finds_images.find_id = finds.secuid',array('old_findID', 
+		'findID' => 'finds.id'))
+		->joinLeft('findspots','finds.secuid = findspots.findID',array('woeid', 
+		'latitude' => 'declat','longitude' => 'declong',
+		'coordinates' => 'CONCAT( findspots.declat,  ",", findspots.declong )',
+		'county'))
+		->joinLeft('users','slides.createdBy = users.id',array('imagedir','fullname'))
+		->joinLeft('licenseType','slides.ccLicense = licenseType.id',array('licenseAcronym' => 'acronym' ,
+		'license' => 'flickrID'))
+		->where('slides.imageID = ?',(int)$id);
+	return $slides->fetchAll($select);
+	}
 
 }

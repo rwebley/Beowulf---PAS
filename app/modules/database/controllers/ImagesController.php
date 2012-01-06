@@ -14,18 +14,18 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	/** Set up the ACL and contexts
 	*/			
 	public function init() {
-		$this->_helper->_acl->allow('public',array('image','zoom','index'));
-		$this->_helper->_acl->allow('member',array('add','delete','edit'));
-		$this->_helper->_acl->allow('flos',null);
-        $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-		$this->_helper->contextSwitch()
-			 ->setAutoDisableLayout(true)
-			 ->addContext('csv',array('suffix' => 'csv'))
- 			 ->addContext('kml',array('suffix' => 'kml'))
-  			 ->addContext('rss',array('suffix' => 'rss'))
-			 ->addContext('atom',array('suffix' => 'atom'))
-			 ->addActionContext('image', array('xml','json'))
-             ->initContext();
+	$this->_helper->_acl->allow('public',array('image','zoom','index'));
+	$this->_helper->_acl->allow('member',array('add','delete','edit'));
+	$this->_helper->_acl->allow('flos',null);
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$this->_helper->contextSwitch()
+		->setAutoDisableLayout(true)
+		->addContext('csv',array('suffix' => 'csv'))
+		->addContext('kml',array('suffix' => 'kml'))
+		->addContext('rss',array('suffix' => 'rss'))
+		->addContext('atom',array('suffix' => 'atom'))
+		->addActionContext('image', array('xml','json'))
+		->initContext();
 	$this->_auth = Zend_Registry::get('auth');
 	$this->_images = new Slides();
 	$this->_cache = Zend_Registry::get('cache');
@@ -112,7 +112,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	}
 	 
 	$this->view->form = $form;
-	$savePath = self::PATH . $username .'/medium/'; 
+	$savePath = self::PATH . $username . '/medium/'; 
 	$thumbPath = self::PATH . 'thumbnails/';
 	if ($this->_request->isPost()) {
 	$formData = $this->_request->getPost();	{
@@ -148,7 +148,8 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	
 	$location = self::PATH . $username . '/' . $filename;
 	$id = $this->_images->insert($insertData);
-	
+	//Update the solr instance
+	$this->_helper->solrUpdater->update('beoimages', $id);
 	$largepath   = self::PATH . $username . '/';
 	$mediumpath  = self::PATH . $username . '/medium/';
 	$smallpath   = self::PATH . $username . '/small/';
@@ -254,14 +255,14 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	if(file_exists($mediumpath.$name.$ext)) {
 	$phMagickMedium = new phMagick($mediumpath.$name.$ext, $mediumpath.$name.$ext);
 	$phMagickMedium->rotate($rotate);
-			Zend_Debug::dump($phMagickMedium);
+//	Zend_Debug::dump($phMagickMedium);
 
 	} else {
 	$phMagickMediumCreate = new phMagick($largepath.$filename, $mediumpath.$name.$ext);
     $phMagickMediumCreate->resize(500,0);
     $phMagickMediumCreate->rotate($rotate);
 	$phMagickMediumCreate->convert();
-	Zend_Debug::dump($phMagickMediumCreate);
+//	Zend_Debug::dump($phMagickMediumCreate);
 
 	}
 	//rotate small image
@@ -282,7 +283,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	if(file_exists($displaypath.$name.$ext)) {
 	$phMagickDisplay = new phMagick($displaypath.$name.$ext, $displaypath.$name.$ext);
 	$phMagickDisplay->rotate($rotate);
-	Zend_Debug::dump($phMagickDisplay);
+//	Zend_Debug::dump($phMagickDisplay);
 
 	} else {
 	$phMagickDisplayCreate = new phMagick($largepath.$name.$ext, $displaypath.$name.$ext);
@@ -315,7 +316,9 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	}
 	
 	$update = $images->update($updateData,$where);
-		$cache = Zend_Registry::get('cache');
+		//Update the solr instance
+	$this->_helper->solrUpdater->update('beoimages', $this->_getParam('id'));	
+	$cache = Zend_Registry::get('cache');
 	$cache->remove('findtoimage' . $this->_getParam('id'));
 
 	$this->_flashMessenger->addMessage('Image and metadata updated!');
