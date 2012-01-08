@@ -1,5 +1,8 @@
-<?php $this->headTitle('Details for Roman mint at '.$this->name);
-$this->headMeta('Full details for Roman mint at '.$this->name . ' describing location and recent examples. ','dc.description')
+<?php 
+
+$this->headTitle('Details for issuing mint located at ' . $this->name);
+$this->headMeta('Full details for issuing  mint at '. $this->name 
+        . ' describing location and recent examples. ','dc.description')
 ->headMeta('CC NC-SA-BY','dc.rights')
 ->headMeta('The Portable Antiquities Scheme','dc.publisher')
 ->headMeta('Daniel Pett','dc.creator');
@@ -8,8 +11,34 @@ $this->headMeta('Full details for Roman mint at '.$this->name . ' describing loc
 
 <h2>The <?php echo $this->escape($this->name);?> mint</h2>
 
-<p>Mint: <?php echo $this->escape($this->name);?> <br>
-Geo location: <?php echo $this->escape($this->latitude);?> <?php echo $this->escape($this->longitude);?><br>
-Abbreviation: <?php echo $this->abbrev;?><br>
-<?php echo $this->description;?></p>
-<p>View <a href="<?php echo $this->url(array('module'=>'database','controller' => 'search','action'=>'results', 'mint'=>$this->pasID),null,true);?>" title="View all records">all coins recorded</a>, which are attributed to <?php echo $this->escape($this->name);?>.</p>
+<p>
+
+<?php if(!is_null($this->name)):?>
+Mint: <?php echo $this->escape($this->name);?> <br />
+<?php endif;?>
+
+<?php if(!is_null($this->latitude)):?>
+Geo location: <?php echo $this->escape($this->latitude);?> 
+<?php echo $this->escape($this->longitude);?><br />
+<?php endif;?>
+
+<?php if(!is_null($this->abbrev)):?>
+Abbreviation: <?php echo $this->abbrev;?>
+<?php endif;?>
+
+</p>
+
+<?php if(!is_null($this->description)):?>
+<?php echo $this->description;?>
+<?php endif;?>
+
+<?php if(!is_null($this->pasID)):?>
+<p>View <a href="<?php echo $this->url(array(
+    'module'=>'database',
+    'controller' => 'search',
+    'action'=>'results', 
+    'mint'=>$this->pasID),
+        null,true);?>" title="View all records">all coins recorded</a>, 
+        which are attributed to <?php echo $this->escape($this->name);?>.
+</p>
+<?php endif;?>

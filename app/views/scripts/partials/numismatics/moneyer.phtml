@@ -1,16 +1,37 @@
-<?php $this->headTitle('Details for '.$this->name.' - Roman Republican moneyer');
+<?php 
+$this->headTitle('Details for '.$this->name.' - Roman Republican moneyer');
 $this->headMeta('Eleanor Ghey','dc.creator')
 ->headMeta('The Portable Antiquities Scheme and the British Museum','dc.publisher')
-->headMeta($this->name . ',' . $this->RRC . ',' .$this->mint,'dc.keywords')
-->headMeta('Details for the Republican Moneyer '. $this->name . ' with images where available','dc.description')
+->headMeta($this->name . ',' . $this->RRC . ',' .$this->mint,'keywords')
+->headMeta('Details for the Republican Moneyer '. $this->name 
+        . ' with images where available','description')
 ->headMeta($this->curUrl(),'dc.identifier');
 ?>
 <h2><?php echo $this->name;?></h2>
 <p>Issued: <?php echo $this->date_1;?> <?php if(isset($this->date_2)) { echo $this->date_2;}?></p>
+
+<?php if(!is_null($this->bio)):?>
 <p><?php echo $this->bio;?></p>
-<p>RRC: <?php echo $this->RRC;?><br />
+<?php endif;?>
+
+
+<p>
+<?php if(!is_null($this->RRC)):?>
+RRC: <?php echo $this->RRC;?><br />
+<?php endif;?>
+
+<?php if(!is_null($this->appear)):?>
 Appearance: <?php echo $this->appear;?><br />
-Mint: <?php echo $this->mint;?></p>
+<?php endif;?>
+
+<?php if(!is_null($this->mint)):?>
+Mint: <?php echo $this->mint;?>
+<?php endif;?>
+
+</p>
+
+
+
 <?php 
 ini_set('display_errors', '0');     # don't show any errors...
 //error_reporting(E_ALL | E_STRICT);  # ...but do log them		

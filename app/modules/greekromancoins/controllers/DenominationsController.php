@@ -19,30 +19,30 @@ class GreekRomanCoins_DenominationsController extends Pas_Controller_Action_Admi
 		->addActionContext('denomination', array('xml','json'))
 		->initContext();
     }
-	/** Internal period number
-	*/ 
-	protected $_period = 66;
+    /** Internal period number
+    */ 
+    protected $_period = 66;
 
-	/** Set up the index display page
-	*/ 
-	public function indexAction() {
-	$denominations = new Denominations();
-	$denominations = $denominations->getDenominations($this->_period,$this->_getParam('page'));
+    /** Set up the index display page
+    */ 
+    public function indexAction() {
+    $denominations = new Denominations();
+    $denominations = $denominations->getDenominations($this->_period,$this->_getParam('page'));
     $contexts = array('json','xml');
-	if(in_array($this->_helper->contextSwitch()->getCurrentContext(),$contexts)) {
-	$data = array('pageNumber' => $denominations->getCurrentPageNumber(),
-				  'total' => number_format($denominations->getTotalItemCount(),0),
-				  'itemsReturned' => $denominations->getCurrentItemCount(),
-				  'totalPages' => number_format($denominations->getTotalItemCount()/$denominations->getCurrentItemCount(),0));
-	$this->view->data = $data;
-	$denomsa = array();
-	foreach($denominations as $r => $v){
-		$denomsa['type'][$r] = $v;
-	}
-		$this->view->denominations = $denomsa;	
-	} else {
-		$this->view->denominations = $denominations;
-	}
+    if(in_array($this->_helper->contextSwitch()->getCurrentContext(),$contexts)) {
+    $data = array('pageNumber' => $denominations->getCurrentPageNumber(),
+                  'total' => number_format($denominations->getTotalItemCount(),0),
+                  'itemsReturned' => $denominations->getCurrentItemCount(),
+                  'totalPages' => number_format($denominations->getTotalItemCount()/$denominations->getCurrentItemCount(),0));
+    $this->view->data = $data;
+    $denomsa = array();
+    foreach($denominations as $r => $v){
+            $denomsa['type'][$r] = $v;
+    }
+            $this->view->denominations = $denomsa;	
+    } else {
+            $this->view->denominations = $denominations;
+    }
     }
     
 	/** Display individual denomination

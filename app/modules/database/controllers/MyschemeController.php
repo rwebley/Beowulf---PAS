@@ -9,227 +9,235 @@
 * @license    GNU General Public License
 */
 class Database_MyschemeController extends Pas_Controller_Action_Admin {
-	/**
-	 * 
-	 * @var object $_auth
-	 */
-	protected $_auth;
 	
-	public function init() {	
-	$this->_helper->_acl->allow('member',null);
-	$this->_auth = Zend_Registry::get('auth');
+    /**
+    * 
+    * @var object $_auth
+    */
+    protected $_auth;
+	
+    public function init() {	
+    $this->_helper->_acl->allow('member',null);
+    $this->_auth = Zend_Registry::get('auth');
     $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-	$this->_helper->contextSwitch()
-			 ->setAutoDisableLayout(true)
-			 ->addContext('csv',array('suffix' => 'csv'))
- 			 ->addContext('kml',array('suffix' => 'kml'))
-  			 ->addContext('rss',array('suffix' => 'rss'))
-			 ->addContext('atom',array('suffix' => 'atom'))
-			 ->addActionContext('record', array('xml','json','rss','atom'))
- 			 ->addActionContext('index', array('xml','json','rss','atom'))
-             ->initContext();
-
+    $this->_helper->contextSwitch()
+         ->setAutoDisableLayout(true)
+         ->addContext('csv',array('suffix' => 'csv'))
+         ->addContext('kml',array('suffix' => 'kml'))
+         ->addContext('rss',array('suffix' => 'rss'))
+         ->addContext('atom',array('suffix' => 'atom'))
+         ->addActionContext('record', array('xml','json','rss','atom'))
+         ->addActionContext('index', array('xml','json','rss','atom'))
+         ->initContext();
     }
-	const REDIRECT = '/database/myscheme/';
-	/** Protected function for finding institution
-	 * @todo needs abstracting out to extended controller's getAccount()
-	 * @throws Pas_Exception_Param if no institution is attached
-	 * 
-	 */
-	protected function getInstitution() {
-	if($this->_auth->hasIdentity()) {
-	$user = $this->_auth->getIdentity();
-	$inst = $user->institution;
-	return $inst;
-	} else {
-		throw new Pas_Exception_Param('No institution attached');
-	}
-	}
+    
+    const REDIRECT = '/database/myscheme/';
 	
-	/** Protected function for finding user's image directory
-	 * @todo needs abstracting out to extended controller's getAccount()
-	 * @throws Pas_Exception_Param if no institution is attached
-	 * 
-	 */
-	protected function getImageDir() {
-	if($this->_auth->hasIdentity()) {
-	$user = $this->_auth->getIdentity();
-	$imagedir = $user->imagedir;
-	return $imagedir;
-	} else {
-		throw new Pas_Exception_Param('No image directory set up');
-	}
-	}
+    /** Protected function for finding institution
+     *  
+     * @todo needs abstracting out to extended controller's getAccount()
+     *  @throws Pas_Exception_Param if no institution is attached
+     * 
+     */
+    protected function getInstitution() {
+    if($this->_auth->hasIdentity()) {
+    $user = $this->_auth->getIdentity();
+    $inst = $user->institution;
+    return $inst;
+    } else {
+	throw new Pas_Exception_Param('No institution attached');
+    }
+    }
+	
+    /** Protected function for finding user's image directory
+     * @todo needs abstracting out to extended controller's getAccount()
+     * @throws Pas_Exception_Param if no institution is attached
+     * 
+     */
+    protected function getImageDir() {
+    if($this->_auth->hasIdentity()) {
+    $user = $this->_auth->getIdentity();
+    $imagedir = $user->imagedir;
+    return $imagedir;
+    } else {
+            throw new Pas_Exception_Param('No image directory set up');
+    }
+    }
 
-	/** Redirect as no root access allowed
-	 * 
-	 */	
-	public function indexAction() {
-	$this->_flashMessenger->addMessage('No access to index page');
-	$this->_redirect('/database/');
-	}
+    /** Redirect as no root access allowed
+     * 
+     */	
+    public function indexAction() {
+    $this->_flashMessenger->addMessage('No access to index page');
+    $this->_redirect('/database/');
+    }
+
+    /** List of user's finds that they have entered. Can be solr'd
+     * 
+     */		
+    public function myfindsAction() {
+    $limit = 20;
+    $page = $this->_getParam('page');
+    if(!isset($page)){
+            $start = 0;
+
+    } else {
+            unset($params['page']);
+            $start = ($page - 1) * 20;
+    }	
 	
-	/** List of user's finds that they have entered. Can be solr'd
-	 * 
-	 */		
-	public function myfindsAction() {
-	$limit = 20;
-	$page = $this->_getParam('page');
-	if(!isset($page)){
-		$start = 0;
-		
-	} else {
-		unset($params['page']);
-		$start = ($page - 1) * 20;
-	}	
-	
-	$config = array(
+    $config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
     'path' => '/solr/',
-	'core' => 'beowulf'
+    'core' => 'beowulf'
     ));
 	
-	$select = array(
+    $select = array(
     'query'         => '*:*',
     'start'         => $start,
     'rows'          => $limit,
     'fields'        => array('*'),
     'sort'          => array('created' => 'desc'),
-	'filterquery' => array(),
+    'filterquery' => array(),
     );
    
-	$client = new Solarium_Client($config);
-	// get a select query instance based on the config
-	$query = $client->createSelect($select);
-	if(!is_null($d) && !is_null($lon) && !is_null($lat)){
-	$helper = $query->getHelper();
-	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
-	}
-	$query->createFilterQuery('myfinds')->setQuery('createdBy:' . $this->getIdentityForForms());
+    $client = new Solarium_Client($config);
+    // get a select query instance based on the config
+    $query = $client->createSelect($select);
+    if(!is_null($d) && !is_null($lon) && !is_null($lat)){
+    $helper = $query->getHelper();
+    $query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
+    }
+    $query->createFilterQuery('myfinds')->setQuery('createdBy:' . $this->getIdentityForForms());
     $resultset = $client->select($query);
-	$data = NULL;
-	foreach($resultset as $doc){
-	    foreach($doc as $key => $value){
-	    	$fields[$key] = $value;
-	    }
-	    $data[] = $fields;
-	}
-	$paginator = Zend_Paginator::factory($resultset->getNumFound());
+    $data = NULL;
+    foreach($resultset as $doc){
+        foreach($doc as $key => $value){
+            $fields[$key] = $value;
+        }
+        $data[] = $fields;
+    }
+    $paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
-              ->setItemCountPerPage($limit)
-              ->setPageRange(20);
+            ->setItemCountPerPage($limit)
+            ->setPageRange(20);
     $this->view->paginator = $paginator;
-	$this->view->results = $data;
-	}
-	/** Finds recorded by an institution assigned to the user
-	 * 
-	 */	
-	public function myinstitutionAction() {
-	$limit = 20;
-	$page = $this->_getParam('page');
-	if(!isset($page)){
-		$start = 0;
-		
-	} else {
-		unset($params['page']);
-		$start = ($page - 1) * 20;
-	}	
+    $this->view->results = $data;
+    }
 	
-	$config = array(
+    /** Finds recorded by an institution assigned to the user 
+     * 
+    */	
+    public function myinstitutionAction() {
+    $limit = 20;
+    $page = $this->_getParam('page');
+    if(!isset($page)){
+            $start = 0;
+
+    } else {
+            unset($params['page']);
+            $start = ($page - 1) * 20;
+    }	
+
+    $config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
     'path' => '/solr/',
-	'core' => 'beowulf'
+    'core' => 'beowulf'
     ));
 	
-	$select = array(
+    $select = array(
     'query'         => '*:*',
     'start'         => $start,
     'rows'          => $limit,
     'fields'        => array('*'),
     'sort'          => array('created' => 'desc'),
-	'filterquery' => array(),
+    'filterquery' => array(),
     );
    
-	$client = new Solarium_Client($config);
-	// get a select query instance based on the config
-	$query = $client->createSelect($select);
-	if(!is_null($d) && !is_null($lon) && !is_null($lat)){
-	$helper = $query->getHelper();
-	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
-	}
-	$query->createFilterQuery('myinst')->setQuery('institution:' . $this->getInstitution());
+    $client = new Solarium_Client($config);
+    // get a select query instance based on the config
+    $query = $client->createSelect($select);
+    if(!is_null($d) && !is_null($lon) && !is_null($lat)){
+    $helper = $query->getHelper();
+    $query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
+    }
+    $query->createFilterQuery('myinst')->setQuery('institution:' . $this->getInstitution());
     $resultset = $client->select($query);
-	$data = NULL;
-	foreach($resultset as $doc){
-	    foreach($doc as $key => $value){
-	    	$fields[$key] = $value;
-	    }
-	    $data[] = $fields;
-	}
-	$paginator = Zend_Paginator::factory($resultset->getNumFound());
+    $data = NULL;
+    foreach($resultset as $doc){
+        foreach($doc as $key => $value){
+            $fields[$key] = $value;
+        }
+        $data[] = $fields;
+    }
+    $paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
-              ->setItemCountPerPage($limit)
-              ->setPageRange(20);
+          ->setItemCountPerPage($limit)
+          ->setPageRange(20);
     $this->view->paginator = $paginator;
-	$this->view->results = $data;
-	}
-	/** Display all images that a user has added.
-	 * 
-	 */		
-	public function myimagesAction() {
-	$limit = 20;
-	$page = $this->_getParam('page');
-	if(!isset($page)){
-		$start = 0;
-		
-	} else {
-		unset($params['page']);
-		$start = ($page - 1) * 20;
-	}	
-	
-	$config = array(
+    $this->view->results = $data;
+    }
+    /** Display all images that a user has added.
+     * 
+     */		
+    public function myimagesAction() {
+    $limit = 20;
+    $page = $this->_getParam('page');
+    if(!isset($page)){
+            $start = 0;
+
+    } else {
+            unset($params['page']);
+            $start = ($page - 1) * 20;
+    }	
+
+    $config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
     'port' => 8983,
     'path' => '/solr/',
-	'core' => 'beoimages'
+    'core' => 'beoimages'
     ));
 	
-	$select = array(
+    $select = array(
     'query'         => '*:*',
     'start'         => $start,
     'rows'          => $limit,
     'fields'        => array('*'),
     'sort'          => array('created' => 'desc'),
-	'filterquery' => array(),
+    'filterquery' => array(),
     );
    
-	$client = new Solarium_Client($config);
-	// get a select query instance based on the config
-	$query = $client->createSelect($select);
-	if(!is_null($d) && !is_null($lon) && !is_null($lat)){
-	$helper = $query->getHelper();
-	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
-	}
-	$query->createFilterQuery('myimages')->setQuery('createdBy:' . $this->getIdentityForForms());
+    $client = new Solarium_Client($config);
+    // get a select query instance based on the config
+    $query = $client->createSelect($select);
+    if(!is_null($d) && !is_null($lon) && !is_null($lat)){
+    $helper = $query->getHelper();
+    $query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
+    }
+    $query->createFilterQuery('myimages')->setQuery('createdBy:' . $this->getIdentityForForms());
     $resultset = $client->select($query);
-	$data = NULL;
-	foreach($resultset as $doc){
-	    foreach($doc as $key => $value){
-	    	$fields[$key] = $value;
+    $data = NULL;
+    foreach($resultset as $doc){
+	  foreach($doc as $key => $value){
+              $fields[$key] = $value;
 	    }
-	    $data[] = $fields;
-	}
-	$paginator = Zend_Paginator::factory($resultset->getNumFound());
+    $data[] = $fields;
+    }
+    $paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
               ->setItemCountPerPage($limit)
               ->setPageRange(20);
     $this->view->paginator = $paginator;
-	$this->view->results = $data;
-	}
+    $this->view->results = $data;
+    }
+    
+    public function mytreasureAction(){
+        
+    }
 
 }

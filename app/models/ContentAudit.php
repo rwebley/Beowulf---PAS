@@ -1,5 +1,5 @@
 <?php
-/** Model for creating the audited data for changes to coin records
+/** Model for creating the audited data for changes to content
 * @category Pas
 * @package Pas_Db_Table
 * @subpackage Abstract
@@ -9,9 +9,9 @@
 * @version 		1
 * @since 		22 September 2011
 * */
-class CoinsAudit extends Pas_Db_Table_Abstract {
+class ContentAudit extends Pas_Db_Table_Abstract {
 
-	protected $_name = 'coinsAudit';
+	protected $_name = 'contentAudit';
 	protected $_primary = 'id';
 
 	/** Get all changes to a coin record since creation
@@ -21,10 +21,9 @@ class CoinsAudit extends Pas_Db_Table_Abstract {
 	public function getChanges($id) {
 	$finds = $this->getAdapter();
 	$select = $finds->select()
-            ->from($this->_name,array($this->_name . '.created', 'recordID', 
-                'editID'))
+            ->from($this->_name,array($this->_name . '.created','recordID','editID'))
             ->joinLeft('users','users.id = ' . $this->_name . '.createdBy', 
-                    array('id','fullname','username'))
+                        array('id','fullname','username'))
             ->where($this->_name . '.recordID= ?',(int)$id)
             ->order($this->_name . '.id DESC')
             ->group($this->_name . '.created');
@@ -38,8 +37,8 @@ class CoinsAudit extends Pas_Db_Table_Abstract {
 	public function getChange($id) {
 	$finds = $this->getAdapter();
 	$select = $finds->select()
-            ->from($this->_name, array($this->_name . '.created', 'afterValue',
-                'fieldName', 'beforeValue'))
+            ->from($this->_name, array($this->_name . '.created','afterValue', 
+                'fieldName','beforeValue'))
             ->joinLeft('users','users.id = ' . $this->_name . '.createdBy', 
 		array('id','fullname','username'))
             ->where($this->_name . '.editID= ?',$id)
