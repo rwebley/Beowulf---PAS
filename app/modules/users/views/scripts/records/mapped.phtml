@@ -1,6 +1,6 @@
 <?php 
 $this->headTitle('All finds recorded by me, mapped');
-$this->headMeta('A list of all finds recorded for me, by the Scheme on a google map!','dc.description');
+$this->headMeta('A list of all finds recorded for me, by the Scheme on a google map!','description');
 	$config = Zend_Registry::get('config');
 	$this->apikey = $config->webservice->googlemaps->apikey;
 $this->inlineScript()->appendFile('http://maps.google.com/maps?file=api&amp;v=2.x&key='.$this->apikey,$type='text/javascript')

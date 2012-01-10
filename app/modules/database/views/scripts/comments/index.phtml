@@ -1,4 +1,4 @@
-<?php $this->headMeta('All comments entered on our database in reverse chronological order','dc.description');
+<?php $this->headMeta('All comments entered on our database in reverse chronological order','description');
 $this->headTitle('Published comments on our database');
 $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
 
@@ -18,7 +18,6 @@ $this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.
 
 <?php $this->jQuery()->javascriptCaptureStart() ?>
 jQuery(document).ready(function($) {
-
  $('a[rel*=lightbox]').lightBox() 
-    })
+ });
 <?php $this->jQuery()->javascriptCaptureEnd() ?>

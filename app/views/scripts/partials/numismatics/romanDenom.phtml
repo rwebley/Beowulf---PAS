@@ -1,11 +1,15 @@
-<?php $this->headTitle('Details for denomination: '.$this->denomination);
+<?php $this->headTitle('Details for denomination: ' . $this->denomination);
 $this->headMeta($this->curUrl(),'dc.identifier')
 		->headMeta('CC NC-SA-BY','dc.rights')
 		->headMeta('Daniel Pett','dc.creator')
 		->headMeta('The Portable Antiquities Scheme','dc.publisher');
-$this->headMeta('This page outlines detail for the denomination of '.$this->denomination.' as used on the Scheme\'s database. When possible, this has been enhanced with dbpedia.','dc.description');
-$this->headLink()->appendAlternate($this->baseUrl().'/database/search/results/denomination/'.$this->id.'/format/atom/', 
-	 			'application/rss+xml', 'Latest recorded finds feed for '.$this->escape($this->denomination));?>
+$this->headMeta('This page outlines detail for the denomination of ' 
+        . $this->denomination . ' as used on the Scheme\'s database. 
+            When possible, this has been enhanced with dbpedia.','description');
+$this->headLink()->appendAlternate($this->baseUrl() 
+        . '/database/search/results/denomination/' . $this->id . '/format/atom/', 
+	'application/rss+xml', 'Latest recorded finds feed for ' 
+        . $this->escape($this->denomination));?>
 <h2>The <?php echo $this->denomination;?></h2>
 <?php echo $this->description;?>
 <p><?php echo $this->rarity; ?></p>
@@ -82,7 +86,7 @@ $chunks = split('\. ',str_replace(array('c.','d.','pl.'),array('circa','died','p
   }
  $abs = '<p>'.join($chunks).'</p>';
  $trimmed = $this->ellipsisstring($abs,200);
-$this->headMeta($trimmed,'dc.description');
+$this->headMeta($trimmed,'description');
 echo '<h4>Wikipedia derived information</h4>';
 if(isset($row['thumb']) && isset($row['caption'])) {
 echo '<a href="'.$row['depiction'].'" rel="lightbox" title="' .str_replace('"','',$row['caption']) .'"><img src="'.$row['thumb'].'" class="flow" alt="' .str_replace('"','',$row['caption']) .'" width="'.$row['imgw'].'"/></a>';

@@ -1,5 +1,5 @@
 <?php $this->headTitle('Details for the '.$this->term.' mint at '.$this->mint_name);
-$this->headMeta('Details for the '.$this->escape($this->mint_name),'dc.description');
+$this->headMeta('Details for the '.$this->escape($this->mint_name),'description');
 $this->headMeta('numismatics','dc.subject');
 $this->headLink()->appendAlternate($this->baseUrl().'/database/search/results/mint/'.$this->id.'/format/atom/', 
 	 			'application/rss+xml', 'Latest recorded finds feed for '.$this->escape($this->mint_name));?>

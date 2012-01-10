@@ -55,14 +55,14 @@ class Pas_OaiPmhRepository_Metadata_OaiDc extends Pas_OaiPmhRepository_Metadata_
    	'title'			=> $this->item['broadperiod']. ' ' . $this->item['objecttype'] ,
 	'creator'		=> $this->item['identifier'],
 	'subject'		=> 'archaeology',
-	'description' 	=> strip_tags($this->item['description']),
-	'publisher' 	=> 'The Portable Antiquities Scheme',
-	'contributor' 	=> $this->item['institution'],
+	'description'           => strip_tags($this->item['description']),
+	'publisher'             => 'The Portable Antiquities Scheme',
+	'contributor'           => $this->item['institution'],
 	'date' 			=> $this->item['created'],
  	'type' 			=> $this->item['objecttype'],
 	'format' 		=> 'text/html',
 	'id' 			=> $this->item['id'],
-	'identifier' 	=> self::PAS_RECORD_URL . $this->item['id'],
+	'identifier'            => self::PAS_RECORD_URL . $this->item['id'],
 	'source' 		=> 'The Portable Antiquities Scheme Database',
 	'language' 		=> 'en-GB');
         	

@@ -1,7 +1,7 @@
 <?php
 foreach($this->gazetteer as $g){
 $this->headTitle('1:50K Gazetteer data for '.$g['name']);
-$this->headMeta('Details for the 1:50K gazetteer entry for ' . $g['name'],'dc.description')
+$this->headMeta('Details for the 1:50K gazetteer entry for ' . $g['name'],'description')
 ->headMeta('Daniel Pett','dc.creator')
 ->headMeta('The Portable Antiquities Scheme','dc.publisher')
 ->headMeta($this->curUrl(),'dc.identifier');

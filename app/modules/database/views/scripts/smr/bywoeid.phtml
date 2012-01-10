@@ -1,10 +1,13 @@
-<?php $this->headTitle('Scheduled monuments listed on NMR by WOEID: '.$this->woeid);
-$this->headMeta('This page lists all Scheduled Monuments or SMRs attached to '.$this->woeid,'dc.description');
+<?php 
+$this->headTitle('Scheduled monuments listed on NMR by WOEID: ' . $this->woeid);
+$this->headMeta('This page lists all Scheduled Monuments or SMRs attached to ' 
+        . $this->woeid,'description');
 ?>
 <h2>Scheduled monuments listed on the National Monuments Register by WOEID</h2>
-<p>The Scheduled Monuments listed below were provided by Martin Newman from English Heritage. We accept no responsibility for E&O.</p>
+<p>The Scheduled Monuments listed below were provided by Martin Newman from 
+    English Heritage. We accept no responsibility for E & O.</p>
 
-<?php if(count($this->smrs)):?>
+<?php if($this->smrs):?>
 <table class="stripeMe" summary="A list of all scheduled monuments in England">
 <thead>
 <tr>
@@ -19,7 +22,7 @@ $this->headMeta('This page lists all Scheduled Monuments or SMRs attached to '.$
 <?php echo $this->partialLoop('partials/database/smr.phtml',$this->smrs);?>
 </tbody>
 </table>
-<?= $this->paginationControl($this->smrs, 'Sliding', 'structure/pagination.phtml'); ?>
+<?php echo $this->paginationControl($this->smrs, 'Sliding', 'structure/pagination.phtml'); ?>
 
 <?php else:?>
 <p>No Scheduled Monuments are available to you right now.</p>

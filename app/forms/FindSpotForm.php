@@ -199,7 +199,8 @@ public function __construct($options = null) {
 	->setRegisterInArrayValidator(false)
 	->setDecorators($decorators)
 	->addFilters(array('StripTags', 'StringTrim'))
-	->addMultiOptions(array(NULL => 'Choose landuse' ,'Valid landuses' => $landuse_options));
+	->addMultiOptions(array(NULL => 'Choose landuse',
+            'Valid landuses' => $landuse_options));
 	
 	$landusecode = new Zend_Form_Element_Select('landusecode');
 	$landusecode->setLabel('Specific landuse: ')
@@ -215,15 +216,15 @@ public function __construct($options = null) {
 	->addValidators(array('NotEmpty'))
 	->setAttrib('rows',5)
 	->setAttrib('cols',40)
-	->addFilters(array('StripTags','BasicHtml', 'StringTrim', 'EmptyParagraph'))
+	->addFilters(array('BasicHtml', 'StringTrim', 'EmptyParagraph'))
 	->setAttrib('class','expanding')
 	->setAttrib('class','privatedata');
 
 	$postcode = new Zend_Form_Element_Text('postcode');
 	$postcode->setLabel('Postcode: ')
-	->addValidators(array('NotEmpty', 'Postcode'))
+	->addValidators(array('NotEmpty', 'ValidPostcode'))
 	->setDecorators($decorators)
-	->addFilters(array('StripTags', 'StringTrim'));
+	->addFilters(array('StripTags', 'StringTrim','StringToUpper'));
 
 	$knownas = new Zend_Form_Element_Text('knownas');
 	$knownas->setLabel('Findspot to be known as: ')

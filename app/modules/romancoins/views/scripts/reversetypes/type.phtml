@@ -1,6 +1,7 @@
 <?php 
 $this->headTitle('Full details for reverse type: ','PREPEND');
-$this->headMeta('This page provides details for the fourth century reverse type known as ' .  $this->reverses['0']['type'],'dc.description')
+$this->headMeta('This page provides details for the fourth century reverse type known as ' 
+        .  $this->reverses['0']['type'],'description')
 ->headMeta($this->curUrl(),'dc.identifier')
 ->headMeta('Daniel Pett','dc.creator')
 ->headMeta('The Portable Antiquities Scheme','dc.publisher')
@@ -11,21 +12,22 @@ echo $this->partialLoop('partials/numismatics/revtypedetail.phtml',$this->revers
 ?>
 <?php if(count($this->emps)):?>
 <h3>Issuers</h3>
-<ul id="related">
+<ul >
 <?php echo $this->partialLoop('partials/numismatics/revtypeemp.phtml',$this->emps);?>
 </ul>
 <?php endif;?>
 
-<?php if(count($this->mints)):?>
+<?php if($this->mints):?>
 <h3>Issuing mints</h3>
-<ul id="related">
+<ul >
 <?php echo $this->partialLoop('partials/numismatics/mints.phtml',$this->mints);?>
 </ul>
 <?php endif;?>
 
 <?php echo $this->latestRecords('reverse:' . Zend_Controller_Front::getInstance()->getRequest()->getParam('id')); ?>
 <?php 
-$this->jQuery()->addJavascriptFile($this->baseUrl().'/js/JQuery/jquery.lightbox.js',$type='text/javascript'); 
+$this->jQuery()->addJavascriptFile($this->baseUrl() . '/js/JQuery/jquery.lightbox.js',
+        $type='text/javascript'); 
 $this->jQuery()->javascriptCaptureStart(); ?>
 jQuery(document).ready(function($) {
 $('a[rel*=lightbox]').lightBox() 

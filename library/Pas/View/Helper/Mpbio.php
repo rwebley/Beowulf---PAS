@@ -15,15 +15,20 @@ class Pas_View_Helper_Mpbio
 	extends Zend_View_Helper_Abstract{
 	
 	protected $_arc;
+        
 	protected $_config;
 	
+        protected $_cache;
+        
 	/** Initialise objects
 	 * 
 	 */
 	public function init() {
 	$this->_arc = new Arc2();
 	$this->_config = array('remote_store_endpoint' => 'http://dbpedia.org/sparql');
-	}
+	$this->_cache = Zend_Registry::get('cache');
+        
+        }
 	
 	/** Get MP bio from full name
 	 * 
@@ -47,10 +52,11 @@ class Pas_View_Helper_Mpbio
 	 * @param string $fullname
 	 */
 	public function sparqlQuery($fullname) {
-	$config = array('remote_store_endpoint' => 'http://dbpedia.org/sparql');
-	$fullname = str_replace(array('Edward Vaizey','Nicholas Clegg'),array('Ed Vaizey','Nick Clegg'),$fullname);
-	$arc = new ARC2();
-	$store = $arc->getRemoteStore($config);
+        $key = md5($fullname . 'mpbio');
+	if (!($this->_cache->test($key))) {
+	$fullname = str_replace(array('Edward Vaizey','Nicholas Clegg'),
+                array('Ed Vaizey', 'Nick Clegg'),$fullname);
+	$store = $this->_arc->getRemoteStore($this->_config);
 	$name = str_replace(' ','_',$fullname);
 	$encoded = urlencode($name);
  	$query = '
@@ -72,13 +78,17 @@ class Pas_View_Helper_Mpbio
 	?mp dbpedia-owl:thumbnail ?thumb .
 	?mp dbpedia2:party ?party .
 	?mp dbpedia2:almaMater ?uni .
-	FILTER (?name = "'.$fullname . '"@en)
+	FILTER (?name = "' . $fullname . '"@en)
 	FILTER langMatches( lang(?abstract), "en") 
 	FILTER (?party != "")
 	}
 	LIMIT 1';
  	
  	$rows = $store->query($query, 'rows');
+        $this->_cache->save($rows);
+	} else {
+	$rows = $this->_cache->load($key);
+	}
  	return $rows;
 	}
 	
@@ -105,18 +115,21 @@ class Pas_View_Helper_Mpbio
 	public function buildHtml($response) {
 	$chunks = split('\. ',$response['abstract']);
 	foreach($chunks as $key=>$c){
-    $chunks[$key] = ($key%3==0) ? ($c . '.</p><p>') : ($c.'. ');
+        $chunks[$key] = ($key%3==0) ? ($c . '.</p><p>') : ($c.'. ');
 	}
-	$abs = '<p>'.join($chunks).'</p>';
+	$abs = '<p>' . join($chunks) . '</p>';
 	$html = '<h3>Dbpedia sourced information</h3>';
 	if(array_key_exists('thumbnail',$response)){
 	list($w, $h, $type, $attr) = getimagesize($response['thumbnail']);
-	$html .= '<img src="'.$response['thumbnail'] . '" alt ="Wikipedia sourced picture" height="' . $h . '" width="'
+	$html .= '<img src="'.$response['thumbnail'] . '" alt ="Wikipedia 
+            sourced picture" height="' . $h . '" width="'
 	. $w . '" class="flow" />';
 	}
 	$html .= $abs;
 	if(array_key_exists('uni',$response)){
-	$html .= '<p>Educated: '.rawurldecode(str_replace(array('_','http://dbpedia.org/resource/'), array(' ',''),$response['uni'])).'</p>';
+	$html .= '<p>Educated: '.rawurldecode(str_replace(array('_', 
+            'http://dbpedia.org/resource/'), array(' ',''),$response['uni'])) 
+                . '</p>';
 	}
 	return $html;
 	}

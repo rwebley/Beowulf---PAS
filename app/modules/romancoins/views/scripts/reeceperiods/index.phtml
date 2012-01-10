@@ -4,7 +4,7 @@ $this->headMeta($this->curUrl(),'dc.identifier')
 ->headMeta('The Portable Antiquities Scheme','dc.publisher')
 ->headMeta('roman,coins,reece,periods,number,sequence','dc.keywords')
 ->headMeta('The scholar, Richard Reece broke down the chronology of coin use into a series based around periods. 
-This page lists the available periods','dc.description');
+This page lists the available periods','description');
 ?>
 <h2>Reece periods</h2>
 <p>For initial analysis of coins we use Reece periods, named after the pre-eminent Romano-British 
@@ -24,7 +24,7 @@ we need to record ALL the coins from a site.</p>
 
 <?php 
 $reeces = array_slice($this->reeces,1);
-
-echo $this->partialLoop('partials/numismatics/reeces.phtml', $reeces) ?>
+echo $this->partialLoop('partials/numismatics/reeces.phtml', $reeces);
+?>
 </tbody>
 </table>

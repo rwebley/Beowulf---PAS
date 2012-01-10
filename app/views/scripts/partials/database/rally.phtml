@@ -5,7 +5,8 @@ $dates .= $this->escape($this->df);
 if(isset($this->dt)) {
 $dates .= ' - '.$this->escape($this->dt);
 }
-$this->headMeta('This page gives full details for metal detecting rally held at '.$this->escape($this->rally_name).' between '.$dates,'dc.description')
+$this->headMeta('This page gives full details for metal detecting rally held at '
+        . $this->escape($this->rally_name).' between ' . $dates,'description')
 ->headMeta($this->curUrl(),'dc.identifier')
 ->headMeta($this->namethem($this->escape($this->fullname)),'dc.creator')
 ->headMeta($this->updated, 'updated')
@@ -21,15 +22,31 @@ $this->headTitle($this->escape($this->rally_name));
 
 
 <?php 
-echo $this->Href(array('module' => 'database','controller'=>'rallies', 'action'=>'edit', 'checkAcl'=>true,
-'acl'=>'Zend_Acl',  'params' =>array('id'=>$this->id), 'content'=>'Edit','attribs' => array('title' => 'Edit rally details')));
+echo $this->Href(array(
+    'module' => 'database',
+    'controller'=>'rallies', 
+    'action'=>'edit', 
+    'checkAcl'=>true,
+    'acl'=>'Zend_Acl',  
+    'params' =>array('id'=>$this->id), 
+    'content'=>'Edit',
+    'attribs' => array(
+        'title' => 'Edit rally details')
+    ));
 ?> 
  
 <?php 
 echo $this->Href(array(
-    'module' => 'database', 'controller'=>'rallies', 'action'=>'delete', 
-    'checkAcl'=>true, 'acl'=>'Zend_Acl', 'params' =>array('id'=>$this->id), 
-    'content'=>'Delete','attribs' => array('title' => 'Delete rally details')));
+    'module' => 'database', 
+    'controller'=>'rallies', 
+    'action'=>'delete', 
+    'checkAcl'=>true, 
+    'acl'=>'Zend_Acl', 
+    'params' =>array('id'=>$this->id), 
+    'content'=>'Delete',
+    'attribs' => array(
+        'title' => 'Delete rally details')
+    ));
 ?>
 <?php
 $auth = Zend_Auth::getInstance();

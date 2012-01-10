@@ -1,9 +1,9 @@
 <?php
 $this->headTitle('Details of '.$this->name.' personified');
 $this->headMeta($this->curUrl(),'dc.identifier')
-->headMeta('Daniel Pett','dc.creator')
-->headMeta('The Portable Antiquities Scheme','dc.publisher')
-->headMeta('CC NC-BY-SA','dc.rights');
+    ->headMeta('Daniel Pett','dc.creator')
+    ->headMeta('The Portable Antiquities Scheme','dc.publisher')
+    ->headMeta('CC NC-BY-SA','dc.rights');
 ?>
 <div about="personifcation-<?php echo $this->name;?>">
 <h2>Details of <?php echo $this->name;?> personified on coins</h2>
@@ -15,12 +15,15 @@ $this->headMeta($this->curUrl(),'dc.identifier')
 <h4>Attributes</h4>
 <ul>
 <li><?php echo $this->attrib1?></li>
-<?php if(isset($this->attrib2)):?>
+
+<?php if(!is_null($this->attrib2)):?>
 <li><?php echo $this->attrib2;?>
 <?php endif;?>
+
 <?php if(isset($this->attrib3)):?>
 <li><?php echo $this->attrib3;?>
 <?php endif;?>
+
 </ul>
 <?php endif;?>
 
@@ -80,7 +83,7 @@ $chunks = split('\. ',str_replace(array('c.','d.'),array('circa','died'),$row['a
   }
  $abs = '<p>'.join($chunks).'</p>';
  $trimmed = $this->ellipsisstring($abs,200);
-$this->headMeta($trimmed,'dc.description');
+$this->headMeta($trimmed,'description');
 echo '<h4>Wikipedia derived information</h4>';
 if(isset($row['thumb'])) {
 echo '<a href="'.$row['depiction'].'" rel="lightbox" title="' .str_replace('"','',$row['caption']) .'"><img src="'.$row['thumb'].'" class="flow" alt="' .str_replace('"','',$row['caption']) .'" width="'.$row['imgw'].'"/></a>';

@@ -25,8 +25,14 @@ class Pas_View_Helper_YahooGeoAdjacentSmr
 	$html .= '<ul id="legend-items">';
 	foreach($places as $p ) {
 	$c = array_shift($colours);
-	$url = $this->view->url(array('module' => 'database','controller' => 'smr','action' => 'bywoeid','number' => $p['WOE_ID']),null,true);
-	$html .= '<li><a href="' . $url . '" title="Find all objects associated with this WOEID">';
+	$url = $this->view->url(array(
+            'module' => 'database',
+            'controller' => 'smr',
+            'action' => 'bywoeid',
+            'number' => $p['WOE_ID']),
+                null,true);
+	$html .= '<li><a href="' . $url . '" title="Find all objects associated 
+            with this WOEID">';
 	$html .= $p['Name'];
 	$html .= '</a></li>';
 	}

@@ -1,9 +1,9 @@
 <?php
 $this->headTitle('A Scheme event: '. $this->eventTitle);
-$this->headMeta($this->CurUrl(),'DC.Identifier');
-$this->headMeta($this->title(),'DC.Title');
-$this->headMeta(strip_tags(substr($this->eventDescription,0,300)),'DC.Description');
-$this->headMeta('The Portable Antiquities Scheme and the British Museum','DC.Publisher');
+$this->headMeta($this->CurUrl(),'dc.identifier');
+$this->headMeta($this->title(),'dc.title');
+$this->headMeta(strip_tags(substr($this->eventDescription,0,300)),'description');
+$this->headMeta('The Portable Antiquities Scheme and the British Museum','dc.Publisher');
 ?>
 
 <div class="vevent">

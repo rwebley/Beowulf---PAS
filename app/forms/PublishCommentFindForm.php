@@ -90,7 +90,7 @@ public function __construct($options = null) {
 		->removeDecorator('DtDdWrapper')
 		->setAttrib('class', 'large');
 		
-	$approval = new Zend_Form_Element_Radio('approval');
+	$approval = new Zend_Form_Element_Radio('comment_approval');
 	$approval->setLabel('What would you like to do? ')
 		->addMultiOptions(array('spam' => 'Set as spam','ham' => 'Submit ham?','approved' => 'Publish it?','delete' => 'Delete it?'))
 		->setValue('approved')
@@ -106,7 +106,7 @@ public function __construct($options = null) {
 
 	$this->addDisplayGroup(array(
 	'comment_author','comment_author_email','comment_author_url',
-	'comment_content','approval','comment_findID'), 'details');
+	'comment_content','comment_approval','comment_findID'), 'details');
 	
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('HtmlTag');

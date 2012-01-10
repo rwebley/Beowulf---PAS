@@ -1,6 +1,7 @@
 <?php $this->headTitle('Republican moneyers');
 $this->headMeta('CC NC-SA-BY','dc.rights')
-->headMeta('This page lists all of the currently documented moneyers for Roman Republican coins','dc.description')
+->headMeta('This page lists all of the currently documented moneyers for Roman 
+    Republican coins','description')
 ->headMeta('The Portable Antiquities Scheme','dc.publisher')
 ->headMeta('Daniel Pett','dc.creator')
 ->headMeta($this->curUrl(),'dc.identifier');
@@ -22,7 +23,7 @@ $this->headMeta('CC NC-SA-BY','dc.rights')
 <?php echo $this->partialLoop('partials/numismatics/moneyers.phtml',$this->moneyers);?>
 </tbody>
 </table>
-<?= $this->paginationControl($this->moneyers, 'Elastic', 'structure/pagination.phtml'); ?>
+<?php echo $this->paginationControl($this->moneyers, 'Elastic', 'structure/pagination.phtml'); ?>
 
 <?php else:?>
 <p>There are no moneyers available to you.</p>

@@ -180,11 +180,10 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     $this->_flashMessenger->addMessage('Person information updated!');
     $this->_redirect(self::REDIRECT . 'person/id/' . $this->_getParam('id'));
     } else {
-    $form->populate($this->_request->getPost());
-
+    $form->populate($form->getValues());
     }
     } else {
-      $id = (int)$this->_request->getParam('id', 0);
+    $id = (int)$this->_request->getParam('id', 0);
     if ($id > 0) {
     $people = $this->_peoples->fetchRow('id=' . $id)->toArray();
     $form->populate($people);

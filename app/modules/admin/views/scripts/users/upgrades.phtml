@@ -1,4 +1,5 @@
-<?php $this->headMeta('A list of all people requesting an upgrade on their account status for research purpose','dc.description');
+<?php $this->headMeta('A list of all people requesting an upgrade on their
+    account status for research purpose','description');
 $this->headTitle('Account upgrades');
 ?>
 <h2>Account upgrade requests</h2>
@@ -17,7 +18,9 @@ $this->headTitle('Account upgrades');
 <?php echo $this->partialLoop('partials/users/upgrades.phtml',$this->users);?>
 </tbody>
 </table>
-<?= $this->paginationControl($this->users, 'Elastic', 'structure/pagination.phtml'); ?>
+<?php 
+echo $this->paginationControl($this->users, 'Sliding', 'structure/pagination.phtml'); 
+?>
 <?php else:?>
 <p>It is your lucky day Odysseus, Nemo has come knocking for account upgrades! Go wrestle a lion!</p>
 <?php endif;?>

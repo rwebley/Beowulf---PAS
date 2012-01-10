@@ -1,7 +1,7 @@
 <?php 
 $this->headTitle('Profile for Emperor:  '.$this->name);
-$this->headMeta('Biographical and related data for '.$this->name,'DC.Description');
-$this->headMeta('roman,numismatics,biography,emperor,'.$this->name.',portable antiquities','DC.Keywords');
+$this->headMeta('Biographical and related data for '.$this->name,'Description');
+$this->headMeta('roman,numismatics,biography,emperor,'.$this->name.',portable antiquities','Keywords');
 
 $this->headLink()->appendAlternate($this->url(array('module' => 'database','controller' => 'search','action' => 'results','ruler' => $this->pasID,'format' => 'rss'),null,true), 'application/rss+xml', 'Latest finds for '. $this->name .'- RSS Feed'); ?>
 <h2><?php echo $this->escape($this->name);?></h2>
