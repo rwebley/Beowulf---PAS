@@ -329,7 +329,10 @@ Latitude: <?php echo $this->declat;?> Longitude: <?php echo $this->declong;?><br
 1:10K map: <?php echo $this->map10k;?><br />
 <?php $this->FindSmrs($this->declat,$this->declong);?>
 <?php 
-echo $this->FindspotGeo($this->woeid,$this->declat,$this->declong);?>
+echo $this->FindspotGeo($this->woeid,$this->declat,$this->declong);
+echo $this->domesdayNear($this->declat,$this->declong, 2);
+?>
+
 </p>
 <?php endif; ?>
 
