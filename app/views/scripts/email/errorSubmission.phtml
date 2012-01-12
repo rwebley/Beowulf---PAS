@@ -1,0 +1,28 @@
+<p>Dear <?php echo $this->escape($this->responsibleFlo);?>,</p>
+<p>As the current FLO for your region, an error report has been submitted by <?php echo 
+$this->escape($this->comment_author);?> for action to be taken.</p>
+<p>This error report is related to: <?php echo $this->comment_type;?></p>
+
+<h3>Error details</h3>
+<?php echo $this->purify($this->comment_content);?>
+<ul>
+<li>Error report issued on: <a href="
+<?php echo Zend_Registry::get('siteurl');?>/database/artefacts/record/id/<?php echo $this->comment_findID;?>">
+<?php echo Zend_Registry::get('siteurl');?>/database/artefacts/record/id/<?php echo $this->comment_findID;?></a></li>
+<li>Object type:  <?php echo $this->objecttype;?></li>
+<li>Find number: <?php echo $this->old_findID;?></li>
+<li></li>
+<li>Originally created by: <?php echo $this->recordCreator;?></li>
+<li>Date created: <?php echo $this->timeagoinwords($this->recordCreated);?></li>
+</ul>
+<p>Thank you for taking the time to submit an error to us.<br />
+We appreciate that you have taken the time to improve our database.
+</p>
+<p>Yours sincerely,</p>
+<p>The Scheme's Central Unit.</p>
+<h4>Copied to:</h4>
+<ul>
+<?php foreach($this->advisers as $adviser):?>
+<li><?php echo $adviser->name;?></li>
+<?php endforeach;?>
+</ul>

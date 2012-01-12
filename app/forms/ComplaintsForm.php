@@ -23,8 +23,8 @@ class ComplaintsForm extends Pas_Form {
 
 	$this->setName('complaints');
 
-	$comment_author_IP = new Zend_Form_Element_Hidden('comment_author_IP');
-	$comment_author_IP->removeDecorator('HtmlTag')
+	$user_ip = new Zend_Form_Element_Hidden('user_ip');
+	$user_ip->removeDecorator('HtmlTag')
 	->removeDecorator('DtDdWrapper')
 	->removeDecorator('Label')
 	->addFilters(array('StripTags','StringTrim','StringToLower'))
@@ -32,8 +32,8 @@ class ComplaintsForm extends Pas_Form {
 	->addValidator('Ip')
 	->setRequired(true);
 
-	$comment_agent = new Zend_Form_Element_Hidden('comment_agent');
-	$comment_agent->removeDecorator('HtmlTag')
+	$user_agent = new Zend_Form_Element_Hidden('user_agent');
+	$user_agent->removeDecorator('HtmlTag')
 	->removeDecorator('DtDdWrapper')
 	->addFilters(array('StripTags','StringTrim'))
 	->removeDecorator('Label')
@@ -65,23 +65,20 @@ class ComplaintsForm extends Pas_Form {
 	->addErrorMessage('Please enter a valid address!')
 	->setDescription('Not compulsory');
 
-	$comment_content = new Zend_Form_Element_Textarea('comment_content');
+	$comment_content = new Pas_Form_Element_RTE('comment_content');
 	$comment_content->setLabel('Enter your comment: ')
 	->setRequired(true)
 	->setAttrib('rows',10)
 	->setAttrib('cols',80)
-	->addFilter('HtmlBody')
-	->addFilter('EmptyParagraph')
-	->addFilter('WordChars')
+	->addFilters(array('HtmlBody','EmptyParagraph','WordChars'))
 	->addErrorMessage('Please enter something in the comments box!');
 
-	$config = new Zend_Config_Ini('app/config/config.ini','production');
-	$privateKey = $config->webservice->recaptcha->privatekey;
-	$pubKey = $config->webservice->recaptcha->pubkey;
+	$privateKey = $this->_config->webservice->recaptcha->privatekey;
+	$pubKey = $this->_config->webservice->recaptcha->pubkey;
 
 	$captcha = new Zend_Form_Element_Captcha('captcha', array(  
                         		'captcha' => 'ReCaptcha',
-								'label' => 'Please prove you aren\'t a spammer',
+								'label' => 'Please prove you are not a spammer',
                                 'captchaOptions' => array(  
                                 'captcha' => 'ReCaptcha',								  
                                 'privKey' => $privateKey,
@@ -108,7 +105,7 @@ class ComplaintsForm extends Pas_Form {
 	$auth = Zend_Auth::getInstance();
 	if(!$auth->hasIdentity()){
 	$this->addElements(array(
-	$comment_author_IP, $comment_agent, $comment_author,
+	$user_ip, $user_agent, $comment_author,
 	$comment_author_email, $comment_content, $comment_author_url,
 	$captcha, $submit));
 

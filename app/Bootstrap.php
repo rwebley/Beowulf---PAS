@@ -193,6 +193,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         
         $findID = new Pas_Controller_Action_Helper_GenerateFindID();
         Zend_Controller_Action_HelperBroker::addHelper($findID);
+        
+        $mailer = new Pas_Controller_Action_Helper_Mailer();
+        Zend_Controller_Action_HelperBroker::addHelper($mailer);
         }
         
     

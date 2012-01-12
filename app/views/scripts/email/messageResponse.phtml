@@ -1,0 +1,3 @@
+<p>Dear <?php $this->escape($this->comment_author);?></p>
+<?php echo $this->purify($messagetext);?>
+<p>Sent by <?php echo $this->escape($this->creator); ?> at <?php echo Zend_Date::NOW('W3C'); ?></p>

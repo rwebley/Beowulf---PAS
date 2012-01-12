@@ -1,0 +1,7 @@
+<p>Dear <?php echo $this->forename;?>,</p>
+<p>This is an email to let you know that your object is available to view on the Scheme website.<br />
+Your find number is: <?php echo $this->old_findID;?> and it is located at: <a href="<?php echo Zend_Registry::get('siteurl');?>
+/database/artefacts/record/id/<?php echo $this->id;?>"><?php echo Zend_Registry::get('siteurl');?>
+/database/artefacts/record/id/<?php echo $this->id;?></a>.</p>
+<p>Yours sincerely,</p>
+<p><?php echo $this->fullname;?></p>
