@@ -15,8 +15,6 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 	public function init() {
 		$flosActions = array('index',);
  		$this->_helper->_acl->allow('flos',$flosActions);
-		$this->_helper->_acl->allow('fa',null);
- 		$this->_helper->_acl->allow('admin',null);
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
     }
     
@@ -32,21 +30,14 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 	$form = new InstitutionForm();
 	$form->details->setLegend('Add institution details: ');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
 	$insts = new Institutions();
-	$insertData = array(
-	'institution' => $form->getValue('institution'),
-	'description' => $form->getValue('description'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$insts->insert($insertData);
+	$insts->add($form->getValues());
 	$this->_flashMessenger->addMessage('A new recording institution has been created.');
 	$this->_redirect($this->_redirectUrl . 'institutions/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -56,23 +47,16 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 	$form = new InstitutionForm();
 	$form->details->setLegend('Edit institution details: ');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
 	$insts = new Institutions();
-	$updateData = array(
-	'institution' => $form->getValue('institution'),
-	'description' => $form->getValue('description'),
-	'updated' => $this->getTimeForForms(), 
-	'updatedBy' => $this->getIdentityForForms()
-	);
 	$where = array();
 	$where[] =  $insts->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$update = $insts->update($updateData,$where);
+	$update = $insts->update($form->getValues(),$where);
 	$this->_flashMessenger->addMessage($form->getValue('institution') . '\'s details updated.');
 	$this->_redirect($this->_redirectUrl . 'institutions/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	// find id is expected in $params['id']

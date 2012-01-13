@@ -82,5 +82,34 @@ class Messages extends Pas_Db_Table_Abstract {
 	$mail->send();	
 	return parent::insert($data);
 	}
+	
+	public function addComplaint($data){
+	if(!empty($data['csrf'])){
+		unset($data['csrf']);
+	}
+	if(empty($data['comment_date'])){
+		$data['comment_date'] = $this->timeCreation();
+		$data['created'] = $this->timeCreation();
+	}
+	if(empty($data['createdBy'])){
+		$data['createdBy'] = $this->userNumber();
+	}
+	if(empty($data['updatedBy'])){
+		$data['updatedBy'] = $this->userNumber();
+	}
+	if(empty($data['user_ip'])){
+		$data['user_ip'] = Zend_Controller_Front::getInstance()->getRequest()->getClientIp();
+	}
+	if(empty($data['user_agent'])){
+		$useragent = new Zend_Http_UserAgent();
+		$data['user_agent'] = $useragent->getUserAgent();
+	}
+	if ($this->_akismet->isSpam($data)) { 
+		$data['comment_approved'] = self::SPAM;
+	} else  {
+		$data['comment_approved'] = self::NOTSPAM;
+	}
+	return parent::insert($data);	
+	}
 
 }

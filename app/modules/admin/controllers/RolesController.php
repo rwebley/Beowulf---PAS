@@ -9,50 +9,37 @@
 */
 class Admin_RolesController extends Pas_Controller_Action_Admin {
 
+	protected $_staffroles;
+	
 	protected $_redirectUrl = 'admin/contacts/';
 	/** Set up the ACL and contexts
 	*/		
 	public function init() {
-		$flosActions = array('index',);
- 		$this->_helper->_acl->allow('flos',$flosActions);
-		$this->_helper->_acl->allow('fa',null);
- 		$this->_helper->_acl->allow('admin',null);
-        $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+ 	$this->_helper->_acl->allow('flos',array('index'));
+	$this->_helper->_acl->allow('fa',null);
+ 	$this->_helper->_acl->allow('admin',null);
+ 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+ 	$this->_staffroles = new StaffRoles();
     }
 	/** Display the index page
 	*/		
 	public function indexAction() {
-	$roles = new StaffRoles();
-	$this->view->roles = $roles->getValidRoles();	
+	$this->view->roles = $this->_staffroles->getValidRoles();	
 	}
 	/** View a role's details
 	*/			
 	public function roleAction(){
-	$roles = new StaffRoles();
-	$this->view->roles = $roles->getRole($this->_getParam('id'));
-	$this->view->members = $roles->getMembers($this->_getParam('id'));
+	$this->view->roles = this->_staffroles->getRole($this->_getParam('id'));
+	$this->view->members = this->_staffroles->getMembers($this->_getParam('id'));
 	}
 	/** Add a role
 	*/			
 	public function addAction(){
 	$form = new StaffRoleForm();
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$staffroles = new Staffroles();
-	$insertData = array(
-	'role' => $form->getValue('role'),
-	'description' => $form->getValue('description'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms()
-	);
-	foreach ($insertData as $key => $value) {
-      if (is_null($value) || $value=="") {
-        unset($insertData[$key]);
-      }
-    }
-	$staffroles->insert($insertData);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
+	$this->_staffroles->add($form->getValues());
 	$this->_flashMessenger->addMessage('A new staff role has been created.');
 	$this->_redirect($this->_redirectUrl . 'roles/');
 	} else {
@@ -65,14 +52,11 @@ class Admin_RolesController extends Pas_Controller_Action_Admin {
 	public function editAction() {
 	$form = new StaffRoleForm();
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$staffroles = new StaffRoles();
-	$updateData = array('role' => $form->getValue('role'),'description' => $form->getValue('description'),'updated' => $this->getTimeForForms(), 'updatedBy' => $this->getIdentityForForms());
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$where = array();
-	$where[] =  $staffroles->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$update = $staffroles->update($updateData,$where);
+	$where[] =  this->_staffroles->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+	$update = this->_staffroles->update($form->getValues(),$where);
 	$this->_flashMessenger->addMessage($form->getValue('role') . '\'s details updated.');
 	$this->_redirect($this->_redirectUrl . 'roles/');
 	} else {
@@ -80,12 +64,7 @@ class Admin_RolesController extends Pas_Controller_Action_Admin {
 	}
 	} else {
 	// find id is expected in $params['id']
-	$id = (int)$this->_request->getParam('id', 0);
-	if ($id > 0) {
-	$staffroles = new StaffRoles();
-	$roles = $staffroles->fetchRow('id=' . $id);
-	$form->populate($roles->toArray());
-	}
+	$form->populate($this->_staffroles->fetchRow('id=' . $id)->toArray());
 	}
 	}	
 	/** Delete a role
@@ -95,17 +74,14 @@ class Admin_RolesController extends Pas_Controller_Action_Admin {
 	$id = (int)$this->_request->getPost('id');
 	$del = $this->_request->getPost('del');
 	if ($del == 'Yes' && $id > 0) {
-	$roles = new StaffRoles();
 	$where = 'id = ' . $id;
-	$roles->delete($where);
+	$this->_staffroles->delete($where);
 	}
 	$this->_flashMessenger->addMessage('Role information deleted! This cannot be undone.');
 	$this->_redirect($this->_redirectUrl);
 	} else {
-	$id = (int)$this->_request->getParam('id');
 	if ($id > 0) {
-	$roles = new StaffRoles();
-	$this->view->role = $roles->fetchRow('id =' . $id);
+	$this->view->role = $this->_staffroles->fetchRow('id =' . $this->_request->getParam('id'));
 	}
 	}
 	}

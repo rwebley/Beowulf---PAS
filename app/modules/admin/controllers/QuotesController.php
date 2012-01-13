@@ -34,22 +34,13 @@ class Admin_QuotesController extends Pas_Controller_Action_Admin {
 	$form->details->setLegend('Add a new quote or announcement');
 	$form->submit->setLabel('Submit details');
 	$this->view->form =$form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$insertData = array(
-	'quote' => $form->getValue('quote'),
-	'type' => $form->getValue('type'),
-	'status' => $form->getValue('status'),
-	'quotedBy' => $form->getValue('quotedBy'),
-	'expire' => $form->getValue('expire'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms());
-	$insert = $this->_quotes->insert($insertData);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
+	$insert = $this->_quotes->add($form->getValues());
 	$this->_flashMessenger->addMessage('New quote/announcement entered');
 	$this->_redirect( self::REDIRECT );
 	} else  {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -61,33 +52,22 @@ class Admin_QuotesController extends Pas_Controller_Action_Admin {
 	$form->details->setLegend('Edit quote/announcement details');
 	$form->submit->setLabel('Submit changes');
 	$this->view->form =$form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$quotes = new Quotes();
 	$where = array();
 	$where[] = $quotes->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$updateData = array(
-	'quote' => $form->getValue('quote'),
-	'type' => $form->getValue('type'),
-	'status' => $form->getValue('status'),
-	'quotedBy' => $form->getValue('quotedBy'),
-	'expire' => $form->getValue('expire'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $this->_quotes->update($updateData,$where);
+	$update = $this->_quotes->update($form->getValues(),$where);
 	$this->_flashMessenger->addMessage('Details updated!');
 	$this->_redirect( self::REDIRECT );
-	} 	else {
-	$form->populate($formData);
+	} else {
+	$form->populate($form->getValues());
 	}
 	} else {
-	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
-	$quote = $this->_quotes->fetchRow('id=' . $id);
+	$quote = $this->_quotes->fetchRow('id=' . $this->_request->getParam('id'))->toArray();
 	if(count($quote)){
-	$form->populate($quote->toArray());
+	$form->populate($quote);
 	} else {
 		throw new Pas_Exception_Param($this->_nothingFound);
 	}

@@ -9,11 +9,13 @@
 class RequestForm extends Pas_Form {
 
 public function __construct($options = null) {
+	
 	$countries = new Countries();
 	$countries_options = $countries->getOptions();
 	
 	$counties = new Counties();
 	$counties_options = $counties->getCountyname2();
+	
 	parent::__construct($options);
 
 	$decorators = array(
@@ -26,25 +28,14 @@ public function __construct($options = null) {
 
 	$this->setName('request');
 
-	$comment_author_IP = new Zend_Form_Element_Hidden('comment_author_IP');
-	$comment_author_IP->removeDecorator('HtmlTag')
-		->removeDecorator('DtDdWrapper')
-		->removeDecorator('Label')
-		->addValidator('Ip')
-		->addFilters(array('StripTags','StringTrim'))
-		->setValue($_SERVER['REMOTE_ADDR']);
-
-	$comment_agent = new Zend_Form_Element_Hidden('comment_agent');
-	$comment_agent->removeDecorator('HtmlTag')
-		->removeDecorator('DtDdWrapper')
-		->removeDecorator('Label')
-		->setValue($_SERVER['HTTP_USER_AGENT'])
-		->addFilters(array('StripTags','StringTrim','StringToLower'));
 
 	$email = new Zend_Form_Element_Text('email');
 	$email->setLabel('Enter your email address: ')
 		->setDecorators($decorators)
-		->addValidator('EmailAddress', false, array('mx' => true))
+		->addValidator('EmailAddress', false, array(
+		'allow' => Zend_Validate_Hostname::ALLOW_DNS,
+        'mx' => true,
+        'deep' => true ))
 		->setAttrib('size',50)
 		->addFilters(array('StripTags','StringTrim','StringToLower'));
 
@@ -59,7 +50,7 @@ public function __construct($options = null) {
 		'Ms' => 'Ms', 'Dr' => 'Dr.', 'Prof' => 'Prof.',
 		'Sir' => 'Sir', 'Lady' => 'Lady', 'Other' => 'Other',
 		'Captain' => 'Captain', 'Master' => 'Master', 'Dame' => 'Dame',
-		'Duke' => 'Duke', 'Baron' => 'Baron'))
+		'Duke' => 'Duke', 'Baron' => 'Baron','Duchess' => 'Duchess'))
 		->setDecorators($decorators);
 
 	$fullname = new Zend_Form_Element_Text('fullname');
@@ -67,7 +58,6 @@ public function __construct($options = null) {
 		->setRequired(true)
 		->addFilters(array('StripTags','StringTrim'))
 		->setAttrib('size',50)
-		->addValidator('Alnum', false, array('allowWhiteSpace' => true))
 		->addErrorMessage('Please enter a valid name!')
 		->setDecorators($decorators);
 
@@ -76,7 +66,6 @@ public function __construct($options = null) {
 		->setRequired(true)
 		->setAttrib('size',50)
 		->addFilters(array('StripTags','StringTrim'))
-		->addValidator('Alnum', false, array('allowWhiteSpace' => true))
 		->addValidator('StringLength', false, array(1,200))
 		->setDecorators($decorators);
 
@@ -96,7 +85,7 @@ public function __construct($options = null) {
 		->addFilters(array('StripTags','StringTrim'))
 		->addValidator('StringLength', false, array(1,200))
 		->addValidator('Alnum', false, array('allowWhiteSpace' => true))
-		->addValidator('PostCode')
+		->addValidator('ValidPostCode')
 		->setDecorators($decorators);
 
 	$county = new Zend_Form_Element_Select('county');
@@ -181,14 +170,6 @@ public function __construct($options = null) {
 		->setDecorators($decorators);
 	
 	
-	$maillist = new Zend_Form_Element_Checkbox('maillist');
-	$maillist->setLabel('Mailing list opt in: ')
-		->addFilters(array('StripTags','StringTrim'))	
-		->setLabel('I would like to join your mailing list: ')
-		->setRequired(false)
-		->setDecorators($decorators)
-		->setUncheckedValue(NULL)
-		->setCheckedValue(true);
 	
 	$submit = new Zend_Form_Element_Submit('submit');
 	$submit->setAttrib('id', 'submitbutton')->removeDecorator('label')
@@ -199,16 +180,14 @@ public function __construct($options = null) {
 				  
 				  
 	$auth = Zend_Auth::getInstance();
-	if(!$auth->hasIdentity())
-	{
+	if(!$auth->hasIdentity()) {
 	
-	$config = new Zend_Config_Ini('app/config/config.ini','general');
-	$privateKey = $config->recaptcha->privatekey;
-	$pubKey = $config->recaptcha->pubkey;
+	$privateKey = $this->_config->webservice->recaptcha->privatekey;
+	$pubKey = $this->_config->webservice->recaptcha->pubkey;
 	
 	$captcha = new Zend_Form_Element_Captcha('captcha', array(  
 	                        		'captcha' => 'ReCaptcha',
-									'label' => 'Prove you are not a robot you varmint!',
+									'label' => 'Prove you are not a robot',
 	                                'captchaOptions' => array(  
 	                                'captcha' => 'ReCaptcha',								  
 	                                'privKey' => $privateKey,
@@ -223,7 +202,7 @@ public function __construct($options = null) {
 	$country, $tel, $email,
 	$message, $leaflets, $reports,
 	$combined, $treasure, $codes,
-	$maillist, $captcha, $submit)
+	$captcha, $submit)
 	);
 	
 	$this->addDisplayGroup(array(
@@ -232,30 +211,28 @@ public function __construct($options = null) {
 	'postcode', 'country', 'tel',
 	'message', 'leaflets', 'reports',
 	'combined', 'treasure', 'codes',
-	'maillist', 'captcha'), 'details')
+	'captcha'), 'details')
 	->removeDecorator('HtmlTag');
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');
 	$this->details->removeDecorator('HtmlTag');
 	$this->details->setLegend('Enter your comments: ');
-	
-	}
-	else {
+	} else {
 	$this->addElements(array(
 	$title,	$fullname, $address,
 	$town_city, $county, $postcode,
 	$country, $tel, $message,
 	$email, $leaflets, $reports,
 	$combined, $treasure, $codes,
-	$maillist, $submit));
+	$submit));
 	
 	$this->addDisplayGroup(array(
 	'title', 'fullname', 'email',
 	'address', 'town_city', 'county',
 	'postcode', 'country', 'tel',
 	'message', 'leaflets', 'reports',
-	'combined', 'treasure', 'codes',
-	'maillist'), 'details')
+	'combined', 'treasure', 'codes'
+	), 'details')
 	->removeDecorator('HtmlTag');
 	$this->details->addDecorators(array('FormElements',array('HtmlTag', array('tag' => 'ul'))));
 	$this->details->removeDecorator('DtDdWrapper');

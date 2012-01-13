@@ -34,22 +34,14 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new ActivityForm();
 	$form->submit->setLabel('Add a new activity');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$activities = new PrimaryActivities();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $activities->update($insertData);
-	$this->_redirect($this->_redirectUrl.'activities');
+	$update = $activities->add($form->getValues());
+	$this->_redirect($this->_redirectUrl . 'activities');
 	$this->_flashMessenger->addMessage('Activity created!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -61,23 +53,15 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new ActivityForm();
 	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$activities = new PrimaryActivities();
 	$where = array();
 	$where[] = $activities->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $activities->update($updateData, $where);
-	$this->_redirect($this->_redirectUrl.'activities');
+	$update = $activities->update($form->getValues(), $where);
+	$this->_redirect($this->_redirectUrl . 'activities');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -131,24 +115,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new DiscoMethodsForm();
 	$form->submit->setLabel('Update details on database...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$methods = new DiscoMethods();
 	$where = array();
 	$where[] = $methods->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'method' => $form->getValue('method'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $methods->update($updateData, $where);
+	$update = $methods->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Method of discovery information updated!');
-	$this->_redirect($this->_redirectUrl.'methods');
+	$this->_redirect($this->_redirectUrl . 'methods');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -194,23 +170,15 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new DiscoMethodsForm();
 	$form->submit->setLabel('Add a new discovery method');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$methods = new DiscoMethods();
-	$insertData = array(
-	'method' => $form->getValue('method'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $methods->insert($updateData);
-	$this->_redirect($this->_redirectUrl.'methods');
+	$update = $methods->insert($form->getValues());
+	$this->_redirect($this->_redirectUrl . 'methods');
 	$this->_flashMessenger->addMessage('Method of discovery created!');
 	} else  {
 	$this->_flashMessenger->addMessage('Please correct errors');
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -225,24 +193,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	*/
 	public function adddecorationmethodAction() {
 	$form = new DecMethodsForm();
-	$form->submit->setLabel('Add a new decoration method...');
+	$form->submit->setLabel('Add a new decoration method');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$decs = new Decmethods();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $decs->insert($insertData);
-	$this->_redirect($this->_redirectUrl.'decorationmethods');
+	$update = $decs->add($form->getValues());
+	$this->_redirect($this->_redirectUrl . 'decorationmethods');
 	$this->_flashMessenger->addMessage('A new decoration method has been created on the system!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -251,26 +211,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function editdecorationmethodAction() {
 	if($this->_getParam('id',false)) {
 	$form = new DecMethodsForm();
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$decs = new Decmethods();
 	$where = array();
 	$where[] = $decs->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $decs->update($updateData, $where);
+	$update = $decs->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Decoration method information updated!');
-	$this->_redirect($this->_redirectUrl.'decorationmethods');
+	$this->_redirect($this->_redirectUrl . 'decorationmethods');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -301,7 +253,7 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$decs->delete($where);
 	}
 	$this->_flashMessenger->addMessage('Record deleted!');
-	$this->_redirect($this->_redirectUrl.'decorationmethods');
+	$this->_redirect($this->_redirectUrl . 'decorationmethods');
 	} else {
 	$id = (int)$this->_request->getParam('id');
 	if ($id > 0) {
@@ -320,24 +272,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	*/	
 	public function addsurfaceAction() {
 	$form = new SurfTreatmentsForm();
-	$form->submit->setLabel('Add a new surface treatment to the system...');
+	$form->submit->setLabel('Add new surface treatment');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'), 
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$surfaces = new Surftreatments();
-	$update = $surfaces->insert($insertData);
+	$update = $surfaces->add($from->getValues());
 	$this->_flashMessenger->addMessage('A new surface treatment has been created on the system!');
 	$this->_redirect($this->_redirectUrl . 'surfaces');
 	} else  {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -346,27 +290,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function editsurfaceAction() {
 	if($this->_getParam('id',false)) {
 	$form = new SurfTreatmentsForm();
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$surfaces = new Surftreatments();
-	$id = $this->_getParam('id'); 
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
 	$where = array();
-	$where[] = $surfaces->getAdapter()->quoteInto('id = ?', $id);
-	$update = $surfaces->update($updateData, $where);
+	$where[] = $surfaces->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+	$update = $surfaces->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Surface treatment information updated!');
-	$this->_redirect($this->_redirectUrl.'surfaces/');
+	$this->_redirect($this->_redirectUrl . 'surfaces/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -418,28 +353,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function editperiodAction() {
 	if($this->_getParam('id',false)) {
 	$form = new PeriodForm();
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$periods = new Periods();
 	$where = array();
 	$where[] = $periods->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$insertdata = array(
-	'term' => $form->getValue('term'),
-	'fromdate' => $form->getValue('fromdate'),
-	'todate' => $form->getValue('todate'),
-	'valid' => $form->getValue('valid'),
-	'notes' => $form->getValue('notes'),
-	'updated' => $this->getTimeForForms(), 
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$periods->update($insertdata,$where);
-	$this->_flashMessenger->addMessage('Period information updated!');
+	$periods->update($form->getValues(),$where);
+	$this->_flashMessenger->addMessage('Period information updated');
 	$this->_redirect($this->_redirectUrl . 'periods');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -486,24 +411,14 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new PeriodForm();
 	$form->submit->setLabel('Add a new period');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$periods = new Periods();
-	$insertdata = array(
-	'term' => $form->getValue('term'),
-	'fromdate' => $form->getValue('fromdate'),
-	'todate' => $form->getValue('todate'),
-	'valid' => $form->getValue('valid'),
-	'notes' => $form->getValue('notes'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$periods->insert($insertData);
+	$periods->add($form->getValues());
 	$this->_flashMessenger->addMessage('Record created!');
 	$this->_redirect($this->_redirectUrl.'periods');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -518,24 +433,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function addcultureAction(){
 	$form = new CultureForm();
 	$form->details->setLegend('Ascribed Culture details: ');
-	$form->submit->setLabel('Add a new ascribed culture...');
+	$form->submit->setLabel('Add new culture');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$cultures = new Cultures();
-	$insertdata = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'),
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$cultures->insert($insertData);
+	$cultures->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'cultures');
-	$this->_flashMessenger->addMessage('A new ascribed culture has been created! ');
+	$this->_flashMessenger->addMessage('A culture created!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -548,24 +455,17 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form->details->setLegend('Edit an ascribed culture');
 	$form->submit->setLabel('Update details on database...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$cultures = new Cultures();
 	$where = array();
 	$where[] = $cultures->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'),
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(), 
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$cultures->update($updateData,$where);
-	$this->_flashMessenger->addMessage('Ascribed Culture information updated!');
+	
+	$cultures->update($form->getValues(), $where);
+	$this->_flashMessenger->addMessage('Culture updated!');
 	$this->_redirect($this->_redirectUrl . 'cultures');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -619,22 +519,14 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new WorkflowForm();
 	$form->submit->setLabel('Add a new workflow stage to the system...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$workflows = new Workflows();
-	$insertData = array( 
-	'workflowstage' => $form->getValue('workflowstage'),
-	'termdesc' => $form->getValue('termdesc'),
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$insert= $workflows->insert($insertData);
+	$insert= $workflows->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'workflows');
-	$this->_flashMessenger->addMessage('A new workflow stage has been created on the system!');
+	$this->_flashMessenger->addMessage('New worklfow created');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -643,26 +535,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function editworkflowAction() {
 	if($this->_getParam((int)'id',false)) {
 	$form = new WorkflowForm();
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$workflows = new Workflows();
 	$where = array();
 	$where[] = $workflows->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array( 
-	'workflowstage' => $form->getValue('workflowstage'),
-	'termdesc' => $form->getValue('termdesc'),
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update= $workflows->update($updateData,$where);
-	$this->_flashMessenger->addMessage('Active workflow stage information updated!');
+	$update= $workflows->update($form->getValues(),$where);
+	$this->_flashMessenger->addMessage('Workflow updated');
 	$this->_redirect($this->_redirectUrl . 'workflows');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -715,23 +599,15 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new PreservationsForm();
 	$form->submit->setLabel('Add a new discovery method');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$preserves = new Preservations();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $preserves->insert($insertData);
+	$update = $preserves->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'preservations');
 	$this->_flashMessenger->addMessage('Preservation state created!');
 	} else {
 	$this->_flashMessenger->addMessage('Please correct errors');
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -740,26 +616,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function editpreservationAction() {
 	if($this->_getParam('id',false)) {
 	$form = new PreservationsForm();
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$preserves = new Preservations();
 	$where = array();
 	$where[] = $preserves->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $preserves->update($updateData, $where);
+	$update = $preserves->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Preservation state information updated!');
 	$this->_redirect($this->_redirectUrl . 'preservations');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -811,22 +679,14 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form->details->setLegend('Grid reference origin details: ');
 	$form->submit->setLabel('Add a grid ref. origin term.');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$origins = new MapOrigins();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'),
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$origins->insert($insertData);
+	$origins->add($form->getValues());
 	$this->_flashMessenger->addMessage('A new grid reference origin has been entered');
 	$this->_redirect($this->_redirectUrl . 'maporigins');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -838,24 +698,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form->details->setLegend('Edit an origin term');
 	$form->submit->setLabel('Update details on database...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$origins = new MapOrigins();
 	$where = array();
 	$where[] = $origins->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'),
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(), 
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$origins->update($updateData,$where);
+	$origins->update($form->getValues(),$where);
 	$this->_redirect($this->_redirectUrl . 'maporigins');
 	$this->_flashMessenger->addMessage('Grid reference origin updated!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else  {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -907,22 +759,14 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new FindNoteReasonForm();
 	$form->submit->setLabel('Add a new reason...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$notes = new Findofnotereasons();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $notes->insert($insertData);
+	$update = $notes->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'notes');
 	$this->_flashMessenger->addMessage('Preservation state created!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -931,26 +775,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function editnoteAction() {
 	if($this->_getParam('id',false)) {
 	$form = new FindNoteReasonForm();
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$notes = new Findofnotereasons();
 	$where = array();
 	$where[] = $notes->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $notes->update($updateData, $where);
-	$this->_flashMessenger->addMessage('Find of note reasoning information updated!');
+	$update = $notes->update($form->getValues(), $where);
+	$this->_flashMessenger->addMessage('Find of note reason updated!');
 	$this->_redirect($this->_redirectUrl . 'notes');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -1001,24 +837,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	*/
 	public function addmaterialAction() {
 	$form = new MaterialForm();
-	$form->submit->setLabel('Add a new materials...');
+	$form->submit->setLabel('Add a new material');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$materials = new Materials();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $materials->insert($insertData);
+	$update = $materials->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'materials');
 	$this->_flashMessenger->addMessage('A new material has been created on the system!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -1027,26 +855,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function editmaterialAction() 	{
 	if($this->_getParam('id',false)) {
 	$form = new MaterialForm();
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$materials = new Materials();
 	$where = array();
 	$where[] = $materials->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $materials->update($updateData, $where);
+	$update = $materials->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Material information updated!');
 	$this->_redirect($this->_redirectUrl . 'materials');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -1098,22 +918,14 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new DecStylesForm();
 	$form->submit->setLabel('Add a new term');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$decs = new Decstyles();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $decs->insert($insertData);
+	$update = $decs->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'decorationstyles');
 	$this->_flashMessenger->addMessage('A new decoration style has been created on the system!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -1124,24 +936,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new DecStylesForm();
 	$form->submit->setLabel('Update details on database...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$decs = new Decstyles();
 	$where = array();
 	$where[] = $decs->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $decs->update($updateData, $where);
+	$update = $decs->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Decoration style information updated!');
 	$this->_redirect($this->_redirectUrl . 'decorationstyles');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -1193,21 +997,14 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new ManufacturesForm();
 	$form->submit->setLabel('Add a new method of manufacture...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$manufactures = new Manufactures();
-	$insertData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $manufactures->insert($insertData);
+	$update = $manufactures->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'manufactures');
 	$this->_flashMessenger->addMessage('A new manufacturing method has been created on the system!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -1218,24 +1015,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	$form = new ManufacturesForm();
 	$form->submit->setLabel('Update details on database...');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$manufactures = new Manufactures();
 	$where = array();
 	$where[] = $manufactures->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $manufactures->update($updateData, $where);
+	$update = $manufactures->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Manufacture information updated!');
 	$this->_redirect($this->_redirectUrl . 'manufactures');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
@@ -1288,26 +1077,16 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	public function addlanduseAction() {
 	$form = new LanduseForm();
 	$form->details->setLegend('Add landuse');
-	$form->submit->setLabel('Add a new landuse to the system...');
+	$form->submit->setLabel('Add a new landuse');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+		if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$landuses = new Landuses();
-	$updateData = array(
-	'oldID' => $form->getValue('oldID'),
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'belongsto' => $form->getValue('belongsto'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms()
-	);
-	$update = $landuses->insert($updateData);
+	$update = $landuses->add($form->getValues());
 	$this->_redirect($this->_redirectUrl . 'landuses');
 	$this->_flashMessenger->addMessage('A new landuse has been created on the system!');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -1317,28 +1096,18 @@ class Admin_TerminologyController extends Pas_Controller_Action_Admin {
 	if($this->_getParam('id',false)) {
 	$form = new LanduseForm();
 	$form->details->setLegend('Edit landuse');
-	$form->submit->setLabel('Update details on database...');
+	$form->submit->setLabel('Update details');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$landuses = new Landuses();
 	$where = array();
 	$where[] = $landuses->getAdapter()->quoteInto('id = ?', (int)$this->_getParam('id'));
-	$updateData = array(
-	'oldID' => $form->getValue('oldID'),
-	'term' => $form->getValue('term'),
-	'termdesc' => $form->getValue('termdesc'), 
-	'valid' => $form->getValue('valid'),
-	'belongsto' => $form->getValue('belongsto'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	$update = $landuses->update($updateData, $where);
+	$update = $landuses->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Active landuse information updated!');
 	$this->_redirect($this->_redirectUrl . 'landuses');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);

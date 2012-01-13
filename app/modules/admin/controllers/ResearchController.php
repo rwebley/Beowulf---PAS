@@ -36,29 +36,13 @@ class Admin_ResearchController extends Pas_Controller_Action_Admin {
 	$form = new ResearchForm();
 	$form->submit->setLabel('Add a project');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$insertData = array(
-	'title' => $form->getValue('title'),
-	'description' => $form->getValue('description'),
-	'investigator' => $form->getValue('investigator'),
-	'startDate' => $form->getValue('startDate'),
-	'endDate' => $form->getValue('endDate'),
-	'level' => $form->getValue('level'),
-	'valid' => $form->getValue('valid'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms());
-	foreach ($insertData as $key => $value) {
-		if (is_null($value) || $value=="") {
-			unset($insertData[$key]);
-		}
-	}
-	$this->_research->insert($insertData);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
+	$this->_research->add($form->getValues());
 	$this->_flashMessenger->addMessage('A new research project has been entered.');
 	$this->_redirect(self::REDIRECT);
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -69,38 +53,20 @@ class Admin_ResearchController extends Pas_Controller_Action_Admin {
 	$form = new ResearchForm();
 	$form->submit->setLabel('Submit changes to project');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$updateData = array(
-	'title' => $form->getValue('title'),
-	'description' => $form->getValue('description'),
-	'investigator' => $form->getValue('investigator'),
-	'startDate' => $form->getValue('startDate'),
-	'endDate' => $form->getValue('endDate'),
-	'level' => $form->getValue('level'),
-	'valid' => $form->getValue('valid'),
-	'updated' => $this->getTimeForForms(), 
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	foreach ($updateData as $key => $value) {
-		if (is_null($value) || $value=="") {
-		unset($updateData[$key]);
-		}
-	}
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$where =  $this->_research->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$update = $this->_research->update($updateData,$where);
+	$update = $this->_research->update($form->getValues(),$where);
 	$this->_flashMessenger->addMessage('Research project details updated.');
 	$this->_redirect(self::REDIRECT);
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues();
 	}
 	} else {
 	// find id is expected in $params['id']
-	$id = (int)$this->_request->getParam('id', 0);
+	$id = (int), 0);
 	if ($id > 0) {
-	$res = $this->_research->fetchRow('id='.$id);
-	$form->populate($res->toArray());
+	$form->populate($this->_research->fetchRow('id='.$this->_request->getParam('id'))->toArray());
 	}
 	}
 	} else {
@@ -113,27 +79,13 @@ class Admin_ResearchController extends Pas_Controller_Action_Admin {
 	$form = new SuggestedForm();
 	$form->submit->setLabel('Add a project');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$insertData = array(
-	'title' => $form->getValue('title'),
-	'description' => $form->getValue('description'),
-	'period' => $form->getValue('period'),
-	'level' => $form->getValue('level'),
-	'taken' => $form->getValue('taken'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms());
-	foreach ($insertData as $key => $value) {
-	if (is_null($value) || $value=="") {
-		unset($insertData[$key]);
-		}
-	}
-	$this->_suggested->insert($insertData);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
+	$this->_suggested->add($form->getValues());
 	$this->_flashMessenger->addMessage('A new suggested research project has been entered.');
 	$this->_redirect(self::REDIRECT . 'suggested/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -150,38 +102,20 @@ class Admin_ResearchController extends Pas_Controller_Action_Admin {
 	$form = new SuggestedForm();
 	$form->submit->setLabel('Submit changes to project');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$updateData = array(
-	'title' => $form->getValue('title'),
-	'description' => $form->getValue('description'),
-	'period' => $form->getValue('period'),
-	'startDate' => $form->getValue('startDate'),
-	'endDate' => $form->getValue('endDate'),
-	'level' => $form->getValue('level'),
-	'taken' => $form->getValue('taken'),
-	'updated' => $this->getTimeForForms(), 
-	'updatedBy' => $this->getIdentityForForms()
-	);
-	foreach ($insertData as $key => $value) {
-	if (is_null($value) || $value=="") {
-		unset($insertData[$key]);
-		}
-	}
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
+    if ($form->isValid($form->getValues())) {
 	$where =  $this->_suggested->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$update = $this->_suggested->update($updateData,$where);
+	$update = $this->_suggested->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage('Suggested research project details updated.');
 	$this->_redirect(self::REDIRECT . 'suggested/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	// find id is expected in $params['id']
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
-	$res = $this->_suggested->fetchRow('id=' . $id);
-	$form->populate($res->toArray());
+	$form->populate($this->_suggested->fetchRow('id=' . $id)->toArray());
 	}
 	}
 	} else {
