@@ -1,6 +1,6 @@
 <?php
 /** Controller for the Staffordshire symposium
-* 
+*
 * @category   Pas
 * @package    Pas_Controller
 * @subpackage ActionAdmin
@@ -9,22 +9,25 @@
 */
 
 class Search_IndexController extends Pas_Controller_Action_Admin {
-	
+
 	protected $_solr;
+
+
+        protected $_config = array(
+        'adapteroptions' => array(
+        'host' => '127.0.0.1',
+        'port' => 8983,
+        'path' => '/solr/beowulf/',
+        ));
 	/**
 	 * Set up the ACL
 	 */
 	public function init() {
-	$this->_helper->_acl->allow('public',null);	
-	$config = array(
-    'adapteroptions' => array(
-    'host' => '127.0.0.1',
-    'port' => 8983,
-    'path' => '/solr/beowulf/',
-    ));
-	$this->_solr = new Solarium_Client($config);
+	$this->_helper->_acl->allow('public',null);
+
+	$this->_solr = new Solarium_Client($this->_config);
 	}
-	
+
 	/** List of the papers available
 	 */
 	public function indexAction() {
@@ -41,12 +44,10 @@ class Search_IndexController extends Pas_Controller_Action_Admin {
 	$this->_redirect($this->view->url(array('module' => 'search',
 	'controller' => 'results','action' => 'index','q' => $data['q'])));
 	} else {
-	if(isset($q)){
-	$form->populate($q);
+	$form->populate($form->getValues());
 	}
 	}
 	}
-	}	
 	}
 
 }

@@ -1,6 +1,6 @@
 <?php
 /** Controller for displaying Roman personifications lists
-* 
+*
 * @category   Pas
 * @package    Pas_Controller
 * @subpackage ActionAdmin
@@ -9,7 +9,7 @@
 */
 class RomanCoins_PersonificationsController extends Pas_Controller_Action_Admin {
 	/** Set up the ACL and contexts
-	*/	
+	*/
 	public function init() {
 	$this->_helper->_acl->allow(null);
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
@@ -18,9 +18,10 @@ class RomanCoins_PersonificationsController extends Pas_Controller_Action_Admin 
 		->addActionContext('index',$contexts)
 		->addActionContext('named',$contexts)
 		->initContext();
-    }
-	/** Set up the index page
-	*/	
+        }
+
+        /** Set up the index page
+	*/
 	public function indexAction() {
 	$reverses = new Reverses();
 	$this->view->gods =  $reverses->getPersonifications('god');
@@ -28,7 +29,7 @@ class RomanCoins_PersonificationsController extends Pas_Controller_Action_Admin 
 	$this->view->symbols =  $reverses->getPersonifications('symbol');
 	}
 	/** Set up the individual named personification
-	*/		
+	*/
 	public function namedAction() {
 	if($this->_getParam('as',false)) {
 	$reverses = new Reverses();
