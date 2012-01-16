@@ -30,28 +30,13 @@ class Admin_HelpController extends Pas_Controller_Action_Admin {
 	$form->submit->setLabel('Add new help topic to system');
 	$form->author->setValue($this->getIdentityForForms());
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$insertData = array(
-	'title' => $form->getValue('title'), 
-	'menuTitle' => $form->getValue('menuTitle'),
-	'slug' => $form->getValue('slug'), 
-	'excerpt' => $form->getValue('excerpt'),
-	'body' => $form->getValue('body'),
-	'publishState' => $form->getValue('publishState'), 
-	'section' => $form->getValue('section'), 
-	'metaKeywords' => $form->getValue('metaKeywords'), 
-	'metaDescription' => $form->getValue('metaDescription'),
-	'frontPage' => $form->getValue('frontPage'),
-	'author' => $form->getValue('author'),
-	'created' => $this->getTimeForForms(),
-	'createdBy' => $this->getIdentityForForms());
-	$update = $this->_help->insert($insertData);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
+	$this->_help->add($form->getValues());
 	$this->_flashMessenger->addMessage('Help topic has been created!');
 	$this->_redirect('/admin/help');
 	} else  {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -63,41 +48,23 @@ class Admin_HelpController extends Pas_Controller_Action_Admin {
 	$form->submit->setLabel('Submit changes');
 	$form->author->setValue($this->getIdentityForForms());
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$id = $this->_getParam('id'); 
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$updateData = array(
-	'title' => $form->getValue('title'), 
-	'menuTitle' => $form->getValue('menuTitle'),
-	'slug' => $form->getValue('slug'), 
-	'excerpt' => $form->getValue('excerpt'),
-	'body' => $form->getValue('body'),
-	'publishState' => $form->getValue('publishState'), 
-	'section' => $form->getValue('section'), 
-	'metaKeywords' => $form->getValue('metaKeywords'), 
-	'metaDescription' => $form->getValue('metaDescription'),
-	'frontPage' => $form->getValue('frontPage'),
-	'author' => $form->getValue('author'),
-	'updated' => $this->getTimeForForms(),
-	'updatedBy' => $this->getIdentityForForms()
-	);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
 	$where = array();
-	$where[] = $this->_help->getAdapter()->quoteInto('id = ?', $id);
-	$this->_help->update($updateData,$where);
+	$where[] = $this->_help->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+	$this->_help->update($form->getValues(),$where);
 	$this->_flashMessenger->addMessage('You updated: <em>' . $form->getValue('title')
 	. '</em> successfully. It is now available for use.');
 	$this->_redirect('admin/help/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	// find id is expected in $params['id']
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
-	$content = $this->_help->fetchRow('id='.(int)$id);
 	if(count($content)) {
-	$form->populate($content->toArray());
+	$form->populate($this->_help->fetchRow('id='.(int)$id)->toArray());
 	} else {
 	throw new Pas_Exception_Param($this->_nothingFound);
 	}

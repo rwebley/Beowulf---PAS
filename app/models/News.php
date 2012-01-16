@@ -18,6 +18,10 @@ class News extends Pas_Db_Table_Abstract {
 	
 	protected $_higherlevel = array('admin', 'flos', 'fa'); 
 	
+	public function init(){
+		$this->_geoPlanet = new Pas_Service_Geo_Geoplanet($this->_config->webservice->ydnkeys->appid);
+		$this->_geocoder = new Pas_Service_Geo_Coder($this->_config->webservice->googlemaps->apikey);
+	}
 	
 	/** get the user's id from their identity object
 	* @return integer
@@ -175,5 +179,42 @@ class News extends Pas_Db_Table_Abstract {
 	$this->_cache->save($data, 'newscached');
 	} 
 	return $data; 
+	}
+	
+	public function addNews($data){
+	if(is_array($data)){
+	$coords = $this->_geocoder->getCoordinates($data['primaryNewsLocation']);	
+	if($coords){
+		$$data['latitude'] = $coords['lat'];
+		$$data['longitude'] = $coords['lon']; 
+		$place = $this->_geoPlanet->reverseGeoCode($lat,$lon);
+		$data['woeid'] = $place['woeid'];
+	} else {
+		$$data['latitude'] = NULL;
+		$$data['longitude']  = NULL;
+		$data['woeid'] = NULL;
+	}
+	
+	return parent::insert($data);
+	} else {
+		throw new Exception(('The insert data must be in array format.'));
+	}	
+	}
+	
+	public function updateNews($data, $id){
+	$coords = $this->_geocoder->getCoordinates($data['primaryNewsLocation']);	
+	if($coords){
+		$$data['latitude'] = $coords['lat'];
+		$$data['longitude'] = $coords['lon']; 
+		$place = $this->_geoPlanet->reverseGeoCode($lat,$lon);
+		$data['woeid'] = $place['woeid'];
+	} else {
+		$$data['latitude'] = NULL;
+		$$data['longitude']  = NULL;
+		$data['woeid'] = NULL;
+	}
+	$where = array();
+	$where[] =  $this->getAdapter()->quoteInto($this->_primary . ' = ?', $id);
+	return parent::update($data, $where);
 	}
 }

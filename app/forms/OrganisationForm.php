@@ -110,7 +110,7 @@ public function __construct($options = null) {
 		->setRequired(false)
 		->addFilters(array('StripTags','StringTrim'))
 		->addValidator('StringLength', false, array(1,10))
-		->addValidator('PostCode')
+		->addValidator('ValidPostCode')
 		->addValidator('Alnum',false, array('allowWhiteSpace' => true))
 		->addErrorMessage('Please enter a valid postcode')
 		->setAttrib('size',10)

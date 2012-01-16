@@ -11,8 +11,19 @@
 */
 
 class Coroners extends Pas_Db_Table_Abstract {
+	
+	protected $_geoPlanet;
+	
+	protected $_geocoder;
+	
 	protected $_name = 'coroners';
+	
 	protected $_primary = 'id';
+	
+	public function init(){
+		$this->_geoPlanet = new Pas_Service_Geo_Geoplanet($this->_config->webservice->ydnkeys->appid);
+		$this->_geocoder = new Pas_Service_Geo_Coder($this->_config->webservice->googlemaps->apikey);
+	}
 	
 	/** retrieve all coroners on the system
 	* @param integer $params['page'] 
@@ -48,5 +59,50 @@ class Coroners extends Pas_Db_Table_Abstract {
 	$this->_cache->save($data, 'coroner' . $id);
 	}
 	return $data;
+	}
+	
+	public function addCoroner($data){
+	if(is_array($data)){
+	$address = $data['address_1'] . ',' . $data['address_2'] . ','
+	. $data['town'] . ',' . $data['county'] . ',' 
+	. $data['postcode'] . ',' . $data['country'];
+	$coords = $this->_geocoder->getCoordinates($address);	
+	if($coords){
+		$$data['latitude'] = $coords['lat'];
+		$$data['longitude'] = $coords['lon']; 
+		$place = $this->_geoPlanet->reverseGeoCode($lat,$lon);
+		$data['woeid'] = $place['woeid'];
+	} else {
+		$$data['latitude'] = NULL;
+		$$data['longitude']  = NULL;
+		$data['woeid'] = NULL;
+	}
+	return parent::insert($data);
+	} else {
+		throw new Exception('Data must be in array format');
+	}
+	}
+	
+	public function updateCoroner($data, $id){
+	if(is_array($data)){
+	$address = $data['address_1'] . ',' . $data['address_2'] . ','
+	. $data['town'] . ',' . $data['county'] . ',' 
+	. $data['postcode'] . ',' . $data['country'];
+	$coords = $this->_geocoder->getCoordinates($address);
+	if($coords){
+		$$data['latitude'] = $coords['lat'];
+		$$data['longitude'] = $coords['lon']; 
+		$place = $this->_geoPlanet->reverseGeoCode($lat,$lon);
+		$data['woeid'] = $place['woeid'];
+	} else {
+		$$data['latitude'] = NULL;
+		$$data['longitude']  = NULL;
+		$data['woeid'] = NULL;
+	}
+	$where = $this->getAdapter()->quoteInto($this->_primary . '= ?', (int) $id );
+	return parent::update($data, $where);
+	} else {
+		throw new Exception('Data must be in array format');
+	}	
 	}
 }

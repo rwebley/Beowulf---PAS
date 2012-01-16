@@ -93,7 +93,7 @@ public function __construct($options = null)
 	->setRequired(false)
 	->addFilters(array('StripTags','StringTrim'))
 	->addValidator('StringLength', false, array(1,200))
-	->addValidator('PostCode')
+	->addValidator('ValidPostCode')
 	->setDecorators($decorators);
 
 	$country = new Zend_Form_Element_Select('country');

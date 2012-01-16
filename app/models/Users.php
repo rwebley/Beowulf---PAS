@@ -11,6 +11,8 @@
 
 class Users extends Pas_Db_Table_Abstract {
 	
+	const PATH = './images/';
+	
 	protected $_name = 'users';
 	
 	protected $_primary = 'id';
@@ -58,7 +60,37 @@ class Users extends Pas_Db_Table_Abstract {
 	return $options;
     }
 
+    public function register($data){
+	$data['password'] = SHA1($this->_config->auth->salt. $data['password']);		
+	$data['activationKey'] = md5($data['username'] . $data['first_name']);
+	$data['valid'] = 0;
+	$data['role'] = 'member';
+	$data['institution'] = 'PUBLIC';
+	$data['imagedir'] = 'images/' . $data['username'] . '/';
+	return parent::insert($data);
+    }
     
+    public function activate($data){
+  
+	$where = array();
+	foreach($data as $k => $v){
+	$where[] = $this->getAdapter()->quoteInto($k . ' = ?', $v);
+	}
+	$data = array (
+	'valid' => '1',
+	'activationKey' => NULL,
+	);
+	
+
+	$perm = 0775;
+	mkdir(PATH . $username, $perm);
+	mkdir(PATH . $username . '/small/', $perm);
+	mkdir(PATH . $username . '/medium/', $perm);
+	mkdir(PATH . $username . '/display/', $perm);
+	mkdir(PATH . $username . '/zoom/', $perm);
+	
+	parent::update($data, $where);	
+    }
 	/** Work out whether activation key exists
 	* @param integer $valid
 	* @param string $username The user's name on system
@@ -85,7 +117,7 @@ class Users extends Pas_Db_Table_Abstract {
 	public function findUser($email,$username){	
 	$users = $this->getAdapter();
 	$select = $this->select()
-	->from($this->_name, array('username'))
+	->from($this->_name, array('username','fullname'))
 	->where('users.email = ?', (string) $email)
 	->where('users.username = ?', (string)$username);
 	return $users->fetchAll($select);

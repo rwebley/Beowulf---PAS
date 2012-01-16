@@ -34,37 +34,23 @@ class Admin_MessagesController extends Pas_Controller_Action_Admin {
 	$form = new MessageReplyForm();
 	$form->submit->setLabel('Send reply');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$messagetext = $form->getValue('messagetext');
-	$data = array();
-	$data['updated'] = $this->getTimeForForms();
-	$data['updatedBy'] = $this->getIdentityForForms();
+	if($this->getRequest()->isPost() 
+        && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
+	$data = $form->getValues();
 	$data['replied'] = 1;
 	$where =  $this->_messages->getAdapter()->quoteInto('id= ?', $this->_getParam('id'));
-	$update = $this->_messages->update($data,$where);
-	$replydata = array();
-	$replydata['created'] = $this->getTimeForForms();
-	$replydata['createdBy'] = $this->getIdentityForForms();
-	$replydata['messagetext'] = $messagetext;
-	$replydata['messageID'] = $this->_getParam('id');
-	$insert = $this->_replies->insert($replydata);
-	$mail = new Zend_Mail();
-	$mail->addHeader('X-MailGenerator', 'The Portable Antiquities Scheme - Beowulf');
-	$mail->setBodyText('Dear '.$form->getValue('comment_author')
-		.$messagetext);
-	$mail->setBodyHtml('<p>Dear '.$form->getValue('comment_author').'</p>'.
-	$messagetext);
-	$mail->setFrom('info@finds.org.uk', 'The Portable Antiquities Scheme');
-	$mail->addTo($form->getValue('comment_author_email'), $form->getValue('comment_author'));
-	$mail->setSubject('Response from the Portable Antiquities Scheme to your message');
-	$mail->send();
+	$update = $this->_messages->update($data, $where);
+	$contact = array(array(
+	'email' => $form->getValue('comment_author_email'), 
+	'name' => $form->getValue('comment_author')
+	));
+	$this->_helper->mailer($form->getValues(),'messageResponse', $contact, $contact);
 	$this->_flashMessenger->addMessage('Message replied to.');
 	$this->_redirect('/admin/messages/');
 	} else {
 	$this->_flashMessenger->addMessage('There is a problem with the form, please check and resubmit');
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	// find id is expected in $params['id']

@@ -222,13 +222,13 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	$form = new AcceptUpgradeForm();
 	$form->role->removeMultiOption('admin');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
+	if($this->getRequest()->isPost() 
+        && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
 	
 	$approvalData = array(
 	'status' => 'approved',
-	'message' => $form->getValue('messageToUser'),
+	'message' => $form->getValue('message'),
 	'createdBy' => $this->getIdentityForForms(),
 	'created' => $this->getTimeForForms()
 	);
@@ -263,27 +263,15 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	$approvals = new ApproveReject();
 	$approvals->insert($approvalData);
 	
-	
-	$fullname = $form->getValue('fullname');
-	$email = $form->getValue('email');
-	$message = $form->getValue('messageToUser');
-	$researchOutline = $form->getValue('researchOutline');
-	$role = $form->getValue('role');
-	$mail = new Zend_Mail('UTF-8');
-	$mail->addHeader('X-MailGenerator', 'The Portable Antiquities Scheme - Beowulf server');
-	$mail->setBodyHtml('<p>Dear '.$fullname.'</p><p>RE: Account upgraded to '.$role.'</p>'
-	.$message.'<p>With the research outline you provided us with as follows:</p>'
-	.$researchOutline.'<p>Yours,</p><p>The Scheme.</p>');
-	$mail->setFrom('info@finds.org.uk', 'The Portable Antiquities Scheme');
-	$mail->addTo($email, $fullname);
-	$mail->addCC('info@finds.org.uk','PAS central email');
-	$mail->addCC('dpett@britishmuseum.org','ICT Adviser - PAS');
-	$mail->setSubject('Portable Antiquities Scheme user account upgraded to '.$role);
-	$mail->send();
+	$to = array(array(
+		'email' => $form->getValue('email') , 
+		'name' => $form->getValue('fullname'))
+	);
+	$this->_helper->mailer($form->getValues(), 'upgradeAccount', $to);
 	$this->_flashMessenger->addMessage('Account upgraded and project data entered');
 	$this->_redirect('/admin/users/upgrades');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	else {
@@ -321,7 +309,7 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	
 	$rejectData = array(
 	'status' => 'reject',
-	'message' => $form->getValue('messageToUser'),
+	'message' => $form->getValue('message'),
 	'createdBy' => $this->getIdentityForForms(),
 	'created' => $this->getTimeForForms()
 	);
@@ -332,29 +320,14 @@ class Admin_UsersController extends Pas_Controller_Action_Admin {
 	
 	$approvals = new ApproveReject();
 	$approvals->insert($rejectData);
-	$message = $form->getValue('messageToUser');
+	$message = $form->getValue('message');
 	$researchOutline = $form->getValue('researchOutline');
 	$role = $form->getValue('role');
-	$mail = new Zend_Mail();
-	$mail->addHeader('X-MailGenerator', 'The Portable Antiquities Scheme - Beowulf server');
-	$mail->setBodyHtml('<p>Dear '.$fullname.'</p><p>RE: Account upgrade rejected</p>'
-	.$message.'<p>With the research outline you provided us with as follows:</p>'
-	.$researchOutline.'<p>If you feel that this has been rejected unfairly, please call 0207 323 8611 and speak to Roger Bland head of PAS.</p><p>Yours,</p><p>The Scheme.</p>');
-	$mail->setBody('Dear '
-	.$fullname
-	.',RE: Account upgrade rejected'
-	.$message
-	.'With the research outline you provided us with as follows: '
-	.$researchOutline
-	.'If you feel that this has been rejected unfairly, please call 0207 323 8611 and speak to Roger Bland head of PAS.
-	Yours,
-	The Scheme.');
-	$mail->setFrom('info@finds.org.uk', 'The Portable Antiquities Scheme');
-	$mail->addTo($email, $fullname);
-	$mail->addCC('info@finds.org.uk','ICT Adviser - PAS');
-	$mail->addCC('danielpett@gmail.com','ICT Adviser - PAS');
-	$mail->setSubject('Portable Antiquities Scheme user account upgrade rejected');
-	$mail->send();
+	$to = array(array(
+		'email' => $form->getValue('email') , 
+		'name' => $form->getValue('fullname'))
+	);
+	$this->_helper->mailer($form->getValues(), 'upgradeRejected', $to);
 	
 	$this->_flashMessenger->addMessage('Account rejected');
 	$this->_redirect('/admin/users/upgrades');

@@ -1,14 +1,20 @@
-<p>Dear <?php echo $this->escape($this->preferred_name);?>,</p>
+<?php $this->mail->setSubject('Activate your account on finds.org.uk');?>
+<p>Dear <?php echo $this->escape($this->splitName($this->fullname));?>,</p>
+
 <p>Thank you for registering with the Scheme. By doing so you will get access to
  enhanced features and if required higher level access.</p>
- <p>If you have problems activating your account, please do contact us at the Central Unit
+ 
+<p>If you have problems activating your account, please do contact us at the Central Unit
   <a href="mailto:info@finds.org.uk">by email</a>.</p>
+
 <p>To activate your account please vist your personal activation link: 
 <a href="<?php echo Zend_Registry::get('siteurl');?>/users/account/activate/username/
 <?php echo $this->username;?>/activationKey/<?php echo $this->activationKey?>">Activate me</a></p>
-<p>You can paste thislink into browser if click fails: <?php echo Zend_Registry::get('siteurl');?>
-/users/account/activate/username/
-<?php echo $this->username;?>/activationKey/<?php echo $this->activationKey?></p>
+
+<p>You can paste this link into browser if click fails: <?php echo Zend_Registry::get('siteurl');?>
+/users/account/activate/username/<?php echo $this->username;?>/activationKey/<?php echo $this->activationKey?></p>
+
 <p>Yours sincerely,</p>
+
 <p>The Portable Antiquities Scheme.</p>
 

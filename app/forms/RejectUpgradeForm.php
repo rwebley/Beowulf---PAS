@@ -72,8 +72,7 @@ public function __construct($options = null) {
 
 
 	$email = $this->addElement('text', 'email',array('label' => 'Email Address', 'size' => '30'))->email;
-	$email->addValidator('emailAddress')
-		->setRequired(true)
+	$email->setRequired(true)
 		->addFilters(array('StringTrim', 'StripTags','StringToLower'))
 		->addValidator('EmailAddress',false,array('mx' => true))
 		->addErrorMessage('Please enter a valid address!');

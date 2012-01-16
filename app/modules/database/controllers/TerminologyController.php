@@ -14,45 +14,49 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	*/
 	public function init() {
 	$this->_helper->_acl->allow('public',null);
-        $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
-        $this->_contexts = array('xml','json');
-        $this->_helper->contextSwitch()
-			 ->setAutoDisableLayout(true)
-			 ->addActionContext('periods', $this->_contexts)
- 			 ->addActionContext('period', $this->_contexts)
- 			 ->addActionContext('activities', $this->_contexts)
- 			 ->addActionContext('activity', $this->_contexts)
- 			 ->addActionContext('cultures', $this->_contexts)
- 			 ->addActionContext('culture', $this->_contexts)
- 			 ->addActionContext('methods', $this->_contexts)
- 			 ->addActionContext('method', $this->_contexts)
- 			 ->addActionContext('preservations',$this->_contexts)
- 			 ->addActionContext('preservation',$this->_contexts)
- 			 ->addActionContext('notes',$this->_contexts)
-			 ->addActionContext('note',$this->_contexts)
-			 ->addActionContext('materials',$this->_contexts)
-			 ->addActionContext('material',$this->_contexts)
-			 ->addActionContext('workflows',$this->_contexts)
-			 ->addActionContext('workflow',$this->_contexts)
-			 ->addActionContext('manufactures',$this->_contexts)
-			 ->addActionContext('manufacture',$this->_contexts)
-			 ->addActionContext('surfaces',$this->_contexts)
-			 ->addActionContext('surface',$this->_contexts)
-			 ->addActionContext('objects',$this->_contexts)
-			 ->addActionContext('object',$this->_contexts)
-			 ->addActionContext('rulers',$this->_contexts)
-			 ->addActionContext('mints',$this->_contexts)
-			 ->addActionContext('denominations',$this->_contexts)
-			 ->addActionContext('index',$this->_contexts)
-			 ->initContext();
-        $this->_periods = new Periods();
+	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+	$this->_contexts = array('xml','json');
+	$this->_helper->contextSwitch()
+		 ->setAutoDisableLayout(true)
+		 ->addActionContext('periods', $this->_contexts)
+ 		 ->addActionContext('period', $this->_contexts)
+ 		 ->addActionContext('activities', $this->_contexts)
+ 		 ->addActionContext('activity', $this->_contexts)
+ 		 ->addActionContext('cultures', $this->_contexts)
+ 		 ->addActionContext('culture', $this->_contexts)
+ 		 ->addActionContext('methods', $this->_contexts)
+ 		 ->addActionContext('method', $this->_contexts)
+ 		 ->addActionContext('preservations',$this->_contexts)
+ 		 ->addActionContext('preservation',$this->_contexts)
+ 		 ->addActionContext('notes',$this->_contexts)
+		 ->addActionContext('note',$this->_contexts)
+		 ->addActionContext('materials',$this->_contexts)
+		 ->addActionContext('material',$this->_contexts)
+		 ->addActionContext('workflows',$this->_contexts)
+		 ->addActionContext('workflow',$this->_contexts)
+		 ->addActionContext('manufactures',$this->_contexts)
+		 ->addActionContext('manufacture',$this->_contexts)
+		 ->addActionContext('surfaces',$this->_contexts)
+		 ->addActionContext('surface',$this->_contexts)
+		 ->addActionContext('objects',$this->_contexts)
+		 ->addActionContext('object',$this->_contexts)
+		 ->addActionContext('rulers',$this->_contexts)
+		 ->addActionContext('mints',$this->_contexts)
+		 ->addActionContext('denominations',$this->_contexts)
+		 ->addActionContext('index',$this->_contexts)
+		 ->initContext();
+	$this->_periods = new Periods();
 	}
 	/** Setup the index page for listing the actions to show
 	*/
 	public function indexAction() {
-	$vocab = array('activities','periods','cultures','denominations','rulers','surfaces','mints',
-	'objects','manufactures','workflows','notes','methods','preservations');
-	$base = 'http://finds.org.uk/database/terminology/';
+	$vocab = array(
+		'activities', 'periods', 'cultures',
+		'denominations', 'rulers', 'surfaces',
+		'mints', 'objects', 'manufactures',
+		'workflows', 'notes', 'methods',
+		'preservations');
+	$base = Zend_Registry::get('siteurl') . '/database/terminology/';
 	$vocab3 = sort($vocab);
 	$vocab2 = NULL;
 	foreach($vocab as $v){
@@ -286,7 +290,7 @@ class Database_TerminologyController extends Pas_Controller_Action_Admin {
 	'id' => $k['id'],
 	'name' => $k['mint_name'],
 	'period' => $k['t'],
-	'url' => 'http://finds.org.uk' . $this->view->url(array('module' => $module,
+	'url' => Zend_Registry::get('siteurl') . $this->view->url(array('module' => $module,
 	'controller' => $actionset.'s' ,'action' => $actionset,'id' => $k['id']),null,true)
 	);
 	}

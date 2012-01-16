@@ -79,7 +79,7 @@ public function __construct($options = null) {
 		->addFilter('StripTags')
 		->setDecorators($decorators);
 
-	$message = new Pas_Form_Element_RTE('messageToUser');
+	$message = new Pas_Form_Element_RTE('message');
 	$message->setLabel('Message to user: ')
 		->setRequired(true)
 		->setAttrib('rows',10)
@@ -169,7 +169,7 @@ public function __construct($options = null) {
 	$this->addDisplayGroup(array(
 	'fullname', 'username', 'email',
 	'institution', 'level', 'role',
-	'reference', 'referenceEmail', 'messageToUser',
+	'reference', 'referenceEmail', 'message',
 	'researchOutline', 'title', 'startDate',
 	'endDate', 'already', 'higherLevel',
 	'insert'), 

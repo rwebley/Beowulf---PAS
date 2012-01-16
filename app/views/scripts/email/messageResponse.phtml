@@ -1,3 +1,6 @@
-<p>Dear <?php $this->escape($this->comment_author);?></p>
-<?php echo $this->purify($messagetext);?>
-<p>Sent by <?php echo $this->escape($this->creator); ?> at <?php echo Zend_Date::NOW('W3C'); ?></p>
+<?php $this->mail->setSubject('Response from finds.org.uk to your message');?>
+<p>Dear <?php $this->splitName($this->comment_author);?></p>
+
+<?php echo $this->purify($this->messagetext);?>
+
+<?php echo $this->emailSignature();?>

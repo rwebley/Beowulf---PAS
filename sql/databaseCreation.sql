@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Dec 13, 2011 at 10:00 AM
+-- Generation Time: Jan 16, 2012 at 02:03 PM
 -- Server version: 5.0.51
--- PHP Version: 5.2.4-2ubuntu5.10
+-- PHP Version: 5.2.4-2ubuntu5.12
 -- 
 -- Database: `antiquities`
 -- 
@@ -14,9 +14,6 @@
 
 -- 
 -- Table structure for table `abbreviations`
--- 
--- Creation: Sep 04, 2010 at 10:08 AM
--- Last update: Feb 16, 2011 at 03:45 PM
 -- 
 
 CREATE TABLE `abbreviations` (
@@ -35,10 +32,6 @@ CREATE TABLE `abbreviations` (
 
 -- 
 -- Table structure for table `accreditedMuseums`
--- 
--- Creation: Oct 28, 2010 at 03:42 PM
--- Last update: Oct 28, 2010 at 03:42 PM
--- Last check: Oct 28, 2010 at 03:42 PM
 -- 
 
 CREATE TABLE `accreditedMuseums` (
@@ -64,10 +57,22 @@ CREATE TABLE `accreditedMuseums` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `agreedTreasureValuations`
+-- Table structure for table `aclperms`
 -- 
--- Creation: Nov 11, 2010 at 03:45 PM
--- Last update: Nov 11, 2010 at 03:49 PM
+
+CREATE TABLE `aclperms` (
+  `id` int(11) NOT NULL auto_increment,
+  `resourceID` int(11) NOT NULL,
+  `groupID` int(11) NOT NULL,
+  `permission` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `resourceID` (`resourceID`,`groupID`,`permission`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Permissions for resources';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `agreedTreasureValuations`
 -- 
 
 CREATE TABLE `agreedTreasureValuations` (
@@ -88,10 +93,6 @@ CREATE TABLE `agreedTreasureValuations` (
 -- 
 -- Table structure for table `allentypes`
 -- 
--- Creation: Nov 28, 2010 at 10:35 AM
--- Last update: Nov 28, 2010 at 10:35 AM
--- Last check: Nov 28, 2010 at 10:35 AM
--- 
 
 CREATE TABLE `allentypes` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -109,9 +110,6 @@ CREATE TABLE `allentypes` (
 
 -- 
 -- Table structure for table `annotations`
--- 
--- Creation: Sep 15, 2010 at 11:55 AM
--- Last update: Sep 15, 2010 at 11:55 AM
 -- 
 
 CREATE TABLE `annotations` (
@@ -135,9 +133,6 @@ CREATE TABLE `annotations` (
 -- 
 -- Table structure for table `approveReject`
 -- 
--- Creation: Sep 09, 2010 at 09:13 AM
--- Last update: Dec 07, 2011 at 02:21 PM
--- 
 
 CREATE TABLE `approveReject` (
   `id` int(11) NOT NULL auto_increment,
@@ -149,16 +144,12 @@ CREATE TABLE `approveReject` (
   `updatedBy` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `status` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Approved and rejected accounts';
+) ENGINE=MyISAM AUTO_INCREMENT=181 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Approved and rejected accounts';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `bibliography`
--- 
--- Creation: Nov 22, 2010 at 10:31 PM
--- Last update: Dec 13, 2011 at 09:46 AM
--- Last check: Nov 22, 2010 at 10:32 PM
 -- 
 
 CREATE TABLE `bibliography` (
@@ -178,15 +169,34 @@ CREATE TABLE `bibliography` (
   KEY `pubID` (`pubID`),
   KEY `findID` (`findID`),
   KEY `secuid` (`secuid`)
-) ENGINE=MyISAM AUTO_INCREMENT=77818 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=78001 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `bibliographyOld`
+-- 
+
+CREATE TABLE `bibliographyOld` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `findID` varchar(50) default NULL,
+  `pages_plates` varchar(50) default NULL,
+  `vol_no` varchar(30) default NULL,
+  `reference` varchar(100) default NULL,
+  `created` datetime default NULL,
+  `createdBy` int(11) default NULL,
+  `updated` datetime default NULL,
+  `updatedBy` int(11) default NULL,
+  `pubID` varchar(50) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `findID` (`findID`),
+  KEY `pubID` (`pubID`)
+) ENGINE=MyISAM AUTO_INCREMENT=53040 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `bookmarks`
--- 
--- Creation: Sep 15, 2010 at 11:56 AM
--- Last update: Sep 15, 2010 at 11:56 AM
 -- 
 
 CREATE TABLE `bookmarks` (
@@ -204,10 +214,6 @@ CREATE TABLE `bookmarks` (
 
 -- 
 -- Table structure for table `categoriescoins`
--- 
--- Creation: Nov 25, 2010 at 04:40 PM
--- Last update: Nov 25, 2010 at 04:40 PM
--- Last check: Nov 25, 2010 at 04:40 PM
 -- 
 
 CREATE TABLE `categoriescoins` (
@@ -232,9 +238,6 @@ CREATE TABLE `categoriescoins` (
 -- 
 -- Table structure for table `certaintytypes`
 -- 
--- Creation: Sep 03, 2010 at 09:26 PM
--- Last update: Sep 03, 2010 at 09:26 PM
--- 
 
 CREATE TABLE `certaintytypes` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -249,9 +252,6 @@ CREATE TABLE `certaintytypes` (
 
 -- 
 -- Table structure for table `coinclassifications`
--- 
--- Creation: Sep 15, 2010 at 11:57 AM
--- Last update: Feb 10, 2011 at 03:40 PM
 -- 
 
 CREATE TABLE `coinclassifications` (
@@ -271,9 +271,6 @@ CREATE TABLE `coinclassifications` (
 -- 
 -- Table structure for table `coincountry_origin`
 -- 
--- Creation: Sep 20, 2010 at 11:58 AM
--- Last update: Sep 20, 2010 at 11:58 AM
--- 
 
 CREATE TABLE `coincountry_origin` (
   `id` int(11) NOT NULL auto_increment,
@@ -289,10 +286,6 @@ CREATE TABLE `coincountry_origin` (
 
 -- 
 -- Table structure for table `coins`
--- 
--- Creation: Feb 21, 2011 at 11:04 PM
--- Last update: Dec 12, 2011 at 11:44 PM
--- Last check: Feb 21, 2011 at 11:05 PM
 -- 
 
 CREATE TABLE `coins` (
@@ -375,22 +368,18 @@ CREATE TABLE `coins` (
   FULLTEXT KEY `obverse_inscription` (`obverse_inscription`),
   FULLTEXT KEY `obverse_description` (`obverse_description`),
   FULLTEXT KEY `reverse_inscription` (`reverse_inscription`)
-) ENGINE=MyISAM AUTO_INCREMENT=267854 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
+) ENGINE=MyISAM AUTO_INCREMENT=268188 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `coinsAudit`
 -- 
--- Creation: Nov 25, 2010 at 05:46 PM
--- Last update: Dec 12, 2011 at 08:26 PM
--- Last check: Nov 25, 2010 at 05:46 PM
--- 
 
 CREATE TABLE `coinsAudit` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `coinID` int(11) NOT NULL,
-  `findID` int(11) default '0',
+  `recordID` int(11) default NULL,
+  `entityID` int(11) default '0',
   `editID` varchar(25) collate utf8_unicode_ci default NULL,
   `fieldName` varchar(255) collate utf8_unicode_ci default NULL,
   `beforeValue` mediumtext collate utf8_unicode_ci,
@@ -400,18 +389,14 @@ CREATE TABLE `coinsAudit` (
   PRIMARY KEY  (`id`),
   KEY `createdBy` (`createdBy`),
   KEY `editID` (`editID`),
-  KEY `coinID` (`coinID`),
-  KEY `findID` (`findID`)
-) ENGINE=MyISAM AUTO_INCREMENT=75677 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `coinID` (`recordID`),
+  KEY `findID` (`entityID`)
+) ENGINE=MyISAM AUTO_INCREMENT=76072 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `coins_denomxruler`
--- 
--- Creation: Nov 25, 2010 at 05:37 PM
--- Last update: Nov 25, 2010 at 05:37 PM
--- Last check: Nov 25, 2010 at 05:37 PM
 -- 
 
 CREATE TABLE `coins_denomxruler` (
@@ -428,11 +413,139 @@ CREATE TABLE `coins_denomxruler` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `coins_rulers`
+-- Table structure for table `coins_old`
 -- 
--- Creation: Sep 20, 2010 at 11:59 AM
--- Last update: Sep 20, 2010 at 11:59 AM
--- Last check: Sep 20, 2010 at 11:59 AM
+
+CREATE TABLE `coins_old` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `findID` varchar(50) default NULL,
+  `geographyID` int(10) unsigned default NULL,
+  `greekstateID` int(10) unsigned default NULL,
+  `ruler_id` int(11) unsigned default NULL,
+  `ruler2_id` int(10) unsigned default NULL,
+  `Ruler_qualifier` tinyint(10) unsigned default NULL,
+  `Candidate_ruler` varchar(50) default NULL,
+  `denomination` varchar(100) default NULL,
+  `candidate_denomination` varchar(50) default NULL,
+  `denomination_qualifier` varchar(10) default NULL,
+  `mint_ID` int(11) unsigned default NULL,
+  `mint_qualifier` tinyint(10) unsigned default NULL,
+  `candidate_mint` varchar(50) default NULL,
+  `categoryID` int(10) unsigned default NULL,
+  `typeID` int(10) unsigned default NULL,
+  `type` text,
+  `status` varchar(50) default NULL,
+  `status_qualifier` tinyint(10) unsigned default NULL,
+  `moneyer` varchar(50) default NULL,
+  `reeceID` int(10) unsigned default NULL,
+  `obverse_description` text,
+  `obverse_inscription` varchar(255) default NULL,
+  `Initial_mark` varchar(50) default NULL,
+  `reverse_description` text,
+  `reverse_inscription` varchar(255) default NULL,
+  `reverse_mintmark` varchar(50) default NULL,
+  `degree_of_wear` varchar(50) default NULL,
+  `die_axis_measurement` double unsigned default NULL,
+  `die_axis_certainty` tinyint(4) unsigned default NULL,
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned default NULL,
+  `modified` datetime default NULL,
+  `last_updated_by` int(10) unsigned default NULL,
+  `sectag` int(10) unsigned NOT NULL default '1',
+  `secuid` varchar(50) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `secuid` (`secuid`),
+  UNIQUE KEY `findID` (`findID`)
+) ENGINE=MyISAM AUTO_INCREMENT=99537 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `coins_old2`
+-- 
+
+CREATE TABLE `coins_old2` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `findID` varchar(50) default NULL,
+  `geographyID` int(10) unsigned default NULL,
+  `geography_qualifier` tinyint(1) default NULL,
+  `greekstateID` int(10) unsigned default NULL,
+  `ruler_id` int(11) unsigned default NULL,
+  `ruler2_id` int(10) unsigned default NULL,
+  `ruler2_qualifier` tinyint(1) default NULL,
+  `tribe` int(2) default NULL,
+  `tribe_qualifier` tinyint(1) default NULL,
+  `ruler_qualifier` tinyint(1) unsigned default NULL,
+  `denomination` varchar(100) default NULL,
+  `denomination_qualifier` tinyint(1) default NULL,
+  `mint_id` int(11) unsigned default NULL,
+  `mint_qualifier` tinyint(10) unsigned default NULL,
+  `categoryID` int(10) unsigned default NULL,
+  `typeID` int(10) unsigned default NULL,
+  `type` text,
+  `status` varchar(50) default NULL,
+  `status_qualifier` tinyint(10) unsigned default NULL,
+  `moneyer` varchar(50) default NULL,
+  `moneyerQualifier` tinyint(1) default NULL,
+  `reeceID` int(10) unsigned default NULL,
+  `obverse_description` text character set utf8,
+  `obverse_inscription` varchar(255) character set utf8 default NULL,
+  `initial_mark` varchar(50) character set utf8 default NULL,
+  `reverse_description` text character set utf8,
+  `reverse_inscription` text character set utf8,
+  `reverse_mintmark` varchar(50) character set utf8 default NULL,
+  `revtypeID` int(4) unsigned default NULL,
+  `revTypeID_qualifier` tinyint(10) default NULL,
+  `degree_of_wear` varchar(50) default NULL,
+  `die_axis_measurement` double unsigned default NULL,
+  `die_axis_certainty` tinyint(4) unsigned default NULL,
+  `allen_type` varchar(20) default NULL,
+  `mack_type` int(4) default NULL,
+  `bmc_type` float default NULL,
+  `rudd_type` int(4) default NULL,
+  `va_type` int(4) default NULL,
+  `phase_date_1` varchar(50) character set utf8 default NULL,
+  `phase_date_2` varchar(50) character set utf8 default NULL,
+  `context` text character set utf8,
+  `depositionDate` text character set utf8,
+  `numChiab` varchar(100) character set utf8 default NULL,
+  `classification` tinyint(2) default NULL,
+  `volume` int(3) default NULL,
+  `reference` varchar(10) character set utf8 default NULL,
+  `created` datetime default NULL,
+  `createdBy` int(10) unsigned default NULL,
+  `updated` datetime default NULL,
+  `updatedBy` int(10) unsigned default NULL,
+  `secuid` varchar(50) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `denomination` (`denomination`),
+  KEY `ruler_id` (`ruler_id`),
+  KEY `ruler2_id` (`ruler2_id`),
+  KEY `die_axis_measurement` (`die_axis_measurement`),
+  KEY `allen_type` (`allen_type`),
+  KEY `mack_type` (`mack_type`),
+  KEY `rudd_type` (`rudd_type`),
+  KEY `va_type` (`va_type`),
+  KEY `reeceID` (`reeceID`),
+  KEY `tribe` (`tribe`),
+  KEY `geographyID` (`geographyID`),
+  KEY `revtypeID` (`revtypeID`),
+  KEY `greekstateID` (`greekstateID`),
+  KEY `categoryID` (`categoryID`),
+  KEY `typeID` (`typeID`),
+  KEY `degree_of_wear` (`degree_of_wear`),
+  KEY `mint_id` (`mint_id`),
+  KEY `findID` (`findID`),
+  KEY `obverse_inscription_2` (`obverse_inscription`),
+  FULLTEXT KEY `reverse_inscription` (`reverse_inscription`),
+  FULLTEXT KEY `obverse_description` (`obverse_description`),
+  FULLTEXT KEY `obverse_inscription` (`obverse_inscription`)
+) ENGINE=MyISAM AUTO_INCREMENT=145379 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `coins_rulers`
 -- 
 
 CREATE TABLE `coins_rulers` (
@@ -464,10 +577,6 @@ CREATE TABLE `coins_rulers` (
 -- 
 -- Table structure for table `coinxclass`
 -- 
--- Creation: Nov 22, 2010 at 10:26 PM
--- Last update: Dec 12, 2011 at 11:56 PM
--- Last check: Nov 22, 2010 at 10:26 PM
--- 
 
 CREATE TABLE `coinxclass` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -482,16 +591,12 @@ CREATE TABLE `coinxclass` (
   PRIMARY KEY  (`id`),
   KEY `findID` (`findID`),
   KEY `classID` (`classID`)
-) ENGINE=MyISAM AUTO_INCREMENT=11529 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11571 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `comments`
--- 
--- Creation: Sep 20, 2010 at 12:01 PM
--- Last update: Dec 13, 2011 at 09:57 AM
--- Last check: Sep 06, 2011 at 02:31 PM
 -- 
 
 CREATE TABLE `comments` (
@@ -501,28 +606,25 @@ CREATE TABLE `comments` (
   `comment_author_email` varchar(100) collate utf8_unicode_ci default NULL,
   `comment_author_url` varchar(200) collate utf8_unicode_ci default NULL,
   `user_ip` varchar(100) character set latin1 default NULL,
-  `comment_date` datetime default '0000-00-00 00:00:00',
+  `created` datetime default NULL,
   `comment_date_gmt` datetime default '0000-00-00 00:00:00',
   `comment_content` text collate utf8_unicode_ci,
   `comment_approved` enum('moderation','approved','spam') collate utf8_unicode_ci default 'moderation',
   `user_agent` varchar(255) collate utf8_unicode_ci default NULL,
   `comment_type` varchar(20) collate utf8_unicode_ci default NULL,
   `comment_parent` bigint(20) default '0',
-  `user_id` bigint(20) default '0',
+  `createdBy` bigint(20) default NULL,
   `updated` datetime default NULL,
   `updatedBy` int(11) default NULL,
   PRIMARY KEY  (`comment_ID`),
   KEY `comment_approved` (`comment_approved`),
   KEY `comment_post_ID` (`comment_findID`)
-) ENGINE=MyISAM AUTO_INCREMENT=1203 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1217 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `completeness`
--- 
--- Creation: Sep 20, 2010 at 12:01 PM
--- Last update: Sep 20, 2010 at 12:01 PM
 -- 
 
 CREATE TABLE `completeness` (
@@ -537,10 +639,6 @@ CREATE TABLE `completeness` (
 
 -- 
 -- Table structure for table `content`
--- 
--- Creation: Nov 25, 2010 at 05:24 PM
--- Last update: Oct 20, 2011 at 11:40 PM
--- Last check: Nov 25, 2010 at 05:24 PM
 -- 
 
 CREATE TABLE `content` (
@@ -569,15 +667,35 @@ CREATE TABLE `content` (
   KEY `section` (`section`),
   KEY `createdBy` (`createdBy`),
   KEY `updatedBy` (`updatedBy`)
-) ENGINE=MyISAM AUTO_INCREMENT=214 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Site content';
+) ENGINE=MyISAM AUTO_INCREMENT=216 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Site content';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `contentAudit`
+-- 
+
+CREATE TABLE `contentAudit` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `recordID` int(11) default NULL,
+  `entityID` int(11) default '0',
+  `editID` varchar(25) collate utf8_unicode_ci default NULL,
+  `fieldName` varchar(255) collate utf8_unicode_ci default NULL,
+  `beforeValue` mediumtext collate utf8_unicode_ci,
+  `afterValue` mediumtext collate utf8_unicode_ci,
+  `created` datetime default NULL,
+  `createdBy` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `createdBy` (`createdBy`),
+  KEY `editID` (`editID`),
+  KEY `coinID` (`recordID`),
+  KEY `findID` (`entityID`)
+) ENGINE=MyISAM AUTO_INCREMENT=76072 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `copyrights`
--- 
--- Creation: Sep 20, 2010 at 12:02 PM
--- Last update: Sep 01, 2011 at 11:33 AM
 -- 
 
 CREATE TABLE `copyrights` (
@@ -593,10 +711,6 @@ CREATE TABLE `copyrights` (
 
 -- 
 -- Table structure for table `coroners`
--- 
--- Creation: Nov 25, 2010 at 06:00 PM
--- Last update: Dec 06, 2011 at 10:59 AM
--- Last check: Jul 19, 2011 at 05:30 PM
 -- 
 
 CREATE TABLE `coroners` (
@@ -626,15 +740,12 @@ CREATE TABLE `coroners` (
   KEY `updatedBy` (`updatedBy`),
   KEY `regionID` (`regionID`),
   KEY `woeid` (`woeid`)
-) ENGINE=MyISAM AUTO_INCREMENT=126 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=127 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `counties`
--- 
--- Creation: Nov 25, 2010 at 03:13 PM
--- Last update: Nov 25, 2010 at 03:13 PM
 -- 
 
 CREATE TABLE `counties` (
@@ -654,10 +765,6 @@ CREATE TABLE `counties` (
 -- 
 -- Table structure for table `countries`
 -- 
--- Creation: Nov 25, 2010 at 10:37 AM
--- Last update: Nov 25, 2010 at 10:37 AM
--- Last check: Nov 25, 2010 at 10:37 AM
--- 
 
 CREATE TABLE `countries` (
   `iso` char(2) collate utf8_unicode_ci NOT NULL default '',
@@ -673,10 +780,6 @@ CREATE TABLE `countries` (
 
 -- 
 -- Table structure for table `countyToFlo`
--- 
--- Creation: May 11, 2010 at 10:59 AM
--- Last update: May 11, 2010 at 10:59 AM
--- Last check: May 11, 2010 at 10:59 AM
 -- 
 
 CREATE TABLE `countyToFlo` (
@@ -697,9 +800,6 @@ CREATE TABLE `countyToFlo` (
 -- 
 -- Table structure for table `crimeTypes`
 -- 
--- Creation: Jun 15, 2010 at 01:45 PM
--- Last update: Jul 20, 2010 at 03:34 PM
--- 
 
 CREATE TABLE `crimeTypes` (
   `id` int(3) NOT NULL auto_increment,
@@ -713,9 +813,6 @@ CREATE TABLE `crimeTypes` (
 
 -- 
 -- Table structure for table `cultures`
--- 
--- Creation: Sep 20, 2010 at 12:04 PM
--- Last update: Dec 01, 2011 at 01:51 PM
 -- 
 
 CREATE TABLE `cultures` (
@@ -735,9 +832,6 @@ CREATE TABLE `cultures` (
 -- 
 -- Table structure for table `datequalifiers`
 -- 
--- Creation: Sep 20, 2010 at 12:09 PM
--- Last update: Jun 30, 2011 at 01:42 PM
--- 
 
 CREATE TABLE `datequalifiers` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -752,10 +846,6 @@ CREATE TABLE `datequalifiers` (
 
 -- 
 -- Table structure for table `decmethods`
--- 
--- Creation: Sep 20, 2010 at 12:10 PM
--- Last update: Dec 10, 2010 at 05:40 PM
--- Last check: Dec 10, 2010 at 05:40 PM
 -- 
 
 CREATE TABLE `decmethods` (
@@ -775,9 +865,6 @@ CREATE TABLE `decmethods` (
 -- 
 -- Table structure for table `decstyles`
 -- 
--- Creation: Sep 20, 2010 at 12:10 PM
--- Last update: Sep 20, 2010 at 12:10 PM
--- 
 
 CREATE TABLE `decstyles` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -795,10 +882,6 @@ CREATE TABLE `decstyles` (
 
 -- 
 -- Table structure for table `denominations`
--- 
--- Creation: Nov 25, 2010 at 03:15 PM
--- Last update: Jul 19, 2011 at 05:32 PM
--- Last check: Jul 19, 2011 at 05:32 PM
 -- 
 
 CREATE TABLE `denominations` (
@@ -831,10 +914,6 @@ CREATE TABLE `denominations` (
 -- 
 -- Table structure for table `denominations_rulers`
 -- 
--- Creation: Sep 20, 2010 at 12:29 PM
--- Last update: Nov 25, 2011 at 06:03 PM
--- Last check: Jul 19, 2011 at 05:31 PM
--- 
 
 CREATE TABLE `denominations_rulers` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -856,9 +935,6 @@ CREATE TABLE `denominations_rulers` (
 -- 
 -- Table structure for table `dieaxes`
 -- 
--- Creation: Sep 20, 2010 at 12:28 PM
--- Last update: Sep 20, 2010 at 12:28 PM
--- 
 
 CREATE TABLE `dieaxes` (
   `id` int(2) NOT NULL auto_increment,
@@ -875,9 +951,6 @@ CREATE TABLE `dieaxes` (
 
 -- 
 -- Table structure for table `discmethods`
--- 
--- Creation: Oct 26, 2011 at 03:46 PM
--- Last update: Oct 26, 2011 at 03:46 PM
 -- 
 
 CREATE TABLE `discmethods` (
@@ -899,9 +972,6 @@ CREATE TABLE `discmethods` (
 -- 
 -- Table structure for table `documents`
 -- 
--- Creation: Sep 20, 2010 at 01:26 PM
--- Last update: Sep 20, 2010 at 01:26 PM
--- 
 
 CREATE TABLE `documents` (
   `id` int(11) NOT NULL auto_increment,
@@ -919,9 +989,6 @@ CREATE TABLE `documents` (
 
 -- 
 -- Table structure for table `dynasties`
--- 
--- Creation: Sep 20, 2010 at 12:27 PM
--- Last update: Sep 23, 2010 at 04:07 PM
 -- 
 
 CREATE TABLE `dynasties` (
@@ -945,9 +1012,6 @@ CREATE TABLE `dynasties` (
 -- 
 -- Table structure for table `edm`
 -- 
--- Creation: May 20, 2010 at 12:08 PM
--- Last update: May 20, 2010 at 12:08 PM
--- 
 
 CREATE TABLE `edm` (
   `id` int(11) NOT NULL,
@@ -963,10 +1027,6 @@ CREATE TABLE `edm` (
 
 -- 
 -- Table structure for table `emperors`
--- 
--- Creation: Feb 01, 2011 at 01:19 PM
--- Last update: Mar 14, 2011 at 01:49 PM
--- Last check: Feb 01, 2011 at 01:19 PM
 -- 
 
 CREATE TABLE `emperors` (
@@ -997,10 +1057,6 @@ CREATE TABLE `emperors` (
 -- 
 -- Table structure for table `errorreports`
 -- 
--- Creation: Sep 15, 2010 at 05:44 PM
--- Last update: Dec 12, 2011 at 07:26 PM
--- Last check: Sep 15, 2010 at 05:44 PM
--- 
 
 CREATE TABLE `errorreports` (
   `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -1010,7 +1066,7 @@ CREATE TABLE `errorreports` (
   `comment_author_email` varchar(100) collate utf8_unicode_ci default NULL,
   `comment_author_url` varchar(200) collate utf8_unicode_ci default NULL,
   `user_ip` varchar(100) collate utf8_unicode_ci default NULL,
-  `comment_date` datetime default NULL,
+  `created` datetime default NULL,
   `comment_date_gmt` datetime default NULL,
   `comment_content` text collate utf8_unicode_ci,
   `comment_karma` int(11) default NULL,
@@ -1018,20 +1074,16 @@ CREATE TABLE `errorreports` (
   `user_agent` varchar(255) collate utf8_unicode_ci default NULL,
   `comment_type` varchar(20) collate utf8_unicode_ci default NULL,
   `comment_parent` bigint(20) default NULL,
-  `user_id` bigint(20) default NULL,
+  `createdBy` bigint(20) default NULL,
   PRIMARY KEY  (`id`),
   KEY `comment_approved` (`comment_approved`),
   KEY `comment_post_ID` (`comment_findID`)
-) ENGINE=MyISAM AUTO_INCREMENT=640 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=645 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `events`
--- 
--- Creation: Mar 15, 2011 at 08:50 AM
--- Last update: Dec 13, 2011 at 09:55 AM
--- Last check: Mar 15, 2011 at 08:50 AM
 -- 
 
 CREATE TABLE `events` (
@@ -1063,15 +1115,12 @@ CREATE TABLE `events` (
   KEY `eventEndDate` (`eventEndDate`),
   KEY `createdBy_2` (`createdBy`),
   KEY `eventType` (`eventType`)
-) ENGINE=MyISAM AUTO_INCREMENT=703 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=711 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `eventtypes`
--- 
--- Creation: Sep 20, 2010 at 12:30 PM
--- Last update: Feb 28, 2011 at 10:48 AM
 -- 
 
 CREATE TABLE `eventtypes` (
@@ -1088,9 +1137,6 @@ CREATE TABLE `eventtypes` (
 
 -- 
 -- Table structure for table `faqs`
--- 
--- Creation: Sep 20, 2010 at 12:31 PM
--- Last update: Sep 20, 2010 at 12:31 PM
 -- 
 
 CREATE TABLE `faqs` (
@@ -1110,9 +1156,6 @@ CREATE TABLE `faqs` (
 -- 
 -- Table structure for table `findofnotereasons`
 -- 
--- Creation: Sep 20, 2010 at 12:31 PM
--- Last update: Mar 15, 2011 at 12:12 PM
--- 
 
 CREATE TABLE `findofnotereasons` (
   `id` int(2) NOT NULL auto_increment,
@@ -1130,10 +1173,6 @@ CREATE TABLE `findofnotereasons` (
 
 -- 
 -- Table structure for table `finds`
--- 
--- Creation: Jan 21, 2011 at 03:33 PM
--- Last update: Dec 13, 2011 at 09:59 AM
--- Last check: Jan 21, 2011 at 03:38 PM
 -- 
 
 CREATE TABLE `finds` (
@@ -1250,15 +1289,12 @@ CREATE TABLE `finds` (
   KEY `institution` (`institution`),
   FULLTEXT KEY `description` (`description`),
   FULLTEXT KEY `classification` (`classification`)
-) ENGINE=MyISAM AUTO_INCREMENT=477428 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
+) ENGINE=MyISAM AUTO_INCREMENT=478236 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `finds2myresearch`
--- 
--- Creation: Sep 20, 2010 at 12:32 PM
--- Last update: Sep 20, 2010 at 12:32 PM
 -- 
 
 CREATE TABLE `finds2myresearch` (
@@ -1273,16 +1309,13 @@ CREATE TABLE `finds2myresearch` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `finds_audit`
--- 
--- Creation: Oct 16, 2010 at 11:14 AM
--- Last update: Dec 13, 2011 at 09:54 AM
--- Last check: Oct 16, 2010 at 11:14 AM
+-- Table structure for table `findsAudit`
 -- 
 
-CREATE TABLE `finds_audit` (
+CREATE TABLE `findsAudit` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `findID` int(11) default '0',
+  `recordID` int(11) default NULL,
+  `entityID` int(11) default NULL,
   `editID` varchar(25) collate utf8_unicode_ci default NULL,
   `fieldName` varchar(255) collate utf8_unicode_ci default NULL,
   `beforeValue` mediumtext collate utf8_unicode_ci,
@@ -1292,17 +1325,13 @@ CREATE TABLE `finds_audit` (
   PRIMARY KEY  (`id`),
   KEY `createdBy` (`createdBy`),
   KEY `editID` (`editID`),
-  KEY `findID` (`findID`)
-) ENGINE=MyISAM AUTO_INCREMENT=464350 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `findID` (`recordID`)
+) ENGINE=MyISAM AUTO_INCREMENT=467395 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `finds_images`
--- 
--- Creation: Mar 04, 2011 at 02:34 PM
--- Last update: Dec 13, 2011 at 09:58 AM
--- Last check: Mar 04, 2011 at 02:34 PM
 -- 
 
 CREATE TABLE `finds_images` (
@@ -1315,16 +1344,153 @@ CREATE TABLE `finds_images` (
   PRIMARY KEY  (`id`),
   KEY `image_id` (`image_id`),
   KEY `find_id` (`find_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=351604 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=352331 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `finds_images2`
+-- 
+
+CREATE TABLE `finds_images2` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `image_id` varchar(50) NOT NULL default '0',
+  `find_id` varchar(50) NOT NULL default '0',
+  `created` datetime default NULL,
+  `createdBy` int(10) unsigned NOT NULL default '0',
+  `secuid` varchar(50) NOT NULL default '',
+  `secreplica` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `image_id` (`image_id`),
+  KEY `find_id` (`find_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=183835 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `finds_old`
+-- 
+
+CREATE TABLE `finds_old` (
+  `id` int(11) NOT NULL auto_increment,
+  `secuid` varchar(50) default NULL,
+  `old_findID` varchar(250) default NULL,
+  `finderID` varchar(50) default NULL,
+  `finder2ID` varchar(50) NOT NULL,
+  `smr_ref` varchar(250) default NULL,
+  `other_ref` varchar(250) default NULL,
+  `datefound1qual` int(11) default NULL,
+  `datefound1` date default NULL,
+  `datefound1flag` char(3) default NULL,
+  `datefound2` date default NULL,
+  `datefound2flag` char(3) default NULL,
+  `datefound2qual` int(11) default NULL,
+  `culture` varchar(250) default NULL,
+  `discmethod` int(11) default NULL,
+  `disccircum` varchar(250) default NULL,
+  `description` text character set utf8,
+  `objecttype` varchar(250) default NULL,
+  `objecttypecert` int(11) default NULL,
+  `old_candidate` varchar(250) default NULL,
+  `classification` varchar(250) default NULL,
+  `subclass` varchar(250) default NULL,
+  `inscription` varchar(255) default NULL,
+  `objdate1cert` int(11) default NULL,
+  `objdate1subperiod_old` varchar(250) default NULL,
+  `objdate1period` int(10) unsigned default NULL,
+  `objdate2cert` int(11) default NULL,
+  `objdate2subperiod_old` varchar(250) default NULL,
+  `objdate2period` int(10) unsigned default NULL,
+  `objdate1subperiod` int(10) unsigned default NULL,
+  `objdate2subperiod` int(10) unsigned default NULL,
+  `broadperiod` varchar(255) default NULL,
+  `numdate1qual` int(11) default NULL,
+  `numdate1` int(11) default NULL,
+  `numdate2qual` int(11) default NULL,
+  `numdate2` int(11) default NULL,
+  `material1` int(10) default NULL,
+  `material2` int(10) default NULL,
+  `manmethod` int(11) default NULL,
+  `decmethod` int(11) default NULL,
+  `surftreat` int(11) default NULL,
+  `decstyle` int(11) default NULL,
+  `wear` int(11) default NULL,
+  `preservation` int(11) default NULL,
+  `completeness` int(11) default NULL,
+  `reuse` varchar(255) default NULL,
+  `reuse_period` int(3) default NULL,
+  `length` double default NULL,
+  `width` double default NULL,
+  `thickness` double default NULL,
+  `diameter` double default NULL,
+  `height` double default NULL,
+  `weight` double default NULL,
+  `quantity` smallint(6) default NULL,
+  `curr_loc` varchar(250) default NULL,
+  `recorderID` varchar(50) default NULL,
+  `identifier1ID` varchar(50) default NULL,
+  `identifier2ID` varchar(50) default NULL,
+  `musaccno` varchar(250) default NULL,
+  `subs_action` varchar(250) default NULL,
+  `notes` text,
+  `created` datetime default NULL,
+  `createdBy` int(10) unsigned default NULL,
+  `updated` datetime default NULL,
+  `updatedBy` varchar(20) default NULL,
+  `sectag` int(11) unsigned default NULL,
+  `secowner` int(11) unsigned default NULL,
+  `secwfstage` int(2) unsigned default NULL,
+  `findofnote` tinyint(3) default NULL,
+  `findofnotereason` int(2) unsigned default NULL,
+  `treasure` enum('1','2') default NULL,
+  `treasureID` varchar(25) default NULL,
+  `rally` enum('1','2') default NULL,
+  `rallyID` int(11) default NULL,
+  `hoard` int(1) default NULL,
+  `hoardID` int(11) default NULL,
+  `institution` varchar(12) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `period1` (`objdate1period`),
+  KEY `period2` (`objdate2period`),
+  KEY `sectag` (`sectag`),
+  KEY `finderID` (`finderID`),
+  KEY `old_findID` (`old_findID`),
+  KEY `last_updated` (`updated`),
+  KEY `secuid` (`secuid`),
+  KEY `rallyID` (`rallyID`),
+  KEY `quantity` (`quantity`),
+  KEY `culture` (`culture`),
+  KEY `numdate2` (`numdate2`),
+  KEY `decmethod` (`decmethod`),
+  KEY `treasure` (`treasure`),
+  KEY `manmethod` (`manmethod`),
+  KEY `treasureID` (`treasureID`),
+  KEY `hoardID` (`hoardID`),
+  KEY `findofnotereason` (`findofnotereason`),
+  KEY `other_ref` (`other_ref`),
+  KEY `objdate1subperiod` (`objdate1subperiod`),
+  KEY `datefound1` (`datefound1`),
+  KEY `recorderID` (`recorderID`),
+  KEY `discmethod` (`discmethod`),
+  KEY `preservation` (`preservation`),
+  KEY `decstyle` (`decstyle`),
+  KEY `objecttype` (`objecttype`),
+  KEY `identifier1ID` (`identifier1ID`),
+  KEY `identifier2ID` (`identifier2ID`),
+  KEY `material1` (`material1`),
+  KEY `createdBy` (`createdBy`),
+  KEY `institution` (`institution`),
+  KEY `surftreat` (`surftreat`),
+  KEY `created` (`created`),
+  KEY `broadperiod` (`broadperiod`),
+  FULLTEXT KEY `classification` (`classification`),
+  FULLTEXT KEY `description` (`description`)
+) ENGINE=MyISAM AUTO_INCREMENT=279205 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `finds_publications`
--- 
--- Creation: Sep 20, 2010 at 01:27 PM
--- Last update: Sep 20, 2010 at 01:27 PM
--- Last check: Sep 20, 2010 at 01:27 PM
 -- 
 
 CREATE TABLE `finds_publications` (
@@ -1352,10 +1518,6 @@ CREATE TABLE `finds_publications` (
 -- 
 -- Table structure for table `findspots`
 -- 
--- Creation: Oct 19, 2011 at 10:33 AM
--- Last update: Dec 13, 2011 at 09:44 AM
--- Last check: Oct 19, 2011 at 10:34 AM
--- 
 
 CREATE TABLE `findspots` (
   `id` int(11) NOT NULL auto_increment,
@@ -1375,6 +1537,7 @@ CREATE TABLE `findspots` (
   `declong` double default NULL,
   `declat` double default NULL,
   `woeid` int(11) default NULL,
+  `geohash` varchar(11) collate utf8_unicode_ci default NULL,
   `elevation` double default NULL,
   `knownas` varchar(255) collate utf8_unicode_ci default NULL,
   `disccircum` text collate utf8_unicode_ci,
@@ -1419,22 +1582,81 @@ CREATE TABLE `findspots` (
   KEY `landusevalue` (`landusevalue`),
   KEY `landusecode` (`landusecode`),
   KEY `createdBy` (`createdBy`)
-) ENGINE=MyISAM AUTO_INCREMENT=460012 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
+) ENGINE=MyISAM AUTO_INCREMENT=460804 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `findspots2`
+-- 
+
+CREATE TABLE `findspots2` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `findID` varchar(50) default NULL,
+  `old_findspotid` varchar(255) default NULL,
+  `description` text,
+  `address` text,
+  `postcode` varchar(20) default NULL,
+  `old_ngraccuracy` smallint(6) unsigned default NULL,
+  `gridref` varchar(15) default NULL,
+  `fourFigure` varchar(6) NOT NULL,
+  `gridrefsrc` tinyint(10) unsigned NOT NULL default '0',
+  `gridrefcert` tinyint(3) unsigned NOT NULL default '0',
+  `easting` int(11) default NULL,
+  `northing` int(11) default NULL,
+  `declong` double default NULL,
+  `declat` double default NULL,
+  `knownas` varchar(255) default NULL,
+  `disccircum` text,
+  `comments` text,
+  `landusevalue` smallint(6) unsigned default NULL,
+  `landusecode` smallint(6) unsigned default NULL,
+  `depthdiscovery` int(2) default NULL,
+  `soiltype` int(2) default NULL,
+  `highsensitivity` tinyint(1) default NULL,
+  `old_occupierid` varchar(50) default NULL,
+  `occupier` varchar(50) default NULL,
+  `smrref` varchar(20) default NULL,
+  `otherref` varchar(50) default NULL,
+  `date` datetime default NULL,
+  `createdBy` int(11) default NULL,
+  `created` datetime default NULL,
+  `updatedBy` int(11) default NULL,
+  `updated` datetime default NULL,
+  `old_landownerid` varchar(50) default NULL,
+  `landowner` varchar(50) default NULL,
+  `map25k` varchar(255) default NULL,
+  `map10k` varchar(255) default NULL,
+  `parish` varchar(255) default NULL,
+  `country` varchar(155) NOT NULL,
+  `regionID` int(10) unsigned NOT NULL default '0',
+  `county` varchar(255) default NULL,
+  `district` varchar(255) default NULL,
+  `institution` varchar(10) default NULL,
+  `secuid` varchar(50) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `parish` (`parish`),
+  KEY `declong` (`declong`),
+  KEY `findID` (`findID`),
+  KEY `declat` (`declat`),
+  KEY `gridref` (`gridref`),
+  KEY `county` (`county`),
+  KEY `landusevalue` (`landusevalue`),
+  KEY `landusecode` (`landusecode`),
+  KEY `knownas` (`knownas`),
+  KEY `regionID` (`regionID`)
+) ENGINE=MyISAM AUTO_INCREMENT=292826 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `findspotsAudit`
 -- 
--- Creation: Oct 16, 2010 at 11:14 AM
--- Last update: Dec 13, 2011 at 09:23 AM
--- Last check: Oct 16, 2010 at 11:14 AM
--- 
 
 CREATE TABLE `findspotsAudit` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `findID` int(11) default '0',
-  `findspotID` int(11) default NULL,
+  `recordID` int(11) default NULL,
+  `entityID` int(11) default NULL,
   `editID` varchar(25) collate utf8_unicode_ci default NULL,
   `fieldName` varchar(255) collate utf8_unicode_ci default NULL,
   `beforeValue` mediumtext collate utf8_unicode_ci,
@@ -1444,18 +1666,14 @@ CREATE TABLE `findspotsAudit` (
   PRIMARY KEY  (`id`),
   KEY `createdBy` (`createdBy`),
   KEY `editID` (`editID`),
-  KEY `findspotID` (`findspotID`),
-  KEY `findID` (`findID`)
-) ENGINE=MyISAM AUTO_INCREMENT=228846 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `findspotID` (`entityID`),
+  KEY `findID` (`recordID`)
+) ENGINE=MyISAM AUTO_INCREMENT=230284 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `findxfind`
--- 
--- Creation: Sep 20, 2010 at 12:37 PM
--- Last update: Sep 20, 2010 at 12:37 PM
--- Last check: Sep 20, 2010 at 12:37 PM
 -- 
 
 CREATE TABLE `findxfind` (
@@ -1480,11 +1698,30 @@ CREATE TABLE `findxfind` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `geographyironage`
+-- Table structure for table `findxfind_old`
 -- 
--- Creation: Nov 28, 2010 at 09:38 AM
--- Last update: Nov 28, 2010 at 09:38 AM
--- Last check: Nov 28, 2010 at 09:38 AM
+
+CREATE TABLE `findxfind_old` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `find1ID` varchar(50) default NULL,
+  `find2ID` varchar(50) default NULL,
+  `relationship` varchar(100) default NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `sectag` int(10) unsigned NOT NULL default '0',
+  `secowner` int(10) unsigned NOT NULL default '0',
+  `updatedBy` int(10) unsigned default '0',
+  `createdBy` int(10) unsigned default '0',
+  `updated` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created` date default '0000-00-00',
+  `secuid` varchar(50) NOT NULL default '',
+  `secreplica` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12148 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `geographyironage`
 -- 
 
 CREATE TABLE `geographyironage` (
@@ -1508,10 +1745,6 @@ CREATE TABLE `geographyironage` (
 -- 
 -- Table structure for table `geoplanetadjacent`
 -- 
--- Creation: Sep 20, 2010 at 12:24 PM
--- Last update: Sep 20, 2010 at 12:24 PM
--- Last check: Sep 20, 2010 at 12:24 PM
--- 
 
 CREATE TABLE `geoplanetadjacent` (
   `PLACE_WOE_ID` int(11) NOT NULL,
@@ -1525,9 +1758,6 @@ CREATE TABLE `geoplanetadjacent` (
 -- 
 -- Table structure for table `geoplanetaliases`
 -- 
--- Creation: Sep 20, 2010 at 12:33 PM
--- Last update: Sep 20, 2010 at 12:33 PM
--- 
 
 CREATE TABLE `geoplanetaliases` (
   `WOE_ID` int(11) NOT NULL,
@@ -1539,9 +1769,6 @@ CREATE TABLE `geoplanetaliases` (
 
 -- 
 -- Table structure for table `geoplanetplaces`
--- 
--- Creation: Sep 20, 2010 at 12:13 PM
--- Last update: Sep 20, 2010 at 12:14 PM
 -- 
 
 CREATE TABLE `geoplanetplaces` (
@@ -1555,9 +1782,6 @@ CREATE TABLE `geoplanetplaces` (
 
 -- 
 -- Table structure for table `greekstates`
--- 
--- Creation: Sep 20, 2010 at 12:34 PM
--- Last update: Sep 20, 2010 at 12:34 PM
 -- 
 
 CREATE TABLE `greekstates` (
@@ -1575,10 +1799,6 @@ CREATE TABLE `greekstates` (
 -- 
 -- Table structure for table `gridrefsources`
 -- 
--- Creation: Sep 20, 2010 at 12:34 PM
--- Last update: Sep 20, 2010 at 12:34 PM
--- Last check: Jan 10, 2011 at 09:55 PM
--- 
 
 CREATE TABLE `gridrefsources` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -1591,9 +1811,6 @@ CREATE TABLE `gridrefsources` (
 
 -- 
 -- Table structure for table `help`
--- 
--- Creation: Sep 20, 2010 at 12:35 PM
--- Last update: Nov 30, 2011 at 10:25 AM
 -- 
 
 CREATE TABLE `help` (
@@ -1622,9 +1839,6 @@ CREATE TABLE `help` (
 
 -- 
 -- Table structure for table `heritagecrime`
--- 
--- Creation: Jul 20, 2010 at 03:15 PM
--- Last update: May 16, 2011 at 12:45 PM
 -- 
 
 CREATE TABLE `heritagecrime` (
@@ -1668,9 +1882,6 @@ CREATE TABLE `heritagecrime` (
 -- 
 -- Table structure for table `hers`
 -- 
--- Creation: Sep 20, 2010 at 12:37 PM
--- Last update: Sep 20, 2010 at 12:37 PM
--- 
 
 CREATE TABLE `hers` (
   `id` int(11) NOT NULL auto_increment,
@@ -1688,9 +1899,6 @@ CREATE TABLE `hers` (
 -- 
 -- Table structure for table `hitlog`
 -- 
--- Creation: Sep 20, 2010 at 12:38 PM
--- Last update: Sep 20, 2010 at 12:38 PM
--- 
 
 CREATE TABLE `hitlog` (
   `id` int(11) NOT NULL auto_increment,
@@ -1706,10 +1914,6 @@ CREATE TABLE `hitlog` (
 
 -- 
 -- Table structure for table `hoards`
--- 
--- Creation: Nov 25, 2010 at 05:06 PM
--- Last update: Mar 21, 2011 at 03:06 PM
--- Last check: Nov 25, 2010 at 05:06 PM
 -- 
 
 CREATE TABLE `hoards` (
@@ -1732,9 +1936,6 @@ CREATE TABLE `hoards` (
 -- 
 -- Table structure for table `imagetypes`
 -- 
--- Creation: Sep 20, 2010 at 12:40 PM
--- Last update: Sep 20, 2010 at 12:40 PM
--- 
 
 CREATE TABLE `imagetypes` (
   `id` int(2) NOT NULL auto_increment,
@@ -1750,9 +1951,6 @@ CREATE TABLE `imagetypes` (
 
 -- 
 -- Table structure for table `instLogos`
--- 
--- Creation: Nov 25, 2010 at 04:03 PM
--- Last update: Jan 25, 2011 at 02:05 PM
 -- 
 
 CREATE TABLE `instLogos` (
@@ -1771,10 +1969,6 @@ CREATE TABLE `instLogos` (
 
 -- 
 -- Table structure for table `institutions`
--- 
--- Creation: Nov 26, 2010 at 02:55 PM
--- Last update: Sep 01, 2011 at 11:36 AM
--- Last check: Nov 26, 2010 at 02:55 PM
 -- 
 
 CREATE TABLE `institutions` (
@@ -1798,9 +1992,6 @@ CREATE TABLE `institutions` (
 -- 
 -- Table structure for table `ironagedenomxregion`
 -- 
--- Creation: Sep 20, 2010 at 12:41 PM
--- Last update: Sep 20, 2010 at 12:41 PM
--- 
 
 CREATE TABLE `ironagedenomxregion` (
   `ID` int(10) unsigned NOT NULL auto_increment,
@@ -1813,9 +2004,6 @@ CREATE TABLE `ironagedenomxregion` (
 
 -- 
 -- Table structure for table `ironageregionstribes`
--- 
--- Creation: Sep 20, 2010 at 12:41 PM
--- Last update: Sep 20, 2010 at 12:41 PM
 -- 
 
 CREATE TABLE `ironageregionstribes` (
@@ -1830,9 +2018,6 @@ CREATE TABLE `ironageregionstribes` (
 -- 
 -- Table structure for table `ironagerulerxregion`
 -- 
--- Creation: Sep 20, 2010 at 12:41 PM
--- Last update: Sep 20, 2010 at 12:41 PM
--- 
 
 CREATE TABLE `ironagerulerxregion` (
   `ID` int(10) unsigned NOT NULL auto_increment,
@@ -1845,9 +2030,6 @@ CREATE TABLE `ironagerulerxregion` (
 
 -- 
 -- Table structure for table `ironagetribes`
--- 
--- Creation: Sep 20, 2010 at 12:41 PM
--- Last update: Sep 20, 2010 at 12:41 PM
 -- 
 
 CREATE TABLE `ironagetribes` (
@@ -1866,9 +2048,6 @@ CREATE TABLE `ironagetribes` (
 
 -- 
 -- Table structure for table `issuers`
--- 
--- Creation: Sep 20, 2010 at 12:11 PM
--- Last update: Sep 20, 2010 at 12:11 PM
 -- 
 
 CREATE TABLE `issuers` (
@@ -1894,10 +2073,6 @@ CREATE TABLE `issuers` (
 -- 
 -- Table structure for table `landuses`
 -- 
--- Creation: Nov 25, 2010 at 04:37 PM
--- Last update: Nov 25, 2010 at 04:37 PM
--- Last check: Nov 25, 2010 at 04:37 PM
--- 
 
 CREATE TABLE `landuses` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -1920,10 +2095,27 @@ CREATE TABLE `landuses` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `links`
+-- Table structure for table `licenseType`
 -- 
--- Creation: Sep 20, 2010 at 12:09 PM
--- Last update: Sep 20, 2010 at 12:09 PM
+
+CREATE TABLE `licenseType` (
+  `id` int(11) NOT NULL auto_increment,
+  `license` varchar(255) collate utf8_unicode_ci default NULL,
+  `flickrID` int(11) default NULL,
+  `url` varchar(255) collate utf8_unicode_ci default NULL,
+  `description` text collate utf8_unicode_ci,
+  `acronym` varchar(12) collate utf8_unicode_ci NOT NULL,
+  `createdBy` int(6) default NULL,
+  `created` datetime default NULL,
+  `updatedBy` int(6) default NULL,
+  `updated` datetime default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='License types for images';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `links`
 -- 
 
 CREATE TABLE `links` (
@@ -1944,10 +2136,6 @@ CREATE TABLE `links` (
 -- 
 -- Table structure for table `logins`
 -- 
--- Creation: Apr 12, 2011 at 02:34 PM
--- Last update: Dec 13, 2011 at 09:57 AM
--- Last check: Apr 12, 2011 at 02:34 PM
--- 
 
 CREATE TABLE `logins` (
   `id` int(11) NOT NULL auto_increment,
@@ -1958,16 +2146,12 @@ CREATE TABLE `logins` (
   PRIMARY KEY  (`id`),
   KEY `loginDate` (`loginDate`),
   KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=88367 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Login user history';
+) ENGINE=MyISAM AUTO_INCREMENT=89171 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Login user history';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `macktypes`
--- 
--- Creation: Nov 26, 2010 at 02:55 PM
--- Last update: Nov 26, 2010 at 02:55 PM
--- Last check: Nov 26, 2010 at 02:55 PM
 -- 
 
 CREATE TABLE `macktypes` (
@@ -1987,9 +2171,6 @@ CREATE TABLE `macktypes` (
 
 -- 
 -- Table structure for table `mailinglist`
--- 
--- Creation: Sep 20, 2010 at 12:47 PM
--- Last update: Sep 21, 2011 at 10:08 PM
 -- 
 
 CREATE TABLE `mailinglist` (
@@ -2013,9 +2194,6 @@ CREATE TABLE `mailinglist` (
 -- 
 -- Table structure for table `manufactures`
 -- 
--- Creation: Sep 20, 2010 at 12:48 PM
--- Last update: Jul 11, 2011 at 10:36 AM
--- 
 
 CREATE TABLE `manufactures` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -2035,9 +2213,6 @@ CREATE TABLE `manufactures` (
 -- 
 -- Table structure for table `maporigins`
 -- 
--- Creation: Sep 20, 2010 at 12:50 PM
--- Last update: Jan 21, 2011 at 03:29 PM
--- 
 
 CREATE TABLE `maporigins` (
   `id` int(11) NOT NULL auto_increment,
@@ -2055,9 +2230,6 @@ CREATE TABLE `maporigins` (
 
 -- 
 -- Table structure for table `materials`
--- 
--- Creation: Nov 23, 2010 at 05:15 PM
--- Last update: Nov 23, 2010 at 05:15 PM
 -- 
 
 CREATE TABLE `materials` (
@@ -2082,9 +2254,6 @@ CREATE TABLE `materials` (
 -- 
 -- Table structure for table `mda_obj_prefs`
 -- 
--- Creation: Sep 20, 2010 at 01:19 PM
--- Last update: Sep 20, 2010 at 01:19 PM
--- 
 
 CREATE TABLE `mda_obj_prefs` (
   `ID` int(11) unsigned NOT NULL auto_increment,
@@ -2098,9 +2267,6 @@ CREATE TABLE `mda_obj_prefs` (
 -- 
 -- Table structure for table `mda_obj_rels`
 -- 
--- Creation: Sep 20, 2010 at 01:19 PM
--- Last update: Sep 20, 2010 at 01:19 PM
--- 
 
 CREATE TABLE `mda_obj_rels` (
   `ID` int(11) unsigned NOT NULL auto_increment,
@@ -2113,9 +2279,6 @@ CREATE TABLE `mda_obj_rels` (
 
 -- 
 -- Table structure for table `mda_obj_uses`
--- 
--- Creation: Sep 20, 2010 at 01:19 PM
--- Last update: Sep 20, 2010 at 01:19 PM
 -- 
 
 CREATE TABLE `mda_obj_uses` (
@@ -2133,9 +2296,6 @@ CREATE TABLE `mda_obj_uses` (
 -- 
 -- Table structure for table `medievalcategories`
 -- 
--- Creation: Sep 20, 2010 at 12:47 PM
--- Last update: Sep 20, 2010 at 12:47 PM
--- 
 
 CREATE TABLE `medievalcategories` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -2148,10 +2308,6 @@ CREATE TABLE `medievalcategories` (
 
 -- 
 -- Table structure for table `medievaltypes`
--- 
--- Creation: Nov 25, 2010 at 04:34 PM
--- Last update: Jan 19, 2011 at 02:37 PM
--- Last check: Dec 10, 2010 at 05:41 PM
 -- 
 
 CREATE TABLE `medievaltypes` (
@@ -2176,35 +2332,32 @@ CREATE TABLE `medievaltypes` (
 -- 
 -- Table structure for table `messages`
 -- 
--- Creation: Sep 20, 2010 at 01:01 PM
--- Last update: Dec 10, 2011 at 01:03 PM
--- 
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL auto_increment,
   `comment_author` varchar(255) collate utf8_unicode_ci default NULL,
   `comment_type` varchar(100) collate utf8_unicode_ci default NULL,
   `comment_content` text collate utf8_unicode_ci,
+  `messagetext` text collate utf8_unicode_ci,
   `comment_author_email` varchar(255) collate utf8_unicode_ci default NULL,
+  `comment_author_url` varchar(255) collate utf8_unicode_ci default NULL,
   `comment_date` datetime default NULL,
   `comment_approved` varchar(50) collate utf8_unicode_ci default NULL,
   `user_id` int(11) default NULL,
   `user_ip` varchar(50) collate utf8_unicode_ci default NULL,
   `user_agent` varchar(255) collate utf8_unicode_ci default NULL,
-  `replied` tinyint(4) NOT NULL,
-  `updated` datetime NOT NULL,
-  `updatedBy` int(11) NOT NULL,
+  `replied` tinyint(4) default NULL,
+  `created` datetime default NULL,
+  `createdBy` int(11) default NULL,
+  `updated` datetime default NULL,
+  `updatedBy` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=371 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Log of messages from contact us form';
+) ENGINE=MyISAM AUTO_INCREMENT=390 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Log of messages from contact us form';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `mint_reversetype`
--- 
--- Creation: Nov 25, 2010 at 05:14 PM
--- Last update: Nov 25, 2010 at 05:14 PM
--- Last check: Nov 25, 2010 at 05:14 PM
 -- 
 
 CREATE TABLE `mint_reversetype` (
@@ -2220,10 +2373,6 @@ CREATE TABLE `mint_reversetype` (
 
 -- 
 -- Table structure for table `mints`
--- 
--- Creation: Nov 22, 2010 at 10:38 PM
--- Last update: Dec 22, 2010 at 12:04 PM
--- Last check: Nov 22, 2010 at 10:38 PM
 -- 
 
 CREATE TABLE `mints` (
@@ -2245,11 +2394,27 @@ CREATE TABLE `mints` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `mints_rulers`
+-- Table structure for table `mints_old`
 -- 
--- Creation: Nov 26, 2010 at 02:47 PM
--- Last update: Feb 24, 2011 at 09:28 AM
--- Last check: Nov 26, 2010 at 02:47 PM
+
+CREATE TABLE `mints_old` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `period` int(10) unsigned NOT NULL default '0',
+  `old_period` varchar(255) NOT NULL default '',
+  `mint_name` varchar(255) NOT NULL,
+  `valid` tinyint(4) unsigned NOT NULL default '1',
+  `created` datetime default '0000-00-00 00:00:00',
+  `created_by` varchar(255) default NULL,
+  `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `updated_by` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `mint_name` (`mint_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=438 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `mints_rulers`
 -- 
 
 CREATE TABLE `mints_rulers` (
@@ -2268,10 +2433,25 @@ CREATE TABLE `mints_rulers` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `monarchs`
+-- Table structure for table `mints_rulers_old`
 -- 
--- Creation: Sep 20, 2010 at 12:53 PM
--- Last update: Sep 20, 2010 at 12:53 PM
+
+CREATE TABLE `mints_rulers_old` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `ruler_id` int(10) unsigned NOT NULL default '0',
+  `mint_id` int(10) unsigned NOT NULL default '0',
+  `created` datetime NOT NULL,
+  `created_by` int(2) NOT NULL,
+  `modified` datetime NOT NULL,
+  `modified_by` int(2) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `ruler_id` (`ruler_id`,`mint_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2708 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `monarchs`
 -- 
 
 CREATE TABLE `monarchs` (
@@ -2302,9 +2482,6 @@ CREATE TABLE `monarchs` (
 -- 
 -- Table structure for table `moneyers`
 -- 
--- Creation: Sep 20, 2010 at 01:00 PM
--- Last update: Sep 20, 2010 at 01:00 PM
--- 
 
 CREATE TABLE `moneyers` (
   `id` int(11) NOT NULL auto_increment,
@@ -2331,9 +2508,6 @@ CREATE TABLE `moneyers` (
 -- 
 -- Table structure for table `myresearch`
 -- 
--- Creation: Sep 20, 2010 at 01:07 PM
--- Last update: Sep 20, 2010 at 01:07 PM
--- 
 
 CREATE TABLE `myresearch` (
   `id` int(11) NOT NULL auto_increment,
@@ -2354,10 +2528,6 @@ CREATE TABLE `myresearch` (
 
 -- 
 -- Table structure for table `news`
--- 
--- Creation: Apr 15, 2011 at 04:06 PM
--- Last update: Dec 11, 2011 at 05:57 PM
--- Last check: Apr 15, 2011 at 04:06 PM
 -- 
 
 CREATE TABLE `news` (
@@ -2390,16 +2560,12 @@ CREATE TABLE `news` (
   KEY `createdBy` (`createdBy`),
   KEY `updatedBy` (`updatedBy`),
   KEY `created` (`created`)
-) ENGINE=MyISAM AUTO_INCREMENT=226 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
+) ENGINE=MyISAM AUTO_INCREMENT=227 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `oai_pmh_repository_tokens`
--- 
--- Creation: Oct 27, 2010 at 12:09 PM
--- Last update: Dec 11, 2011 at 07:10 PM
--- Last check: Nov 04, 2011 at 10:21 PM
 -- 
 
 CREATE TABLE `oai_pmh_repository_tokens` (
@@ -2415,16 +2581,12 @@ CREATE TABLE `oai_pmh_repository_tokens` (
   `useragent` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id`),
   KEY `expiration` (`expiration`)
-) ENGINE=MyISAM AUTO_INCREMENT=22935 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
+) ENGINE=MyISAM AUTO_INCREMENT=22937 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `oauthTokens`
--- 
--- Creation: Nov 25, 2010 at 05:45 PM
--- Last update: Dec 13, 2011 at 09:09 AM
--- Last check: Jul 19, 2011 at 05:32 PM
 -- 
 
 CREATE TABLE `oauthTokens` (
@@ -2439,16 +2601,12 @@ CREATE TABLE `oauthTokens` (
   PRIMARY KEY  (`id`),
   KEY `expires` (`expires`),
   KEY `service` (`service`)
-) ENGINE=MyISAM AUTO_INCREMENT=13252 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0 COMMENT='Oauth tokens';
+) ENGINE=MyISAM AUTO_INCREMENT=13662 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci PACK_KEYS=0 COMMENT='Oauth tokens';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `objectterms`
--- 
--- Creation: Nov 25, 2010 at 03:49 PM
--- Last update: Dec 07, 2010 at 10:27 AM
--- Last check: Nov 25, 2010 at 03:49 PM
 -- 
 
 CREATE TABLE `objectterms` (
@@ -2468,10 +2626,6 @@ CREATE TABLE `objectterms` (
 
 -- 
 -- Table structure for table `opencalais`
--- 
--- Creation: Sep 15, 2010 at 05:52 PM
--- Last update: Nov 29, 2010 at 10:30 AM
--- Last check: Nov 29, 2010 at 10:30 AM
 -- 
 
 CREATE TABLE `opencalais` (
@@ -2497,10 +2651,6 @@ CREATE TABLE `opencalais` (
 
 -- 
 -- Table structure for table `organisations`
--- 
--- Creation: Nov 25, 2010 at 04:59 PM
--- Last update: Nov 09, 2011 at 11:32 AM
--- Last check: Nov 25, 2010 at 04:59 PM
 -- 
 
 CREATE TABLE `organisations` (
@@ -2534,14 +2684,10 @@ CREATE TABLE `organisations` (
 -- 
 -- Table structure for table `organisationsAudit`
 -- 
--- Creation: Sep 20, 2010 at 12:54 PM
--- Last update: Nov 09, 2011 at 11:32 AM
--- Last check: Sep 20, 2010 at 12:54 PM
--- 
 
 CREATE TABLE `organisationsAudit` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `orgID` int(11) default '0',
+  `recordID` int(11) NOT NULL,
   `editID` varchar(25) collate utf8_unicode_ci default NULL,
   `fieldName` varchar(255) collate utf8_unicode_ci default NULL,
   `beforeValue` mediumtext collate utf8_unicode_ci,
@@ -2556,11 +2702,39 @@ CREATE TABLE `organisationsAudit` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `osdata`
+-- Table structure for table `organisationsOld`
 -- 
--- Creation: Nov 23, 2010 at 05:09 PM
--- Last update: Nov 23, 2010 at 05:09 PM
--- Last check: Nov 23, 2010 at 05:09 PM
+
+CREATE TABLE `organisationsOld` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) default NULL,
+  `website` varchar(255) default NULL,
+  `address1` varchar(100) default NULL,
+  `address2` varchar(100) default NULL,
+  `address3` varchar(100) default NULL,
+  `address` text,
+  `town_city` varchar(50) default NULL,
+  `county` varchar(50) default NULL,
+  `country` varchar(50) default NULL,
+  `postcode` varchar(50) default NULL,
+  `woeid` int(11) default NULL,
+  `lat` float default NULL,
+  `lon` float default NULL,
+  `contactpersonID` varchar(50) default NULL,
+  `created` datetime default NULL,
+  `createdBy` int(20) unsigned default NULL,
+  `updated` datetime default NULL,
+  `updatedBy` int(20) unsigned default NULL,
+  `secuid` varchar(50) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `secuid` (`secuid`),
+  KEY `woeid` (`woeid`)
+) ENGINE=MyISAM AUTO_INCREMENT=339 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `osdata`
 -- 
 
 CREATE TABLE `osdata` (
@@ -2599,10 +2773,6 @@ CREATE TABLE `osdata` (
 -- 
 -- Table structure for table `people`
 -- 
--- Creation: Jan 21, 2011 at 03:43 PM
--- Last update: Dec 12, 2011 at 11:47 PM
--- Last check: Jan 21, 2011 at 03:43 PM
--- 
 
 CREATE TABLE `people` (
   `id` int(11) NOT NULL auto_increment,
@@ -2629,10 +2799,10 @@ CREATE TABLE `people` (
   `secuid` varchar(50) collate utf8_unicode_ci default NULL,
   `secreplica` varchar(50) collate utf8_unicode_ci default NULL,
   `primary_activity` int(11) default NULL,
-  `lat` float NOT NULL,
-  `lon` float NOT NULL,
-  `woeid` int(11) NOT NULL,
-  `dbaseID` int(11) NOT NULL,
+  `lat` double default NULL,
+  `lon` double default NULL,
+  `woeid` int(11) default NULL,
+  `dbaseID` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `primary_activity` (`primary_activity`),
   KEY `woeid` (`woeid`),
@@ -2640,21 +2810,18 @@ CREATE TABLE `people` (
   KEY `dbaseID` (`dbaseID`),
   KEY `organisationID` (`organisationID`),
   KEY `fullname` (`fullname`)
-) ENGINE=MyISAM AUTO_INCREMENT=23485 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=23529 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `peopleAudit`
 -- 
--- Creation: Sep 20, 2010 at 01:08 PM
--- Last update: Dec 12, 2011 at 02:53 PM
--- Last check: Sep 20, 2010 at 01:08 PM
--- 
 
 CREATE TABLE `peopleAudit` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `personID` int(11) default '0',
+  `recordID` int(11) default NULL,
+  `entityID` int(11) NOT NULL,
   `editID` varchar(25) collate utf8_unicode_ci default NULL,
   `fieldName` varchar(255) collate utf8_unicode_ci default NULL,
   `beforeValue` mediumtext collate utf8_unicode_ci,
@@ -2664,15 +2831,53 @@ CREATE TABLE `peopleAudit` (
   PRIMARY KEY  (`id`),
   KEY `createdBy` (`createdBy`),
   KEY `editID` (`editID`)
-) ENGINE=MyISAM AUTO_INCREMENT=21316 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=21480 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `peopleold`
+-- 
+
+CREATE TABLE `peopleold` (
+  `id` int(11) NOT NULL auto_increment,
+  `organisationID` varchar(50) default NULL,
+  `surname` varchar(90) default NULL,
+  `forename` varchar(50) default NULL,
+  `fullname` varchar(250) default NULL,
+  `title` varchar(20) default NULL,
+  `address` text,
+  `town_city` varchar(50) default NULL,
+  `county` varchar(50) default NULL,
+  `country` varchar(50) default NULL,
+  `postcode` varchar(50) default NULL,
+  `hometel` varchar(50) default NULL,
+  `worktel` varchar(50) default NULL,
+  `email` varchar(50) default NULL,
+  `fax` varchar(50) default NULL,
+  `comments` varchar(255) default NULL,
+  `lat` float default NULL,
+  `lon` float default NULL,
+  `woeid` int(11) default NULL,
+  `created` datetime default NULL,
+  `createdBy` int(11) default NULL,
+  `updated` datetime default NULL,
+  `updatedBy` int(11) default NULL,
+  `secuid` varchar(50) default NULL,
+  `primary_activity` int(11) default NULL,
+  `dbaseID` int(11) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `secuid` (`secuid`),
+  KEY `primary_activity` (`primary_activity`),
+  KEY `Forename` (`forename`),
+  KEY `fullname` (`fullname`),
+  KEY `woeid` (`woeid`)
+) ENGINE=MyISAM AUTO_INCREMENT=18966 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `peopletypes`
--- 
--- Creation: Sep 20, 2010 at 01:08 PM
--- Last update: Sep 20, 2010 at 01:08 PM
 -- 
 
 CREATE TABLE `peopletypes` (
@@ -2686,9 +2891,6 @@ CREATE TABLE `peopletypes` (
 
 -- 
 -- Table structure for table `periods`
--- 
--- Creation: Sep 20, 2010 at 01:08 PM
--- Last update: Feb 25, 2011 at 11:46 AM
 -- 
 
 CREATE TABLE `periods` (
@@ -2718,10 +2920,6 @@ CREATE TABLE `periods` (
 -- 
 -- Table structure for table `places`
 -- 
--- Creation: Mar 16, 2011 at 09:13 AM
--- Last update: Mar 16, 2011 at 09:13 AM
--- Last check: Mar 16, 2011 at 09:13 AM
--- 
 
 CREATE TABLE `places` (
   `old_county` varchar(255) collate utf8_unicode_ci default NULL,
@@ -2747,10 +2945,6 @@ CREATE TABLE `places` (
 -- 
 -- Table structure for table `places2`
 -- 
--- Creation: Sep 20, 2010 at 01:19 PM
--- Last update: Sep 20, 2010 at 01:19 PM
--- Last check: Sep 20, 2010 at 01:19 PM
--- 
 
 CREATE TABLE `places2` (
   `county` varchar(255) collate utf8_unicode_ci default NULL,
@@ -2771,10 +2965,6 @@ CREATE TABLE `places2` (
 
 -- 
 -- Table structure for table `preservations`
--- 
--- Creation: Nov 25, 2010 at 05:01 PM
--- Last update: Jul 13, 2011 at 05:26 PM
--- Last check: Nov 25, 2010 at 05:02 PM
 -- 
 
 CREATE TABLE `preservations` (
@@ -2797,9 +2987,6 @@ CREATE TABLE `preservations` (
 -- 
 -- Table structure for table `primaryactivities`
 -- 
--- Creation: Sep 20, 2010 at 01:10 PM
--- Last update: Nov 16, 2010 at 10:17 AM
--- 
 
 CREATE TABLE `primaryactivities` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -2818,9 +3005,6 @@ CREATE TABLE `primaryactivities` (
 -- 
 -- Table structure for table `projecttypes`
 -- 
--- Creation: Sep 20, 2010 at 01:11 PM
--- Last update: Sep 24, 2010 at 01:55 PM
--- 
 
 CREATE TABLE `projecttypes` (
   `id` int(11) NOT NULL auto_increment,
@@ -2837,19 +3021,15 @@ CREATE TABLE `projecttypes` (
 -- 
 -- Table structure for table `publications`
 -- 
--- Creation: Nov 23, 2010 at 04:34 PM
--- Last update: Dec 09, 2011 at 11:03 AM
--- Last check: Nov 23, 2010 at 04:34 PM
--- 
 
 CREATE TABLE `publications` (
   `id` int(11) NOT NULL auto_increment,
-  `title` varchar(255) collate utf8_unicode_ci default NULL,
+  `title` text collate utf8_unicode_ci,
+  `in_publication` text collate utf8_unicode_ci,
   `publication_type` varchar(20) collate utf8_unicode_ci default NULL,
   `authors` varchar(255) collate utf8_unicode_ci default NULL,
   `editors` varchar(255) collate utf8_unicode_ci default NULL,
   `reprint_year` smallint(6) default NULL,
-  `in_publication` int(11) default NULL,
   `article_pages` varchar(20) collate utf8_unicode_ci default NULL,
   `edition` varchar(50) collate utf8_unicode_ci default NULL,
   `publisher` varchar(150) collate utf8_unicode_ci default NULL,
@@ -2866,20 +3046,50 @@ CREATE TABLE `publications` (
   `updatedBy` int(11) unsigned default NULL,
   `secuid` varchar(50) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id`),
-  KEY `in_publication` (`in_publication`),
   KEY `publication_type` (`publication_type`),
   KEY `secuid` (`secuid`),
   FULLTEXT KEY `title` (`title`),
   FULLTEXT KEY `authors` (`authors`)
-) ENGINE=MyISAM AUTO_INCREMENT=2652 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2659 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `publications_old`
+-- 
+
+CREATE TABLE `publications_old` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
+  `publication_type` int(11) default NULL,
+  `authors` varchar(100) default NULL,
+  `reprint_year` smallint(6) default NULL,
+  `in_publication` int(11) default NULL,
+  `editors` varchar(255) default NULL,
+  `article_pages` varchar(20) default NULL,
+  `edition` varchar(50) default NULL,
+  `publisher` varchar(150) default NULL,
+  `publication_place` varchar(20) default NULL,
+  `publication_year` smallint(4) default NULL,
+  `vol_no` varchar(30) default NULL,
+  `ISBN` varchar(200) character set latin1 default NULL,
+  `url` varchar(255) default NULL,
+  `accessedDate` date default NULL,
+  `medium` varchar(100) default NULL,
+  `created` datetime default NULL,
+  `createdBy` int(20) unsigned default NULL,
+  `updated` datetime default NULL,
+  `updatedBy` int(20) unsigned default NULL,
+  `secuid` varchar(50) character set latin1 default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `publication_type` (`publication_type`),
+  KEY `in_publication` (`in_publication`)
+) ENGINE=MyISAM AUTO_INCREMENT=2131 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `publicationtypes`
--- 
--- Creation: Sep 20, 2010 at 01:14 PM
--- Last update: Sep 20, 2010 at 01:14 PM
 -- 
 
 CREATE TABLE `publicationtypes` (
@@ -2896,10 +3106,6 @@ CREATE TABLE `publicationtypes` (
 
 -- 
 -- Table structure for table `quotes`
--- 
--- Creation: Nov 25, 2010 at 05:29 PM
--- Last update: Apr 14, 2011 at 04:02 PM
--- Last check: Nov 25, 2010 at 05:29 PM
 -- 
 
 CREATE TABLE `quotes` (
@@ -2924,10 +3130,6 @@ CREATE TABLE `quotes` (
 
 -- 
 -- Table structure for table `rallies`
--- 
--- Creation: Nov 25, 2010 at 05:43 PM
--- Last update: Dec 12, 2011 at 02:34 PM
--- Last check: Nov 25, 2010 at 05:43 PM
 -- 
 
 CREATE TABLE `rallies` (
@@ -2957,15 +3159,12 @@ CREATE TABLE `rallies` (
   KEY `createdBy` (`createdBy`),
   KEY `updatedBy` (`updatedBy`),
   KEY `date_from` (`date_from`)
-) ENGINE=MyISAM AUTO_INCREMENT=195 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Rally locations';
+) ENGINE=MyISAM AUTO_INCREMENT=197 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Rally locations';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `rallyXflo`
--- 
--- Creation: Sep 20, 2010 at 01:14 PM
--- Last update: Dec 12, 2011 at 02:35 PM
 -- 
 
 CREATE TABLE `rallyXflo` (
@@ -2981,15 +3180,12 @@ CREATE TABLE `rallyXflo` (
   PRIMARY KEY  (`id`),
   KEY `rallyID` (`rallyID`),
   KEY `staffID` (`staffID`)
-) ENGINE=MyISAM AUTO_INCREMENT=146 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Flos attending a rally';
+) ENGINE=MyISAM AUTO_INCREMENT=155 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Flos attending a rally';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `reeceperiods`
--- 
--- Creation: Nov 25, 2010 at 03:48 PM
--- Last update: Nov 25, 2010 at 03:48 PM
 -- 
 
 CREATE TABLE `reeceperiods` (
@@ -3016,10 +3212,6 @@ CREATE TABLE `reeceperiods` (
 -- 
 -- Table structure for table `reeceperiods_rulers`
 -- 
--- Creation: Sep 20, 2010 at 01:07 PM
--- Last update: Sep 20, 2010 at 01:07 PM
--- Last check: Sep 20, 2010 at 01:07 PM
--- 
 
 CREATE TABLE `reeceperiods_rulers` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -3034,9 +3226,6 @@ CREATE TABLE `reeceperiods_rulers` (
 
 -- 
 -- Table structure for table `regions`
--- 
--- Creation: Sep 20, 2010 at 12:36 PM
--- Last update: Sep 20, 2010 at 12:36 PM
 -- 
 
 CREATE TABLE `regions` (
@@ -3054,9 +3243,6 @@ CREATE TABLE `regions` (
 -- 
 -- Table structure for table `reliability`
 -- 
--- Creation: Sep 04, 2010 at 10:08 AM
--- Last update: Sep 04, 2010 at 10:08 AM
--- 
 
 CREATE TABLE `reliability` (
   `id` int(1) NOT NULL auto_increment,
@@ -3073,9 +3259,6 @@ CREATE TABLE `reliability` (
 -- 
 -- Table structure for table `replies`
 -- 
--- Creation: May 06, 2010 at 02:46 PM
--- Last update: Dec 06, 2011 at 10:49 PM
--- 
 
 CREATE TABLE `replies` (
   `id` int(11) NOT NULL auto_increment,
@@ -3085,16 +3268,12 @@ CREATE TABLE `replies` (
   `createdBy` int(11) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `messageID` (`messageID`)
-) ENGINE=MyISAM AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Replies to submitted messages';
+) ENGINE=MyISAM AUTO_INCREMENT=146 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Replies to submitted messages';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `researchprojects`
--- 
--- Creation: Nov 25, 2010 at 05:11 PM
--- Last update: Dec 07, 2011 at 02:21 PM
--- Last check: Nov 25, 2010 at 05:11 PM
 -- 
 
 CREATE TABLE `researchprojects` (
@@ -3115,15 +3294,12 @@ CREATE TABLE `researchprojects` (
   KEY `valid` (`valid`),
   KEY `createdBy` (`createdBy`),
   KEY `updatedBy` (`updatedBy`)
-) ENGINE=MyISAM AUTO_INCREMENT=299 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='List of research projects';
+) ENGINE=MyISAM AUTO_INCREMENT=300 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='List of research projects';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `reverses`
--- 
--- Creation: Sep 20, 2010 at 11:52 AM
--- Last update: Oct 12, 2010 at 04:51 PM
 -- 
 
 CREATE TABLE `reverses` (
@@ -3151,10 +3327,6 @@ CREATE TABLE `reverses` (
 -- 
 -- Table structure for table `revtypes`
 -- 
--- Creation: Nov 25, 2010 at 05:13 PM
--- Last update: Nov 25, 2010 at 05:13 PM
--- Last check: Nov 25, 2010 at 05:13 PM
--- 
 
 CREATE TABLE `revtypes` (
   `id` int(11) NOT NULL auto_increment,
@@ -3180,9 +3352,6 @@ CREATE TABLE `revtypes` (
 -- 
 -- Table structure for table `roles`
 -- 
--- Creation: Sep 20, 2010 at 01:07 PM
--- Last update: May 30, 2011 at 05:20 PM
--- 
 
 CREATE TABLE `roles` (
   `id` int(2) unsigned NOT NULL auto_increment,
@@ -3200,9 +3369,6 @@ CREATE TABLE `roles` (
 
 -- 
 -- Table structure for table `romandenoms`
--- 
--- Creation: Sep 20, 2010 at 01:16 PM
--- Last update: Sep 20, 2010 at 01:16 PM
 -- 
 
 CREATE TABLE `romandenoms` (
@@ -3231,10 +3397,6 @@ CREATE TABLE `romandenoms` (
 -- 
 -- Table structure for table `romanmints`
 -- 
--- Creation: Nov 22, 2010 at 10:34 PM
--- Last update: Nov 25, 2010 at 05:15 PM
--- Last check: Nov 25, 2010 at 05:15 PM
--- 
 
 CREATE TABLE `romanmints` (
   `id` int(11) NOT NULL auto_increment,
@@ -3257,10 +3419,6 @@ CREATE TABLE `romanmints` (
 -- 
 -- Table structure for table `rulerImages`
 -- 
--- Creation: Nov 25, 2010 at 04:37 PM
--- Last update: Nov 25, 2010 at 04:37 PM
--- Last check: Nov 25, 2010 at 04:37 PM
--- 
 
 CREATE TABLE `rulerImages` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -3281,10 +3439,6 @@ CREATE TABLE `rulerImages` (
 -- 
 -- Table structure for table `ruler_reversetype`
 -- 
--- Creation: Nov 23, 2010 at 05:22 PM
--- Last update: Nov 23, 2010 at 05:22 PM
--- Last check: Nov 23, 2010 at 05:22 PM
--- 
 
 CREATE TABLE `ruler_reversetype` (
   `id` int(11) NOT NULL auto_increment,
@@ -3301,10 +3455,6 @@ CREATE TABLE `ruler_reversetype` (
 
 -- 
 -- Table structure for table `rulers`
--- 
--- Creation: Nov 25, 2010 at 04:35 PM
--- Last update: Dec 04, 2011 at 11:22 AM
--- Last check: Nov 25, 2010 at 04:35 PM
 -- 
 
 CREATE TABLE `rulers` (
@@ -3335,10 +3485,6 @@ CREATE TABLE `rulers` (
 -- 
 -- Table structure for table `savedSearches`
 -- 
--- Creation: Nov 25, 2010 at 04:08 PM
--- Last update: Dec 12, 2011 at 10:31 PM
--- Last check: Nov 25, 2010 at 04:08 PM
--- 
 
 CREATE TABLE `savedSearches` (
   `id` int(11) NOT NULL auto_increment,
@@ -3356,16 +3502,12 @@ CREATE TABLE `savedSearches` (
   KEY `createdBy` (`createdBy`),
   KEY `updatedBy` (`updatedBy`),
   KEY `public` (`public`)
-) ENGINE=MyISAM AUTO_INCREMENT=690 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Saved searchs referenced to users';
+) ENGINE=MyISAM AUTO_INCREMENT=691 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Saved searchs referenced to users';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `scheduledMonuments`
--- 
--- Creation: Nov 23, 2010 at 05:07 PM
--- Last update: Nov 23, 2010 at 05:07 PM
--- Last check: Nov 23, 2010 at 05:07 PM
 -- 
 
 CREATE TABLE `scheduledMonuments` (
@@ -3402,9 +3544,6 @@ CREATE TABLE `scheduledMonuments` (
 -- 
 -- Table structure for table `searches`
 -- 
--- Creation: Sep 20, 2010 at 12:59 PM
--- Last update: Dec 13, 2011 at 09:59 AM
--- 
 
 CREATE TABLE `searches` (
   `id` int(11) NOT NULL auto_increment,
@@ -3414,16 +3553,12 @@ CREATE TABLE `searches` (
   `ipaddress` varchar(16) collate utf8_unicode_ci default NULL,
   `useragent` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6582583 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6653137 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `slides`
--- 
--- Creation: Feb 16, 2011 at 08:37 AM
--- Last update: Dec 13, 2011 at 09:58 AM
--- Last check: Feb 16, 2011 at 08:37 AM
 -- 
 
 CREATE TABLE `slides` (
@@ -3443,6 +3578,7 @@ CREATE TABLE `slides` (
   `fileowner` int(10) unsigned NOT NULL default '0',
   `attrmodified` datetime default NULL,
   `filecopyright` varchar(100) collate utf8_unicode_ci default NULL,
+  `ccLicense` int(1) default '5',
   `imagetitle` varchar(100) collate utf8_unicode_ci default NULL,
   `county` varchar(100) collate utf8_unicode_ci default NULL,
   `imagecreator` varchar(100) collate utf8_unicode_ci default NULL,
@@ -3459,16 +3595,54 @@ CREATE TABLE `slides` (
   KEY `secuid` (`secuid`),
   KEY `createdBy` (`createdBy`),
   KEY `period` (`period`),
+  KEY `ccLicense` (`ccLicense`),
   FULLTEXT KEY `label` (`label`)
-) ENGINE=MyISAM AUTO_INCREMENT=360351 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=361078 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `slides2`
+-- 
+
+CREATE TABLE `slides2` (
+  `imageID` int(11) unsigned NOT NULL auto_increment,
+  `type` varchar(30) default NULL,
+  `filename` varchar(100) NOT NULL,
+  `filesize` int(10) unsigned default NULL,
+  `filedate` datetime default NULL,
+  `label` text,
+  `period` varchar(30) default NULL,
+  `country` varchar(20) default NULL,
+  `keywords` varchar(50) default NULL,
+  `filecreated` datetime default NULL,
+  `imagecreated` smallint(4) unsigned default NULL,
+  `imagerights` varchar(100) default NULL,
+  `imagesite` varchar(100) default NULL,
+  `fileowner` int(10) unsigned NOT NULL default '0',
+  `attrmodified` datetime default NULL,
+  `filecopyright` varchar(100) default NULL,
+  `imagetitle` varchar(100) default NULL,
+  `county` varchar(100) default NULL,
+  `imagecreator` varchar(100) default NULL,
+  `imagesource` varchar(100) default NULL,
+  `secuid` varchar(50) NOT NULL,
+  `updated` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updatedBy` int(10) unsigned NOT NULL default '0',
+  `createdBy` int(10) unsigned NOT NULL default '0',
+  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY  (`imageID`),
+  KEY `imagecreator` (`imagecreator`),
+  KEY `county` (`county`),
+  KEY `createdBy` (`createdBy`),
+  KEY `secuid` (`secuid`),
+  KEY `filename` (`filename`)
+) ENGINE=MyISAM AUTO_INCREMENT=215925 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `socialcount`
--- 
--- Creation: Sep 20, 2010 at 12:46 PM
--- Last update: Sep 20, 2010 at 12:46 PM
 -- 
 
 CREATE TABLE `socialcount` (
@@ -3487,9 +3661,6 @@ CREATE TABLE `socialcount` (
 
 -- 
 -- Table structure for table `staff`
--- 
--- Creation: Sep 20, 2010 at 12:45 PM
--- Last update: Nov 22, 2011 at 11:33 AM
 -- 
 
 CREATE TABLE `staff` (
@@ -3524,16 +3695,12 @@ CREATE TABLE `staff` (
   `blog_path` varchar(255) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id`),
   KEY `dbaseID` (`dbaseID`)
-) ENGINE=MyISAM AUTO_INCREMENT=150 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `staffregions`
--- 
--- Creation: Nov 25, 2010 at 04:07 PM
--- Last update: Nov 25, 2010 at 04:07 PM
--- Last check: Nov 25, 2010 at 04:07 PM
 -- 
 
 CREATE TABLE `staffregions` (
@@ -3560,9 +3727,6 @@ CREATE TABLE `staffregions` (
 -- 
 -- Table structure for table `staffroles`
 -- 
--- Creation: Sep 20, 2010 at 12:09 PM
--- Last update: Sep 20, 2010 at 12:09 PM
--- 
 
 CREATE TABLE `staffroles` (
   `id` int(11) NOT NULL auto_increment,
@@ -3581,9 +3745,6 @@ CREATE TABLE `staffroles` (
 -- 
 -- Table structure for table `statuses`
 -- 
--- Creation: Sep 20, 2010 at 12:43 PM
--- Last update: Sep 20, 2010 at 12:43 PM
--- 
 
 CREATE TABLE `statuses` (
   `term` varchar(255) collate utf8_unicode_ci default NULL,
@@ -3597,9 +3758,6 @@ CREATE TABLE `statuses` (
 
 -- 
 -- Table structure for table `subperiods`
--- 
--- Creation: Sep 09, 2010 at 09:03 AM
--- Last update: Sep 09, 2010 at 09:03 AM
 -- 
 
 CREATE TABLE `subperiods` (
@@ -3615,9 +3773,6 @@ CREATE TABLE `subperiods` (
 
 -- 
 -- Table structure for table `subsequentActions`
--- 
--- Creation: Sep 20, 2010 at 12:53 PM
--- Last update: Oct 21, 2011 at 05:37 PM
 -- 
 
 CREATE TABLE `subsequentActions` (
@@ -3635,9 +3790,6 @@ CREATE TABLE `subsequentActions` (
 
 -- 
 -- Table structure for table `suggestedResearch`
--- 
--- Creation: Aug 24, 2010 at 10:20 PM
--- Last update: Dec 05, 2011 at 09:59 AM
 -- 
 
 CREATE TABLE `suggestedResearch` (
@@ -3658,9 +3810,6 @@ CREATE TABLE `suggestedResearch` (
 
 -- 
 -- Table structure for table `surftreatments`
--- 
--- Creation: Nov 23, 2010 at 05:19 PM
--- Last update: Nov 23, 2010 at 05:19 PM
 -- 
 
 CREATE TABLE `surftreatments` (
@@ -3683,9 +3832,6 @@ CREATE TABLE `surftreatments` (
 -- 
 -- Table structure for table `systemroles`
 -- 
--- Creation: Sep 20, 2010 at 12:46 PM
--- Last update: Sep 20, 2010 at 12:46 PM
--- 
 
 CREATE TABLE `systemroles` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -3703,9 +3849,6 @@ CREATE TABLE `systemroles` (
 -- 
 -- Table structure for table `taggedcontent`
 -- 
--- Creation: Sep 20, 2010 at 01:15 PM
--- Last update: Sep 20, 2010 at 01:15 PM
--- 
 
 CREATE TABLE `taggedcontent` (
   `id` int(11) NOT NULL auto_increment,
@@ -3722,9 +3865,6 @@ CREATE TABLE `taggedcontent` (
 
 -- 
 -- Table structure for table `tempfindspots`
--- 
--- Creation: Sep 20, 2010 at 01:15 PM
--- Last update: Sep 20, 2010 at 01:15 PM
 -- 
 
 CREATE TABLE `tempfindspots` (
@@ -3746,9 +3886,6 @@ CREATE TABLE `tempfindspots` (
 -- 
 -- Table structure for table `thes_chronuk2`
 -- 
--- Creation: Sep 20, 2010 at 01:15 PM
--- Last update: Sep 20, 2010 at 01:15 PM
--- 
 
 CREATE TABLE `thes_chronuk2` (
   `id` int(11) NOT NULL auto_increment,
@@ -3762,9 +3899,6 @@ CREATE TABLE `thes_chronuk2` (
 
 -- 
 -- Table structure for table `treasureActionTypes`
--- 
--- Creation: Nov 01, 2010 at 03:36 PM
--- Last update: Nov 01, 2010 at 03:36 PM
 -- 
 
 CREATE TABLE `treasureActionTypes` (
@@ -3785,10 +3919,6 @@ CREATE TABLE `treasureActionTypes` (
 -- 
 -- Table structure for table `treasureActions`
 -- 
--- Creation: Oct 28, 2010 at 02:56 PM
--- Last update: Nov 11, 2010 at 03:00 PM
--- Last check: Oct 28, 2010 at 02:56 PM
--- 
 
 CREATE TABLE `treasureActions` (
   `id` int(11) NOT NULL auto_increment,
@@ -3805,9 +3935,6 @@ CREATE TABLE `treasureActions` (
 
 -- 
 -- Table structure for table `treasureAssignations`
--- 
--- Creation: Oct 28, 2010 at 03:03 PM
--- Last update: Nov 11, 2010 at 03:18 PM
 -- 
 
 CREATE TABLE `treasureAssignations` (
@@ -3827,10 +3954,6 @@ CREATE TABLE `treasureAssignations` (
 -- 
 -- Table structure for table `treasureStatus`
 -- 
--- Creation: Nov 03, 2010 at 02:44 PM
--- Last update: Nov 03, 2010 at 02:44 PM
--- Last check: Nov 03, 2010 at 02:44 PM
--- 
 
 CREATE TABLE `treasureStatus` (
   `id` tinyint(2) NOT NULL auto_increment,
@@ -3848,9 +3971,6 @@ CREATE TABLE `treasureStatus` (
 
 -- 
 -- Table structure for table `treasureStatusTypes`
--- 
--- Creation: Nov 11, 2010 at 02:22 PM
--- Last update: Nov 17, 2010 at 12:55 PM
 -- 
 
 CREATE TABLE `treasureStatusTypes` (
@@ -3870,9 +3990,6 @@ CREATE TABLE `treasureStatusTypes` (
 
 -- 
 -- Table structure for table `treasureValuations`
--- 
--- Creation: Nov 11, 2010 at 03:19 PM
--- Last update: Nov 11, 2010 at 03:43 PM
 -- 
 
 CREATE TABLE `treasureValuations` (
@@ -3894,10 +4011,6 @@ CREATE TABLE `treasureValuations` (
 -- 
 -- Table structure for table `tvcDates`
 -- 
--- Creation: Nov 08, 2010 at 01:37 PM
--- Last update: Nov 17, 2010 at 02:28 PM
--- Last check: Nov 08, 2010 at 01:37 PM
--- 
 
 CREATE TABLE `tvcDates` (
   `id` int(11) NOT NULL auto_increment,
@@ -3917,9 +4030,6 @@ CREATE TABLE `tvcDates` (
 -- 
 -- Table structure for table `tvcDatesToCases`
 -- 
--- Creation: Nov 08, 2010 at 01:36 PM
--- Last update: Nov 11, 2010 at 03:17 PM
--- 
 
 CREATE TABLE `tvcDatesToCases` (
   `id` int(11) NOT NULL auto_increment,
@@ -3935,9 +4045,6 @@ CREATE TABLE `tvcDatesToCases` (
 
 -- 
 -- Table structure for table `userOnlineAccounts`
--- 
--- Creation: Nov 22, 2010 at 11:40 PM
--- Last update: Oct 16, 2011 at 11:41 AM
 -- 
 
 CREATE TABLE `userOnlineAccounts` (
@@ -3960,10 +4067,6 @@ CREATE TABLE `userOnlineAccounts` (
 
 -- 
 -- Table structure for table `users`
--- 
--- Creation: Nov 26, 2010 at 02:43 PM
--- Last update: Dec 13, 2011 at 09:57 AM
--- Last check: Nov 26, 2010 at 02:43 PM
 -- 
 
 CREATE TABLE `users` (
@@ -4008,16 +4111,12 @@ CREATE TABLE `users` (
   KEY `visits` (`visits`),
   KEY `email` (`email`),
   KEY `higherLevel` (`higherLevel`)
-) ENGINE=MyISAM AUTO_INCREMENT=4057 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4080 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `usersAudit`
--- 
--- Creation: Sep 20, 2010 at 12:55 PM
--- Last update: Sep 20, 2010 at 12:55 PM
--- Last check: Sep 20, 2010 at 12:55 PM
 -- 
 
 CREATE TABLE `usersAudit` (
@@ -4039,9 +4138,6 @@ CREATE TABLE `usersAudit` (
 -- 
 -- Table structure for table `usersEducation`
 -- 
--- Creation: Sep 20, 2010 at 12:52 PM
--- Last update: Dec 05, 2011 at 05:08 PM
--- 
 
 CREATE TABLE `usersEducation` (
   `id` int(11) NOT NULL auto_increment,
@@ -4058,16 +4154,12 @@ CREATE TABLE `usersEducation` (
   `updatedBy` int(11) default NULL,
   PRIMARY KEY  (`id`),
   KEY `school` (`school`)
-) ENGINE=MyISAM AUTO_INCREMENT=115 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Users education for cross link and foaf';
+) ENGINE=MyISAM AUTO_INCREMENT=116 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Users education for cross link and foaf';
 
 -- --------------------------------------------------------
 
 -- 
 -- Table structure for table `usersInterests`
--- 
--- Creation: Sep 20, 2010 at 12:43 PM
--- Last update: Dec 05, 2011 at 05:09 PM
--- Last check: Sep 20, 2010 at 12:43 PM
 -- 
 
 CREATE TABLE `usersInterests` (
@@ -4085,11 +4177,48 @@ CREATE TABLE `usersInterests` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `vacancies`
+-- Table structure for table `usersold`
 -- 
--- Creation: Nov 25, 2010 at 04:06 PM
--- Last update: Oct 20, 2011 at 02:04 PM
--- Last check: Nov 25, 2010 at 04:06 PM
+
+CREATE TABLE `usersold` (
+  `username` varchar(255) NOT NULL default '',
+  `activationKey` varchar(34) default NULL,
+  `seclevel` smallint(6) unsigned NOT NULL default '0',
+  `password` varchar(250) NOT NULL default '',
+  `institution` varchar(100) default 'PUBLIC',
+  `email` varchar(60) default NULL,
+  `fullname` varchar(60) default NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `higherLevel` tinyint(1) default '0',
+  `researchOutline` text,
+  `already` tinyint(1) default NULL,
+  `reference` varchar(255) default NULL,
+  `referenceEmail` varchar(255) default NULL,
+  `visits` int(11) unsigned NOT NULL default '0',
+  `imagedir` varchar(60) default 'images/',
+  `path` varchar(60) default NULL,
+  `updated` datetime default NULL,
+  `valid` enum('0','1') default '0',
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `lastLogin` datetime default NULL,
+  `role` varchar(25) default 'public',
+  `peopleID` varchar(50) default NULL,
+  `avatar` varchar(255) default NULL,
+  `created` datetime default NULL,
+  `createdBy` varchar(50) default NULL,
+  `updatedBy` varchar(50) default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `username` (`username`),
+  KEY `valid` (`valid`),
+  KEY `lastLogin` (`lastLogin`),
+  KEY `institution` (`institution`)
+) ENGINE=MyISAM AUTO_INCREMENT=1112 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `vacancies`
 -- 
 
 CREATE TABLE `vacancies` (
@@ -4119,10 +4248,6 @@ CREATE TABLE `vacancies` (
 -- 
 -- Table structure for table `vanarsdelltypes`
 -- 
--- Creation: Mar 31, 2010 at 03:53 PM
--- Last update: Mar 31, 2010 at 03:53 PM
--- Last check: Mar 31, 2010 at 03:53 PM
--- 
 
 CREATE TABLE `vanarsdelltypes` (
   `id` int(11) NOT NULL auto_increment,
@@ -4139,9 +4264,6 @@ CREATE TABLE `vanarsdelltypes` (
 
 -- 
 -- Table structure for table `volunteers`
--- 
--- Creation: Sep 20, 2010 at 12:03 PM
--- Last update: Sep 20, 2010 at 12:03 PM
 -- 
 
 CREATE TABLE `volunteers` (
@@ -4166,9 +4288,6 @@ CREATE TABLE `volunteers` (
 -- 
 -- Table structure for table `weartypes`
 -- 
--- Creation: Nov 23, 2010 at 05:01 PM
--- Last update: Nov 23, 2010 at 05:01 PM
--- 
 
 CREATE TABLE `weartypes` (
   `id` int(11) unsigned NOT NULL auto_increment,
@@ -4190,9 +4309,6 @@ CREATE TABLE `weartypes` (
 -- 
 -- Table structure for table `webServices`
 -- 
--- Creation: Nov 22, 2010 at 11:40 PM
--- Last update: Oct 16, 2011 at 11:41 AM
--- 
 
 CREATE TABLE `webServices` (
   `id` int(3) NOT NULL auto_increment,
@@ -4211,9 +4327,6 @@ CREATE TABLE `webServices` (
 
 -- 
 -- Table structure for table `workflowstages`
--- 
--- Creation: Aug 24, 2010 at 10:18 PM
--- Last update: Aug 24, 2010 at 10:18 PM
 -- 
 
 CREATE TABLE `workflowstages` (

@@ -9,6 +9,8 @@
 */
 class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 
+	protected $_institutions;
+	
 	protected $_redirectUrl = 'admin/contacts/';
 	/** Set up the ACL and contexts
 	*/		
@@ -16,12 +18,12 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 		$flosActions = array('index',);
  		$this->_helper->_acl->allow('flos',$flosActions);
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+        $this->_institution = new Institutions();
     }
     
   	/** Display the index page
 	*/	  
 	public function indexAction() {
-	$institutions = new Institutions();
 	$this->view->insts = $institutions->getValidInsts($this->_getAllParams());
 	}
 	/** Add an institution
@@ -32,8 +34,7 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 	$this->view->form = $form;
 	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
-	$insts = new Institutions();
-	$insts->add($form->getValues());
+	$this->_institutions->add($form->getValues());
 	$this->_flashMessenger->addMessage('A new recording institution has been created.');
 	$this->_redirect($this->_redirectUrl . 'institutions/');
 	} else {
@@ -49,10 +50,9 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 	$this->view->form = $form;
 	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
     if ($form->isValid($form->getValues())) {
-	$insts = new Institutions();
 	$where = array();
-	$where[] =  $insts->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$update = $insts->update($form->getValues(),$where);
+	$where[] =  $this->_institutions->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+	$update = $this->_institutions->update($form->getValues(), $where);
 	$this->_flashMessenger->addMessage($form->getValue('institution') . '\'s details updated.');
 	$this->_redirect($this->_redirectUrl . 'institutions/');
 	} else {
@@ -62,8 +62,7 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 	// find id is expected in $params['id']
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
-	$insts = new Institutions();
-	$insts = $insts->fetchRow('id='.$id);
+	$insts = $this->_institutions->fetchRow('id='.$id);
 	$this->view->inst = $insts->toArray();
 	$form->populate($insts->toArray());
 	}
@@ -72,8 +71,7 @@ class Admin_InstitutionsController extends Pas_Controller_Action_Admin {
 	/** View institutional details
 	*/	
 	public function institutionAction() {
-	$institutions = new Institutions();
-	$this->view->inst = $institutions->getInst($this->_getParam('id'));
+	$this->view->inst = $this->_institutions->getInst($this->_getParam('id'));
 	$users = new Users();
 	$this->view->members = $users->getMembersInstitution($this->_getParam('id'));
 	}

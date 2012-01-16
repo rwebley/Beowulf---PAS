@@ -1,8 +1,17 @@
-<p>Dear <?php echo $this->escape($this->forename); ?></p>
+<?php $this->mail->setSubject('Research proposal accepted' ); ?>
+<p>Dear <?php 
+echo $this->escape($this->splitName($this->fullname)); ?>,</p>
+
 <p>RE: Account upgraded to <?php echo $this->escape($this->role); ?></p>
+
 <?php echo $this->purify($this->message); ?>
+
 <p>With the research outline you provided us with as follows:</p>'
+
 <?php echo $this->purify($this->researchOutline); ?>
+
 <p>Yours sincerely,</p>
+
 <p>The Scheme's Central Unit.</p>
-<p>Sent by <?php echo $this->escape($this->creator); ?> at <?php echo Zend_Date::NOW('W3C'); ?></p>
+
+<?php echo $this->emailSignature();?>

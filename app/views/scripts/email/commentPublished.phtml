@@ -1,3 +1,5 @@
+<?php $this->mail->setSubject('Your comment has been published on finds.org.uk'); ?>
+
 <p>Dear <?php $this->escape($this->comment_author);?></p>
 <p>Your comment has now been published at 
 <a href="" title="View your comment"><?php echo Zend_Registry::get('siteurl');?>
@@ -10,3 +12,4 @@ echo $this->comment_findID;?>"><?php echo $this->old_findID;?></a>.</p>
 <p>Many thanks for taking the time to comment!</p>
 <p>Yours sincerely,</p>
 <p>The staff of the Portable Antiquities Scheme.</p>
+<?php echo $this->emailSignature();?>

@@ -3,4 +3,4 @@
 <p>This email is sent via the Scheme database, and is a request for checking and validation of a public record.</p>
 <?php echo $this->purify($this->message);?>
 <p>Yours sincerely,</p>
-<p><?php echo $this->escape($this->creator);?></p>
+<?php echo $this->emailSignature();?>

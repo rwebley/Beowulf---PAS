@@ -1,4 +1,6 @@
-<p>Dear <?php echo $this->escape($this->recipient);?>,</p>
+<?php $this->mail->setSubject($this->sender . ' sent you a search from finds.org.uk');?>
+<p>Dear <?php echo $this->escape($this->splitName($this->recipient));?>,</p>
+
 <p>RE: A search you might be interested in.</p>
 <?php echo $this->purify($this->message);?>
 <p>The search is located at this url:  <?php echo $this->$url;?></p>

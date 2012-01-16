@@ -33,44 +33,13 @@ class Admin_NewsController extends Pas_Controller_Action_Admin {
 	$form = new NewsStoryForm();
 	$form->submit->setLabel('Add story');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$address = $form->getValue('primaryNewsLocation');
-	$coords = $this->_geocoder->getCoordinates($address);
-	if($coords){
-		$lat = $coords['lat'];
-		$long = $coords['lon']; 
-		$pm = new Pas_Service_Geoplanet();
-		$place = $pm->reverseGeoCode($lat,$lon);
-		$woeid = $place['woeid'];
-	} else {
-		$lat = NULL;
-		$lon = NULL;
-		$woeid = NULL;
-	}
-	$row = $this->_news->createRow();
-	$row->title = $form->getValue('title');
-	$row->summary = $form->getValue('summary');
-	$row->contents = $form->getValue('contents');
-	$row->author = $form->getValue('author');
-	$row->contactTel = $form->getValue('contactTel');
-	$row->contactEmail = $form->getValue('contactEmail');
-	$row->contactName = $form->getValue('contactName');
-	$row->keywords = $form->getValue('keywords');
-	$row->golive = $form->getValue('golive');
-	$row->publish_state = $form->getValue('publish_state');
-	$row->datePublished = $this->getTimeForForms();
-	$row->primaryNewsLocation = $address;
-	$row->latitude = $lat;
-	$row->longitude = $long;
-	$row->createdBy = $this->getIdentityForForms();
-	$row->created = $this->getTimeForForms();
-	$row->save();
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
+	$this->_news->addNews($form->getValues());
 	$this->_flashMessenger->addMessage('News story created!');
 	$this->_redirect(self::REDIRECT);
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -80,55 +49,19 @@ class Admin_NewsController extends Pas_Controller_Action_Admin {
 	$form = new NewsStoryForm();
 	$form->submit->setLabel('Update story');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$address = $form->getValue('primaryNewsLocation');
-	$coords = $this->_geocoder->getCoordinates($address);
-	if($coords){
-		$lat = $coords['lat'];
-		$long = $coords['lon']; 
-		$pm = new Pas_Service_Geoplanet();
-		$place = $pm->reverseGeoCode($lat,$lon);
-		$woeid = $place['woeid'];
-	} else {
-		$lat = NULL;
-		$lon = NULL;
-		$woeid = NULL;
-	}
-	
-	$row = $this->_news->fetchRow('id ='.$this->_getParam('id'));
-	//Database rows created here ->
-	$row->title = $form->getValue('title');
-	$row->summary = $form->getValue('summary');
-	$row->contents = $form->getValue('contents');
-	$row->author = $form->getValue('author');
-	$row->contactTel = $form->getValue('contactTel');
-	$row->contactEmail = $form->getValue('contactEmail');
-	$row->contactName = $form->getValue('contactName');
-	$row->keywords = $form->getValue('keywords');
-	$row->primaryNewsLocation = $address;
-	$row->latitude = $lat;
-	$row->longitude = $long;
-	$row->updatedBy = $this->getIdentityForForms();
-	$row->updated = $this->getTimeForForms();
-	$row->golive = $form->getValue('golive');
-	$row->publish_state = $form->getValue('publish_state');
-	$row->datePublished = $this->getTimeForForms();
-	
-	//Save and redirect
-	$row->save();
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
+	$this->_news->updateNews($form->getValues(), $this->_getParam('id'));
 	$this->_flashMessenger->addMessage('News story information updated!');
 	$this->_redirect(self::REDIRECT);
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	// find id is expected in $params['id']
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
-	$new = $this->_news->fetchRow('id='.$id);
-	$form->populate($new->toArray());
+	$form->populate($this->_news->fetchRow('id=' . $id)->toArray());
 	}
 	}
 	}

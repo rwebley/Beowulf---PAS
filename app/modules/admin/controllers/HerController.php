@@ -28,24 +28,13 @@ class Admin_HerController extends Pas_Controller_Action_Admin {
 	public function addAction() {
 	$form = new HerForm();
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$insertData = array(
-	'name' => $form->getValue('name'),
-	'contact_name' => $form->getValue('contact_name'),
-	'created' => $this->getTimeForForms(), 
-	'createdBy' => $this->getIdentityForForms());
-	foreach ($insertData as $key => $value) {
-	if (is_null($value) || $value=="") {
-		unset($insertData[$key]);
-		}
-	}
-	$this->_hers->insert($insertData);
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
+	$this->_hers->add($form->getValues());
 	$this->_flashMessenger->addMessage('A new HER signatory has been created.');
 	$this->_redirect('/admin/hers/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	}
 	}
@@ -55,33 +44,21 @@ class Admin_HerController extends Pas_Controller_Action_Admin {
 	$form = new HerForm();
 	$form->submit->setLabel('Submit HER details change');
 	$this->view->form = $form;
-	if ($this->_request->isPost()) {
-	$formData = $this->_request->getPost();
-	if ($form->isValid($formData)) {
-	$updateData = array(
-	'name' => $form->getValue('name'),
-	'contact_name' => $form->getValue('contact_name'),
-	'updated' => $this->getTimeForForms(), 
-	'updatedBy' => $this->getIdentityForForms());
-	foreach ($updateData as $key => $value) {
-	if (is_null($value) || $value=="") {
-	unset($updateData[$key]);
-	}
-	}
+	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())){
+    if ($form->isValid($form->getValues())) {
 	$where = array();
 	$where[] =  $this->_hers->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
-	$update = $this->_hers->update($updateData,$where);
+	$update = $this->_hers->update($form->getValues(),$where);
 	$this->_flashMessenger->addMessage($form->getValue('name') . '\'s details updated.');
 	$this->_redirect('/admin/hers/');
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	// find id is expected in $params['id']
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
-	$hers = $this->_hers->fetchRow('id=' . $id);
-	$form->populate($hers->toArray());
+	$form->populate($this->_hers->fetchRow('id=' . $id)->toArray());
 	}
 	}
 	}

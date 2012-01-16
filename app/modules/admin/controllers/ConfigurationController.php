@@ -25,12 +25,12 @@ class Admin_ConfigurationController extends Pas_Controller_Action_Admin {
 	 * 
 	 */
 	public function webserviceAction(){
-	$this->view->webservice = $this->_config->webservice->toArray();
+	$this->view->webservice = $this->_helper->config->webservice->toArray();
 	}
 	/** Display the system configurations
 	 */
 	public function systemAction(){
-	$this->view->resources = $this->_config->resources->toArray();	
+	$this->view->resources = $this->_helper->config->resources->toArray();	
 	}
 	/** Display the routing configurations
 	*/
@@ -40,12 +40,12 @@ class Admin_ConfigurationController extends Pas_Controller_Action_Admin {
 	}
 	
 	public function aclAction(){
-	$this->view->acl = $this->_config->acl->toArray();	
+	$this->view->acl = $this->_helper->config->acl->toArray();	
 	}
 	
 	public function saltsAction(){
-	$this->view->salt = $this->_config->form->salt;
-	$this->view->authority = $this->_config->auth->salt;	
+	$this->view->salt = $this->_helper->config->form->salt;
+	$this->view->authority = $this->_helper->config->auth->salt;	
 	}
 }
 	
