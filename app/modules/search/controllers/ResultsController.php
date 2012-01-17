@@ -95,9 +95,10 @@ class Search_ResultsController extends Pas_Controller_Action_Admin {
 	'per_page'      => $limit, 
     'total_results' => $resultset->getNumFound()
 	);
-	$data = NULL;
+	$data = array();
 	foreach($resultset as $doc){
 	    foreach($doc as $key => $value){
+	    	$fields = array();
 	    	$fields[$key] = $value;
 	    }
 	    $data[] = $fields;

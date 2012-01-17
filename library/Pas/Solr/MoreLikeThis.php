@@ -34,7 +34,7 @@ class Pas_Solr_MoreLikeThis {
 
 	public function getRole(){
 	$user = new Pas_UserDetails();
-	return $user->role;
+	return $user->getPerson()->role;
 	}
     
 	protected $_allowed =  array('fa','flos','admin','treasure');
@@ -63,15 +63,10 @@ class Pas_Solr_MoreLikeThis {
             ->setFields($this->_fields)
             ->setMinimumDocumentFrequency($minDocFreq)
             ->setMinimumTermFrequency($minTermFreq)
-<<<<<<< HEAD
             ->setCount($count);
     if(!in_array($this->getRole(),$this->_allowed)) {
     $query->createFilterQuery('workflow')->setQuery('workflow:[3 TO 4]');
     }
-=======
-            ->setCount(10);
-    $query->createFilterQuery('workflow')->setQuery('workflow:[3 TO 4]');
->>>>>>> Added a filter query for morelikethis
     $resultset = $client->select($query);
     $mlt = $resultset->getMoreLikeThis();
     foreach($resultset as $result){

@@ -475,24 +475,27 @@ class Database_SearchController extends Pas_Controller_Action_Admin {
 	$helper = $query->getHelper();
 	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
 	}
-//	$facetSet = $query->getFacetSet();
-//
-//	$facetSet->createFacetField('period')->setField('broadperiod');
-//	$facetSet->createFacetField('county')->setField('county');
-//	$facetSet->createFacetField('objectType')->setField('objectType');
+	$facetSet = $query->getFacetSet();
+
+	$facetSet->createFacetField('period')->setField('broadperiod');
+	$facetSet->createFacetField('county')->setField('county');
+	$facetSet->createFacetField('objectType')->setField('objectType');
 	$resultset = $client->select($query);
 	$pagination = array(    
 	'page'          => $page, 
 	'per_page'      => $limit, 
     'total_results' => $resultset->getNumFound()
 	);
+	
 	$data = NULL;
 	foreach($resultset as $doc){
+		$fields = array();
 	    foreach($doc as $key => $value){
 	    	$fields[$key] = $value;
 	    }
 	    $data[] = $fields;
 	}
+//	Zend_Debug::dump($data);
 //	$periodFacet = $resultset->getFacetSet()->getFacet('period');
 //	foreach($periodFacet as $value => $count) {
 //    echo $value . ' [' . $count . ']<br/>';

@@ -130,8 +130,7 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     $this->_redirect(self::REDIRECT . 'person/id/' . $insert);
     $this->_flashMessenger->addMessage('Record created!');
     } else {
-        Zend_Debug::dump($form->getValues());
-    $form->populate($_POST);
+    $form->populate($form->getValues());
     }
     }
     }
@@ -185,8 +184,7 @@ class Database_PeopleController extends Pas_Controller_Action_Admin {
     } else {
     $id = (int)$this->_request->getParam('id', 0);
     if ($id > 0) {
-    $people = $this->_peoples->fetchRow('id=' . $id)->toArray();
-    $form->populate($people);
+    $form->populate($this->_peoples->fetchRow('id=' . $id)->toArray());
     }
     }
     } else {

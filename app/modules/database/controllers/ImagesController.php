@@ -82,9 +82,10 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$query->createFilterQuery('geo')->setQuery($helper->geofilt($lat,$lon, 'coordinates', $d));
 	}
     $resultset = $client->select($query);
-	$data = NULL;
+	$data = array();
 	foreach($resultset as $doc){
 	    foreach($doc as $key => $value){
+	    	$fields = array();
 	    	$fields[$key] = $value;
 	    }
 	    $data[] = $fields;
@@ -190,7 +191,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$this->view->errors = $upload->getMessages();
 	} 
 	} else { 
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	$this->_flashMessenger->addMessage('Check your form for errors dude');
 	}
 	}
@@ -201,10 +202,8 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	*/		
 	public function imageAction() {
 	if($this->_getParam('id',false)) {
-	$images = new Slides();
-	$this->view->images = $images->getImage((int)$this->_getParam('id'));
-	$finds = new Slides();
-	$this->view->finds = $finds->getLinkedFinds((int)$this->_getParam('id'));
+	$this->view->images = $this->_images->getImage((int)$this->_getParam('id'));
+	$this->view->finds = $this->_images->getLinkedFinds((int)$this->_getParam('id'));
 	} else {
 	throw new Exception('No parameter found on the url string');
 	}
@@ -232,8 +231,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
         unset($updateData[$key]);
       }
     }
-	$images = new Slides();
-	$where =  $images->getAdapter()->quoteInto('imageID = ?', $this->_getParam('id'));
+	$where =  $this->_images->getAdapter()->quoteInto('imageID = ?', $this->_getParam('id'));
 	$rotate = $form->getValue('rotate');
 	$filename = $form->getValue('filename');
 	$imagedir = $form->getValue('imagedir');
@@ -315,23 +313,20 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$phMagickRegen->convert();
 	}
 	
-	$update = $images->update($updateData,$where);
+	$update = $this->_images->update($updateData, $where);
 		//Update the solr instance
 	$this->_helper->solrUpdater->update('beoimages', $this->_getParam('id'));	
-	$cache = Zend_Registry::get('cache');
-	$cache->remove('findtoimage' . $this->_getParam('id'));
-
+	$this->_helper->cache->remove('findtoimage' . $this->_getParam('id'));
 	$this->_flashMessenger->addMessage('Image and metadata updated!');
 	$this->_redirect(self::REDIRECT . 'image/id/' . $this->_getParam('id'));
 	
 	} else {
-	$form->populate($formData);
+	$form->populate($form->getValues());
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id', 0);
 	if ($id > 0) {
-	$images = new Slides();
-	$image = $images->getImage($id);
+	$image = $this->_images->getImage($id);
 	$form->populate($image['0']);
 	}
 	}
@@ -348,7 +343,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$del = $this->_request->getPost('del');
 	if ($del == 'Yes' && $id > 0) {
 
-	$imagedata = $slides->getFileName($id);
+	$imagedata = $this->_images->getFileName($id);
 	$filename = $imagedata['0']['f'];
 	$splitf = explode('.',$filename);
 	$spf = $splitf['0'];
@@ -378,8 +373,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	unlink(strtolower($original));
 	unlink(strtolower($medium));
 	unlink($zoom);
-	$cache = Zend_Registry::get('cache');
-	$cache->remove('findtoimage' . $imagedata['0']['id']);
+	$this->_helper->cache->remove('findtoimage' . $imagedata['0']['id']);
 	
 	}
 	$this->_flashMessenger->addMessage('Image and metadata deleted!');
@@ -387,8 +381,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	}  else  {
 	$id = (int)$this->_request->getParam('id');
 	if ((int)$id > 0) {
-	$slides = new Slides();
-	$this->view->slide = $slides->fetchRow('imageID ='.$id);
+	$this->view->slide = $this->_images->fetchRow('imageID ='.$id);
 	}
 	}
 	}
@@ -419,8 +412,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$returns = $finds->fetchRow($finds->select()->where('secuid = ?',$findID));
 	
 	$returnID = $returns->id;
-
-	$cache->remove('findtoimage' . $returnID);
+	$this->_helper->cache->remove('findtoimage' . $returnID);
 	$this->_flashMessenger->addMessage('You just linked an image to this record');
 	$this->_redirect('/database/artefacts/record/id/'.$returnID);
 	}
@@ -452,15 +444,13 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	$linked->delete($where);
 	$this->_flashMessenger->addMessage('Image and links deleted!');
 	$this->_redirect('/database/artefacts/record/id/'.$this->_getParam('returnID'));
-	$cache = Zend_Registry::get('cache');
-	$cache->clean(Zend_Cache::CLEANING_MODE_OLD);	
+	$this->_helper->cache->remove('findtoimage' . $returnID);	
 	}
 	} else {
 	$id = (int)$this->_request->getParam('id');
 	
 	if ((int)$id > 0) {
-	$slides = new Slides();
-	$this->view->slide = $slides->fetchRow($slides->select()->where('imageID = ?', $id));
+	$this->view->slide = $this->_images->fetchRow($slides->select()->where('imageID = ?', $id));
 	
 	$this->view->params = $this->_getAllParams();
 	}
@@ -475,8 +465,7 @@ class Database_ImagesController extends Pas_Controller_Action_Admin
 	public function zoomAction() {
 	if($this->_getParam('id',false)) {
 	$imageID = $this->_getParam('id');
-	$images = new Slides();
-	$imagedata = $images->getFileName($imageID);
+	$imagedata = $this->_images->getFileName($imageID);
 	$this->view->data = $imagedata;
 	$zoomdir = 'zoom/';
 	$imagepath = $imagedata['0']['imagedir'];

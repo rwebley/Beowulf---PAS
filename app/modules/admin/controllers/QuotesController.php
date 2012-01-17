@@ -15,8 +15,7 @@ class Admin_QuotesController extends Pas_Controller_Action_Admin {
 	/** Set up the ACL and contexts
 	*/			
 	public function init() {
-	$flosActions = array();
-	$this->_helper->_acl->allow('flos',$flosActions);
+	$this->_helper->_acl->allow('flos',null);
 	$this->_helper->_acl->allow('fa',null);
 	$this->_helper->_acl->allow('admin',null);
 	$this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
@@ -54,9 +53,8 @@ class Admin_QuotesController extends Pas_Controller_Action_Admin {
 	$this->view->form =$form;
 	if($this->getRequest()->isPost() && $form->isValid($this->_request->getPost())) {
     if ($form->isValid($form->getValues())) {
-	$quotes = new Quotes();
 	$where = array();
-	$where[] = $quotes->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
+	$where[] = $this->_quotes->getAdapter()->quoteInto('id = ?', $this->_getParam('id'));
 	$update = $this->_quotes->update($form->getValues(),$where);
 	$this->_flashMessenger->addMessage('Details updated!');
 	$this->_redirect( self::REDIRECT );
@@ -64,14 +62,8 @@ class Admin_QuotesController extends Pas_Controller_Action_Admin {
 	$form->populate($form->getValues());
 	}
 	} else {
-	if ($id > 0) {
-	$quote = $this->_quotes->fetchRow('id=' . $this->_request->getParam('id'))->toArray();
-	if(count($quote)){
-	$form->populate($quote);
-	} else {
-		throw new Pas_Exception_Param($this->_nothingFound);
-	}
-	}
+	$form->populate($this->_quotes->fetchRow('id=' 
+	. $this->_request->getParam('id'))->toArray());
 	}
 	} else {
 		throw new Pas_Exception_Param($this->_missingParameter);
@@ -85,9 +77,8 @@ class Admin_QuotesController extends Pas_Controller_Action_Admin {
 	$id = (int)$this->_request->getPost('id');
 	$del = $this->_request->getPost('del');
 	if ($del == 'Yes' && $id > 0) {
-	$quotes = new Quotes();
 	$where = 'id = ' . $id;
-	$quotes->delete($where);
+	$this->_quotes->delete($where);
 	$this->_flashMessenger->addMessage('Quote/announcement deleted!');
 	}
 	$this->_redirect( self::REDIRECT);

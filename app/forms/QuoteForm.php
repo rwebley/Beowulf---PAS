@@ -11,7 +11,6 @@ public function __construct($options = null) {
 
 	parent::__construct($options);
 	
-	$this->setAttrib('accept-charset', 'UTF-8');
  
 	$decorators = array(
             array('ViewHelper'), 
@@ -43,7 +42,6 @@ public function __construct($options = null) {
 	$expire->setLabel('Expires from use: ')
 		->setRequired(true)
 		->setAttrib('size',10)
-		->addValidator('Date')
 		->addFilters(array('StripTags','StringTrim'))
 		->addErrorMessage('Please provide expiry date.')
 		->setDecorators($decorators);
@@ -51,7 +49,7 @@ public function __construct($options = null) {
 	$valid = new Zend_Form_Element_Checkbox('status');
 	$valid->setLabel('Quote/Announcement is in use: ')
 		->setRequired(true)
-		->addValidator('Digits')
+		->addValidator('Int')
 		->addFilters(array('StripTags','StringTrim'))
 		->setDecorators($decorators);
 

@@ -112,19 +112,12 @@ class Database_MyschemeController extends Pas_Controller_Action_Admin {
     }
     $query->createFilterQuery('myfinds')->setQuery('createdBy:' . $this->getIdentityForForms());
     $resultset = $client->select($query);
-    $data = NULL;
-    foreach($resultset as $doc){
-        foreach($doc as $key => $value){
-            $fields[$key] = $value;
-        }
-        $data[] = $fields;
-    }
     $paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
             ->setItemCountPerPage($limit)
             ->setPageRange(20);
     $this->view->paginator = $paginator;
-    $this->view->results = $data;
+    $this->view->results = $this->processResults($resultset);
     }
 	
     /** Finds recorded by an institution assigned to the user 
@@ -167,34 +160,24 @@ class Database_MyschemeController extends Pas_Controller_Action_Admin {
     }
     $query->createFilterQuery('myinst')->setQuery('institution:' . $this->getInstitution());
     $resultset = $client->select($query);
-    $data = NULL;
-    foreach($resultset as $doc){
-        foreach($doc as $key => $value){
-            $fields[$key] = $value;
-        }
-        $data[] = $fields;
-    }
     $paginator = Zend_Paginator::factory($resultset->getNumFound());
     $paginator->setCurrentPageNumber($page)
           ->setItemCountPerPage($limit)
           ->setPageRange(20);
     $this->view->paginator = $paginator;
-    $this->view->results = $data;
+    $this->view->results = $this->processResults($resultset);
     }
     /** Display all images that a user has added.
      * 
      */		
     public function myimagesAction() {
-    $limit = 20;
-    $page = $this->_getParam('page');
-    if(!isset($page)){
-            $start = 0;
-
-    } else {
-            unset($params['page']);
-            $start = ($page - 1) * 20;
-    }	
-
+    	
+    $search = new Pas_Solr_Handler('beowulf');
+    $search->setFields(array('id','identifier','objecttype'));
+    $search->setFacets(array('period' => 'broadperiod',
+    'object' => 'objectType'));
+    Zend_Debug::dump($search->execute(array('createdBy' => 56)));
+    exit;	 
     $config = array(
     'adapteroptions' => array(
     'host' => '127.0.0.1',
@@ -205,8 +188,8 @@ class Database_MyschemeController extends Pas_Controller_Action_Admin {
 	
     $select = array(
     'query'         => '*:*',
-    'start'         => $start,
-    'rows'          => $limit,
+    'start'         => $this->getStart(),
+    'rows'          => $this->getLimit(),
     'fields'        => array('*'),
     'sort'          => array('created' => 'desc'),
     'filterquery' => array(),
@@ -221,19 +204,58 @@ class Database_MyschemeController extends Pas_Controller_Action_Admin {
     }
     $query->createFilterQuery('myimages')->setQuery('createdBy:' . $this->getIdentityForForms());
     $resultset = $client->select($query);
-    $data = NULL;
-    foreach($resultset as $doc){
-	  foreach($doc as $key => $value){
-              $fields[$key] = $value;
-	    }
-    $data[] = $fields;
+    $this->view->paginator = $this->createPagination($resultset);
+    $this->view->results = $this->processResults($resultset);
     }
+    
+    
+    
+    public function getPage(){
+	return $this->_getParam('page');
+    }
+    
+    public function getStart(){
+	$page = $this->getPage();
+    if(!isset($page)){
+            $start = 0;
+
+    } else {
+            unset($params['page']);
+            $start = ($page - 1) * 20;
+    }	
+    return $start;
+    }
+    
+    public function getLimit(){
+	$limited = $this->_getParam('limit');
+    if(!isset($limited)){
+            $limit = 20;
+
+    } else {
+            unset($params['page']);
+            $limit = $limited;
+    }	
+    return $limit;
+    }
+    
+    public function createPagination($resultset){
     $paginator = Zend_Paginator::factory($resultset->getNumFound());
-    $paginator->setCurrentPageNumber($page)
-              ->setItemCountPerPage($limit)
-              ->setPageRange(20);
-    $this->view->paginator = $paginator;
-    $this->view->results = $data;
+    $paginator->setCurrentPageNumber($this->getPage())
+            ->setItemCountPerPage($this->getLimit())
+            ->setPageRange(20);
+    return $paginator;	
+    }
+    
+    public function processResults($resultset){
+    $data = array();
+    foreach($resultset as $doc){
+		$fields = array();
+	 		 foreach($doc as $key => $value){
+              $fields[$key] = $value;
+		}
+    	$data[] = $fields;
+    }
+    return $data;	
     }
     
     public function mytreasureAction(){
